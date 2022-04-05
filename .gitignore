@@ -1,0 +1,14 @@
+# Config
+/src/config.json
+
+# Dependency directories
+node_modules/
+
+# Packages
+package-lock.json
+
+# dotenv environment variables file
+.env
+
+*.sqlite
+src/lang.json

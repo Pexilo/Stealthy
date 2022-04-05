@@ -1,0 +1,37 @@
+const mongoose = require("mongoose");
+
+const guildSchema = new mongoose.Schema({
+  id: String,
+  default_Lang: { type: String, default: "en" },
+  users: { type: Array, default: [] },
+
+  logs_Cnl: { type: String, default: null },
+  roleclaim_Cnl: { type: String, default: null },
+  membercount_Cnl: { type: String, default: null },
+  JTC_Cnl: { type: String, default: null },
+
+  roleclaim_Msg: { type: String, default: null },
+  roleclaim_TipMsg: { type: String, default: null },
+  roleclaim_Fields: { type: Array, default: [] },
+
+  autorole_Roles: { type: Array, default: null },
+
+  blacklist_Time: { type: Number, default: 86400000 },
+  blacklist_MinimumAge: { type: Number, default: 3600000 },
+
+  JTC_setup_pending: { type: String, default: null },
+  JTC_setup_pending_replied: { type: Boolean, default: null },
+  JTC_CnlNames: {
+    type: Array,
+    default: [
+      "🗻 Everest",
+      "🌉 San Francisco",
+      "🌅 Bahamas",
+      "💳 VIP Room",
+      "🏰 Peach Castle",
+    ],
+  },
+  JTCs: { type: Array, default: [] },
+});
+
+module.exports = mongoose.model("Guild", guildSchema);
