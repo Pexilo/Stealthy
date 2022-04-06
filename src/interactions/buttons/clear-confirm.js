@@ -1,6 +1,6 @@
 const { Button } = require("sheweny");
 
-module.exports = class ClearConfirmListenerCommand extends Button {
+module.exports = class ClearConfirmButton extends Button {
   constructor(client) {
     super(client, ["confirm-clear"]);
   }
@@ -10,7 +10,7 @@ module.exports = class ClearConfirmListenerCommand extends Button {
     switch (button.customId) {
       case "confirm-clear":
         const number = button.message.content.match(/\d+/)[0];
-        button.message.channel.bulkDelete(number).catch((e) => {
+        button.message.channel.bulkDelete(number).catch(() => {
           return button.editReply(
             `🚫 You can't purge messages that are older than 14 days.`
           );

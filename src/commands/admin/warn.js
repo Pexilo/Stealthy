@@ -1,5 +1,4 @@
 const { Command } = require("sheweny");
-const dayjs = require("dayjs");
 
 module.exports = class WarnCommand extends Command {
   constructor(client) {

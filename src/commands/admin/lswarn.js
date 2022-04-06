@@ -46,14 +46,6 @@ module.exports = class LsWarnCommand extends Command {
         warnList += `Reason: \`${warn.reason}\`\n`;
       });
 
-    // for (let warn of filteredUser) {
-    //   i++;
-    //   warnList += `\n**${i}:** by <@${
-    //     warn.moderator
-    //   }> - ${this.client.Formatter(warn.date)}\n`;
-    //   warnList += `Reason: \`${warn.reason}\`\n`;
-    // }
-
     return interaction.editReply(warnList);
   }
 };

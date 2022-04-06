@@ -28,7 +28,11 @@ module.exports = class HelpCommand extends Command {
         .filter((cmd) => cmd.name.toLowerCase() === commandArg.toLowerCase())
         .map((cmd) => cmd);
 
-      interaction.editReply({
+      if (command.length < 1) {
+        return interaction.editReply(`🚫 Command \`${commandArg}\` not found.`);
+      }
+
+      return interaction.editReply({
         embeds: [
           this.client
             .Embed()
@@ -38,7 +42,6 @@ module.exports = class HelpCommand extends Command {
             ),
         ],
       });
-      return;
     }
 
     const bot = interaction.client;
@@ -78,13 +81,13 @@ module.exports = class HelpCommand extends Command {
       });
     }
     embedInfo.setDescription(
-      "🐲To set up the bot features please press the button below!\n\n" +
-        "Find the list of the " +
+      "🐲 To setup the bot features please press the button below!\n\n" +
+        "List of the " +
         commandCount +
         " comands:"
     );
 
-    interaction.editReply({
+    return interaction.editReply({
       embeds: [embedInfo],
       components: [
         this.client.ButtonRow(["setup-menu"], ["🔧 Setup"], ["SECONDARY"]),
