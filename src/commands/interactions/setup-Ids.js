@@ -25,8 +25,8 @@ module.exports = class SetupBotCommand extends Command {
                   value: "logs",
                 },
                 {
-                  name: "👋 Welcome channel - allows the bot to welcome newcomers",
-                  value: "welcome",
+                  name: "🔊 Join to Create channel - set a voice channel creator to free up space",
+                  value: "jtc",
                 },
                 {
                   name: "🧮 Role Claim channel - allow users to choose a role with a reaction",
@@ -777,6 +777,40 @@ module.exports = class SetupBotCommand extends Command {
             });
         }
 
+        if (usage === "jtc") {
+          if (fetchGuild.JTC_Cnl) {
+            let channelFound = await guild.channels.cache.get(
+              fetchGuild.JTC_Cnl
+            );
+
+            if (channelFound) channelFound.delete().catch(() => {});
+            await this.client.updateGuild(guild, {
+              JTC_Cnl: null,
+            });
+          }
+
+          let parentFound = channel.type === "GUILD_CATEGORY" ? channel : null;
+          if (!parentFound) noParent = true;
+          await guild.channels
+            .create("🔉 Create a channel", {
+              type: "GUILD_VOICE",
+              parent: parentFound,
+            })
+            .then(async (c) => {
+              async (c) => await c.lockPermissions();
+              await this.client.updateGuild(guild, {
+                JTC_Cnl: c.id,
+              });
+            })
+            .catch((e) => {
+              return interaction.editReply(
+                `⛔ An error occured: ${"```"}${
+                  e.message
+                }${"```"}\nPlease contact an administrator of the bot for further assistance.`
+              );
+            });
+        }
+
         if (usage === "logs") {
           if (channel.type === "GUILD_CATEGORY")
             return interaction.editReply(
@@ -785,16 +819,32 @@ module.exports = class SetupBotCommand extends Command {
           await this.client.updateGuild(guild, { logs_Cnl: channel.id });
         }
 
-        return interaction.editReply({
+        interaction.editReply({
           content: `🔥 ${this.client.Capitalize(usage)} is now set up in ${
             !noParent ? `<#${channel.id}>` : "default category"
           }.${
             usage === "roleclaim"
               ? "\n> Add roles with `/setup roleclaim add`"
               : ""
+          } ${
+            usage === "jtc"
+              ? "\n> For more options use the button bellow and select **Join to Create Setup**"
+              : ""
           }`,
         });
 
+        if (usage === "jtc") {
+          interaction.editReply({
+            components: [
+              this.client.ButtonRow(
+                ["setup-menu"],
+                ["🔧 Setup"],
+                ["SECONDARY"]
+              ),
+            ],
+          });
+        }
+        break;
       case "blacklist":
         const choice = options.getString("choice");
         const format = options.getString("format");
@@ -802,12 +852,17 @@ module.exports = class SetupBotCommand extends Command {
 
         format === "minutes" ? (time *= 60000) : (time *= 3600000);
 
-        await DbSet(
-          guild.id,
-          "blacklist",
-          choice.replace("blacklist_", ""),
-          time
-        );
+        if (choice === "blacklist_minimum_age") {
+          await this.client.updateGuild(guild, {
+            blacklist_MinimumAge: time,
+          });
+        }
+
+        if (choice === "blacklist_time") {
+          await this.client.updateGuild(guild, {
+            blacklist_Time: time,
+          });
+        }
 
         return interaction.editReply({
           content: `🔒 ${this.client.Capitalize(

@@ -3,10 +3,10 @@ const { Command } = require("sheweny");
 module.exports = class RWarnCommand extends Command {
   constructor(client) {
     super(client, {
-      name: "remove-warn",
+      name: "warn-remove",
       description: "🔨 Remove a warn from a user.",
       examples:
-        "/remove-warn `member:@Pexilo#0001` `number:2` => 🔨 Remove warn #2 from `@Pexilo#0001`",
+        "/warn-remove `member:@Pexilo#0001` `number:2` => 🔨 Remove warn #2 from `@Pexilo#0001`",
       category: "Admin",
       userPermissions: ["MODERATE_MEMBERS"],
       clientPermissions: ["MODERATE_MEMBERS"],

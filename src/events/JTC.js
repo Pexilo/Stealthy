@@ -68,18 +68,24 @@ module.exports = class JTCListener extends Event {
       const maxBitrate = (await this.client.guilds.fetch(guild.id))
         .maximumBitrate;
 
-      const voiceChannel = await guild.channels
+      let voiceChannel;
+      await guild.channels
         .create(this.client.searchRandom(channelNames)[0], {
           type: "GUILD_VOICE",
           parent: newChannel.parent,
           bitrate: maxBitrate,
         })
-        .then(async (channel) => await channel.lockPermissions())
-        .catch((e) => {
-          console.log(e);
-        });
+        .then(async (channel) => {
+          voiceChannel = channel;
+          JTCsTab.push(channel.id);
+          setTimeout(
+            () => member.voice.setChannel(channel).catch(() => {}),
+            500
+          );
+          await channel.lockPermissions().catch(() => {});
+        })
+        .catch(() => {});
 
-      JTCsTab.push(voiceChannel.id);
       await this.client.updateGuild(guild, {
         JTCs: JTCsTab,
       });
@@ -90,10 +96,15 @@ module.exports = class JTCListener extends Event {
       await newChannel.permissionOverwrites.edit(member, { CONNECT: false });
       setTimeout(() => newChannel.permissionOverwrites.delete(member), 5000);
 
-      return setTimeout(
-        () => member.voice.setChannel(voiceChannel).catch(() => {}),
-        500
-      );
+      // if the user doesn't switch in the newly created channel in less than 3s delete it
+      await this.client.Wait(3000);
+      if (voiceChannel.members.size < 1) {
+        voiceChannel.delete().catch(() => {});
+        JTCsTab.splice(JTCsTab.indexOf(voiceChannel.id), 1);
+        await this.client.updateGuild(guild, {
+          JTCs: JTCsTab,
+        });
+      }
     }
   }
 };

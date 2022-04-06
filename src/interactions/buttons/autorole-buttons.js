@@ -1,6 +1,6 @@
 const { Button } = require("sheweny");
 
-module.exports = class AutoRoleButton extends Button {
+module.exports = class AutoRoleSetupButtons extends Button {
   constructor(client) {
     super(client, ["list-autorole", "reset-autorole"]);
   }

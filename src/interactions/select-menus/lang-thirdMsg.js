@@ -1,7 +1,7 @@
 const { SelectMenu } = require("sheweny");
 const { languageFlags } = require("../../languageList");
 
-module.exports = class LanguageSelectListenerCommand extends SelectMenu {
+module.exports = class LanguageMenu3MsgSelect extends SelectMenu {
   constructor(client) {
     super(client, ["language-select"]);
   }

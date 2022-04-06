@@ -6,7 +6,7 @@ module.exports = class RestartCommand extends Command {
     super(client, {
       name: "restart",
       description: "🔄️ Restart the bot",
-      category: "Admin",
+      category: "Dev",
       adminsOnly: true,
     });
   }

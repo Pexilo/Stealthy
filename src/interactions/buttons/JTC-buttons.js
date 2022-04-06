@@ -1,6 +1,6 @@
 const { Button } = require("sheweny");
 
-module.exports = class JTCSetupButtonsListener extends Button {
+module.exports = class JTCSetupButtons extends Button {
   constructor(client) {
     super(client, [
       "create-JTC",
@@ -48,7 +48,6 @@ module.exports = class JTCSetupButtonsListener extends Button {
           .first();
 
         //create the channel in the first category
-        let error = false;
         const voiceChannel = await guild.channels
           .create("🔉 Create a channel", {
             type: "GUILD_VOICE",
@@ -56,12 +55,11 @@ module.exports = class JTCSetupButtonsListener extends Button {
           })
           .then(async (channel) => await channel.lockPermissions())
           .catch((e) => {
-            button.editReply(
+            return button.editReply(
               `⛔ An error occured: ${"```"}${
                 e.message
               }${"```"}\nPlease contact an administrator of the bot for further assistance.`
             );
-            return (error = true);
           });
 
         //set the channel in the database

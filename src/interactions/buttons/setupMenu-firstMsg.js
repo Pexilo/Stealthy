@@ -1,6 +1,6 @@
 const { Button } = require("sheweny");
 
-module.exports = class SetupMenuListenerCommand extends Button {
+module.exports = class SetupMenuButton extends Button {
   constructor(client) {
     super(client, ["setup-menu"]);
   }

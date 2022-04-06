@@ -25,6 +25,7 @@ const client = new ShewenyClient({
   managers: {
     commands: {
       directory: "./commands",
+      guildId: ["946475695981330545"],
       autoRegisterApplicationCommands: true, // Register commands from the application
       loadAll: true, // Load all commands in the directory
       default: {
