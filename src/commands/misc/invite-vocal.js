@@ -20,7 +20,6 @@ module.exports = class InviteVocalCommand extends Command {
     });
   }
   async execute(interaction) {
-    return;
     /*
      * Types of errors that can occur:
      * - The user is not in a voice channel
