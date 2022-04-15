@@ -5,16 +5,13 @@ module.exports = class ServerInfoCommand extends Command {
   constructor(client) {
     super(client, {
       name: "serverinfo",
-      type: "SLASH_COMMAND",
-      description: "Show information about the server you are in.",
+      description: "❔ Get information about the server.",
+      examples: "/serverinfo => Get server information",
       category: "Misc",
     });
   }
   async execute(interaction) {
-    return;
     if (!(await this.client.Defer(interaction))) return;
-
-    const lang = GetLanguage(interaction.guild.id);
 
     const guild = interaction.guild;
     const owner = await guild.fetchOwner();
@@ -52,18 +49,10 @@ module.exports = class ServerInfoCommand extends Command {
         name: guild.name + " - " + guild.id,
         iconURL: guild.iconURL({ dynamic: true }),
       })
-      .setDescription(
-        `${await FastTranslate(
-          Serverinfo.Embed.description,
-          lang
-        )}: ${owner.user.toString()}`
-      )
+      .setDescription(`Owner: ${owner.user.toString()}`)
       .addFields(
         {
-          name:
-            "📅 " +
-            `${await FastTranslate(Serverinfo.Embed.field1, lang)}` +
-            ":",
+          name: "📅 " + "Creation date" + ":",
           value: `${creationTimestamp} - ${relativeCreationTimestamp}`,
           inline: true,
         },
@@ -78,18 +67,12 @@ module.exports = class ServerInfoCommand extends Command {
           inline: true,
         },
         {
-          name:
-            "👤 " +
-            `${await FastTranslate(Serverinfo.Embed.field2, lang)}` +
-            ":",
+          name: "👤 " + "Members" + ":",
           value: `${"```"}${guild.memberCount}${"```"}`,
           inline: true,
         },
         {
-          name:
-            "🗣️ " +
-            `${await FastTranslate(Serverinfo.Embed.field3, lang)}` +
-            ":",
+          name: "🗣️ " + "Maximum bitrate" + ":",
           value: `${"```"}${guild.maximumBitrate} kb/s${"```"}`,
           inline: true,
         },
@@ -99,25 +82,15 @@ module.exports = class ServerInfoCommand extends Command {
           inline: true,
         },
         {
-          name:
-            "🔒 " +
-            `${await FastTranslate(Serverinfo.Embed.field4, lang)}` +
-            ":",
-          value: `${"```"}${await FastTranslate(
-            filterLevels[guild.explicitContentFilter],
-            lang
-          )}${"```"}`,
+          name: "🔒 " + "Filter level" + ":",
+          value: `${"```"}${filterLevels[guild.explicitContentFilter]}${"```"}`,
           inline: true,
         },
         {
-          name:
-            "🔐 " +
-            `${await FastTranslate(Serverinfo.Embed.field5, lang)}` +
-            ":",
-          value: `${"```"}${await FastTranslate(
-            verificationLevels[guild.verificationLevel],
-            lang
-          )}${"```"}`,
+          name: "🔐 " + "Verification" + ":",
+          value: `${"```"}${
+            verificationLevels[guild.verificationLevel]
+          }${"```"}`,
           inline: true,
         },
         {
@@ -126,34 +99,22 @@ module.exports = class ServerInfoCommand extends Command {
           inline: true,
         },
         {
-          name:
-            "💰 " +
-            `${await FastTranslate(Serverinfo.Embed.field6, lang)}` +
-            ":",
-          value: `${"```"}${await FastTranslate(
-            boostLevel[guild.premiumTier],
-            lang
-          )}${"```"}`,
+          name: "💰 " + "Server Boost" + ":",
+          value: `${"```"}${boostLevel[guild.premiumTier]}${"```"}`,
           inline: true,
         }
       );
 
     if (guild.description != null) {
       serverinfo.setDescription(
-        `${await FastTranslate(
-          Serverinfo.Embed.description,
-          lang
-        )}: ${owner.user.toString()}\n${"```"}${guild.description}${"```"}`
+        `Owner: ${owner.user.toString()}\n${"```"}${guild.description}${"```"}`
       );
     }
 
     if (guild.premiumSubscriptionCount != 0) {
       serverinfo.addFields(
         {
-          name:
-            "🪙 " +
-            `${await FastTranslate(Serverinfo.Embed.field7, lang)}` +
-            ":",
+          name: "🪙 " + "Boost" + ":",
           value: `${"```"}${guild.premiumSubscriptionCount}${"```"}`,
           inline: true,
         },

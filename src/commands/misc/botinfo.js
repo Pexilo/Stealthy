@@ -4,17 +4,13 @@ module.exports = class BotInfoCommand extends Command {
   constructor(client) {
     super(client, {
       name: "botinfo",
-      type: "SLASH_COMMAND",
       description: "🔖 Get information about the bot",
       examples: "/botinfo => Get bot information",
       category: "Misc",
     });
   }
   async execute(interaction) {
-    return;
     if (!(await this.client.Defer(interaction))) return;
-
-    const lang = GetLanguage(interaction.guild.id);
 
     const bot = interaction.client;
     const nonBotUsers = await interaction.client.users.cache.filter(
@@ -30,25 +26,16 @@ module.exports = class BotInfoCommand extends Command {
             iconURL: bot.user.displayAvatarURL({ dynamic: true }),
           })
           .setDescription(
-            `${await FastTranslate(
-              Botinfo.Embed.description,
-              lang
-            )}: [Pexilo#7866](https://github.com/Pexilo)`
+            `Maintainer: [Pexilo#7866](https://github.com/Pexilo)`
           )
           .addFields(
             {
-              name:
-                "⏲️ " +
-                `${await FastTranslate(Botinfo.Embed.field1, lang)}` +
-                ":",
+              name: "⏲️ " + "Uptime" + ":",
               value: `${"```"}${this.client.PrettyMs(bot.uptime)}${"```"}`,
               inline: true,
             },
             {
-              name:
-                "👤 " +
-                `${await FastTranslate(Botinfo.Embed.field2, lang)}` +
-                ":",
+              name: "👤 " + "Users" + ":",
               value: `${"```"}${nonBotUsers.size}${"```"}`,
               inline: true,
             },
@@ -58,18 +45,12 @@ module.exports = class BotInfoCommand extends Command {
               inline: true,
             },
             {
-              name:
-                "🧭 " +
-                `${await FastTranslate(Botinfo.Embed.field3, lang)}` +
-                ":",
+              name: "🧭 " + "Servers" + ":",
               value: `${"```"}${bot.guilds.cache.size} ${"```"}`,
               inline: true,
             },
             {
-              name:
-                "💬 " +
-                `${await FastTranslate(Botinfo.Embed.field4, lang)}` +
-                ":",
+              name: "💬 " + "Text channels" + ":",
               value: `${"```"}${bot.channels.cache.size} ${"```"}`,
               inline: true,
             },
