@@ -13,8 +13,7 @@ module.exports = class UserInfoContextMenuCommand extends Command {
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
 
-    const { guild, options } = interaction;
-    const lang = GetLanguage(guild.id);
+    const { options } = interaction;
     const member = options.getMember("user");
 
     return interaction.editReply({
@@ -27,26 +26,17 @@ module.exports = class UserInfoContextMenuCommand extends Command {
           })
           .addFields(
             {
-              name:
-                "📅 " +
-                `${await FastTranslate(UserInfo.Embed.field1, lang)}` +
-                ":",
+              name: "📅 " + "Account created" + ":",
               value: this.client.Formatter(member.user.createdAt),
               inline: true,
             },
             {
-              name:
-                "📥 " +
-                `${await FastTranslate(UserInfo.Embed.field2, lang)}` +
-                ":",
+              name: "📥 " + "Joined the server" + ":",
               value: this.client.Formatter(member.joinedAt),
               inline: true,
             },
             {
-              name:
-                "🧮 " +
-                `${await FastTranslate(UserInfo.Embed.field3, lang)}` +
-                ":",
+              name: "🧮 " + "Roles" + ":",
               value: member.roles.cache
                 .filter((r) => r.id !== member.guild.id)
                 .map((r) => r.toString())
