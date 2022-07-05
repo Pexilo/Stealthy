@@ -3,6 +3,8 @@ const {
   MessageSelectMenu,
   MessageActionRow,
   MessageButton,
+  Modal,
+  TextInputComponent,
 } = require("discord.js");
 const prettyMilliseconds = require("pretty-ms");
 const Translate = require("deepl");
@@ -46,6 +48,23 @@ module.exports = (client) => {
         );
       }
       return button;
+    }),
+    (client.ModalRow = (customID, title, textInput) => {
+      const modal = new Modal().setCustomId(customID).setTitle(title);
+
+      textInput.forEach((element) => {
+        modal.addComponents(
+          new MessageActionRow().addComponents(
+            new TextInputComponent()
+              .setCustomId(element.customID)
+              .setLabel(element.label)
+              .setStyle(element.style)
+              .setPlaceholder(element.placeholder)
+              .setRequired(element.required)
+          )
+        );
+      });
+      return modal;
     }),
     /* This function is used to translate a string from a detected language to a set one. */
     (client.FastTranslate = async (text, lang) => {

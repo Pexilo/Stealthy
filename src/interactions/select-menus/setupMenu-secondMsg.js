@@ -58,32 +58,35 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           } ${
             membercountChannel
               ? "> **Member count** channel is setup in " +
-                `**<#${membercountChannel.parentId}>**` +
-                ". \n"
+                `**${
+                  membercountChannel.parent
+                    ? `<#${membercountChannel.parentId}>`
+                    : "default"
+                }**` +
+                " category. \n"
               : ""
           } ${
             JTCChannel
               ? "> **Join to Create** channel is setup in " +
-                `**<#${JTCChannel.parentId}>**` +
-                ". \n"
+                `**${
+                  JTCChannel.parent ? `<#${JTCChannel.parentId}>` : "default"
+                }**` +
+                " category. \n"
               : ""
           }\nPlease use, \`/setup channels\` command to set up your channels.`,
         });
         break;
 
       case "jtc_option":
-        // this entry will be used across files to know who is interacting with the bot (because one reply is not ephemeral)
-        /* This is a way to know who is interacting with the bot (because one reply is not ephemeral). */
-        await this.client.updateGuild(guild, {
-          JTC_setup_pending: member.user.id,
-        });
-
         const findChannel = guild.channels.cache.get(fetchGuild.JTC_Cnl);
+        console.log("🚀 ~ findChannel", findChannel);
 
         selectMenu.editReply({
           content: `Use the buttons below to setup your JTC channel.${
             findChannel
-              ? `\n\n> JTC channel ${findChannel.toString()} is already setup in **${findChannel.parent.toString()}** category.`
+              ? `\n\n> JTC channel ${findChannel.toString()} is already setup in **${
+                  findChannel.parent ? findChannel.parent.toString() : "default"
+                }** category.`
               : ""
           }`,
           components: [
@@ -97,36 +100,23 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         break;
 
       case "blacklist_option":
-        // GetBlacklistTimes function return 2 variables
-        const blacklistTime = await GetBlacklistTimes(guild.id, "time");
-        const blacklistMinAge = await GetBlacklistTimes(
-          guild.id,
-          "minimum_age"
-        );
-
-        // steps variable is used to know how many steps the user did to setup the blacklist
-        let steps = 0;
-        !blacklistTime.isDefault ? steps++ : null;
-        !blacklistMinAge.isDefault ? steps++ : null;
+        const blacklistTime = fetchGuild.blacklist_Time;
+        const blacklistMinAge = fetchGuild.blacklist_MinimumAge;
 
         selectMenu.editReply({
-          content: `> Blacklist time: \`${this.client.PrettyMs(
-            blacklistTime.time,
+          content: `> Blacklist length: \`${this.client.PrettyMs(
+            blacklistTime,
             {
               verbose: true,
             }
-          )}\` ${blacklistTime.isDefault ? " *(default)*" : ""}
+          )}\` ${blacklistTime == 86400000 ? " *(default)*" : ""}
           > Minimum account age required: \`${this.client.PrettyMs(
-            blacklistMinAge.time,
+            blacklistMinAge,
             {
               verbose: true,
             }
-          )}\` ${blacklistMinAge.isDefault ? "*(default)*" : ""}
-           ${
-             steps < 2
-               ? `\nYou have filled **${steps} piece(s)** of information.\nTo complete the blacklist system use,`
-               : "\nTo setup the blacklist system, please use,"
-           } \`/setup blacklist\` command.`,
+          )}\` ${blacklistMinAge == 3600000 ? "*(default)*" : ""}
+           \nTo change the blacklist times, please use, \`/setup blacklist\` command.`,
         });
 
         break;

@@ -63,7 +63,7 @@ module.exports = class HelpCommand extends Command {
     const embedInfo = this.client
       .Embed()
       .setAuthor({
-        name: `Hi! I am ${bot.user.username}`,
+        name: `Hey! I'm ${bot.user.username}`,
         iconURL: bot.user.displayAvatarURL({ dynamic: true }),
       })
 
@@ -81,10 +81,10 @@ module.exports = class HelpCommand extends Command {
       });
     }
     embedInfo.setDescription(
-      "🐲 To setup the bot features please press the button below!\n\n" +
+      "To setup Stealthy features please press the button below! 🐲 \n\n" +
         "List of the " +
         commandCount +
-        " comands:"
+        " commands:"
     );
 
     return interaction.editReply({

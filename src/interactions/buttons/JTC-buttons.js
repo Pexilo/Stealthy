@@ -2,12 +2,7 @@ const { Button } = require("sheweny");
 
 module.exports = class JTCSetupButtons extends Button {
   constructor(client) {
-    super(client, [
-      "create-JTC",
-      "delete-JTC",
-      "channel-JTC",
-      "confirm-channel-JTC",
-    ]);
+    super(client, ["create-JTC", "delete-JTC", "channel-JTC"]);
   }
   async execute(button) {
     /*
@@ -68,7 +63,11 @@ module.exports = class JTCSetupButtons extends Button {
         });
 
         button.editReply({
-          content: `✅ JTC channel created in: **<#${voiceChannel.parentId}>** category.
+          content: `✅ JTC channel created in: **${
+            channelToDelete.parent
+              ? `<#${channelToDelete.parentId}>`
+              : "default"
+          }** category.
           \n> You can move it to another category if you want.\n > You can use \`/invite-vc member:\` to invite someone in dm to join your channel.`,
         });
         break;
@@ -107,75 +106,27 @@ module.exports = class JTCSetupButtons extends Button {
         });
 
         return button.editReply({
-          content: `❎ JTC channel deleted in: **<#${channelToDelete.parentId}>** category\n\n> Note that you can create only one "Join to create" channel per server.`,
+          content: `❎ JTC channel deleted in: **${
+            channelToDelete.parent
+              ? `<#${channelToDelete.parentId}>`
+              : "default"
+          }** category\n\n> Note that you can create only one "Join to create" channel per server.`,
         });
 
       case "channel-JTC":
-        if (fetchGuild.JTC_setup_pending !== member.user.id) {
-          return button.reply({
-            ephemeral: true,
-            content: `⛔ You can't change the JTC channel names: 
-            > 1. You are not the one who requested it.
-            > 2. You just changed it, to change it again use the setup button with \`/help\` command.`,
-          });
-        }
-
-        if (
-          fetchGuild.JTC_setup_pending_replied === true ||
-          fetchGuild.JTC_Cnl === null
-        ) {
-          await this.client.updateGuild(guild, {
-            JTC_setup_pending_replied: false,
-          });
-        }
-
         const channelNames = fetchGuild.JTC_CnlNames;
-        let messageAlreadySent = true;
-
-        await button.message.delete().catch((e) => {
-          messageAlreadySent = false;
-        });
-        if (messageAlreadySent) return;
-
-        if (!(await this.client.Defer(button))) return;
-
-        button.editReply({
-          content: `🔧 To setup the channel names for JTC, please reply in the chat with the correct format. *(use commas to seperate each name)*.
-          \n> **Example:** \`🗻 Everest, 🌉 San Francisco, 🌅 Bahamas, 💳 VIP Room, 🏰 Peach Castle\`
-          ${
-            channelNames
-              ? `\n> **Channels names for this server:** \`${channelNames}\``
-              : ""
-          }`,
-        });
-
-        break;
-
-      case "confirm-channel-JTC":
-        if (fetchGuild.JTC_setup_pending !== member.user.id)
-          return button.reply({
-            ephemeral: true,
-            content: `⛔ You can't change the JTC channel names, you are not the one who requested it.`,
-          });
-
-        if (!(await this.client.Defer(button))) return;
-
-        const channelJTC = fetchGuild.JTC_Cnl;
-        button.editReply({
-          content: `✅ Done! ${
-            channelJTC
-              ? "You can now join " +
-                `<#${channelJTC}>` +
-                " to try out the new channel names."
-              : "You can create a JTC channel by using the setup menu with `/help` command."
-          }`,
-        });
-
-        await this.client.updateGuild(guild, {
-          JTC_setup_pending: null,
-          JTC_setup_pending_replied: null,
-        });
-        await button.message.delete();
+        //prepare the modal, intercepted in interactionCreate class (temp)
+        await button.showModal(
+          this.client.ModalRow("channel-JTC", "JTC channel names", [
+            {
+              customID: "channel-JTC-input",
+              label: "Names (must be separated by a comma)",
+              style: "PARAGRAPH",
+              placeholder: `${channelNames}`,
+              required: true,
+            },
+          ])
+        );
         break;
     }
   }
