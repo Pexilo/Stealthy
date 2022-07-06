@@ -36,19 +36,19 @@ module.exports = (client) => {
       options ? menuRow.components[0].addOptions(options) : null;
       return menuRow;
     }),
-    /* This function is used to create a button row with x ammount of buttons. */
+    /* This function is used to create buttons. */
     (client.ButtonRow = (customID, label, style) => {
-      let button = new MessageActionRow();
+      let buttonRow = new MessageActionRow();
       for (let i = 0; i < customID.length; i++) {
-        button.addComponents(
-          new MessageButton()
-            .setCustomId(customID[i])
-            .setLabel(label[i])
-            .setStyle(style[i])
-        );
+        let button = new MessageButton().setLabel(label[i]).setStyle(style[i]);
+        style[i] === "LINK"
+          ? button.setURL(customID[i])
+          : button.setCustomId(customID[i]);
+        buttonRow.addComponents(button);
       }
-      return button;
+      return buttonRow;
     }),
+    /* This function is used to create modals. */
     (client.ModalRow = (customID, title, textInput) => {
       const modal = new Modal().setCustomId(customID).setTitle(title);
 
@@ -197,7 +197,21 @@ module.exports = (client) => {
     /* This function is used to create a new guild in the database. */
     (client.createGuild = async (guild) => {
       const createGuild = new Guild({ id: guild.id });
-      createGuild.save().then((g) => console.log(`➕ Guild: ${g.id}`));
+      createGuild
+        .save()
+        .then(() =>
+          console.log(
+            `➕ Guild: ${guild.name} - ${guild.id} - ${guild.members.cache.size} users`
+          )
+        );
+    }),
+    /* This function is used to delete a guild from the database. */
+    (client.deleteGuild = async (guild) => {
+      await Guild.deleteOne({ id: guild.id }).then(() =>
+        console.log(
+          `➖ Guild: ${guild.name} - ${guild.id} - ${guild.members.cache.size} users`
+        )
+      );
     }),
     /* This function is used to update the guild data in the database. */
     (client.updateGuild = async (guild, settings) => {
