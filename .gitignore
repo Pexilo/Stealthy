@@ -9,6 +9,3 @@ package-lock.json
 
 # dotenv environment variables file
 .env
-
-*.sqlite
-src/lang.json
