@@ -36,7 +36,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         });
         break;
       case "channel_option":
-        //can't change right here channels ID's, notify user to do it manually with /setup channels
+        //can't change right here channels Id's, notify user to do it manually with /setup channels
         const logsChannel = fetchGuild.logs_Cnl;
         const roleclaimChannel = fetchGuild.roleclaim_Cnl;
         const membercountChannel = guild.channels.cache.get(
@@ -122,12 +122,29 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         break;
 
       case "roleclaim_option":
+        const msgId = fetchGuild.roleclaim_Msg;
+        const channelId = fetchGuild.roleclaim_Cnl;
+
+        if (msgId && channelId) {
+          return selectMenu.editReply({
+            content: `Role Claim message is setup in **<#${channelId}>**.\n\n>To change the roles use, \`/setup roleclaim add/remove\` command.\n> You can edit the role claim message with the button bellow or with \`/setup roleclaim embed\``,
+            components: [
+              this.client.ButtonRow(
+                ["edit-roleclaim", "delete-roleclaim"],
+                ["Edit Embed", "Delete"],
+                ["SECONDARY", "DANGER"]
+              ),
+            ],
+          });
+        }
+
         selectMenu.editReply({
-          content: `Please use, \`/setup roleclaim\` command to setup your roleclaim.`,
+          content: `Role Claim is a feature that lets server users pick a specific role by adding a reaction to a message.\nChoose the roles carefully, to maintain the security of your server.\n\n> Please use, \`/setup channels\` command to setup your role claim message in a different channel than ${selectMenu.channel.toString()}.`,
           components: [
-            this.client.SelectMenuRow(
-              "roleclaim-select",
-              "Which role do you want to add?"
+            this.client.ButtonRow(
+              ["create-roleclaim", "delete-roleclaim"],
+              [`Create in ${selectMenu.channel.name}`, "Delete"],
+              ["SUCCESS", "DANGER"]
             ),
           ],
         });

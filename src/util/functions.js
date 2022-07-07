@@ -28,35 +28,35 @@ module.exports = (client) => {
       return prettyMilliseconds(ms, option);
     }),
     /* This function is used to create a new row for a select menu. */
-    (client.SelectMenuRow = (customID, placeholder = null, options = null) => {
+    (client.SelectMenuRow = (customId, placeholder = null, options = null) => {
       let menuRow = new MessageActionRow().addComponents(
-        new MessageSelectMenu().setCustomId(customID)
+        new MessageSelectMenu().setCustomId(customId)
       );
       placeholder ? menuRow.components[0].setPlaceholder(placeholder) : null;
       options ? menuRow.components[0].addOptions(options) : null;
       return menuRow;
     }),
     /* This function is used to create buttons. */
-    (client.ButtonRow = (customID, label, style) => {
+    (client.ButtonRow = (customId, label, style) => {
       let buttonRow = new MessageActionRow();
-      for (let i = 0; i < customID.length; i++) {
+      for (let i = 0; i < customId.length; i++) {
         let button = new MessageButton().setLabel(label[i]).setStyle(style[i]);
         style[i] === "LINK"
-          ? button.setURL(customID[i])
-          : button.setCustomId(customID[i]);
+          ? button.setURL(customId[i])
+          : button.setCustomId(customId[i]);
         buttonRow.addComponents(button);
       }
       return buttonRow;
     }),
     /* This function is used to create modals. */
-    (client.ModalRow = (customID, title, textInput) => {
-      const modal = new Modal().setCustomId(customID).setTitle(title);
+    (client.ModalRow = (customId, title, textInput) => {
+      const modal = new Modal().setCustomId(customId).setTitle(title);
 
       textInput.forEach((element) => {
         modal.addComponents(
           new MessageActionRow().addComponents(
             new TextInputComponent()
-              .setCustomId(element.customID)
+              .setCustomId(element.customId)
               .setLabel(element.label)
               .setStyle(element.style)
               .setPlaceholder(element.placeholder)
@@ -176,17 +176,17 @@ module.exports = (client) => {
       return false;
     }),
     /* This function is used to get the highest role of a user. */
-    (client.HighestRole = (guild, userID) => {
+    (client.HighestRole = (guild, userId) => {
       try {
-        return guild.members.cache.find((member) => member.id === userID).roles
+        return guild.members.cache.find((member) => member.id === userId).roles
           .highest.position;
       } catch (e) {
         return null;
       }
     }),
     /* This function is used to update the name of the channel that is used to display the member count. */
-    (client.UpdateMemberCount = (guild, channelID) => {
-      const channel = guild.channels.cache.get(channelID);
+    (client.UpdateMemberCount = (guild, channelId) => {
+      const channel = guild.channels.cache.get(channelId);
       channel.setName(`Members: ${guild.memberCount.toLocaleString()}`);
     }),
     /* This function is used to get the guild data from the database. */

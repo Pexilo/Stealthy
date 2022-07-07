@@ -29,7 +29,7 @@ module.exports = class AutoRoleSetupButtons extends Button {
 
         if (!autoroleArray.length > 0)
           return button.editReply(
-            `🚫 No autorole set.\n> Set one with \`/setup autorole add\``
+            `🚫 No autorole set.\n\n> Set one with \`/setup autorole add\``
           );
 
         return button.editReply({

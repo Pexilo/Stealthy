@@ -44,7 +44,7 @@ module.exports = class LockCommand extends Command {
     }
 
     return interaction.editReply(
-      `🔒 Channel ${channel.toString()} has been locked.\n> Use \`/unlock ${
+      `🔒 Channel ${channel.toString()} has been locked.\n\n> Use \`/unlock ${
         channel.name
       }\` to unlock it.`
     );

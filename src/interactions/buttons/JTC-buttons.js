@@ -119,7 +119,7 @@ module.exports = class JTCSetupButtons extends Button {
         await button.showModal(
           this.client.ModalRow("channel-JTC", "JTC channel names", [
             {
-              customID: "channel-JTC-input",
+              customId: "channel-JTC-input",
               label: "Names (must be separated by a comma)",
               style: "PARAGRAPH",
               placeholder: `${channelNames}`,
