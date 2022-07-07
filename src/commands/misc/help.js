@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { Permissions } = require("discord.js");
 
 module.exports = class HelpCommand extends Command {
   constructor(client) {
@@ -20,7 +21,7 @@ module.exports = class HelpCommand extends Command {
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
 
-    const { options } = interaction;
+    const { options, member } = interaction;
     const commandArg = options.getString("command");
 
     if (commandArg) {
@@ -87,11 +88,17 @@ module.exports = class HelpCommand extends Command {
         " commands:"
     );
 
+    if (member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+      return interaction.editReply({
+        embeds: [embedInfo],
+        components: [
+          this.client.ButtonRow(["setup-menu"], ["🔧 Setup"], ["SECONDARY"]),
+        ],
+      });
+    }
+
     return interaction.editReply({
       embeds: [embedInfo],
-      components: [
-        this.client.ButtonRow(["setup-menu"], ["🔧 Setup"], ["SECONDARY"]),
-      ],
     });
   }
 };

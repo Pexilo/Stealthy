@@ -19,8 +19,9 @@ module.exports = class roleClaimButtons extends Button {
       case "create-roleclaim":
         if (!(await this.client.Defer(button))) return;
 
-        this.client.updateGuild(guild, { roleclaim_Roles: [] });
+        this.client.updateGuild(guild, { roleclaim_Roles: [] }); // Clear roles if they were already set
 
+        // Send the embed and store Ids in db
         channel
           .send({
             embeds: [
@@ -46,29 +47,30 @@ module.exports = class roleClaimButtons extends Button {
                 }${"```"}\nPlease contact an administrator of the bot for further assistance.`
               );
             }
+            // Tip message for the user
             channel
               .send("> Add roles with `/setup roleclaim add`")
               .then((msg) => {
                 this.client.updateGuild(guild, { roleclaim_TipMsg: msg.id });
               });
+
+            return button.editReply({
+              content:
+                "✅ Role Claim system created!\n\n> Use the button below to edit the role claim message.",
+              components: [
+                this.client.ButtonRow(
+                  ["edit-roleclaim"],
+                  ["✏️ Edit"],
+                  ["SECONDARY"]
+                ),
+              ],
+            });
           });
 
-        await this.client.Wait(1000);
-
-        return button.editReply({
-          content:
-            "✅ Role Claim system created!\n\n> Use the button below to edit the role claim message.",
-          components: [
-            this.client.ButtonRow(
-              ["edit-roleclaim"],
-              ["✏️ Edit"],
-              ["SECONDARY"]
-            ),
-          ],
-        });
         break;
 
       case "edit-roleclaim":
+        // Check if role claim exists
         if (!channelId || !msgId) {
           return button.reply({
             content:
@@ -77,6 +79,7 @@ module.exports = class roleClaimButtons extends Button {
           });
         }
 
+        // Check if role claim message exists
         try {
           foundChannel = guild.channels.cache.get(channelId);
           msg = await foundChannel.messages.fetch(msgId);
@@ -88,6 +91,7 @@ module.exports = class roleClaimButtons extends Button {
           });
         }
 
+        // Show modal to edit the role claim message embed
         await button.showModal(
           this.client.ModalRow("edit-roleclaim", "Edit roleclaim embed", [
             {
@@ -124,6 +128,7 @@ module.exports = class roleClaimButtons extends Button {
       case "delete-roleclaim":
         if (!(await this.client.Defer(button))) return;
 
+        // Clear db
         this.client.updateGuild(guild, {
           roleclaim_Roles: [],
           roleclaim_Msg: null,
@@ -131,6 +136,7 @@ module.exports = class roleClaimButtons extends Button {
           roleclaim_TipMsg: null,
         });
 
+        // Delete role claim messages if found
         try {
           foundChannel = guild.channels.cache.get(channelId);
           msg = await foundChannel.messages.fetch(msgId);

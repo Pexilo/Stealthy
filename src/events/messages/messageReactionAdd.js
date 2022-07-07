@@ -11,7 +11,7 @@ module.exports = class messageReactionAddTracker extends Event {
      * Roleclaim added reaction tracker - add role to member if reaction is added
      */
 
-    if (user.bot) return;
+    if (user.bot || user == null) return;
     const { guild } = messageReaction.message;
 
     const fetchGuild = await this.client.getGuild(guild);

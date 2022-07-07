@@ -667,8 +667,8 @@ module.exports = class SetupBotCommand extends Command {
             let msgId, tipMsgId, channelId, foundChannel, msg, tipMsg;
 
             msgId = fetchGuild.roleclaim_Msg;
-            tipMsgId = fetchGuild.roleclaim_TipMsg;
             channelId = fetchGuild.roleclaim_Cnl;
+            tipMsgId = fetchGuild.roleclaim_TipMsg;
 
             if (channelId && msgId && tipMsgId) {
               try {

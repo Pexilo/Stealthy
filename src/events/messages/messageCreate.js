@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { Permissions } = require("discord.js");
 
 module.exports = class messageCreateTracker extends Event {
   constructor(client) {
@@ -22,7 +23,7 @@ module.exports = class messageCreateTracker extends Event {
         message.content.includes("discord.com/invite/")) &&
       (!message.author.bot ||
         !channel.type === "dm" ||
-        !member.permissions.has("MANAGE_GUILD"))
+        !member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
     ) {
       const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
       if (logsChannel) {
