@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { Permissions } = require("discord.js");
 
 module.exports = class messageCreateTracker extends Event {
   constructor(client) {
@@ -22,7 +23,7 @@ module.exports = class messageCreateTracker extends Event {
         message.content.includes("discord.com/invite/")) &&
       (!message.author.bot ||
         !channel.type === "dm" ||
-        !member.permissions.has("MANAGE_GUILD"))
+        !member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
     ) {
       const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
       if (logsChannel) {
@@ -58,39 +59,5 @@ module.exports = class messageCreateTracker extends Event {
         });
       }
     }
-
-    /*
-     * JTC setup channel names - add them into the database - Setup category
-     */
-
-    if (
-      fetchGuild.JTC_setup_pending !== member.user.id ||
-      fetchGuild.JTC_setup_pending_replied === true ||
-      message.author.bot
-    )
-      return;
-
-    const result = message.content.split(",");
-
-    await this.client.updateGuild(guild, {
-      JTC_CnlNames: result,
-      JTC_setup_pending_replied: true,
-    });
-
-    await message.reply({
-      allowedMentions: {
-        repliedUser: false,
-      },
-      content: `You have provided the following channel names: 
-      > \`${result}\``,
-      components: [
-        this.client.ButtonRow(
-          ["channel-JTC", "confirm-channel-JTC"],
-          ["🔃 Redo", "Confirm"],
-          ["PRIMARY", "SUCCESS"]
-        ),
-      ],
-    });
-    await message.delete();
   }
 };

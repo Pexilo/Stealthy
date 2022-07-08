@@ -45,7 +45,7 @@ module.exports = class SetNicknameCommand extends Command {
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
     if (!logsChannel)
       return interaction.editReply(
-        `🚫 I can't find the logs channel.\n> Please use \`/setup channels\` to set it up.`
+        `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
       );
 
     try {

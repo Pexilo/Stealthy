@@ -19,8 +19,6 @@ const guildSchema = new mongoose.Schema({
   blacklist_Time: { type: Number, default: 86400000 },
   blacklist_MinimumAge: { type: Number, default: 3600000 },
 
-  JTC_setup_pending: { type: String, default: null },
-  JTC_setup_pending_replied: { type: Boolean, default: null },
   JTC_CnlNames: {
     type: Array,
     default: [

@@ -14,36 +14,21 @@ module.exports = class guildMemberRemoveTracker extends Event {
      * Logs users who leave the server - Admin category
      */
     const fetchGuild = await this.client.getGuild(guild);
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
+
+    let logsChannel = null;
+    try {
+      logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
+    } catch (e) {}
 
     if (logsChannel) {
-      const accountAge = member.joinedTimestamp;
+      const accountAge = this.client.Formatter(
+        member.joinedTimestamp,
+        Formatters.TimestampStyles.RelativeTime
+      );
       const searchRoles = member.roles.cache
         .filter((r) => r.id !== guild.id)
         .map((r) => r.toString())
         .join(", ");
-
-      //TODO: AUDIT LOGS
-
-      // const fetchKickLog = await guild.fetchAuditLogs({
-      //   limit: 100,
-      //   user: member.user,
-      //   type: "MEMBER_KICK",
-      // });
-
-      // const kickLog = fetchKickLog.entries;
-      // return console.log(kickLog);
-      // kickLog.forEach((element) => {
-      //   if (element.target.id === member.id) {
-      //     console.log(element);
-      //   }
-      // });
-      // //MARCHE PAS AVEC PRUNEUH
-      // const { target, reason } = kickLog;
-
-      // if (target.id === member.id) console.log("kicked", reason);
-
-      // return;
 
       const embedInfo = this.client
         .Embed()
@@ -52,24 +37,26 @@ module.exports = class guildMemberRemoveTracker extends Event {
           iconURL: member.user.displayAvatarURL({ dynamic: true }),
         })
         .setDescription(member.toString())
-        .addFields({
-          name: "📅 " + "Active since" + ":",
-          value: this.client.Formatter(
-            accountAge,
-            Formatters.TimestampStyles.RelativeTime
-          ),
-        })
+
         .setColor("#8B0000")
         .setTimestamp()
         .setFooter({
           text: `${member.user.tag} - ${member.user.id}`,
         });
 
-      if (searchRoles)
+      if (searchRoles) {
         embedInfo.addFields({
           name: "🧮 " + "Roles" + ":",
           value: searchRoles,
         });
+      }
+
+      if (accountAge) {
+        embedInfo.addFields({
+          name: "📅 " + "Account Age" + ":",
+          value: accountAge,
+        });
+      }
 
       logsChannel.send({ embeds: [embedInfo] });
     }

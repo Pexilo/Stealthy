@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { Permissions } = require("discord.js");
 
 module.exports = class HelpCommand extends Command {
   constructor(client) {
@@ -20,7 +21,7 @@ module.exports = class HelpCommand extends Command {
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
 
-    const { options } = interaction;
+    const { options, member } = interaction;
     const commandArg = options.getString("command");
 
     if (commandArg) {
@@ -63,7 +64,7 @@ module.exports = class HelpCommand extends Command {
     const embedInfo = this.client
       .Embed()
       .setAuthor({
-        name: `Hi! I am ${bot.user.username}`,
+        name: `Hey! I'm ${bot.user.username}`,
         iconURL: bot.user.displayAvatarURL({ dynamic: true }),
       })
 
@@ -81,17 +82,23 @@ module.exports = class HelpCommand extends Command {
       });
     }
     embedInfo.setDescription(
-      "🐲 To setup the bot features please press the button below!\n\n" +
+      "To setup Stealthy features please press the button below! 🐲 \n\n" +
         "List of the " +
         commandCount +
-        " comands:"
+        " commands:"
     );
+
+    if (member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+      return interaction.editReply({
+        embeds: [embedInfo],
+        components: [
+          this.client.ButtonRow(["setup-menu"], ["🔧 Setup"], ["SECONDARY"]),
+        ],
+      });
+    }
 
     return interaction.editReply({
       embeds: [embedInfo],
-      components: [
-        this.client.ButtonRow(["setup-menu"], ["🔧 Setup"], ["SECONDARY"]),
-      ],
     });
   }
 };

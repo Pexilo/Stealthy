@@ -1,4 +1,5 @@
 const { Button } = require("sheweny");
+const { Permissions } = require("discord.js");
 
 module.exports = class SetupMenuButton extends Button {
   constructor(client) {
@@ -6,8 +7,12 @@ module.exports = class SetupMenuButton extends Button {
   }
   async execute(button) {
     if (!(await this.client.Defer(button))) return;
-    if (!button.member.permissions.has("MANAGE_GUILD"))
-      return button.editReply(`🚫 You don't have permission to do that!`);
+    const { guild, member } = button;
+
+    if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
+      return button.editReply(
+        `🚫 You don't have permission to do that! Missing \`MANAGE_GUILD\``
+      );
 
     button.editReply({
       ephemeral: true,

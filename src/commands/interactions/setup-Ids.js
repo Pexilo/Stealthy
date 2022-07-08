@@ -149,39 +149,6 @@ module.exports = class SetupBotCommand extends Command {
               type: "SUB_COMMAND",
               name: "embed",
               description: "💡 Edit embed of roleclaim",
-              options: [
-                {
-                  type: "STRING",
-                  name: "change",
-                  description: "💡Type of the embed you want to change",
-                  required: true,
-                  choices: [
-                    {
-                      name: "Title",
-                      value: "title",
-                    },
-                    {
-                      name: "Description",
-                      value: "description",
-                    },
-                    {
-                      name: "Footer",
-                      value: "footer",
-                    },
-                    {
-                      name: "Color - use hexadecimal color code",
-                      value: "color",
-                    },
-                  ],
-                },
-                {
-                  type: "STRING",
-                  name: "text",
-                  description:
-                    "💡Content (you need to provide a hexadecimal code for the color)",
-                  required: true,
-                },
-              ],
             },
           ],
         },
@@ -231,7 +198,6 @@ module.exports = class SetupBotCommand extends Command {
 
   async execute(interaction) {
     const { guild, options } = interaction;
-    if (!(await this.client.Defer(interaction))) return;
 
     const fetchGuild = await this.client.getGuild(guild);
 
@@ -252,9 +218,9 @@ module.exports = class SetupBotCommand extends Command {
          *   - Role position of Stealthy is lower than the choosed one -> ask to move it up
          */
 
-        let msgID,
-          tipMsgID,
-          channelID,
+        let msgId,
+          tipMsgId,
+          channelId,
           roleRC,
           emojiName,
           emoji,
@@ -266,24 +232,31 @@ module.exports = class SetupBotCommand extends Command {
           fieldValue,
           rolesEmbed;
 
-        msgID = fetchGuild.roleclaim_Msg;
-        tipMsgID = fetchGuild.roleclaim_TipMsg;
-        channelID = fetchGuild.roleclaim_Cnl;
-        if (!channelID || !msgID || !tipMsgID) {
-          return interaction.editReply(
-            "🚫 You need to setup the roleclaim system first.\n> Use `/setup channels`"
-          );
+        msgId = fetchGuild.roleclaim_Msg;
+        tipMsgId = fetchGuild.roleclaim_TipMsg;
+        channelId = fetchGuild.roleclaim_Cnl;
+        if (!channelId || !msgId) {
+          return interaction.reply({
+            ephemeral: true,
+            content:
+              "🚫 You need to setup the roleclaim system first.\n\n> Use `/setup channels`",
+          });
         }
 
         try {
-          foundChannel = guild.channels.cache.get(channelID);
-          msg = await foundChannel.messages.fetch(msgID);
-          tipMsg = await foundChannel.messages.fetch(tipMsgID);
+          foundChannel = guild.channels.cache.get(channelId);
+          msg = await foundChannel.messages.fetch(msgId);
         } catch (e) {
-          return interaction.editReply(
-            "⛔ An error has occurred: Unable to find the role claim message.\n> Try to setup the roleclaim system again.\n> If the error persists, contact a administrator of Stealthy"
-          );
+          return interaction.reply({
+            ephemeral: true,
+            content:
+              "⛔ An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
+          });
         }
+
+        try {
+          tipMsg = await foundChannel.messages.fetch(tipMsgId);
+        } catch (e) {}
 
         roleRC = options.getRole("role");
         if (
@@ -292,31 +265,37 @@ module.exports = class SetupBotCommand extends Command {
             roleRC.rawPosition &&
           options._subcommand != "remove"
         ) {
-          return interaction.editReply(
-            `🚫 One of my roles need to be above ${roleRC.toString()} to perform this action.\n> You can do this in \`server settings -> roles\``
-          );
+          return interaction.reply({
+            ephemeral: true,
+            content: `🚫 One of my roles need to be above ${roleRC.toString()} to perform this action.\n\n> You can do this in \`server settings -> roles\``,
+          });
         }
 
         if (roleRC && roleRC.id === guild.id) {
-          return interaction.editReply(`🚫 You can't assign <@&${guild.id}>`);
+          return interaction.reply({
+            ephemeral: true,
+            content: `🚫 You can't assign <@&${guild.id}>`,
+          });
         }
 
         emoji = options.getString("emoji");
         if (emoji && emoji.startsWith("<") && emoji.endsWith(">")) {
           if (!(await this.client.IsValidEmoji(this.client, emoji)))
-            return interaction.editReply(
-              `🚫 I can't find \`:${
+            return interaction.reply({
+              ephemeral: true,
+              content: `🚫 I can't find \`:${
                 emoji.split(":")[1]
-              }:\` emoji.\n> I need to be in the same server as the emoji`
-            );
+              }:\` emoji.\n\n> I need to be in the same server as the emoji`,
+            });
           emojiName = emoji;
           isEmojiCustom = true;
         }
 
         if (emoji && !isEmojiCustom && !this.client.HasEmoji(emoji)) {
-          return interaction.editReply(
-            `🚫 \` ${emoji} \` is not supported.\n> Please provide one [emoji](https://emojipedia.org)`
-          );
+          return interaction.reply({
+            ephemeral: true,
+            content: `🚫 \` ${emoji} \` is not supported.\n\n> Please provide one [emoji](https://emojipedia.org)`,
+          });
         }
         if (emoji && !isEmojiCustom)
           emojiName = this.client.GetEmojiNameFromUni(emoji);
@@ -332,41 +311,44 @@ module.exports = class SetupBotCommand extends Command {
         switch (options._subcommand) {
           case "embed":
             /*
-             * Edit the embed of the role claim message - Usage: /setup roleclaim embed <change> <text>
+             * Edit the embed of the role claim message
              */
 
-            const text = options.getString("text");
-            const change = options.getString("change");
-
-            switch (change) {
-              case "title":
-                rolesEmbed.setTitle(text);
-                break;
-              case "description":
-                rolesEmbed.setDescription(text);
-                break;
-              case "footer":
-                rolesEmbed.setFooter({ text: text });
-                break;
-              case "color":
-                try {
-                  rolesEmbed.setColor(text);
-                } catch (e) {
-                  return interaction.editReply(
-                    `🚫 Invalid color.\n> Please use a hexadecimal color code.\n> For example: \`#ff0000\``
-                  );
-                }
-            }
-
-            await msg.edit({
-              embeds: [rolesEmbed],
-            });
-
-            return interaction.editReply(
-              `✅ Successfully changed the **${change}** to \`${text}\``
+            await interaction.showModal(
+              this.client.ModalRow("edit-roleclaim", "Edit roleclaim embed", [
+                {
+                  customId: "roleclaim-title-input",
+                  label: "Title",
+                  style: "SHORT",
+                  placeholder: `${msg.embeds[0].title}`,
+                  required: false,
+                },
+                {
+                  customId: "roleclaim-description-input",
+                  label: "Description",
+                  style: "PARAGRAPH",
+                  placeholder: `${msg.embeds[0].description}`,
+                  required: false,
+                },
+                {
+                  customId: "roleclaim-footer-input",
+                  label: "Footer",
+                  style: "SHORT",
+                  placeholder: `${msg.embeds[0].footer.text}`,
+                  required: false,
+                },
+                {
+                  customId: "roleclaim-color-input",
+                  label: "Color",
+                  style: "SHORT",
+                  placeholder: "color must be a hex color code (#000000)",
+                  required: false,
+                },
+              ])
             );
 
           case "add":
+            if (!(await this.client.Defer(interaction))) return;
             /*
              * Add a role to the roleclaim message - Usage: /setup roleclaim add <role> <emoji> [description]
              * Type of errors handled and replied:
@@ -379,7 +361,7 @@ module.exports = class SetupBotCommand extends Command {
 
             if (msg.reactions.cache.size >= 20) {
               return interaction.editReply(
-                `⛔ The role claim message has reached the maximum amount of reactions.\n> You can provide up to 20 roles.`
+                `⛔ The role claim message has reached the maximum amount of reactions.\n\n> You can provide up to 20 roles.`
               );
             }
 
@@ -399,7 +381,7 @@ module.exports = class SetupBotCommand extends Command {
                   isEmojiCustom ? emojiName : `\`${emoji}\``
                 }\` is already used with <@&${
                   emojiAlreadyExist[0].roleId
-                }>.\n> Delete it first with \`/setup roleclaim remove\``
+                }>.\n\n> Delete it first with \`/setup roleclaim remove\``
               );
             }
 
@@ -410,7 +392,7 @@ module.exports = class SetupBotCommand extends Command {
                     ? roleAlreadyExist[0].emojiName
                     : `\`${this.client.GetEmojiFromName(
                         roleAlreadyExist[0].emojiName
-                      )}\`.\n> Delete it first with \`/setup roleclaim remove\``
+                      )}\`.\n\n> Delete it first with \`/setup roleclaim remove\``
                 }`
               );
             }
@@ -443,6 +425,7 @@ module.exports = class SetupBotCommand extends Command {
             );
 
           case "remove":
+            if (!(await this.client.Defer(interaction))) return;
             /*
              * Remove a role from the roleclaim message - Usage: /setup roleclaim remove [role] [emoji]
              * Type of errors handled and replied:
@@ -450,7 +433,7 @@ module.exports = class SetupBotCommand extends Command {
              * - Role provided not found during the process
              */
 
-            let roleID, emojiUNI;
+            let roleId, emojiUNI;
 
             // no arguments provided
             if (!roleRC && !emoji) {
@@ -507,7 +490,7 @@ module.exports = class SetupBotCommand extends Command {
               // second condition of the if -> search by role
               if (
                 (emoji && fieldValue === emojiName) ||
-                (roleRC && roleAlreadyExist)
+                (roleRC && roleAlreadyExist.length > 0)
               ) {
                 // find the role in db with emoji povided
                 let roldDB = emoji ? emojiAlreadyExist : null;
@@ -519,9 +502,9 @@ module.exports = class SetupBotCommand extends Command {
                     : this.client.GetEmojiNameFromUni(fieldValue);
 
                 // get the role id
-                roleID = roleRC ? roleRC.id : roldDB[0].roleId;
+                roleId = roleRC ? roleRC.id : roldDB[0].roleId;
 
-                // get correct emojis for the repsonse
+                // get correct emojis for the response
                 !isEmojiCustom
                   ? (emojiUNI = this.client.GetEmojiFromName(fieldValue))
                   : (customEmoji = fieldValue.split(":")[2].slice(0, -1));
@@ -548,18 +531,18 @@ module.exports = class SetupBotCommand extends Command {
                 });
 
                 return interaction.editReply(
-                  `❎ Removed <@&${roleID}> with ${
+                  `❎ Removed <@&${roleId}> with ${
                     isEmojiCustom ? fieldValue : `\`${emojiUNI}\``
                   }`
                 );
               }
             }
-            if (!roleID && roleRC)
+            if (!roleId && roleRC)
               return interaction.editReply(
                 `🚫 ${roleRC.toString()} is not used.`
               );
 
-            if (!roleID && emoji)
+            if (!roleId && emoji)
               return interaction.editReply(
                 `🚫 ${
                   emoji.startsWith("<") ? emoji : `\`${emoji}\``
@@ -569,6 +552,7 @@ module.exports = class SetupBotCommand extends Command {
         }
 
       case "autorole":
+        if (!(await this.client.Defer(interaction))) return;
         const roleAR = options.getRole("role");
         const autoroleArray = fetchGuild.autorole_Roles;
 
@@ -585,13 +569,13 @@ module.exports = class SetupBotCommand extends Command {
               roleAR.rawPosition
             ) {
               return interaction.editReply(
-                `🚫 One of my roles need to be above ${roleAR.toString()} to perform this action.\n> You can do this in \`server settings -> roles\``
+                `🚫 One of my roles need to be above ${roleAR.toString()} to perform this action.\n\n> You can do this in \`server settings -> roles\``
               );
             }
 
             if (autoroleArray.length === 5) {
               return interaction.editReply(
-                `🚫 You can't have more than 5 roles assigned.\n> Use \`/setup setup autorole list\` to see the list of roles.`
+                `🚫 You can't have more than 5 roles assigned.\n\n> Use \`/setup setup autorole list\` to see the list of roles.`
               );
             }
 
@@ -620,7 +604,7 @@ module.exports = class SetupBotCommand extends Command {
           case "remove":
             if (!autoroleArray.length > 0)
               return interaction.editReply(
-                `🚫 No autorole set.\n> Set one with \`/setup autorole add\``
+                `🚫 No autorole set.\n\n> Set one with \`/setup autorole add\``
               );
 
             if (!autoroleArray.filter((r) => r == roleAR.id).length > 0)
@@ -653,7 +637,7 @@ module.exports = class SetupBotCommand extends Command {
           case "list":
             if (!autoroleArray.length > 0)
               return interaction.editReply(
-                `🚫 No autorole set.\n> Set one with \`/setup autorole add\``
+                `🚫 No autorole set.\n\n> Set one with \`/setup autorole add\``
               );
 
             return interaction.editReply({
@@ -673,23 +657,24 @@ module.exports = class SetupBotCommand extends Command {
 
     switch (options._subcommand) {
       case "channels":
+        if (!(await this.client.Defer(interaction))) return;
         const usage = options.getString("usage");
         const channel = options.getChannel("channel");
         let noParent = false;
 
         if (usage === "roleclaim") {
           if (fetchGuild.roleclaim_Msg) {
-            let msgID, tipMsgID, channelID, foundChannel, msg, tipMsg;
+            let msgId, tipMsgId, channelId, foundChannel, msg, tipMsg;
 
-            msgID = fetchGuild.roleclaim_Msg;
-            tipMsgID = fetchGuild.roleclaim_TipMsg;
-            channelID = fetchGuild.roleclaim_Cnl;
+            msgId = fetchGuild.roleclaim_Msg;
+            channelId = fetchGuild.roleclaim_Cnl;
+            tipMsgId = fetchGuild.roleclaim_TipMsg;
 
-            if (channelID && msgID && tipMsgID) {
+            if (channelId && msgId && tipMsgId) {
               try {
-                foundChannel = guild.channels.cache.get(channelID);
-                msg = await foundChannel.messages.fetch(msgID);
-                tipMsg = await foundChannel.messages.fetch(tipMsgID);
+                foundChannel = guild.channels.cache.get(channelId);
+                msg = await foundChannel.messages.fetch(msgId);
+                tipMsg = await foundChannel.messages.fetch(tipMsgId);
                 msg.delete();
                 tipMsg.delete();
               } catch (e) {

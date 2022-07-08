@@ -8,14 +8,109 @@ module.exports = class interactionCreateEvent extends Event {
   }
 
   async execute(interaction) {
-    let guildSettings = await this.client.getGuild(interaction.guild);
-    if (!guildSettings) {
-      await this.client.createGuild(interaction.guild);
-      guildSettings = await this.client.getGuild(interaction.guild);
+    const { guild, member } = interaction;
+
+    let fetchGuild = await this.client.getGuild(guild);
+
+    if (!fetchGuild) {
+      await this.client.createGuild(guild);
+      fetchGuild = await this.client.getGuild(guild);
       return interaction.reply({
         content: "`Server initialized ✅`\n> Please re-run the command.",
         ephemeral: true,
       });
+    }
+
+    if (interaction.isModalSubmit()) {
+      if (interaction.customId === "channel-JTC") {
+        //get input from modal
+        const channels =
+          interaction.fields.getTextInputValue("channel-JTC-input");
+
+        //split channel names
+        const result = channels.replace(/[\n\r]/g, "").split(",");
+
+        let list = "";
+        result.forEach((element) => {
+          list += "➜ " + element + "\n";
+        });
+
+        await this.client.updateGuild(guild, {
+          JTC_CnlNames: result,
+        });
+
+        await interaction.reply({
+          content: `✅ New JTC channel names:\n${list}`,
+          ephemeral: true,
+        });
+      }
+      if (interaction.customId === "edit-roleclaim") {
+        const msgId = fetchGuild.roleclaim_Msg;
+        const channelId = fetchGuild.roleclaim_Cnl;
+
+        let foundChannel, msg;
+
+        try {
+          foundChannel = guild.channels.cache.get(channelId);
+          msg = await foundChannel.messages.fetch(msgId);
+        } catch (e) {
+          return interaction.reply({
+            content:
+              "⛔ An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
+            ephemeral: true,
+          });
+        }
+
+        let rolesEmbed = this.client
+          .Embed(false)
+          .setTitle(msg.embeds[0].title)
+          .setDescription(msg.embeds[0].description)
+          .setFields(msg.embeds[0].fields)
+          .setFooter({ text: msg.embeds[0].footer.text })
+          .setColor(msg.embeds[0].color);
+
+        //get all fields
+        const title = interaction.fields.getTextInputValue(
+          "roleclaim-title-input"
+        );
+        const description = interaction.fields.getTextInputValue(
+          "roleclaim-description-input"
+        );
+        const footer = interaction.fields.getTextInputValue(
+          "roleclaim-footer-input"
+        );
+        const color = interaction.fields.getTextInputValue(
+          "roleclaim-color-input"
+        );
+
+        if (title) rolesEmbed.setTitle(title);
+        if (description) rolesEmbed.setDescription(description);
+        if (footer) rolesEmbed.setFooter({ text: footer });
+        if (color) {
+          try {
+            rolesEmbed.setColor(color);
+          } catch (e) {
+            return interaction.reply({
+              content: `🚫 Invalid color.\n\n> Please use a hexadecimal color code.\n\n> For example: \`#ff0000\``,
+              ephemeral: true,
+            });
+          }
+        }
+
+        if (!title && !description && !footer && !color)
+          return interaction.reply({
+            content: "🚫 No changes made.",
+            ephemeral: true,
+          });
+
+        await msg.edit({
+          embeds: [rolesEmbed],
+        });
+        await interaction.reply({
+          content: "✅ Roleclaim embed updated.",
+          ephemeral: true,
+        });
+      }
     }
   }
 };

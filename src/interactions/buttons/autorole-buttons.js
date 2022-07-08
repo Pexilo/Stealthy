@@ -1,4 +1,5 @@
 const { Button } = require("sheweny");
+const { Permissions } = require("discord.js");
 
 module.exports = class AutoRoleSetupButtons extends Button {
   constructor(client) {
@@ -7,12 +8,12 @@ module.exports = class AutoRoleSetupButtons extends Button {
 
   async execute(button) {
     if (!(await this.client.Defer(button))) return;
-    const { guild } = button;
+    const { guild, member } = button;
     const fetchGuild = await this.client.getGuild(guild);
 
     switch (button.customId) {
       case "reset-autorole":
-        if (!button.member.permissions.has("MANAGE_GUILD"))
+        if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
           return button.editReply(`🚫 You don't have permission to do that!`);
 
         if (!fetchGuild.autorole_Roles.length > 0)
@@ -29,7 +30,7 @@ module.exports = class AutoRoleSetupButtons extends Button {
 
         if (!autoroleArray.length > 0)
           return button.editReply(
-            `🚫 No autorole set.\n> Set one with \`/setup autorole add\``
+            `🚫 No autorole set.\n\n> Set one with \`/setup autorole add\``
           );
 
         return button.editReply({

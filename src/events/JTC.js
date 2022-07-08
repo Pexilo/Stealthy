@@ -77,6 +77,7 @@ module.exports = class JTCListener extends Event {
         })
         .then(async (channel) => {
           voiceChannel = channel;
+          voiceChannel.setVideoQualityMode(2); // 2 = Video Quality Mode: High => 720p
           JTCsTab.push(channel.id);
           setTimeout(
             () => member.voice.setChannel(channel).catch(() => {}),
@@ -91,7 +92,7 @@ module.exports = class JTCListener extends Event {
       });
 
       /* Cooldown system to avoid spam,
-       * Note: if the bot restart during this cooldown it could be a problem, need to be fixed
+       * TODO: if the bot restart during this cooldown it could be a problem, need to be fixed
        */
       await newChannel.permissionOverwrites.edit(member, { CONNECT: false });
       setTimeout(() => newChannel.permissionOverwrites.delete(member), 5000);
