@@ -1,7 +1,7 @@
 const { ShewenyClient } = require("sheweny");
 const { mongoose } = require("mongoose");
 require("dotenv").config();
-const { token, mongo_uri } = process.env;
+const { token, mongo_uri, bot_state } = process.env;
 
 const client = new ShewenyClient({
   intents: [
@@ -49,7 +49,7 @@ const client = new ShewenyClient({
       loadAll: true, // Load all buttons (default: true)
     },
   },
-  mode: "development", // development, production
+  mode: bot_state, // development, production
 });
 
 require("./util/functions")(client); // Load the functions file

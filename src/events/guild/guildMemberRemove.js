@@ -61,8 +61,6 @@ module.exports = class guildMemberRemoveTracker extends Event {
       logsChannel.send({ embeds: [embedInfo] });
     }
 
-    this.client.Wait(1000); // Fixes duplicate messages
-
     /*
      * Member count channel - Setup category - Refresh count when a member leaves
      */

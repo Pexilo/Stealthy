@@ -4,11 +4,11 @@
   "description": "",
   "main": "src/client.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon -x \"node src/client.js || touch src/client.js\"",
-    "pm2": "pm2 start src/ecosystem.json && pm2 log 0"
+    "dev": "pm2 start src/pm2.config.js --env development && pm2 log 0",
+    "prod": "pm2 start src/pm2.config.js --env production && pm2 log 0"
   },
-  "author": "",
+  "author": "Pexilo",
   "license": "ISC",
   "dependencies": {
     "dayjs": "^1.11.3",

@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { bot_state } = process.env;
 
 module.exports = class Ready extends Event {
   constructor(client) {
@@ -18,7 +19,7 @@ module.exports = class Ready extends Event {
     );
 
     console.log(
-      `${client.user.username}    ✅
+      `${client.user.username}    ✅ - ${this.client.Capitalize(bot_state)}
 ♦ Servers:  ${client.guilds.cache.size}
 ♦ Users:    ${usersCount}
 ♦ Channels: ${textChannels.size}`
