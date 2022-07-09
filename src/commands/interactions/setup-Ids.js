@@ -663,6 +663,12 @@ module.exports = class SetupBotCommand extends Command {
         let noParent = false;
 
         if (usage === "roleclaim") {
+          if (channel.type !== "GUILD_TEXT") {
+            return interaction.editReply(
+              `🚫 **${channel.toString()}** is not a text channel.`
+            );
+          }
+
           if (fetchGuild.roleclaim_Msg) {
             let msgId, tipMsgId, channelId, foundChannel, msg, tipMsg;
 
@@ -690,14 +696,12 @@ module.exports = class SetupBotCommand extends Command {
               embeds: [
                 this.client
                   .Embed()
-                  .setTitle(
-                    "Role Claim Title to change it use `/setup roleclaim change:title`"
-                  )
+                  .setTitle("Role Claim Title")
                   .setDescription(
-                    "Role Claim Description use `/setup roleclaim change:description`\n⬅️ You can also change the color with `/setup roleclaim change:color`"
+                    "Role Claim Description\n⬅️ You can also change the color"
                   )
                   .setFooter({
-                    text: "Role Claim Footer use /setup roleclaim change:footer",
+                    text: "Role Claim Footer",
                   }),
               ],
             })
@@ -713,13 +717,26 @@ module.exports = class SetupBotCommand extends Command {
                 );
               }
               channel
-                .send("> Add roles with `/setup roleclaim add`")
+                .send({
+                  content: "> Add roles with `/setup roleclaim add`",
+                })
                 .then((msg) => {
                   this.client.updateGuild(guild, { roleclaim_TipMsg: msg.id });
                 });
             });
 
           await this.client.Wait(1000);
+
+          return interaction.editReply({
+            content: `✅ Role Claim system created in ${channel.toString()}\n\n> Use the button below to edit the role claim message.`,
+            components: [
+              this.client.ButtonRow(
+                ["edit-roleclaim", "delete-roleclaim"],
+                ["✏️ Edit", "❌ Delete"],
+                ["SECONDARY", "SECONDARY"]
+              ),
+            ],
+          });
         }
         if (usage === "membercount") {
           if (fetchGuild.membercount_Cnl) {

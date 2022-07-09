@@ -131,8 +131,8 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
             components: [
               this.client.ButtonRow(
                 ["edit-roleclaim", "delete-roleclaim"],
-                ["Edit Embed", "Delete"],
-                ["SECONDARY", "DANGER"]
+                ["✏️ Edit message", "❌ Delete"],
+                ["SECONDARY", "SECONDARY"]
               ),
             ],
           });
@@ -142,9 +142,9 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           content: `Role Claim is a feature that lets server users pick a specific role by adding a reaction to a message.\nChoose the roles carefully, to maintain the security of your server.\n\n> Please use, \`/setup channels\` command to setup your role claim message in a different channel than ${selectMenu.channel.toString()}.`,
           components: [
             this.client.ButtonRow(
-              ["create-roleclaim", "delete-roleclaim"],
-              [`Create in ${selectMenu.channel.name}`, "Delete"],
-              ["SUCCESS", "DANGER"]
+              ["create-roleclaim"],
+              [`🗂️ Create in ${selectMenu.channel.name}`],
+              ["SUCCESS"]
             ),
           ],
         });
