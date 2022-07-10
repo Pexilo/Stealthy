@@ -14,6 +14,7 @@ module.exports = class guildMemberRemoveTracker extends Event {
      * Logs users who leave the server - Admin category
      */
     const fetchGuild = await this.client.getGuild(guild);
+    if (!fetchGuild) return;
 
     let logsChannel = null;
     try {
@@ -21,10 +22,6 @@ module.exports = class guildMemberRemoveTracker extends Event {
     } catch (e) {}
 
     if (logsChannel) {
-      const accountAge = this.client.Formatter(
-        member.joinedTimestamp,
-        Formatters.TimestampStyles.RelativeTime
-      );
       const searchRoles = member.roles.cache
         .filter((r) => r.id !== guild.id)
         .map((r) => r.toString())
@@ -51,10 +48,16 @@ module.exports = class guildMemberRemoveTracker extends Event {
         });
       }
 
-      if (accountAge) {
+      if (member.joinedTimestamp) {
         embedInfo.addFields({
           name: "📅 " + "Account Age" + ":",
-          value: accountAge,
+          value:
+            this.client.Formatter(member.joinedTimestamp) +
+            " - " +
+            this.client.Formatter(
+              member.joinedTimestamp,
+              Formatters.TimestampStyles.RelativeTime
+            ),
         });
       }
 

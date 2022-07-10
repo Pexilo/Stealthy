@@ -42,10 +42,13 @@ module.exports = class guildMemberAddTracker extends Event {
         .setDescription(member.toString())
         .addFields({
           name: "📅 " + "Account created" + ":",
-          value: this.client.Formatter(
-            member.user.createdTimestamp,
-            Formatters.TimestampStyles.RelativeTime
-          ),
+          value:
+            this.client.Formatter(member.user.createdTimestamp) +
+            " - " +
+            this.client.Formatter(
+              member.user.createdTimestamp,
+              Formatters.TimestampStyles.RelativeTime
+            ),
         })
         .setTimestamp()
         .setFooter({

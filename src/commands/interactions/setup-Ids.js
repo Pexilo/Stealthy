@@ -29,7 +29,7 @@ module.exports = class SetupBotCommand extends Command {
                   value: "jtc",
                 },
                 {
-                  name: "🧮 Role Claim channel - allow users to choose a role with a reaction",
+                  name: "🎈 Role Claim channel - allow users to choose a role with a reaction",
                   value: "roleclaim",
                 },
                 {
@@ -41,7 +41,7 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: "CHANNEL",
               name: "channel",
-              description: "💡 Define the channel",
+              description: "🚀 Choose a channel",
               required: true,
               channelTypes: ["GUILD_TEXT", "GUILD_CATEGORY"],
             },
@@ -50,7 +50,7 @@ module.exports = class SetupBotCommand extends Command {
         {
           type: "SUB_COMMAND",
           name: "blacklist",
-          description: "💡 Setup blacklist system",
+          description: "👮 Manage newcomers restrictions",
           options: [
             {
               type: "STRING",
@@ -59,11 +59,11 @@ module.exports = class SetupBotCommand extends Command {
               required: true,
               choices: [
                 {
-                  name: "⌚ Blacklist time - change how long the bot will blacklist a user",
+                  name: "⌚ Blacklist time - change how long the bot will block the newcomer",
                   value: "blacklist_time",
                 },
                 {
-                  name: "🎣 Minimum account age - change the minimum age required for an account to not be blacklisted ",
+                  name: "🎣 Minimum account age - change the minimum age a newcomer must have to be allowed to join",
                   value: "blacklist_minimum_age",
                 },
               ],
@@ -97,30 +97,31 @@ module.exports = class SetupBotCommand extends Command {
         {
           type: "SUB_COMMAND_GROUP",
           name: "roleclaim",
-          description: "💡 Setup role claim system",
+          description: "🎈 Setup Role Claim system",
           options: [
             {
               type: "SUB_COMMAND",
               name: "add",
-              description: "💡 Add a role to the roleclaim system",
+              description: "🎈 Add a role to the Role Claim system",
               options: [
                 {
                   type: "ROLE",
                   name: "role",
-                  description: "💡 Choose the role you want to add",
+                  description: "🧮 Choose the role you want to add",
                   required: true,
                 },
                 {
                   type: "STRING",
                   name: "emoji",
                   description:
-                    "💡 Choose the emoji you want to use for this role (you can use Win+V to paste an emoji)",
+                    "😄 Choose the emoji you want to use for this role",
                   required: true,
                 },
                 {
                   type: "STRING",
                   name: "description",
-                  description: "💡 Choose the description to use for this role",
+                  description:
+                    "✍️ Choose the description of this role (optional)",
                   required: false,
                 },
               ],
@@ -128,19 +129,18 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: "SUB_COMMAND",
               name: "remove",
-              description: "💡 Delete a role from the roleclaim system",
+              description: "🎈 Delete a role from the Role Claim system",
               options: [
                 {
                   type: "ROLE",
                   name: "role",
-                  description: "💡 Choose the role you want to delete",
+                  description: "🧮 Choose the role you want to delete",
                   required: false,
                 },
                 {
                   type: "STRING",
                   name: "emoji",
-                  description:
-                    "💡 Choose the emoji you want to delete with the associated role",
+                  description: "😄 Choose the emoji you want to delete",
                   required: false,
                 },
               ],
@@ -148,25 +148,26 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: "SUB_COMMAND",
               name: "embed",
-              description: "💡 Edit embed of roleclaim",
+              description: "🎈 Edit embed of Role Claim system",
             },
           ],
         },
         {
           type: "SUB_COMMAND_GROUP",
           name: "autorole",
-          description: "🪄 Assign a role to a user when they join the server",
+          description:
+            "🧮 Assign automatically roles to a newcomer when they join the server",
           options: [
             {
               type: "SUB_COMMAND",
               name: "add",
               description:
-                "🪄 Assign a role to a user when they join the server",
+                "🧮 Assign a new role to a newcomer when they join the server",
               options: [
                 {
                   type: "ROLE",
                   name: "role",
-                  description: "💡The role to assign to the user",
+                  description: "🧮 The role to assign to the newcomer",
                   required: true,
                 },
               ],
@@ -174,12 +175,12 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: "SUB_COMMAND",
               name: "remove",
-              description: "🪄 Remove a role from the list",
+              description: "🧮 Remove a role from the list of autoroles",
               options: [
                 {
                   type: "ROLE",
                   name: "role",
-                  description: "💡The role to assign to the user",
+                  description: "🧮 The role to remove from the list",
                   required: true,
                 },
               ],
@@ -188,7 +189,7 @@ module.exports = class SetupBotCommand extends Command {
               type: "SUB_COMMAND",
               name: "list",
               description:
-                "🪄 List all the roles that will be assigned to a new user",
+                "🧮 List all roles that will be assigned to a newcomer",
             },
           ],
         },

@@ -47,17 +47,19 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         selectMenu.editReply({
           content: `${
             logsChannel
-              ? "> **Logs** channel is setup in " + `<#${logsChannel}>` + ". \n"
+              ? "> **🚀 Logs** channel is setup in " +
+                `<#${logsChannel}>` +
+                ". \n"
               : ""
           } ${
             roleclaimChannel
-              ? "> **Role claim** channel is setup in " +
+              ? "> **🗂️ Role claim** channel is setup in " +
                 `<#${roleclaimChannel}>` +
                 ". \n"
               : ""
           } ${
             membercountChannel
-              ? "> **Member count** channel is setup in " +
+              ? "> **🧾 Member count** channel is setup in " +
                 `**${
                   membercountChannel.parent
                     ? `<#${membercountChannel.parentId}>`
@@ -67,7 +69,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
               : ""
           } ${
             JTCChannel
-              ? "> **Join to Create** channel is setup in " +
+              ? "> **🔊 Join to Create** channel is setup in " +
                 `**${
                   JTCChannel.parent ? `<#${JTCChannel.parentId}>` : "default"
                 }**` +
@@ -79,7 +81,6 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
       case "jtc_option":
         const findChannel = guild.channels.cache.get(fetchGuild.JTC_Cnl);
-        console.log("🚀 ~ findChannel", findChannel);
 
         selectMenu.editReply({
           content: `Use the buttons below to setup your JTC channel.${

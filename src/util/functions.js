@@ -37,13 +37,14 @@ module.exports = (client) => {
       return menuRow;
     }),
     /* This function is used to create buttons. */
-    (client.ButtonRow = (customId, label, style) => {
+    (client.ButtonRow = (customId, label, style, customEmoji = []) => {
       let buttonRow = new MessageActionRow();
       for (let i = 0; i < customId.length; i++) {
         let button = new MessageButton().setLabel(label[i]).setStyle(style[i]);
         style[i] === "LINK"
           ? button.setURL(customId[i])
           : button.setCustomId(customId[i]);
+        customEmoji[i] ? button.setEmoji(customEmoji[i]) : null;
         buttonRow.addComponents(button);
       }
       return buttonRow;
