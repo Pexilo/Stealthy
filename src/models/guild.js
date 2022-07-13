@@ -8,6 +8,7 @@ const guildSchema = new mongoose.Schema({
   logs_Cnl: { type: String, default: null },
   roleclaim_Cnl: { type: String, default: null },
   membercount_Cnl: { type: String, default: null },
+  membercount_Name: { type: String, default: "👥 Members" },
   JTC_Cnl: { type: String, default: null },
 
   roleclaim_Msg: { type: String, default: null },

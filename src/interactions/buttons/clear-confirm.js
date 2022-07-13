@@ -17,8 +17,7 @@ module.exports = class ClearConfirmButton extends Button {
         });
 
         return button.editReply({
-          ephemeral: true,
-          content: "⛑️ " + "All messages have been cleared" + `: \`${number}\``,
+          content: "⛑️ " + `\`${number}\`` + " messages have been cleared",
         });
     }
   }

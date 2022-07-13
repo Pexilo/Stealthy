@@ -765,7 +765,12 @@ module.exports = class SetupBotCommand extends Command {
               ],
             })
             .then(async (c) => {
-              this.client.UpdateMemberCount(guild, c.id);
+              this.client.UpdateMemberCount(
+                this.client,
+                guild,
+                c.id,
+                fetchGuild.membercount_Name
+              );
 
               await this.client.updateGuild(guild, {
                 membercount_Cnl: c.id,
@@ -778,6 +783,19 @@ module.exports = class SetupBotCommand extends Command {
                 }${"```"}\nPlease contact an administrator of the bot for further assistance.`
               );
             });
+
+          return interaction.editReply({
+            content: `🧾 Member count channel is now set up in ${
+              !noParent ? `<#${channel.id}>` : "default category"
+            }.`,
+            components: [
+              this.client.ButtonRow(
+                ["delete-membercount", "rename-membercount"],
+                ["❌ Delete", "✏️ Rename"],
+                ["SECONDARY", "SECONDARY"]
+              ),
+            ],
+          });
         }
 
         if (usage === "jtc") {

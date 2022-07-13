@@ -63,7 +63,7 @@ mongoose
     family: 4,
   })
   .then(() => console.log("MongoDB     ✅"))
-  .catch((err) => console.error(err));
+  .catch((err) => console.error("MongoDB     ❌\n", err.reason));
 
 client.login(token);
 

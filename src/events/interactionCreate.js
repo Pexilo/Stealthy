@@ -106,8 +106,48 @@ module.exports = class interactionCreateEvent extends Event {
         await msg.edit({
           embeds: [rolesEmbed],
         });
+
         await interaction.reply({
           content: "✅ Roleclaim embed updated.",
+          ephemeral: true,
+        });
+      }
+      if (interaction.customId === "channel-membercount") {
+        const name = interaction.fields.getTextInputValue(
+          "membercount-name-input"
+        );
+
+        if (!name) {
+          return interaction.reply({
+            content: "🚫 No changes made.",
+            ephemeral: true,
+          });
+        }
+
+        await this.client.updateGuild(guild, {
+          membercount_Name: name,
+        });
+
+        const memberCountChannel = guild.channels.cache.get(
+          fetchGuild.membercount_Cnl
+        );
+
+        if (!memberCountChannel) {
+          return interaction.reply({
+            content: "🚫 Unable to find the member count channel.",
+            ephemeral: true,
+          });
+        }
+
+        this.client.UpdateMemberCount(
+          this.client,
+          guild,
+          fetchGuild.membercount_Cnl,
+          name
+        );
+
+        await interaction.reply({
+          content: "✅ Member count channel updated.",
           ephemeral: true,
         });
       }
