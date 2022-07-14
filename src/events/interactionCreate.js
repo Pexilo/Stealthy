@@ -22,7 +22,7 @@ module.exports = class interactionCreateEvent extends Event {
     }
 
     if (interaction.isModalSubmit()) {
-      if (interaction.customId === "channel-JTC") {
+      if (interaction.customId === "channels-names-JTC") {
         //get input from modal
         const channels =
           interaction.fields.getTextInputValue("channel-JTC-input");

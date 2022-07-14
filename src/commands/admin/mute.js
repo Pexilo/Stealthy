@@ -89,7 +89,7 @@ module.exports = class MuteCommand extends Command {
           .Embed()
           .setAuthor({
             name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.avatarURL(),
+            iconURL: interaction.user.avatarURL({ dynamic: true }),
           })
           .setDescription(
             `${member.toString()} has been muted for \`${this.client.PrettyMs(

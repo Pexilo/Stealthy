@@ -38,7 +38,14 @@ module.exports = class AutoRoleSetupButtons extends Button {
             .map((r) => `<@&${r}>`)
             .join(", ")}`,
           components: [
-            this.client.ButtonRow(["reset-autorole"], ["Reset"], ["SECONDARY"]),
+            this.client.ButtonRow([
+              {
+                customId: "reset-autorole",
+                label: "Reset",
+                style: "SECONDARY",
+                emoji: "🗑",
+              },
+            ]),
           ],
         });
     }

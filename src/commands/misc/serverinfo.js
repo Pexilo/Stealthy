@@ -1,5 +1,4 @@
 const { Command } = require("sheweny");
-const { Formatters } = require("discord.js");
 
 module.exports = class ServerInfoCommand extends Command {
   constructor(client) {
@@ -13,14 +12,8 @@ module.exports = class ServerInfoCommand extends Command {
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
 
-    const guild = interaction.guild;
+    const { guild } = interaction;
     const owner = await guild.fetchOwner();
-
-    const creationTimestamp = this.client.Formatter(guild.createdAt);
-    const relativeCreationTimestamp = this.client.Formatter(
-      guild.createdAt,
-      Formatters.TimestampStyles.RelativeTime
-    );
 
     const filterLevels = {
       DISABLED: "Off",
@@ -53,7 +46,9 @@ module.exports = class ServerInfoCommand extends Command {
       .addFields(
         {
           name: "📅 " + "Creation date" + ":",
-          value: `${creationTimestamp} - ${relativeCreationTimestamp}`,
+          value: `${this.client.Formatter(
+            guild.createdAt
+          )} - ${this.client.Formatter(guild.createdAt, "relative")}`,
           inline: true,
         },
         {

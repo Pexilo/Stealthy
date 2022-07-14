@@ -37,16 +37,17 @@ module.exports = (client) => {
       return menuRow;
     }),
     /* This function is used to create buttons. */
-    (client.ButtonRow = (customId, label, style, customEmoji = []) => {
+    (client.ButtonRow = (buttons) => {
       let buttonRow = new MessageActionRow();
-      for (let i = 0; i < customId.length; i++) {
-        let button = new MessageButton().setLabel(label[i]).setStyle(style[i]);
-        style[i] === "LINK"
-          ? button.setURL(customId[i])
-          : button.setCustomId(customId[i]);
-        customEmoji[i] ? button.setEmoji(customEmoji[i]) : null;
+      buttons.forEach((btn) => {
+        let button = new MessageButton()
+          .setLabel(btn.label)
+          .setStyle(btn.style);
+        if (btn.emoji) button.setEmoji(btn.emoji);
+        if (btn.url) button.setURL(btn.url);
+        else button.setCustomId(btn.customId);
         buttonRow.addComponents(button);
-      }
+      });
       return buttonRow;
     }),
     /* This function is used to create modals. */
@@ -125,6 +126,8 @@ module.exports = (client) => {
       ms,
       option = Formatters.TimestampStyles.ShortDateTime
     ) => {
+      if (option === "relative")
+        option = Formatters.TimestampStyles.RelativeTime;
       return Formatters.time(dayjs(ms).unix(), option);
     }),
     /* This function is used to return a random element from an array. */
@@ -187,17 +190,10 @@ module.exports = (client) => {
     }),
     /* This function is used to update the name of the channel that is used to display the member count. */
     (client.UpdateMemberCount = (guild, channelId, channelName) => {
-      try {
-        guild.channels.cache
-          .get(channelId)
-          .setName(
-            `${channelName}: ${
-              guild.members.cache.filter((member) => !member.user.bot).size
-            }`
-          );
-      } catch (e) {
-        console.log(e);
-      }
+      guild.channels.cache
+        .get(channelId)
+        .setName(`${channelName}: ${guild.memberCount}`)
+        .catch(() => {});
     }),
     /* This function is used to get the guild data from the database. */
     (client.getGuild = async (guild) => {

@@ -1,5 +1,4 @@
 const { Event } = require("sheweny");
-const { Formatters } = require("discord.js");
 
 module.exports = class guildMemberAddTracker extends Event {
   constructor(client) {
@@ -24,11 +23,7 @@ module.exports = class guildMemberAddTracker extends Event {
       const blacklistMinAge = fetchGuild.blacklist_MinimumAge;
       const blacklistTime = fetchGuild.blacklist_Time;
 
-      if (
-        blacklistMinAge !== null &&
-        Date.now() - member.user.createdTimestamp < blacklistMinAge &&
-        !member.user.bot
-      )
+      if (Date.now() - member.user.createdTimestamp < blacklistMinAge)
         warn = true;
 
       const EmbedInfo = this.client
@@ -42,13 +37,12 @@ module.exports = class guildMemberAddTracker extends Event {
         .setDescription(member.toString())
         .addFields({
           name: "📅 " + "Account created" + ":",
-          value:
-            this.client.Formatter(member.user.createdTimestamp) +
-            " - " +
-            this.client.Formatter(
-              member.user.createdTimestamp,
-              Formatters.TimestampStyles.RelativeTime
-            ),
+          value: `${this.client.Formatter(
+            member.user.createdTimestamp
+          )} - ${this.client.Formatter(
+            member.user.createdTimestamp,
+            "relative"
+          )}`,
         })
         .setTimestamp()
         .setFooter({
@@ -58,6 +52,9 @@ module.exports = class guildMemberAddTracker extends Event {
       if (warn) {
         member.timeout(blacklistTime);
         EmbedInfo.setTitle("Account temporarilly blacklisted")
+          .setDescription(
+            member.toString() + "\nUse `/unmute` to remove the restriction"
+          )
           .setFields({
             name: "Reason" + ":",
             value:

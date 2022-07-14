@@ -82,6 +82,11 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
       case "jtc_option":
         const findChannel = guild.channels.cache.get(fetchGuild.JTC_Cnl);
 
+        //find first category of the server
+        const firstCategory = guild.channels.cache
+          .filter((c) => c.type == "GUILD_CATEGORY")
+          .first();
+
         selectMenu.editReply({
           content: `Use the buttons below to setup your JTC channel.${
             findChannel
@@ -91,11 +96,26 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
               : ""
           }`,
           components: [
-            this.client.ButtonRow(
-              ["create-JTC", "delete-JTC", "channel-JTC"],
-              ["Create", "Delete", "🔧 Setup channel names"],
-              ["SUCCESS", "DANGER", "SECONDARY"]
-            ),
+            this.client.ButtonRow([
+              {
+                customId: "create-JTC",
+                label: `Create in ${firstCategory.toString()}`,
+                style: "SUCCESS",
+                emoji: "🔉",
+              },
+              {
+                customId: "channels-names-JTC",
+                label: "Setup channel names",
+                style: "PRIMARY",
+                emoji: "🔧",
+              },
+              {
+                customId: "delete-JTC",
+                label: "Delete",
+                style: "SECONDARY",
+                emoji: "🗑",
+              },
+            ]),
           ],
         });
         break;
@@ -130,11 +150,20 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           return selectMenu.editReply({
             content: `Role Claim message is setup in **<#${channelId}>**.\n\n>To change the roles use, \`/setup roleclaim add/remove\` command.\n> You can edit the role claim message with the button bellow or with \`/setup roleclaim embed\``,
             components: [
-              this.client.ButtonRow(
-                ["edit-roleclaim", "delete-roleclaim"],
-                ["✏️ Edit message", "❌ Delete"],
-                ["SECONDARY", "SECONDARY"]
-              ),
+              this.client.ButtonRow([
+                {
+                  customId: "edit-roleclaim",
+                  label: "Edit",
+                  style: "PRIMARY",
+                  emoji: "✏️",
+                },
+                {
+                  customId: "delete-roleclaim",
+                  label: "Delete",
+                  style: "SECONDARY",
+                  emoji: "🗑",
+                },
+              ]),
             ],
           });
         }
@@ -142,11 +171,14 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         selectMenu.editReply({
           content: `Role Claim is a feature that lets server users pick a specific role by adding a reaction to a message.\nChoose the roles carefully, to maintain the security of your server.\n\n> Please use, \`/setup channels\` command to setup your role claim message in a different channel than ${selectMenu.channel.toString()}.`,
           components: [
-            this.client.ButtonRow(
-              ["create-roleclaim"],
-              [`🗂️ Create in ${selectMenu.channel.name}`],
-              ["SUCCESS"]
-            ),
+            this.client.ButtonRow([
+              {
+                customId: "create-roleclaim",
+                label: `Create in ${selectMenu.channel.name}`,
+                style: "SUCCESS",
+                emoji: "🗂️",
+              },
+            ]),
           ],
         });
         break;

@@ -92,7 +92,14 @@ module.exports = class HelpCommand extends Command {
       return interaction.editReply({
         embeds: [embedInfo],
         components: [
-          this.client.ButtonRow(["setup-menu"], ["🔧 Setup"], ["SECONDARY"]),
+          this.client.ButtonRow([
+            {
+              customId: "setup-menu",
+              label: "Setup",
+              style: "SECONDARY",
+              emoji: "🔧",
+            },
+          ]),
         ],
       });
     }

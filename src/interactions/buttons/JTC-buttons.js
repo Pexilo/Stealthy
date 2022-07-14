@@ -111,11 +111,11 @@ module.exports = class JTCSetupButtons extends Button {
           }** category\n\n> Note that you can create only one "Join to create" channel per server.`,
         });
 
-      case "channel-JTC":
+      case "channels-names-JTC":
         const channelNames = fetchGuild.JTC_CnlNames;
         //prepare the modal, intercepted in interactionCreate class (temp)
         await button.showModal(
-          this.client.ModalRow("channel-JTC", "JTC channel names", [
+          this.client.ModalRow("channels-names-JTC", "JTC channel names", [
             {
               customId: "channel-JTC-input",
               label: "Names (must be separated by a comma)",

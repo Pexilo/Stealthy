@@ -45,12 +45,14 @@ module.exports = class BotInfoCommand extends Command {
           ),
       ],
       components: [
-        this.client.ButtonRow(
-          ["https://github.com/Pexilo/Stealthy"],
-          ["GitHub"],
-          ["LINK"],
-          ["<:Github:995795578510385322>"]
-        ),
+        this.client.ButtonRow([
+          {
+            url: "https://github.com/Pexilo/Stealthy",
+            label: "GitHub",
+            style: "LINK",
+            emoji: "<:Github:995795578510385322>",
+          },
+        ]),
       ],
     });
   }

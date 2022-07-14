@@ -12,8 +12,16 @@ const client = new ShewenyClient({
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Intents.FLAGS.GUILD_MEMBERS,
     Intents.FLAGS.GUILD_VOICE_STATES,
+    Intents.FLAGS.GUILD_PRESENCES,
   ],
-  partials: ["CHANNEL", "MESSAGE", "REACTION", "USER", "GUILD_MEMBER"],
+  partials: [
+    "CHANNEL",
+    "MESSAGE",
+    "REACTION",
+    "USER",
+    "GUILD_MEMBER",
+    "GUILD_PRESENCE",
+  ],
   admins: ["224537059308732416"],
   presence: {
     status: "online",

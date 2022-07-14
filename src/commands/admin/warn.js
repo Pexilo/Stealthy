@@ -64,12 +64,10 @@ module.exports = class WarnCommand extends Command {
           .Embed()
           .setAuthor({
             name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.avatarURL(),
+            iconURL: interaction.user.avatarURL({ dynamic: true }),
           })
           .setDescription(
-            `${member.toString()} has been warn.\n\nUse, \`/list-warns user:@${
-              member.user.tag
-            }\` to see all warns.`
+            `${member.toString()} has been warn.\n\nUse, \`/warns-list\` to see all warns.`
           )
           .setFields({
             name: `Reason` + ":",

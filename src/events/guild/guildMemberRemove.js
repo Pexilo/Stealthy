@@ -1,5 +1,4 @@
 const { Event } = require("sheweny");
-const { Formatters } = require("discord.js");
 
 module.exports = class guildMemberRemoveTracker extends Event {
   constructor(client) {
@@ -51,13 +50,9 @@ module.exports = class guildMemberRemoveTracker extends Event {
       if (member.joinedTimestamp) {
         embedInfo.addFields({
           name: "📅 " + "Account Age" + ":",
-          value:
-            this.client.Formatter(member.joinedTimestamp) +
-            " - " +
-            this.client.Formatter(
-              member.joinedTimestamp,
-              Formatters.TimestampStyles.RelativeTime
-            ),
+          value: `${this.client.Formatter(
+            member.joinedTimestamp
+          )} - ${this.client.Formatter(member.joinedTimestamp, "relative")}`,
         });
       }
 

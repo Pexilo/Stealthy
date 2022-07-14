@@ -12,6 +12,11 @@ module.exports = class SetupBotCommand extends Command {
       options: [
         {
           type: "SUB_COMMAND",
+          name: "menu",
+          description: "🔧 View the setup menu of Stealthy",
+        },
+        {
+          type: "SUB_COMMAND",
           name: "channels",
           description: "💡 Setup your channels",
           options: [
@@ -202,6 +207,24 @@ module.exports = class SetupBotCommand extends Command {
     const { guild, options } = interaction;
 
     const fetchGuild = await this.client.getGuild(guild);
+
+    if (options._subcommand === "menu") {
+      if (!(await this.client.Defer(interaction))) return;
+
+      return interaction.editReply({
+        content: "`🐲 Click the button below`",
+        components: [
+          this.client.ButtonRow([
+            {
+              customId: "setup-menu",
+              label: "Setup",
+              style: "SECONDARY",
+              emoji: "🔧",
+            },
+          ]),
+        ],
+      });
+    }
 
     switch (options._group) {
       case "roleclaim":
@@ -444,14 +467,8 @@ module.exports = class SetupBotCommand extends Command {
 
               await this.client.updateGuild(guild, {
                 roleclaim_Fields: [],
-              });
-              await this.client.updateGuild(guild, {
                 roleclaim_Cnl: null,
-              });
-              await this.client.updateGuild(guild, {
                 roleclaim_Msg: null,
-              });
-              await this.client.updateGuild(guild, {
                 roleclaim_TipMsg: null,
               });
 
@@ -557,6 +574,7 @@ module.exports = class SetupBotCommand extends Command {
         if (!(await this.client.Defer(interaction))) return;
         const roleAR = options.getRole("role");
         const autoroleArray = fetchGuild.autorole_Roles;
+        const moreThanOneRole = autoroleArray.length > 1;
 
         switch (options._subcommand) {
           case "add":
@@ -595,11 +613,20 @@ module.exports = class SetupBotCommand extends Command {
             return interaction.editReply({
               content: `✅ Added autorole ${roleAR.toString()}.`,
               components: [
-                this.client.ButtonRow(
-                  ["list-autorole", "reset-autorole"],
-                  ["List", "Reset"],
-                  ["PRIMARY", "SECONDARY"]
-                ),
+                this.client.ButtonRow([
+                  {
+                    customId: "list-autorole",
+                    label: "List",
+                    style: "PRIMARY",
+                    emoji: "📋",
+                  },
+                  {
+                    customId: "reset-autorole",
+                    label: "Reset",
+                    style: "SECONDARY",
+                    emoji: "🗑",
+                  },
+                ]),
               ],
             });
 
@@ -613,7 +640,7 @@ module.exports = class SetupBotCommand extends Command {
               return interaction.editReply(
                 `🚫 ${roleAR.toString()} is not in the list.${
                   moreThanOneRole
-                    ? `\n\n> Roles: ${autoroleArray
+                    ? `\n\n> Role(s): ${autoroleArray
                         .map((r) => `<@&${r}>`)
                         .join(", ")}`
                     : ""
@@ -629,7 +656,7 @@ module.exports = class SetupBotCommand extends Command {
             return interaction.editReply(
               `❎ Removed autorole ${roleAR.toString()}.${
                 moreThanOneRole
-                  ? `\n\n> Roles: ${autoroleArray
+                  ? `\n\n> Role(s): ${autoroleArray
                       .map((r) => `<@&${r}>`)
                       .join(", ")}`
                   : ""
@@ -647,11 +674,14 @@ module.exports = class SetupBotCommand extends Command {
                 .map((r) => `<@&${r}>`)
                 .join(", ")}`,
               components: [
-                this.client.ButtonRow(
-                  ["reset-autorole"],
-                  ["Reset"],
-                  ["SECONDARY"]
-                ),
+                this.client.ButtonRow([
+                  {
+                    customId: "reset-autorole",
+                    label: "Reset",
+                    style: "SECONDARY",
+                    emoji: "🗑",
+                  },
+                ]),
               ],
             });
         }
@@ -732,11 +762,20 @@ module.exports = class SetupBotCommand extends Command {
           return interaction.editReply({
             content: `✅ Role Claim system created in ${channel.toString()}\n\n> Use the button below to edit the role claim message.`,
             components: [
-              this.client.ButtonRow(
-                ["edit-roleclaim", "delete-roleclaim"],
-                ["✏️ Edit", "❌ Delete"],
-                ["SECONDARY", "SECONDARY"]
-              ),
+              this.client.ButtonRow([
+                {
+                  customId: "edit-roleclaim",
+                  label: "Edit",
+                  style: "PRIMARY",
+                  emoji: "✏️",
+                },
+                {
+                  customId: "delete-roleclaim",
+                  label: "Delete",
+                  style: "SECONDARY",
+                  emoji: "🗑",
+                },
+              ]),
             ],
           });
         }
@@ -759,9 +798,13 @@ module.exports = class SetupBotCommand extends Command {
               parent: parentFound,
               permissionOverwrites: [
                 {
+                  id: this.client.application.id,
+                  allow: [Permissions.FLAGS.CONNECT],
+                },
+                {
                   id: guild.id,
                   allow: [Permissions.FLAGS.VIEW_CHANNEL],
-                  deny: [Permissions.FLAGS.CONNECT], // le bot doit avoir la permission admin
+                  deny: [Permissions.FLAGS.CONNECT],
                 },
               ],
             })
@@ -789,11 +832,20 @@ module.exports = class SetupBotCommand extends Command {
               !noParent ? `<#${channel.id}>` : "default category"
             }.`,
             components: [
-              this.client.ButtonRow(
-                ["delete-membercount", "rename-membercount"],
-                ["❌ Delete", "✏️ Rename"],
-                ["SECONDARY", "SECONDARY"]
-              ),
+              this.client.ButtonRow([
+                {
+                  customId: "rename-membercount",
+                  label: "Rename",
+                  style: "PRIMARY",
+                  emoji: "✏️",
+                },
+                {
+                  customId: "delete-membercount",
+                  label: "Delete",
+                  style: "SECONDARY",
+                  emoji: "🗑",
+                },
+              ]),
             ],
           });
         }
@@ -857,16 +909,21 @@ module.exports = class SetupBotCommand extends Command {
         if (usage === "jtc") {
           interaction.editReply({
             components: [
-              this.client.ButtonRow(
-                ["setup-menu"],
-                ["🔧 Setup"],
-                ["SECONDARY"]
-              ),
+              this.client.ButtonRow([
+                {
+                  customId: "setup-menu",
+                  label: "Setup",
+                  style: "SECONDARY",
+                  emoji: "🔧",
+                },
+              ]),
             ],
           });
         }
         break;
       case "blacklist":
+        if (!(await this.client.Defer(interaction))) return;
+
         const choice = options.getString("choice");
         const format = options.getString("format");
         let time = options.getInteger("time");

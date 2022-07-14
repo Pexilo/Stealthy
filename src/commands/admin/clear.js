@@ -38,7 +38,14 @@ module.exports = class ClearCommand extends Command {
         " " +
         interaction.channel.toString(),
       components: [
-        this.client.ButtonRow(["confirm-clear"], ["Yes"], ["SECONDARY"]),
+        this.client.ButtonRow([
+          {
+            customId: "confirm-clear",
+            label: "",
+            style: "SUCCESS",
+            emoji: "✅",
+          },
+        ]),
       ],
     });
   }

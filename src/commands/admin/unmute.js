@@ -60,7 +60,7 @@ module.exports = class UnMuteCommand extends Command {
           .Embed()
           .setAuthor({
             name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.avatarURL(),
+            iconURL: interaction.user.avatarURL({ dynamic: true }),
           })
           .setDescription(`${member.toString()} has been unmuted.`)
           .setFields({
