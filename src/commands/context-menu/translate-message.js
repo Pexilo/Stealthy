@@ -18,7 +18,7 @@ module.exports = class TranslateMessageContextMenuCommand extends Command {
 
     const message = options.getMessage("message");
     const fetchGuild = await this.client.getGuild(guild);
-    const lang = fetchGuild.default_Lang;
+    const lang = fetchGuild.language;
 
     if (!message.content.length > 0)
       return interaction.editReply({

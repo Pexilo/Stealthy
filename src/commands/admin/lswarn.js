@@ -28,7 +28,9 @@ module.exports = class LsWarnCommand extends Command {
     if (!member) return interaction.editReply(`🚫 I can't find that user.`);
 
     const fetchGuild = await this.client.getGuild(guild);
-    const filteredUser = fetchGuild.users.filter((u) => u.id === member.id);
+    const filteredUser = fetchGuild.logs.users.filter(
+      (u) => u.id === member.id
+    );
     if (filteredUser.length === 0)
       return interaction.editReply(`🚫 This user has no warns.`);
 

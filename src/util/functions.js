@@ -223,11 +223,22 @@ module.exports = (client) => {
     (client.updateGuild = async (guild, settings) => {
       let guildData = await client.getGuild(guild);
       if (typeof guildData != "object") guildData = {};
+      // if the key is an object
       for (const key in settings) {
-        if (guildData[key] != settings[key]) {
-          guildData[key] = settings[key];
+        if (key.includes(".") && key.split(".").length === 2) {
+          if (
+            guildData[key.split(".")[0]][key.split(".")[1]] != settings[key]
+          ) {
+            guildData[key.split(".")[0]][key.split(".")[1]] = settings[key];
+          }
         }
-        return guildData.updateOne(settings);
+        // if the key is a string, number or boolean
+        else {
+          if (guildData[key] != settings[key]) {
+            guildData[key] = settings[key];
+          }
+        }
       }
+      return guildData.updateOne(settings);
     });
 };

@@ -18,7 +18,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           "Which language do you want to use?"
         );
 
-        const defaultLanguage = fetchGuild.default_Lang;
+        const defaultLanguage = fetchGuild.language;
         for (const [key, value] of Object.entries(languageFlags)) {
           languageRow.components[0].addOptions({
             label: key,
@@ -37,12 +37,14 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         break;
       case "channel_option":
         //can't change right here channels Id's, notify user to do it manually with /setup channels
-        const logsChannel = fetchGuild.logs_Cnl;
-        const roleclaimChannel = fetchGuild.roleclaim_Cnl;
+        const logsChannel = fetchGuild.logs.channel;
+        const roleclaimChannel = fetchGuild.roleClaim.channel;
         const membercountChannel = guild.channels.cache.get(
-          fetchGuild.membercount_Cnl
+          fetchGuild.memberCount.channel
         );
-        const JTCChannel = guild.channels.cache.get(fetchGuild.JTC_Cnl);
+        const JTCChannel = guild.channels.cache.get(
+          fetchGuild.joinToCreate.channel
+        );
 
         selectMenu.editReply({
           content: `${
@@ -80,40 +82,49 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         break;
 
       case "jtc_option":
-        const findChannel = guild.channels.cache.get(fetchGuild.JTC_Cnl);
+        const findChannel = guild.channels.cache.get(
+          fetchGuild.joinToCreate.channel
+        );
 
         //find first category of the server
         const firstCategory = guild.channels.cache
           .filter((c) => c.type == "GUILD_CATEGORY")
           .first();
 
-        selectMenu.editReply({
-          content: `Use the buttons below to setup your JTC channel.${
-            findChannel
-              ? `\n\n> JTC channel ${findChannel.toString()} is already setup in **${
-                  findChannel.parent ? findChannel.parent.toString() : "default"
-                }** category.`
-              : ""
-          }`,
+        if (findChannel) {
+          return selectMenu.editReply({
+            content: `Use the buttons below to setup your JTC channel.\n\n> JTC channel ${findChannel.toString()} is already setup in **${
+              findChannel.parent ? findChannel.parent.toString() : "default"
+            }** category.`,
+            components: [
+              this.client.ButtonRow([
+                {
+                  customId: "channels-names-JTC",
+                  label: "Setup channel names",
+                  style: "PRIMARY",
+                  emoji: "🔧",
+                },
+                {
+                  customId: "delete-JTC",
+                  label: "Delete",
+                  style: "SECONDARY",
+                  emoji: "🗑",
+                },
+              ]),
+            ],
+          });
+        }
+
+        return selectMenu.editReply({
+          content:
+            "Use the button below to setup your JTC channel.\n\n> You can also use `/setup channels` to choose a specific category.",
           components: [
             this.client.ButtonRow([
               {
                 customId: "create-JTC",
-                label: `Create in ${firstCategory.toString()}`,
+                label: `Create in ${firstCategory.name}`,
                 style: "SUCCESS",
                 emoji: "🔉",
-              },
-              {
-                customId: "channels-names-JTC",
-                label: "Setup channel names",
-                style: "PRIMARY",
-                emoji: "🔧",
-              },
-              {
-                customId: "delete-JTC",
-                label: "Delete",
-                style: "SECONDARY",
-                emoji: "🗑",
               },
             ]),
           ],
@@ -121,8 +132,8 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         break;
 
       case "blacklist_option":
-        const blacklistTime = fetchGuild.blacklist_Time;
-        const blacklistMinAge = fetchGuild.blacklist_MinimumAge;
+        const blacklistTime = fetchGuild.blackList.time;
+        const blacklistMinAge = fetchGuild.blackList.minAge;
 
         selectMenu.editReply({
           content: `> Blacklist length: \`${this.client.PrettyMs(
@@ -143,8 +154,8 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         break;
 
       case "roleclaim_option":
-        const msgId = fetchGuild.roleclaim_Msg;
-        const channelId = fetchGuild.roleclaim_Cnl;
+        const msgId = fetchGuild.roleClaim.message;
+        const channelId = fetchGuild.roleClaim.channel;
 
         if (msgId && channelId) {
           return selectMenu.editReply({

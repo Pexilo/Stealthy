@@ -36,7 +36,7 @@ module.exports = class UnBanCommand extends Command {
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     if (!logsChannel)
       return interaction.editReply(
         `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`

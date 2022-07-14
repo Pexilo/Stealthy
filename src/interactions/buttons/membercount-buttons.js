@@ -11,12 +11,12 @@ module.exports = class memberCountButtons extends Button {
     const fetchGuild = await this.client.getGuild(guild);
 
     const memberCountChannel = guild.channels.cache.get(
-      fetchGuild.membercount_Cnl
+      fetchGuild.memberCount.channel
     );
 
     if (!memberCountChannel) {
       this.client.updateGuild(guild, {
-        membercount_Cnl: null,
+        "memberCount.channel": null,
       });
 
       return button.reply({
@@ -38,8 +38,8 @@ module.exports = class memberCountButtons extends Button {
         });
 
         await this.client.updateGuild(guild, {
-          membercount_Cnl: null,
-          membercount_Name: "👥 Members",
+          "memberCount.channel": null,
+          "memberCount.name": "👥 Members",
         });
 
         return button.editReply({

@@ -15,9 +15,19 @@ module.exports = class interactionCreateEvent extends Event {
     if (!fetchGuild) {
       await this.client.createGuild(guild);
       fetchGuild = await this.client.getGuild(guild);
-      return interaction.reply({
-        content: "`Server initialized ✅`\n> Please re-run the command.",
-        ephemeral: true,
+      return this.client.channels.cache.get(guild.systemChannelId).send({
+        content:
+          "⚠️ Database has been reset, all data of this server has been lost.\nSorry for the inconvenience.\n\n`Server initialized ✅`",
+        components: [
+          this.client.ButtonRow([
+            {
+              customId: "setup-menu",
+              label: "Setup",
+              style: "SECONDARY",
+              emoji: "🔧",
+            },
+          ]),
+        ],
       });
     }
 
@@ -36,7 +46,7 @@ module.exports = class interactionCreateEvent extends Event {
         });
 
         await this.client.updateGuild(guild, {
-          JTC_CnlNames: result,
+          "joinToCreate.names": result,
         });
 
         await interaction.reply({
@@ -45,8 +55,8 @@ module.exports = class interactionCreateEvent extends Event {
         });
       }
       if (interaction.customId === "edit-roleclaim") {
-        const msgId = fetchGuild.roleclaim_Msg;
-        const channelId = fetchGuild.roleclaim_Cnl;
+        const msgId = fetchGuild.roleClaim.message;
+        const channelId = fetchGuild.roleClaim.channel;
 
         let foundChannel, msg;
 
@@ -125,11 +135,11 @@ module.exports = class interactionCreateEvent extends Event {
         }
 
         await this.client.updateGuild(guild, {
-          membercount_Name: name,
+          "memberCount.name": name,
         });
 
         const memberCountChannel = guild.channels.cache.get(
-          fetchGuild.membercount_Cnl
+          fetchGuild.memberCount.channel
         );
 
         if (!memberCountChannel) {
@@ -139,7 +149,11 @@ module.exports = class interactionCreateEvent extends Event {
           });
         }
 
-        this.client.UpdateMemberCount(guild, fetchGuild.membercount_Cnl, name);
+        this.client.UpdateMemberCount(
+          guild,
+          fetchGuild.memberCount.channel,
+          name
+        );
 
         await interaction.reply({
           content: "✅ Member count channel updated.",

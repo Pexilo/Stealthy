@@ -16,12 +16,12 @@ module.exports = class guildMemberAddTracker extends Event {
     let autoRoleSystem = true;
 
     const fetchGuild = await this.client.getGuild(guild);
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
 
     if (logsChannel) {
       let warn = false;
-      const blacklistMinAge = fetchGuild.blacklist_MinimumAge;
-      const blacklistTime = fetchGuild.blacklist_Time;
+      const blacklistMinAge = fetchGuild.blackList.minAge;
+      const blacklistTime = fetchGuild.blackList.time;
 
       if (Date.now() - member.user.createdTimestamp < blacklistMinAge)
         warn = true;
@@ -76,7 +76,7 @@ module.exports = class guildMemberAddTracker extends Event {
      * Give roles to new users - Setup category - Auto role system
      */
 
-    const autoRoles = fetchGuild.autorole_Roles;
+    const autoRoles = fetchGuild.autoRole.roles;
     if (!autoRoles.length > 0) autoRoleSystem = false;
 
     if (autoRoleSystem) {
@@ -93,11 +93,11 @@ module.exports = class guildMemberAddTracker extends Event {
      * Member count channel - Setup category - Refresh count when a member joins
      */
 
-    if (fetchGuild.membercount_Cnl) {
+    if (fetchGuild.memberCount.channel) {
       this.client.UpdateMemberCount(
         guild,
-        fetchGuild.membercount_Cnl,
-        fetchGuild.membercount_Name
+        fetchGuild.memberCount.channel,
+        fetchGuild.memberCount.name
       );
     }
   }

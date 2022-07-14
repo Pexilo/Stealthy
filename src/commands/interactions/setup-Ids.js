@@ -257,9 +257,9 @@ module.exports = class SetupBotCommand extends Command {
           fieldValue,
           rolesEmbed;
 
-        msgId = fetchGuild.roleclaim_Msg;
-        tipMsgId = fetchGuild.roleclaim_TipMsg;
-        channelId = fetchGuild.roleclaim_Cnl;
+        msgId = fetchGuild.roleClaim.message;
+        tipMsgId = fetchGuild.roleClaim.tipMessage;
+        channelId = fetchGuild.roleClaim.channel;
         if (!channelId || !msgId) {
           return interaction.reply({
             ephemeral: true,
@@ -390,7 +390,7 @@ module.exports = class SetupBotCommand extends Command {
               );
             }
 
-            const fieldsArray = fetchGuild.roleclaim_Fields;
+            const fieldsArray = fetchGuild.roleClaim.fields;
 
             const emojiAlreadyExist = fieldsArray.filter(
               (f) => emojiName === f.emojiName
@@ -429,7 +429,7 @@ module.exports = class SetupBotCommand extends Command {
             fieldsArray.push(field);
 
             await this.client.updateGuild(guild, {
-              roleclaim_Fields: fieldsArray,
+              "roleClaim.fields": fieldsArray,
             });
 
             rolesEmbed.addField(
@@ -466,10 +466,10 @@ module.exports = class SetupBotCommand extends Command {
               tipMsg.delete().catch(() => {});
 
               await this.client.updateGuild(guild, {
-                roleclaim_Fields: [],
-                roleclaim_Cnl: null,
-                roleclaim_Msg: null,
-                roleclaim_TipMsg: null,
+                "roleClaim.fields": [],
+                "roleClaim.channel": null,
+                "roleClaim.message": null,
+                "roleClaim.tipMessage": null,
               });
 
               return interaction.editReply(
@@ -494,13 +494,13 @@ module.exports = class SetupBotCommand extends Command {
               }
 
               const emojiAlreadyExist = emoji
-                ? fetchGuild.roleclaim_Fields.filter(
+                ? fetchGuild.roleClaim.fields.filter(
                     (f) => emojiName === f.emojiName
                   )
                 : null;
 
               const roleAlreadyExist = roleRC
-                ? fetchGuild.roleclaim_Fields.filter(
+                ? fetchGuild.roleClaim.fields.filter(
                     (f) => roleRC.id === f.roleId
                   )
                 : null;
@@ -529,16 +529,16 @@ module.exports = class SetupBotCommand extends Command {
                   : (customEmoji = fieldValue.split(":")[2].slice(0, -1));
 
                 rolesEmbed.fields.splice(i, 1);
-                const filteredField = fetchGuild.roleclaim_Fields
+                const filteredField = fetchGuild.roleClaim.fields
                   .map((u) => u.roleId)
                   .indexOf(
                     roleAlreadyExist
                       ? roleAlreadyExist[0].roleId
                       : roldDB[0].roleId
                   );
-                fetchGuild.roleclaim_Fields.splice(filteredField, 1);
+                fetchGuild.roleClaim.fields.splice(filteredField, 1);
                 await this.client.updateGuild(guild, {
-                  roleclaim_Fields: fetchGuild.roleclaim_Fields,
+                  "roleClaim.fields": fetchGuild.roleClaim.fields,
                 });
 
                 await msg.reactions
@@ -573,7 +573,7 @@ module.exports = class SetupBotCommand extends Command {
       case "autorole":
         if (!(await this.client.Defer(interaction))) return;
         const roleAR = options.getRole("role");
-        const autoroleArray = fetchGuild.autorole_Roles;
+        const autoroleArray = fetchGuild.autoRole.roles;
         const moreThanOneRole = autoroleArray.length > 1;
 
         switch (options._subcommand) {
@@ -607,7 +607,7 @@ module.exports = class SetupBotCommand extends Command {
 
             autoroleArray.push(roleAR.id);
             await this.client.updateGuild(guild, {
-              autorole_Roles: autoroleArray,
+              "autorole.roles": autoroleArray,
             });
 
             return interaction.editReply({
@@ -650,7 +650,7 @@ module.exports = class SetupBotCommand extends Command {
             const filteredRole = autoroleArray.indexOf(roleAR.id);
             autoroleArray.splice(filteredRole, 1);
             await this.client.updateGuild(guild, {
-              autorole_Roles: autoroleArray,
+              "autoRole.roles": autoroleArray,
             });
 
             return interaction.editReply(
@@ -670,7 +670,7 @@ module.exports = class SetupBotCommand extends Command {
               );
 
             return interaction.editReply({
-              content: `✅ Roles that will be given to new users: ${autoroleArray
+              content: `✅ Roles that will be given to new "logs.users": ${autoroleArray
                 .map((r) => `<@&${r}>`)
                 .join(", ")}`,
               components: [
@@ -701,12 +701,12 @@ module.exports = class SetupBotCommand extends Command {
             );
           }
 
-          if (fetchGuild.roleclaim_Msg) {
+          if (fetchGuild.roleClaim.message) {
             let msgId, tipMsgId, channelId, foundChannel, msg, tipMsg;
 
-            msgId = fetchGuild.roleclaim_Msg;
-            channelId = fetchGuild.roleclaim_Cnl;
-            tipMsgId = fetchGuild.roleclaim_TipMsg;
+            msgId = fetchGuild.roleClaim.message;
+            channelId = fetchGuild.roleClaim.channel;
+            tipMsgId = fetchGuild.roleClaim.tipMessage;
 
             if (channelId && msgId && tipMsgId) {
               try {
@@ -739,8 +739,10 @@ module.exports = class SetupBotCommand extends Command {
             })
             .then((msg) => {
               try {
-                this.client.updateGuild(guild, { roleclaim_Msg: msg.id });
-                this.client.updateGuild(guild, { roleclaim_Cnl: channel.id });
+                this.client.updateGuild(guild, { "roleClaim.message": msg.id });
+                this.client.updateGuild(guild, {
+                  "roleClaim.channel": channel.id,
+                });
               } catch (e) {
                 return interaction.editReply(
                   `⛔ An error occured: ${"```"}${
@@ -753,7 +755,9 @@ module.exports = class SetupBotCommand extends Command {
                   content: "> Add roles with `/setup roleclaim add`",
                 })
                 .then((msg) => {
-                  this.client.updateGuild(guild, { roleclaim_TipMsg: msg.id });
+                  this.client.updateGuild(guild, {
+                    "roleClaim.tipMessage": msg.id,
+                  });
                 });
             });
 
@@ -780,13 +784,13 @@ module.exports = class SetupBotCommand extends Command {
           });
         }
         if (usage === "membercount") {
-          if (fetchGuild.membercount_Cnl) {
+          if (fetchGuild.memberCount.channel) {
             let channelFound = await guild.channels.cache.get(
-              fetchGuild.membercount_Cnl
+              fetchGuild.memberCount.channel
             );
             if (channelFound) channelFound.delete().catch(() => {});
             await this.client.updateGuild(guild, {
-              membercount_Cnl: null,
+              "memberCount.channel": null,
             });
           }
 
@@ -812,11 +816,11 @@ module.exports = class SetupBotCommand extends Command {
               this.client.UpdateMemberCount(
                 guild,
                 c.id,
-                fetchGuild.membercount_Name
+                fetchGuild.memberCount.name
               );
 
               await this.client.updateGuild(guild, {
-                membercount_Cnl: c.id,
+                "memberCount.channel": c.id,
               });
             })
             .catch((e) => {
@@ -851,14 +855,14 @@ module.exports = class SetupBotCommand extends Command {
         }
 
         if (usage === "jtc") {
-          if (fetchGuild.JTC_Cnl) {
+          if (fetchGuild.joinToCreate.channel) {
             let channelFound = await guild.channels.cache.get(
-              fetchGuild.JTC_Cnl
+              fetchGuild.joinToCreate.channel
             );
 
             if (channelFound) channelFound.delete().catch(() => {});
             await this.client.updateGuild(guild, {
-              JTC_Cnl: null,
+              "joinToCreate.channel": null,
             });
           }
 
@@ -872,7 +876,7 @@ module.exports = class SetupBotCommand extends Command {
             .then(async (c) => {
               async (c) => await c.lockPermissions();
               await this.client.updateGuild(guild, {
-                JTC_Cnl: c.id,
+                "joinToCreate.channel": c.id,
               });
             })
             .catch((e) => {
@@ -889,7 +893,7 @@ module.exports = class SetupBotCommand extends Command {
             return interaction.editReply(
               `🚫 You can't assign a category as a logs channel.`
             );
-          await this.client.updateGuild(guild, { logs_Cnl: channel.id });
+          await this.client.updateGuild(guild, { "logs.channel": channel.id });
         }
 
         interaction.editReply({
@@ -932,13 +936,13 @@ module.exports = class SetupBotCommand extends Command {
 
         if (choice === "blacklist_minimum_age") {
           await this.client.updateGuild(guild, {
-            blacklist_MinimumAge: time,
+            "blackList.minAge": time,
           });
         }
 
         if (choice === "blacklist_time") {
           await this.client.updateGuild(guild, {
-            blacklist_Time: time,
+            "blackList.time": time,
           });
         }
 

@@ -20,7 +20,7 @@ module.exports = class messageUpdateTracker extends Event {
       return;
 
     const fetchGuild = await this.client.getGuild(guild);
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     if (logsChannel) {
       const jumpTo =
         "https://discordapp.com/channels/" +

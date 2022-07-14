@@ -49,7 +49,7 @@ module.exports = class SetupMenuButton extends Button {
             {
               label: "Language Setup",
               description:
-                "OPTIONAL - Setup your language (translate-msg command)",
+                "OPTIONAL - Setup your language (WIP - Not implemented yet)",
               value: "lang_option",
               emoji: "🌐",
             },

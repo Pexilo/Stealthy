@@ -25,7 +25,9 @@ module.exports = class messageCreateTracker extends Event {
         !channel.type === "dm" ||
         !member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
     ) {
-      const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
+      const logsChannel = this.client.channels.cache.get(
+        fetchGuild.logs.channel
+      );
       if (logsChannel) {
         message.delete();
 

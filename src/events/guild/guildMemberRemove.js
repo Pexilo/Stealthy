@@ -17,7 +17,7 @@ module.exports = class guildMemberRemoveTracker extends Event {
 
     let logsChannel = null;
     try {
-      logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
+      logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     } catch (e) {}
 
     if (logsChannel) {
@@ -63,11 +63,11 @@ module.exports = class guildMemberRemoveTracker extends Event {
      * Member count channel - Setup category - Refresh count when a member leaves
      */
 
-    if (fetchGuild.membercount_Cnl) {
+    if (fetchGuild.memberCount.channel) {
       this.client.UpdateMemberCount(
         guild,
-        fetchGuild.membercount_Cnl,
-        fetchGuild.membercount_Name
+        fetchGuild.memberCount.channel,
+        fetchGuild.memberCount.name
       );
     }
   }

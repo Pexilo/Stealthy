@@ -35,7 +35,9 @@ module.exports = class RWarnCommand extends Command {
     const number = options.getNumber("number");
 
     const fetchGuild = await this.client.getGuild(guild);
-    const filteredUser = fetchGuild.users.filter((u) => u.id === member.id);
+    const filteredUser = fetchGuild.logs.users.filter(
+      (u) => u.id === member.id
+    );
     if (filteredUser.length === 0)
       return interaction.editReply(`🚫 This user has no warns.`);
 
@@ -48,9 +50,13 @@ module.exports = class RWarnCommand extends Command {
       );
     }
 
-    const filteredCase = fetchGuild.users.map((u) => u.case).indexOf(index);
-    fetchGuild.users.splice(filteredCase, 1);
-    await this.client.updateGuild(guild, { users: fetchGuild.users });
+    const filteredCase = fetchGuild.logs.users
+      .map((u) => u.case)
+      .indexOf(index);
+    fetchGuild.logs.users.splice(filteredCase, 1);
+    await this.client.updateGuild(guild, {
+      "logs.users": fetchGuild.logs.users,
+    });
 
     return interaction.editReply(
       `❎ Warn **#${number}** of ${member.toString()} has been removed.`

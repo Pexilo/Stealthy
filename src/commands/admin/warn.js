@@ -35,14 +35,14 @@ module.exports = class WarnCommand extends Command {
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     if (!logsChannel)
       return interaction.editReply(
         `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
       );
 
-    const userArray = fetchGuild.users;
-    const cases = fetchGuild.users.map((u) => u.case);
+    const userArray = fetchGuild.logs.users;
+    const cases = fetchGuild.logs.users.map((u) => u.case);
     const highestCase = Math.max(...cases);
 
     let d = new Date();
@@ -56,7 +56,7 @@ module.exports = class WarnCommand extends Command {
     };
 
     userArray.push(user);
-    await this.client.updateGuild(guild, { users: userArray });
+    await this.client.updateGuild(guild, { "logs.users": userArray });
 
     logsChannel.send({
       embeds: [

@@ -9,10 +9,9 @@ module.exports = class guildCreateEvent extends Event {
 
   async execute(guild) {
     await this.client.createGuild(guild);
-    const channel = this.client.channels.cache.get(guild.systemChannelId);
 
-    this.client.Wait(1000);
-    channel.send({
+    this.client.Wait(2000);
+    this.client.channels.cache.get(guild.systemChannelId).send({
       content: `Hello there, I'm **${this.client.user.username}!** <:StealthyLogo:994266836961071114>\nI gladly accept the invitation for **${guild.name}**.\n\n> I'm here to **help you manage your server**, currently helping \`${this.client.guilds.cache.size}\` servers.\n\n> You can start configuring my **features** with the **button below** or by typing \`/help\`.`,
       components: [
         this.client.ButtonRow([

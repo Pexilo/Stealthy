@@ -20,14 +20,16 @@ module.exports = class JTCSetupButtons extends Button {
       case "create-JTC":
         if (!(await this.client.Defer(button))) return;
 
-        const JTCChannel = guild.channels.cache.get(fetchGuild.JTC_Cnl);
+        const JTCChannel = guild.channels.cache.get(
+          fetchGuild.joinToCreate.channel
+        );
 
         //if the channel already exists in the database
-        if (fetchGuild.JTC_Cnl) {
+        if (fetchGuild.joinToCreate.channel) {
           //if the channel is not found, delete the channel in the database and create a new one
           if (!JTCChannel)
             await this.client.updateGuild(guild, {
-              JTC_Cnl: null,
+              "joinToCreate.channel": null,
             });
           //if the channel is found, stop the process
           else
@@ -59,7 +61,7 @@ module.exports = class JTCSetupButtons extends Button {
 
         //set the channel in the database
         await this.client.updateGuild(guild, {
-          JTC_Cnl: voiceChannel.id,
+          "joinToCreate.channel": voiceChannel.id,
         });
 
         button.editReply({
@@ -74,18 +76,20 @@ module.exports = class JTCSetupButtons extends Button {
         if (!(await this.client.Defer(button))) return;
 
         //if the channel doesn't exist in the database, stop the process
-        if (!fetchGuild.JTC_Cnl) {
+        if (!fetchGuild.joinToCreate.channel) {
           return button.editReply({
             content: "⛔ JTC channel doesn't exist, create it first",
           });
         }
 
         //get the channel from the database and try to find it in the server
-        const channelToDelete = guild.channels.cache.get(fetchGuild.JTC_Cnl);
+        const channelToDelete = guild.channels.cache.get(
+          fetchGuild.joinToCreate.channel
+        );
 
         //delete the database entry
         await this.client.updateGuild(guild, {
-          JTC_Cnl: null,
+          "joinToCreate.channel": null,
         });
 
         //if the channel isn't found, it means that the channel has been deleted in hand
@@ -112,7 +116,7 @@ module.exports = class JTCSetupButtons extends Button {
         });
 
       case "channels-names-JTC":
-        const channelNames = fetchGuild.JTC_CnlNames;
+        const channelNames = fetchGuild.joinToCreate.names;
         //prepare the modal, intercepted in interactionCreate class (temp)
         await button.showModal(
           this.client.ModalRow("channels-names-JTC", "JTC channel names", [
