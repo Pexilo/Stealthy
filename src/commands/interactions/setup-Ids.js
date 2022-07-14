@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { Permissions } = require("discord.js");
 
 module.exports = class SetupBotCommand extends Command {
   constructor(client) {
@@ -759,14 +760,13 @@ module.exports = class SetupBotCommand extends Command {
               permissionOverwrites: [
                 {
                   id: guild.id,
-                  allow: ["VIEW_CHANNEL"],
-                  deny: ["CONNECT"],
+                  allow: [Permissions.FLAGS.VIEW_CHANNEL],
+                  deny: [Permissions.FLAGS.CONNECT], // le bot doit avoir la permission admin
                 },
               ],
             })
             .then(async (c) => {
               this.client.UpdateMemberCount(
-                this.client,
                 guild,
                 c.id,
                 fetchGuild.membercount_Name

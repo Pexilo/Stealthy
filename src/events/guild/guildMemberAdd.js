@@ -98,7 +98,6 @@ module.exports = class guildMemberAddTracker extends Event {
 
     if (fetchGuild.membercount_Cnl) {
       this.client.UpdateMemberCount(
-        this.client,
         guild,
         fetchGuild.membercount_Cnl,
         fetchGuild.membercount_Name

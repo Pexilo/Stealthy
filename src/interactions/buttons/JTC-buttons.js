@@ -64,9 +64,7 @@ module.exports = class JTCSetupButtons extends Button {
 
         button.editReply({
           content: `✅ JTC channel created in: **${
-            channelToDelete.parent
-              ? `<#${channelToDelete.parentId}>`
-              : "default"
+            voiceChannel.parent ? `<#${voiceChannel.parentId}>` : "default"
           }** category.
           \n> You can move it to another category if you want.\n > You can use \`/invite-vc member:\` to invite someone in dm to join your channel.`,
         });

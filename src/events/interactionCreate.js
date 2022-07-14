@@ -139,12 +139,7 @@ module.exports = class interactionCreateEvent extends Event {
           });
         }
 
-        this.client.UpdateMemberCount(
-          this.client,
-          guild,
-          fetchGuild.membercount_Cnl,
-          name
-        );
+        this.client.UpdateMemberCount(guild, fetchGuild.membercount_Cnl, name);
 
         await interaction.reply({
           content: "✅ Member count channel updated.",
