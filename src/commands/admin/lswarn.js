@@ -14,7 +14,7 @@ module.exports = class LsWarnCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡 The user to list warns of.",
+          description: "👤 The user to list warns of",
           required: true,
         },
       ],

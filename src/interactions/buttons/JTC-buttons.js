@@ -2,7 +2,7 @@ const { Button } = require("sheweny");
 
 module.exports = class JTCSetupButtons extends Button {
   constructor(client) {
-    super(client, ["create-JTC", "delete-JTC", "channel-JTC"]);
+    super(client, ["create-JTC", "delete-JTC", "channels-names-JTC"]);
   }
   async execute(button) {
     /*

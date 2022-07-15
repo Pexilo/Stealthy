@@ -4,7 +4,7 @@ module.exports = class ServerInfoCommand extends Command {
   constructor(client) {
     super(client, {
       name: "serverinfo",
-      description: "❔ Get information about the server.",
+      description: "⛲ Get information about the server.",
       examples: "/serverinfo => Get server information",
       category: "Misc",
     });

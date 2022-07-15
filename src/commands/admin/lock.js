@@ -6,7 +6,7 @@ module.exports = class LockCommand extends Command {
       name: "lock",
       description: "🔒 Lock the current channel.",
       examples:
-        "/lock `channel:#general` => 🔥Forbid users from sending messages in #general.",
+        "/lock `channel:#general` => 🔒 Forbid users from sending messages in #general.",
       category: "Admin",
       userPermissions: ["MANAGE_CHANNELS"],
       clientPermissions: ["MANAGE_CHANNELS"],
@@ -14,7 +14,7 @@ module.exports = class LockCommand extends Command {
         {
           type: "CHANNEL",
           name: "channel",
-          description: "💡Channel to lock",
+          description: "📙 Channel to lock",
           required: true,
           channelTypes: ["GUILD_TEXT"],
         },

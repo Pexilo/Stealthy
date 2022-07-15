@@ -14,13 +14,13 @@ module.exports = class WarnCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡 User to warn",
+          description: "👤 User to warn",
           required: true,
         },
         {
           type: "STRING",
           name: "reason",
-          description: "💡 Reason for the warn",
+          description: "❔ Reason for the warn",
           required: true,
         },
       ],

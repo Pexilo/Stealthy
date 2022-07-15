@@ -6,7 +6,7 @@ module.exports = class UnBanCommand extends Command {
       name: "unban",
       description: "🔪 Unban a member from the server.",
       examples:
-        "/unban `user:@Pexilo#0001` => 🔥 Unban Pexilo from the server.",
+        "/unban `user:@Pexilo#0001` => 🔪 Unban Pexilo from the server.",
       category: "Admin",
       userPermissions: ["BAN_MEMBERS"],
       clientPermissions: ["BAN_MEMBERS"],
@@ -14,14 +14,14 @@ module.exports = class UnBanCommand extends Command {
         {
           type: "STRING",
           name: "userid",
-          description: "💡Id of the user to unban",
+          description: "👤 Id of the user to unban",
           required: true,
         },
 
         {
           type: "STRING",
           name: "reason",
-          description: "💡Reason for the unban",
+          description: "❔ Reason for the unban",
         },
       ],
     });
@@ -77,7 +77,7 @@ module.exports = class UnBanCommand extends Command {
     });
 
     return interaction.editReply(
-      `🔥 \`${memberId}\` has been unbanned from the server.${
+      `🔪 \`${memberId}\` has been unbanned from the server.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );

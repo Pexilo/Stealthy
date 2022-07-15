@@ -6,7 +6,7 @@ module.exports = class UnlockCommand extends Command {
       name: "unlock",
       description: "🔓 Unlock the current channel.",
       examples:
-        "/unlock `channel:#general` => 🔥Allow users to send messages in #general.",
+        "/unlock `channel:#general` => 🔓 Allow users to send messages in #general.",
       category: "Admin",
       userPermissions: ["MANAGE_CHANNELS"],
       clientPermissions: ["MANAGE_CHANNELS"],
@@ -14,7 +14,7 @@ module.exports = class UnlockCommand extends Command {
         {
           type: "CHANNEL",
           name: "channel",
-          description: "💡Channel to unlock",
+          description: "📙 Channel to unlock",
           required: true,
           channelTypes: ["GUILD_TEXT"],
         },

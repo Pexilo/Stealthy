@@ -6,7 +6,7 @@ module.exports = class SlowModeCommand extends Command {
       name: "slowmode",
       description: "🕒 Set a slowmode for a channel.",
       examples:
-        "/slowmode `user:@Pexilo#0001` `nickname:Pexi` => 🔥Change the nickname of @Pexilo#0001 to Pexi.",
+        "/slowmode `channel:General` `format:minutes` `time:1` => 🕒 Set the slowmode for the General channel to 1 minute.",
       category: "Admin",
       userPermissions: ["MANAGE_CHANNELS"],
       clientPermissions: ["MANAGE_CHANNELS"],
@@ -14,14 +14,14 @@ module.exports = class SlowModeCommand extends Command {
         {
           type: "CHANNEL",
           name: "channel",
-          description: "💡Channel to set the slowmode for",
+          description: "📙 Channel to set the slowmode for",
           required: true,
           channelTypes: ["GUILD_TEXT"],
         },
         {
           type: "STRING",
           name: "format",
-          description: "💡 Wich format do you want to use ?",
+          description: "🕒 Wich format do you want to use ?",
           required: true,
           choices: [
             {
@@ -37,13 +37,13 @@ module.exports = class SlowModeCommand extends Command {
         {
           type: "NUMBER",
           name: "time",
-          description: "💡 Define the time",
+          description: "⏱️ Define the time",
           required: true,
         },
         {
           type: "STRING",
           name: "reason",
-          description: "💡 Define the reason",
+          description: "❔ Reason for the slowmode",
         },
       ],
     });

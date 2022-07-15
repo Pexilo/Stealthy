@@ -14,13 +14,13 @@ module.exports = class RWarnCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡 The user to list warns of.",
+          description: "👤 User to remove a warn from",
           required: true,
         },
         {
           type: "NUMBER",
           name: "number",
-          description: "💡 The number of the warn to remove. (see /list-warns)",
+          description: "🔢 The index of the warn to remove (see /list-warns)",
           required: true,
         },
       ],

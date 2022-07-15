@@ -12,7 +12,7 @@ module.exports = class HelpCommand extends Command {
         {
           type: "STRING",
           name: "command",
-          description: "💡Command name",
+          description: "🐲 Command name",
           required: false,
         },
       ],

@@ -5,7 +5,7 @@ module.exports = class KickCommand extends Command {
     super(client, {
       name: "kick",
       description: "🔪 Kick a member from the server.",
-      examples: "/kick `user:@Pexilo#0001` => 🔥 Kick Pexilo from the server.",
+      examples: "/kick `user:@Pexilo#0001` => 🔪 Kick Pexilo from the server.",
       category: "Admin",
       userPermissions: ["KICK_MEMBERS"],
       clientPermissions: ["KICK_MEMBERS"],
@@ -13,14 +13,14 @@ module.exports = class KickCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡User to kick",
+          description: "👤 User to kick",
           required: true,
         },
 
         {
           type: "STRING",
           name: "reason",
-          description: "💡Reason for the kick",
+          description: "❔ Reason for the kick",
         },
       ],
     });
@@ -76,7 +76,7 @@ module.exports = class KickCommand extends Command {
     });
 
     return interaction.editReply(
-      `🔥 ${member.toString()} has been kick from the server.${
+      `🔪 ${member.toString()} has been kick from the server.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );

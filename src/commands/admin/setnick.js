@@ -6,7 +6,7 @@ module.exports = class SetNicknameCommand extends Command {
       name: "nick",
       description: "🛠️ Change the nickname of a user.",
       examples:
-        "/setnick `user:@Pexilo#0001` `nickname:Pexi` => 🔥Change the nickname of @Pexilo#0001 to Pexi.",
+        "/setnick `user:@Pexilo#0001` `nickname:Pexi` => 🛠️ Change the nickname of @Pexilo#0001 to Pexi.",
       category: "Admin",
       userPermissions: ["MANAGE_NICKNAMES"],
       clientPermissions: ["MANAGE_NICKNAMES"],
@@ -14,19 +14,19 @@ module.exports = class SetNicknameCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡User to change the nickname of",
+          description: "👤 User to change the nickname of",
           required: true,
         },
         {
           type: "STRING",
           name: "nickname",
-          description: "💡New nickname",
+          description: "✏️ New nickname",
           required: true,
         },
         {
           type: "STRING",
           name: "reason",
-          description: "💡Reason for changing the nickname",
+          description: "❔ Reason for changing the nickname",
         },
       ],
     });
@@ -88,7 +88,7 @@ module.exports = class SetNicknameCommand extends Command {
     });
 
     return interaction.editReply(
-      `🔥 Nickname of ${member.toString()} has been set to \`${nickname}\`.${
+      `🛠️ Nickname of ${member.toString()} has been set to \`${nickname}\`.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );

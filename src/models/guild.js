@@ -16,6 +16,11 @@ const guildSchema = new mongoose.Schema({
 
   roleClaim: {
     message: { type: String, default: null },
+    type: {
+      type: String,
+      enum: ["reaction", "selectmenu", "button"],
+      default: "reaction",
+    },
     channel: { type: String, default: null },
     tipMessage: { type: String, default: null },
     fields: { type: Array, default: [] },

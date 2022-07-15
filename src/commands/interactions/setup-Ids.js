@@ -18,12 +18,12 @@ module.exports = class SetupBotCommand extends Command {
         {
           type: "SUB_COMMAND",
           name: "channels",
-          description: "💡 Setup your channels",
+          description: "📙 Setup your channels",
           options: [
             {
               type: "STRING",
               name: "usage",
-              description: "💡 Define a purpose",
+              description: "📝 Type of channel to setup",
               required: true,
               choices: [
                 {
@@ -61,7 +61,7 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: "STRING",
               name: "choice",
-              description: "💡 Time to change",
+              description: "📝 Type of timer to setup",
               required: true,
               choices: [
                 {
@@ -77,7 +77,7 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: "STRING",
               name: "format",
-              description: "💡 Wich format do you want to use ?",
+              description: "🕒 Wich format do you want to use ?",
               required: true,
               choices: [
                 {
@@ -93,7 +93,7 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: "INTEGER",
               name: "time",
-              description: "💡 Define the time",
+              description: "⏱️ Define the time",
               required: true,
               minValue: 1,
               maxValue: 670,
@@ -151,11 +151,6 @@ module.exports = class SetupBotCommand extends Command {
                 },
               ],
             },
-            {
-              type: "SUB_COMMAND",
-              name: "embed",
-              description: "🎈 Edit embed of Role Claim system",
-            },
           ],
         },
         {
@@ -190,12 +185,6 @@ module.exports = class SetupBotCommand extends Command {
                   required: true,
                 },
               ],
-            },
-            {
-              type: "SUB_COMMAND",
-              name: "list",
-              description:
-                "🧮 List all roles that will be assigned to a newcomer",
             },
           ],
         },
@@ -242,24 +231,12 @@ module.exports = class SetupBotCommand extends Command {
          * 3. add:
          *   - Role position of Stealthy is lower than the choosed one -> ask to move it up
          */
+        const rlcType = fetchGuild.roleClaim.type;
+        let msgId = fetchGuild.roleClaim.message;
+        let channelId = fetchGuild.roleClaim.channel;
+        let tipMsgId = fetchGuild.roleClaim.tipMessage;
+        let msg, tipMsg, foundChannel;
 
-        let msgId,
-          tipMsgId,
-          channelId,
-          roleRC,
-          emojiName,
-          emoji,
-          isEmojiCustom = false,
-          customEmoji,
-          foundChannel,
-          msg,
-          tipMsg,
-          fieldValue,
-          rolesEmbed;
-
-        msgId = fetchGuild.roleClaim.message;
-        tipMsgId = fetchGuild.roleClaim.tipMessage;
-        channelId = fetchGuild.roleClaim.channel;
         if (!channelId || !msgId) {
           return interaction.reply({
             ephemeral: true,
@@ -283,7 +260,7 @@ module.exports = class SetupBotCommand extends Command {
           tipMsg = await foundChannel.messages.fetch(tipMsgId);
         } catch (e) {}
 
-        roleRC = options.getRole("role");
+        let roleRC = options.getRole("role");
         if (
           roleRC &&
           this.client.HighestRole(guild, this.client.user.id) <
@@ -303,7 +280,12 @@ module.exports = class SetupBotCommand extends Command {
           });
         }
 
-        emoji = options.getString("emoji");
+        let emoji = options.getString("emoji");
+
+        let emojiName,
+          isEmojiCustom = false,
+          customEmoji;
+
         if (emoji && emoji.startsWith("<") && emoji.endsWith(">")) {
           if (!(await this.client.IsValidEmoji(this.client, emoji)))
             return interaction.reply({
@@ -325,53 +307,18 @@ module.exports = class SetupBotCommand extends Command {
         if (emoji && !isEmojiCustom)
           emojiName = this.client.GetEmojiNameFromUni(emoji);
 
-        rolesEmbed = this.client
-          .Embed(false)
-          .setTitle(msg.embeds[0].title)
-          .setDescription(msg.embeds[0].description)
-          .setFields(msg.embeds[0].fields)
-          .setFooter({ text: msg.embeds[0].footer.text })
-          .setColor(msg.embeds[0].color);
+        let rolesEmbed, fieldValue;
+        if (rlcType === "reaction") {
+          rolesEmbed = this.client
+            .Embed(false)
+            .setTitle(msg.embeds[0].title)
+            .setDescription(msg.embeds[0].description)
+            .setFields(msg.embeds[0].fields)
+            .setFooter({ text: msg.embeds[0].footer.text })
+            .setColor(msg.embeds[0].color);
+        }
 
         switch (options._subcommand) {
-          case "embed":
-            /*
-             * Edit the embed of the role claim message
-             */
-
-            await interaction.showModal(
-              this.client.ModalRow("edit-roleclaim", "Edit roleclaim embed", [
-                {
-                  customId: "roleclaim-title-input",
-                  label: "Title",
-                  style: "SHORT",
-                  placeholder: `${msg.embeds[0].title}`,
-                  required: false,
-                },
-                {
-                  customId: "roleclaim-description-input",
-                  label: "Description",
-                  style: "PARAGRAPH",
-                  placeholder: `${msg.embeds[0].description}`,
-                  required: false,
-                },
-                {
-                  customId: "roleclaim-footer-input",
-                  label: "Footer",
-                  style: "SHORT",
-                  placeholder: `${msg.embeds[0].footer.text}`,
-                  required: false,
-                },
-                {
-                  customId: "roleclaim-color-input",
-                  label: "Color",
-                  style: "SHORT",
-                  placeholder: "color must be a hex color code (#000000)",
-                  required: false,
-                },
-              ])
-            );
-
           case "add":
             if (!(await this.client.Defer(interaction))) return;
             /*
@@ -662,28 +609,6 @@ module.exports = class SetupBotCommand extends Command {
                   : ""
               }`
             );
-
-          case "list":
-            if (!autoroleArray.length > 0)
-              return interaction.editReply(
-                `🚫 No autorole set.\n\n> Set one with \`/setup autorole add\``
-              );
-
-            return interaction.editReply({
-              content: `✅ Roles that will be given to new "logs.users": ${autoroleArray
-                .map((r) => `<@&${r}>`)
-                .join(", ")}`,
-              components: [
-                this.client.ButtonRow([
-                  {
-                    customId: "reset-autorole",
-                    label: "Reset",
-                    style: "SECONDARY",
-                    emoji: "🗑",
-                  },
-                ]),
-              ],
-            });
         }
     }
 
@@ -886,6 +811,28 @@ module.exports = class SetupBotCommand extends Command {
                 }${"```"}\nPlease contact an administrator of the bot for further assistance.`
               );
             });
+
+          return interaction.editReply({
+            content: `🔉 Join to create channel is now set up in ${
+              !noParent ? `<#${channel.id}>` : "default category"
+            } `,
+            components: [
+              this.client.ButtonRow([
+                {
+                  customId: "channels-names-JTC",
+                  label: "Channels Names",
+                  style: "PRIMARY",
+                  emoji: "✏️",
+                },
+                {
+                  customId: "delete-jtc",
+                  label: "Delete",
+                  style: "SECONDARY",
+                  emoji: "🗑",
+                },
+              ]),
+            ],
+          });
         }
 
         if (usage === "logs") {
@@ -893,25 +840,16 @@ module.exports = class SetupBotCommand extends Command {
             return interaction.editReply(
               `🚫 You can't assign a category as a logs channel.`
             );
+
           await this.client.updateGuild(guild, { "logs.channel": channel.id });
+
+          return interaction.editReply({
+            content: `🚀 Logs channel is now set up in ${channel.toString()}`,
+          });
         }
 
-        interaction.editReply({
-          content: `🔥 ${this.client.Capitalize(usage)} is now set up in ${
-            !noParent ? `<#${channel.id}>` : "default category"
-          }.${
-            usage === "roleclaim"
-              ? "\n> Add roles with `/setup roleclaim add`"
-              : ""
-          } ${
-            usage === "jtc"
-              ? "\n> For more options use the button bellow and select **Join to Create Setup**"
-              : ""
-          }`,
-        });
-
         if (usage === "jtc") {
-          interaction.editReply({
+          return interaction.editReply({
             components: [
               this.client.ButtonRow([
                 {
@@ -925,6 +863,7 @@ module.exports = class SetupBotCommand extends Command {
           });
         }
         break;
+
       case "blacklist":
         if (!(await this.client.Defer(interaction))) return;
 

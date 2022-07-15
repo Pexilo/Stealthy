@@ -15,13 +15,13 @@ module.exports = class MuteCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡User to mute",
+          description: "👤 User to mute",
           required: true,
         },
         {
           type: "STRING",
           name: "format",
-          description: "💡Format to use",
+          description: "🕒 Format to use",
           required: true,
           choices: [
             {
@@ -37,7 +37,7 @@ module.exports = class MuteCommand extends Command {
         {
           type: "INTEGER",
           name: "duration",
-          description: "💡Time to mute",
+          description: "⏱️ Time to mute",
           required: true,
           minValue: 1,
           maxValue: 670,
@@ -45,7 +45,7 @@ module.exports = class MuteCommand extends Command {
         {
           type: "STRING",
           name: "reason",
-          description: "💡Reason for the mute",
+          description: "❔ Reason for the mute",
           required: false,
         },
       ],
@@ -110,7 +110,7 @@ module.exports = class MuteCommand extends Command {
     });
 
     return interaction.editReply({
-      content: `${member.toString()} has been muted for ${this.client.PrettyMs(
+      content: `🔇 ${member.toString()} has been muted for ${this.client.PrettyMs(
         duration,
         { verbose: true }
       )}`,

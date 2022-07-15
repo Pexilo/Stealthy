@@ -8,13 +8,13 @@ module.exports = class PlayTogetherCommand extends Command {
       name: "play",
       examples:
         "/play `activity:📽️ Youtube` => Play Youtube together in your voice channel.",
-      description: "🚀 Play hidden Discord activities in your voice channel",
+      description: "🎮 Play hidden Discord activities in your voice channel",
       category: "Misc",
       options: [
         {
           type: "STRING",
           name: "activity",
-          description: "💡 Activity to play",
+          description: "🎮 Activity to play",
           required: true,
           choices: [
             {

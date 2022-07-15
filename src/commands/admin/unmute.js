@@ -5,7 +5,7 @@ module.exports = class UnMuteCommand extends Command {
     super(client, {
       name: "unmute",
       description: "🔊 Unmute a specific member.",
-      examples: "/unmute `member:@Pexilo#0001` => 🔉Unmute `@Pexilo#0001`",
+      examples: "/unmute `member:@Pexilo#0001` => 🔉 Unmute `@Pexilo#0001`",
       category: "Admin",
       userPermissions: ["MODERATE_MEMBERS"],
       clientPermissions: ["MODERATE_MEMBERS"],
@@ -13,13 +13,13 @@ module.exports = class UnMuteCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡 Member to unmute",
+          description: "👤 Member to unmute",
           required: true,
         },
         {
           type: "STRING",
           name: "reason",
-          description: "💡 Reason for the unmute",
+          description: "❔ Reason for the unmute",
           required: false,
         },
       ],
