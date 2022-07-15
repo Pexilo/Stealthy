@@ -190,10 +190,11 @@ module.exports = (client) => {
     }),
     /* This function is used to update the name of the channel that is used to display the member count. */
     (client.UpdateMemberCount = (guild, channelId, channelName) => {
-      guild.channels.cache
-        .get(channelId)
-        .setName(`${channelName}: ${guild.memberCount}`)
-        .catch(() => {});
+      try {
+        guild.channels.cache
+          .get(channelId)
+          .setName(`${channelName}: ${guild.memberCount}`);
+      } catch (e) {}
     }),
     /* This function is used to get the guild data from the database. */
     (client.getGuild = async (guild) => {

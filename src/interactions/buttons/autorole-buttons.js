@@ -34,7 +34,7 @@ module.exports = class AutoRoleSetupButtons extends Button {
           );
 
         return button.editReply({
-          content: `✅ Roles that will be given to new "logs.users": ${autoroleArray
+          content: `✅ Roles that will be given to newcomers: ${autoroleArray
             .map((r) => `<@&${r}>`)
             .join(", ")}`,
           components: [

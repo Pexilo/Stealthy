@@ -46,22 +46,22 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           fetchGuild.joinToCreate.channel
         );
 
-        selectMenu.editReply({
+        return selectMenu.editReply({
           content: `${
             logsChannel
-              ? "> **🚀 Logs** channel is setup in " +
+              ? "> **`🚀` Logs** channel is setup in " +
                 `<#${logsChannel}>` +
                 ". \n"
               : ""
           } ${
             roleclaimChannel
-              ? "> **🗂️ Role claim** channel is setup in " +
+              ? "> **`🗂️` Role claim** channel is setup in " +
                 `<#${roleclaimChannel}>` +
                 ". \n"
               : ""
           } ${
             membercountChannel
-              ? "> **🧾 Member count** channel is setup in " +
+              ? "> **`🧾` Member count** channel is setup in " +
                 `**${
                   membercountChannel.parent
                     ? `<#${membercountChannel.parentId}>`
@@ -71,13 +71,13 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
               : ""
           } ${
             JTCChannel
-              ? "> **🔊 Join to Create** channel is setup in " +
+              ? "> **`🔊` Join to Create** channel is setup in " +
                 `**${
                   JTCChannel.parent ? `<#${JTCChannel.parentId}>` : "default"
                 }**` +
                 " category. \n"
               : ""
-          }\nPlease use, \`/setup channels\` command to set up your channels.`,
+          }\nPlease use, \`/setup channels\` command to setup your channels.`,
         });
         break;
 
@@ -93,9 +93,9 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
         if (findChannel) {
           return selectMenu.editReply({
-            content: `Use the buttons below to setup your JTC channel.\n\n> JTC channel ${findChannel.toString()} is already setup in **${
+            content: `🔊 **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> JTC channel ${findChannel.toString()} is currently setup in **${
               findChannel.parent ? findChannel.parent.toString() : "default"
-            }** category.`,
+            }** category.\n\nPlease use the **buttons below** to **edit** this feature.`,
             components: [
               this.client.ButtonRow([
                 {
@@ -117,7 +117,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
         return selectMenu.editReply({
           content:
-            "Use the button below to setup your JTC channel.\n\n> You can also use `/setup channels` to choose a specific category.",
+            "🔊 **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> You can also use `/setup channels` to choose a specific category.\n\nPlease use the **buttons below** to **edit** this feature.",
           components: [
             this.client.ButtonRow([
               {
@@ -135,20 +135,24 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         const blacklistTime = fetchGuild.blackList.time;
         const blacklistMinAge = fetchGuild.blackList.minAge;
 
-        selectMenu.editReply({
-          content: `> Blacklist length: \`${this.client.PrettyMs(
+        return selectMenu.editReply({
+          content: `🛡️ **Blacklist** is a feature that **prevents freshly created accounts from joining your server**. New accounts are often **bots, scams and adverts** that could be used maliciously to **harm your server users**.\n\nBlacklist is **activated by default**, you can change the times according to **your needs**:\n> \`Blacklist length: ${this.client.PrettyMs(
             blacklistTime,
             {
               verbose: true,
             }
-          )}\` ${blacklistTime == 86400000 ? " *(default)*" : ""}
-          > Minimum account age required: \`${this.client.PrettyMs(
+          )}\` ${
+            blacklistTime == 86400000 ? " (default)" : ""
+          }\n> ↪ *change the minimum age a newcomer must be to join the server.*
+          > \`Minimum account age required: ${this.client.PrettyMs(
             blacklistMinAge,
             {
               verbose: true,
             }
-          )}\` ${blacklistMinAge == 3600000 ? "*(default)*" : ""}
-           \nTo change the blacklist times, please use, \`/setup blacklist\` command.`,
+          )}\` ${
+            blacklistMinAge == 3600000 ? " (default)" : ""
+          }\n> ↪ *change how long the bot will block the newcomer for.*
+           \n⏱️ To change the blacklist times, please use, \`/setup blacklist\` command.`,
         });
 
         break;
@@ -159,7 +163,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
         if (msgId && channelId) {
           return selectMenu.editReply({
-            content: `Role Claim message is setup in **<#${channelId}>**.\n\n>To change the roles use, \`/setup roleclaim add/remove\` command.\n> You can edit the role claim message with the button bellow or with \`/setup roleclaim embed\``,
+            content: `🗂️ **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> **Role Claim message** is setup in **<#${channelId}>**.\n> To change the roles use, \`/setup roleclaim add|remove\` command.\n\nYou can **edit the role claim** system with the **buttons bellow**.`,
             components: [
               this.client.ButtonRow([
                 {
@@ -179,8 +183,8 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           });
         }
 
-        selectMenu.editReply({
-          content: `Role Claim is a feature that lets server users pick a specific role by adding a reaction to a message.\nChoose the roles carefully, to maintain the security of your server.\n\n> Please use, \`/setup channels\` command to setup your role claim message in a different channel than ${selectMenu.channel.toString()}.`,
+        return selectMenu.editReply({
+          content: `🗂️ **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> Please use, \`/setup channels\` command to setup your role claim message in a different channel than ${selectMenu.channel.toString()}.`,
           components: [
             this.client.ButtonRow([
               {
@@ -188,6 +192,32 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
                 label: `Create in ${selectMenu.channel.name}`,
                 style: "SUCCESS",
                 emoji: "🗂️",
+              },
+            ]),
+          ],
+        });
+        break;
+
+      case "autorole_option":
+        const autoroleArray = fetchGuild.autoRole.roles;
+
+        if (!autoroleArray.length > 0) {
+          return selectMenu.editReply({
+            content: `🎩 **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> Please use, \`/setup autorole add\` command to setup this feature.`,
+          });
+        }
+
+        return selectMenu.editReply({
+          content: `🎩 **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> Use, \`/setup autorole add|remove\` to edit this feature.\n\n🧮 **Roles** that will be **given to newcomers**: ${autoroleArray
+            .map((r) => `<@&${r}>`)
+            .join(", ")}`,
+          components: [
+            this.client.ButtonRow([
+              {
+                customId: "reset-autorole",
+                label: "Reset",
+                style: "SECONDARY",
+                emoji: "🗑",
               },
             ]),
           ],

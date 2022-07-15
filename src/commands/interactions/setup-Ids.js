@@ -65,11 +65,11 @@ module.exports = class SetupBotCommand extends Command {
               required: true,
               choices: [
                 {
-                  name: "⌚ Blacklist time - change how long the bot will block the newcomer",
+                  name: "⌚ Blacklist time - change how long the bot will block the newcomer for",
                   value: "blacklist_time",
                 },
                 {
-                  name: "🎣 Minimum account age - change the minimum age a newcomer must have to be allowed to join",
+                  name: "🎣 Minimum account age - change the minimum age a newcomer must be to join the server",
                   value: "blacklist_minimum_age",
                 },
               ],
@@ -157,13 +157,13 @@ module.exports = class SetupBotCommand extends Command {
           type: "SUB_COMMAND_GROUP",
           name: "autorole",
           description:
-            "🧮 Assign automatically roles to a newcomer when they join the server",
+            "🎩 Assign automatically roles to a newcomer when they join the server",
           options: [
             {
               type: "SUB_COMMAND",
               name: "add",
               description:
-                "🧮 Assign a new role to a newcomer when they join the server",
+                "🎩 Assign a new role to a newcomer when they join the server",
               options: [
                 {
                   type: "ROLE",
@@ -176,7 +176,7 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: "SUB_COMMAND",
               name: "remove",
-              description: "🧮 Remove a role from the list of autoroles",
+              description: "🎩 Remove a role from the list of autoroles",
               options: [
                 {
                   type: "ROLE",
@@ -554,7 +554,7 @@ module.exports = class SetupBotCommand extends Command {
 
             autoroleArray.push(roleAR.id);
             await this.client.updateGuild(guild, {
-              "autorole.roles": autoroleArray,
+              "autoRole.roles": autoroleArray,
             });
 
             return interaction.editReply({
