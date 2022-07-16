@@ -116,7 +116,7 @@ module.exports = class JTCSetupButtons extends Button {
         });
 
       case "channels-names-JTC":
-        const channelNames = fetchGuild.joinToCreate.names;
+        const channelNames = fetchGuild.joinToCreate.names.join(", ");
         //prepare the modal, intercepted in interactionCreate class (temp)
         await button.showModal(
           this.client.ModalRow("channels-names-JTC", "JTC channel names", [
@@ -124,7 +124,7 @@ module.exports = class JTCSetupButtons extends Button {
               customId: "channel-JTC-input",
               label: "Names (must be separated by a comma)",
               style: "PARAGRAPH",
-              placeholder: `${channelNames}`,
+              placeholder: `${this.client.Truncate(channelNames)}`,
               required: true,
             },
           ])

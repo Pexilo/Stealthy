@@ -139,19 +139,26 @@ module.exports = (client) => {
         option = Formatters.TimestampStyles.RelativeTime;
       return Formatters.time(dayjs(ms).unix(), option);
     }),
-    /* This function is used to return a random element from an array. */
-    (client.searchRandom = (arr, count = 1) => {
-      let answer = [],
-        counter = 0;
-      while (counter < count) {
-        let rand = arr[Math.floor(Math.random() * arr.length)];
-        if (!answer.some((an) => an === rand)) {
-          answer.push(rand);
-          counter++;
+    /* This function is used to limit a string to a specified length (used for Modals) */
+    (client.Truncate = (str, maxLength = 97) => {
+      return str.length > maxLength
+        ? str.substr(0, maxLength - 1) + "..."
+        : str;
+    })(
+      /* This function is used to return a random element from an array. */
+      (client.searchRandom = (arr, count = 1) => {
+        let answer = [],
+          counter = 0;
+        while (counter < count) {
+          let rand = arr[Math.floor(Math.random() * arr.length)];
+          if (!answer.some((an) => an === rand)) {
+            answer.push(rand);
+            counter++;
+          }
         }
-      }
-      return answer;
-    }),
+        return answer;
+      })
+    ),
     /* This function is used to get the name of an emoji from its unicode. */
     (client.GetEmojiNameFromUni = (unicodeEmoji) => {
       return nodeEmoji.find(unicodeEmoji).key;

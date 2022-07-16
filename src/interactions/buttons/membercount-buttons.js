@@ -56,7 +56,9 @@ module.exports = class memberCountButtons extends Button {
                 customId: "membercount-name-input",
                 label: "Name",
                 style: "SHORT",
-                placeholder: `${memberCountChannel.name.split(":")[0]}`,
+                placeholder: `${this.client.Truncate(
+                  memberCountChannel.name.split(":")[0]
+                )}`,
                 required: true,
               },
             ]
