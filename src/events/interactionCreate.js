@@ -8,21 +8,39 @@ module.exports = class interactionCreateEvent extends Event {
   }
 
   async execute(interaction) {
-    const { guild, member } = interaction;
+    const { guild } = interaction;
 
     let fetchGuild = await this.client.getGuild(guild);
 
     if (!fetchGuild) {
       await this.client.createGuild(guild);
-      fetchGuild = await this.client.getGuild(guild);
+      return this.client.channels.cache.get(guild.systemChannelId).send({
+        content:
+          "⚠️ Database has been reset, all data of this server has been lost.\nSorry for the inconvenience.\n\n`Server initialized ✅`",
+        components: [
+          this.client.ButtonRow([
+            {
+              customId: "setup-menu",
+              label: "Setup",
+              style: "SECONDARY",
+              emoji: "🔧",
+            },
+          ]),
+        ],
+      });
+    }
+
+    // lazy fix because permissions are terrible to setup, WIP ig
+    if (!guild.me.permissions.has("ADMINISTRATOR")) {
       return interaction.reply({
-        content: "`Server initialized ✅`\n> Please re-run the command.",
+        content:
+          "🚫 I need the `ADMINISTRATOR` permission to operate properly.",
         ephemeral: true,
       });
     }
 
     if (interaction.isModalSubmit()) {
-      if (interaction.customId === "channel-JTC") {
+      if (interaction.customId === "channels-names-JTC") {
         //get input from modal
         const channels =
           interaction.fields.getTextInputValue("channel-JTC-input");
@@ -36,7 +54,7 @@ module.exports = class interactionCreateEvent extends Event {
         });
 
         await this.client.updateGuild(guild, {
-          JTC_CnlNames: result,
+          "joinToCreate.names": result,
         });
 
         await interaction.reply({
@@ -45,8 +63,8 @@ module.exports = class interactionCreateEvent extends Event {
         });
       }
       if (interaction.customId === "edit-roleclaim") {
-        const msgId = fetchGuild.roleclaim_Msg;
-        const channelId = fetchGuild.roleclaim_Cnl;
+        const msgId = fetchGuild.roleClaim.message;
+        const channelId = fetchGuild.roleClaim.channel;
 
         let foundChannel, msg;
 
@@ -106,8 +124,47 @@ module.exports = class interactionCreateEvent extends Event {
         await msg.edit({
           embeds: [rolesEmbed],
         });
+
         await interaction.reply({
           content: "✅ Roleclaim embed updated.",
+          ephemeral: true,
+        });
+      }
+      if (interaction.customId === "channel-membercount") {
+        const name = interaction.fields.getTextInputValue(
+          "membercount-name-input"
+        );
+
+        if (!name) {
+          return interaction.reply({
+            content: "🚫 No changes made.",
+            ephemeral: true,
+          });
+        }
+
+        await this.client.updateGuild(guild, {
+          "memberCount.name": name,
+        });
+
+        const memberCountChannel = guild.channels.cache.get(
+          fetchGuild.memberCount.channel
+        );
+
+        if (!memberCountChannel) {
+          return interaction.reply({
+            content: "🚫 Unable to find the member count channel.",
+            ephemeral: true,
+          });
+        }
+
+        this.client.UpdateMemberCount(
+          guild,
+          fetchGuild.memberCount.channel,
+          name
+        );
+
+        await interaction.reply({
+          content: "✅ Member count channel updated.",
           ephemeral: true,
         });
       }

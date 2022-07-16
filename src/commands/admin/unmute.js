@@ -5,7 +5,7 @@ module.exports = class UnMuteCommand extends Command {
     super(client, {
       name: "unmute",
       description: "🔊 Unmute a specific member.",
-      examples: "/unmute `member:@Pexilo#0001` => 🔉Unmute `@Pexilo#0001`",
+      examples: "/unmute `member:@Pexilo#0001` => 🔉 Unmute `@Pexilo#0001`",
       category: "Admin",
       userPermissions: ["MODERATE_MEMBERS"],
       clientPermissions: ["MODERATE_MEMBERS"],
@@ -13,13 +13,13 @@ module.exports = class UnMuteCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡 Member to unmute",
+          description: "👤 Member to unmute",
           required: true,
         },
         {
           type: "STRING",
           name: "reason",
-          description: "💡 Reason for the unmute",
+          description: "❔ Reason for the unmute",
           required: false,
         },
       ],
@@ -34,11 +34,8 @@ module.exports = class UnMuteCommand extends Command {
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
-    if (!logsChannel)
-      return interaction.editReply(
-        `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
-      );
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     // Check if the member is already muted
     if (!member.isCommunicationDisabled()) {
@@ -53,30 +50,35 @@ module.exports = class UnMuteCommand extends Command {
     } catch (e) {
       return interaction.editReply(`🚫 I can't unmute ${member.toString()}.`);
     }
-
-    logsChannel.send({
-      embeds: [
-        this.client
-          .Embed()
-          .setAuthor({
-            name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.avatarURL(),
-          })
-          .setDescription(`${member.toString()} has been unmuted.`)
-          .setFields({
-            name: `Reason` + ":",
-            value: `${reason || "No reason provided"}`,
-            inline: true,
-          })
-          .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-          .setTimestamp()
-          .setFooter({
-            text: `${member.user.tag} - ${member.user.id}`,
-          }),
-      ],
-    });
-    return interaction.editReply({
+    interaction.editReply({
       content: `🔊 ${member.toString()} is no longer muted.`,
     });
+
+    if (!logsChannel || !enabledLogs.includes("moderation")) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.avatarURL({ dynamic: true }),
+            })
+            .setDescription(`${member.toString()} has been unmuted.`)
+            .setFields({
+              name: `Reason` + ":",
+              value: `${reason || "No reason provided"}`,
+              inline: true,
+            })
+            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
+            .setColor("#c97628")
+
+            .setFooter({
+              text: `${member.user.tag} - ${member.user.id}`,
+            }),
+        ],
+      })
+      .catch(() => {});
   }
 };

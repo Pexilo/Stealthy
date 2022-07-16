@@ -1,5 +1,4 @@
 const { Event } = require("sheweny");
-const { Formatters } = require("discord.js");
 
 module.exports = class guildMemberAddTracker extends Event {
   constructor(client) {
@@ -17,18 +16,15 @@ module.exports = class guildMemberAddTracker extends Event {
     let autoRoleSystem = true;
 
     const fetchGuild = await this.client.getGuild(guild);
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
-    if (logsChannel) {
+    if (logsChannel && enabledLogs.includes("joinLeave")) {
       let warn = false;
-      const blacklistMinAge = fetchGuild.blacklist_MinimumAge;
-      const blacklistTime = fetchGuild.blacklist_Time;
+      const blacklistMinAge = fetchGuild.blackList.minAge;
+      const blacklistTime = fetchGuild.blackList.time;
 
-      if (
-        blacklistMinAge !== null &&
-        Date.now() - member.user.createdTimestamp < blacklistMinAge &&
-        !member.user.bot
-      )
+      if (Date.now() - member.user.createdTimestamp < blacklistMinAge)
         warn = true;
 
       const EmbedInfo = this.client
@@ -42,10 +38,12 @@ module.exports = class guildMemberAddTracker extends Event {
         .setDescription(member.toString())
         .addFields({
           name: "📅 " + "Account created" + ":",
-          value: this.client.Formatter(
+          value: `${this.client.Formatter(
+            member.user.createdTimestamp
+          )} - ${this.client.Formatter(
             member.user.createdTimestamp,
-            Formatters.TimestampStyles.RelativeTime
-          ),
+            "relative"
+          )}`,
         })
         .setTimestamp()
         .setFooter({
@@ -55,6 +53,9 @@ module.exports = class guildMemberAddTracker extends Event {
       if (warn) {
         member.timeout(blacklistTime);
         EmbedInfo.setTitle("Account temporarilly blacklisted")
+          .setDescription(
+            member.toString() + "\nUse `/unmute` to remove the restriction"
+          )
           .setFields({
             name: "Reason" + ":",
             value:
@@ -69,15 +70,15 @@ module.exports = class guildMemberAddTracker extends Event {
           )
           .setColor("#ffcc4d");
       }
-      await logsChannel.send({ embeds: [EmbedInfo] });
+      logsChannel.send({ embeds: [EmbedInfo] }).catch(() => {});
     }
 
     /*
      * Give roles to new users - Setup category - Auto role system
      */
 
-    const autoRoles = fetchGuild.autorole_Roles;
-    if (!autoRoles.length > 0) autoRoleSystem = false;
+    const autoRoles = fetchGuild.autoRole.roles;
+    if (autoRoles.length === 0) autoRoleSystem = false;
 
     if (autoRoleSystem) {
       autoRoles
@@ -93,8 +94,12 @@ module.exports = class guildMemberAddTracker extends Event {
      * Member count channel - Setup category - Refresh count when a member joins
      */
 
-    if (fetchGuild.membercount_Cnl) {
-      this.client.UpdateMemberCount(guild, fetchGuild.membercount_Cnl);
+    if (fetchGuild.memberCount.channel) {
+      this.client.UpdateMemberCount(
+        guild,
+        fetchGuild.memberCount.channel,
+        fetchGuild.memberCount.name
+      );
     }
   }
 };

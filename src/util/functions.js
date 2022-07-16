@@ -28,24 +28,35 @@ module.exports = (client) => {
       return prettyMilliseconds(ms, option);
     }),
     /* This function is used to create a new row for a select menu. */
-    (client.SelectMenuRow = (customId, placeholder = null, options = null) => {
+    (client.SelectMenuRow = (
+      customId,
+      placeholder = null,
+      options = null,
+      amount = null
+    ) => {
       let menuRow = new MessageActionRow().addComponents(
         new MessageSelectMenu().setCustomId(customId)
       );
-      placeholder ? menuRow.components[0].setPlaceholder(placeholder) : null;
-      options ? menuRow.components[0].addOptions(options) : null;
+      if (placeholder) menuRow.components[0].setPlaceholder(placeholder);
+      if (amount) {
+        menuRow.components[0].setMinValues(amount.min);
+        menuRow.components[0].setMaxValues(amount.max);
+      }
+      if (options) menuRow.components[0].addOptions(options);
       return menuRow;
     }),
     /* This function is used to create buttons. */
-    (client.ButtonRow = (customId, label, style) => {
+    (client.ButtonRow = (buttons) => {
       let buttonRow = new MessageActionRow();
-      for (let i = 0; i < customId.length; i++) {
-        let button = new MessageButton().setLabel(label[i]).setStyle(style[i]);
-        style[i] === "LINK"
-          ? button.setURL(customId[i])
-          : button.setCustomId(customId[i]);
+      buttons.forEach((btn) => {
+        let button = new MessageButton()
+          .setLabel(btn.label)
+          .setStyle(btn.style);
+        if (btn.emoji) button.setEmoji(btn.emoji);
+        if (btn.url) button.setURL(btn.url);
+        else button.setCustomId(btn.customId);
         buttonRow.addComponents(button);
-      }
+      });
       return buttonRow;
     }),
     /* This function is used to create modals. */
@@ -124,6 +135,8 @@ module.exports = (client) => {
       ms,
       option = Formatters.TimestampStyles.ShortDateTime
     ) => {
+      if (option === "relative")
+        option = Formatters.TimestampStyles.RelativeTime;
       return Formatters.time(dayjs(ms).unix(), option);
     }),
     /* This function is used to return a random element from an array. */
@@ -185,9 +198,12 @@ module.exports = (client) => {
       }
     }),
     /* This function is used to update the name of the channel that is used to display the member count. */
-    (client.UpdateMemberCount = (guild, channelId) => {
-      const channel = guild.channels.cache.get(channelId);
-      channel.setName(`Members: ${guild.memberCount.toLocaleString()}`);
+    (client.UpdateMemberCount = (guild, channelId, channelName) => {
+      try {
+        guild.channels.cache
+          .get(channelId)
+          .setName(`${channelName}: ${guild.memberCount}`);
+      } catch (e) {}
     }),
     /* This function is used to get the guild data from the database. */
     (client.getGuild = async (guild) => {
@@ -217,11 +233,22 @@ module.exports = (client) => {
     (client.updateGuild = async (guild, settings) => {
       let guildData = await client.getGuild(guild);
       if (typeof guildData != "object") guildData = {};
+      // if the key is an object
       for (const key in settings) {
-        if (guildData[key] != settings[key]) {
-          guildData[key] = settings[key];
+        if (key.includes(".") && key.split(".").length === 2) {
+          if (
+            guildData[key.split(".")[0]][key.split(".")[1]] != settings[key]
+          ) {
+            guildData[key.split(".")[0]][key.split(".")[1]] = settings[key];
+          }
         }
-        return guildData.updateOne(settings);
+        // if the key is a string, number or boolean
+        else {
+          if (guildData[key] != settings[key]) {
+            guildData[key] = settings[key];
+          }
+        }
       }
+      return guildData.updateOne(settings);
     });
 };

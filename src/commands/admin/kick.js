@@ -5,7 +5,7 @@ module.exports = class KickCommand extends Command {
     super(client, {
       name: "kick",
       description: "🔪 Kick a member from the server.",
-      examples: "/kick `user:@Pexilo#0001` => 🔥 Kick Pexilo from the server.",
+      examples: "/kick `user:@Pexilo#0001` => 🔪 Kick Pexilo from the server.",
       category: "Admin",
       userPermissions: ["KICK_MEMBERS"],
       clientPermissions: ["KICK_MEMBERS"],
@@ -13,14 +13,14 @@ module.exports = class KickCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡User to kick",
+          description: "👤 User to kick",
           required: true,
         },
 
         {
           type: "STRING",
           name: "reason",
-          description: "💡Reason for the kick",
+          description: "❔ Reason for the kick",
         },
       ],
     });
@@ -35,11 +35,8 @@ module.exports = class KickCommand extends Command {
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
-    if (!logsChannel)
-      return interaction.editReply(
-        `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
-      );
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     try {
       await member.kick(
@@ -50,35 +47,37 @@ module.exports = class KickCommand extends Command {
         "🚫 You don't have permission to kick this user."
       );
     }
-
-    logsChannel.send({
-      embeds: [
-        this.client
-          .Embed()
-          .setAuthor({
-            name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.displayAvatarURL({
-              dynamic: true,
-            }),
-          })
-          .setDescription(member.toString() + " has been kicked.")
-          .addFields({
-            name: "Reason",
-            value: `${reason || "No reason provided"}`,
-          })
-          .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-          .setColor("#8B0000")
-          .setTimestamp()
-          .setFooter({
-            text: member.user.tag + " - " + member.user.id,
-          }),
-      ],
-    });
-
-    return interaction.editReply(
-      `🔥 ${member.toString()} has been kick from the server.${
+    interaction.editReply(
+      `🔪 ${member.toString()} has been kick from the server.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );
+
+    if (!logsChannel || !enabledLogs.includes("moderation")) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.displayAvatarURL({
+                dynamic: true,
+              }),
+            })
+            .setDescription(member.toString() + " has been kicked.")
+            .addFields({
+              name: "Reason",
+              value: `${reason || "No reason provided"}`,
+            })
+            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+            .setColor("#c97628")
+            .setTimestamp()
+            .setFooter({
+              text: member.user.tag + " - " + member.user.id,
+            }),
+        ],
+      })
+      .catch(() => {});
   }
 };

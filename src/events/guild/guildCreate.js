@@ -9,14 +9,25 @@ module.exports = class guildCreateEvent extends Event {
 
   async execute(guild) {
     await this.client.createGuild(guild);
-    await guild.channels.cache.get(guild.systemChannelId).send({
-      content: `Hello there, I'm **${this.client.user.username}!** <:StealthyLogo:994266836961071114>\nI gladly accept the invitation for **${guild.name}**.\n\n> I'm here to **help you manage your server**, currently helping \`${this.client.guilds.cache.size}\` servers.\n\n> You can start configuring my **features** with the **button below** or by typing \`/help\`.`,
+
+    this.client.Wait(2000);
+    this.client.channels.cache.get(guild.systemChannelId).send({
+      content: `Hello there 👋, I'm **${this.client.user.username}**! \`🐲\`\n😄 I gladly accept the invitation for **${guild.name}**.\nCurrently helping \`${this.client.guilds.cache.size}\` servers!\n\n> I provide features to **improve the behavior of your server**:\n> admin commands, role claim, join to create... and much more \`🦾\`\n> *I even have the ability to run a Youtube Together activity in your voice channel!*\n\n\`💡\` It is **strongly suggested to configure me** using the **button below** and the \`/setup\` commands.`,
       components: [
-        this.client.ButtonRow(
-          ["setup-menu", "https://github.com/Pexilo/Stealthy"],
-          ["🔧 Setup", "Github"],
-          ["SECONDARY", "LINK"]
-        ),
+        this.client.ButtonRow([
+          {
+            customId: "setup-menu",
+            label: "Setup",
+            style: "SECONDARY",
+            emoji: "🔧",
+          },
+          {
+            url: "https://github.com/Pexilo/Stealthy",
+            label: "GitHub",
+            style: "LINK",
+            emoji: "<:Github:995795578510385322>",
+          },
+        ]),
       ],
     });
   }

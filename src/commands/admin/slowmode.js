@@ -4,9 +4,9 @@ module.exports = class SlowModeCommand extends Command {
   constructor(client) {
     super(client, {
       name: "slowmode",
-      description: "🕒 Set a slowmode for a channel.",
+      description: "🐌 Set a slowmode for a channel.",
       examples:
-        "/slowmode `user:@Pexilo#0001` `nickname:Pexi` => 🔥Change the nickname of @Pexilo#0001 to Pexi.",
+        "/slowmode `channel:General` `format:minutes` `time:1` => 🕒 Set the slowmode for the General channel to 1 minute.",
       category: "Admin",
       userPermissions: ["MANAGE_CHANNELS"],
       clientPermissions: ["MANAGE_CHANNELS"],
@@ -14,14 +14,14 @@ module.exports = class SlowModeCommand extends Command {
         {
           type: "CHANNEL",
           name: "channel",
-          description: "💡Channel to set the slowmode for",
+          description: "📙 Channel to set the slowmode for",
           required: true,
           channelTypes: ["GUILD_TEXT"],
         },
         {
           type: "STRING",
           name: "format",
-          description: "💡 Wich format do you want to use ?",
+          description: "🕒 Wich format do you want to use ?",
           required: true,
           choices: [
             {
@@ -37,13 +37,13 @@ module.exports = class SlowModeCommand extends Command {
         {
           type: "NUMBER",
           name: "time",
-          description: "💡 Define the time",
+          description: "⏱️ Define the time",
           required: true,
         },
         {
           type: "STRING",
           name: "reason",
-          description: "💡 Define the reason",
+          description: "❔ Reason for the slowmode",
         },
       ],
     });
@@ -59,6 +59,10 @@ module.exports = class SlowModeCommand extends Command {
     const time = options.getNumber("time");
     const reason = options.getString("reason");
 
+    const fetchGuild = await this.client.getGuild(guild);
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
+
     const formattedTime = format === "minutes" ? time * 60 : time;
 
     try {
@@ -67,7 +71,6 @@ module.exports = class SlowModeCommand extends Command {
         `by ${interaction.member.user.tag}${reason ? ": " + reason : ""}`
       );
     } catch (e) {
-      console.log(e.message);
       return interaction.editReply(
         "🚫 You don't have permission to set the slowmode for this channel."
       );
@@ -75,12 +78,40 @@ module.exports = class SlowModeCommand extends Command {
 
     if (time == 0) {
       return interaction.editReply(
-        `🕒 ${channel.toString()} slowmode has been reset.`
+        `🐌 ${channel.toString()} slowmode has been reset.`
       );
     }
 
-    return interaction.editReply(
-      `🕒 ${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
+    interaction.editReply(
+      `🐌 ${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
     );
+
+    if (!logsChannel || !enabledLogs.includes("channels")) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.displayAvatarURL({
+                dynamic: true,
+              }),
+            })
+            .setDescription(
+              channel.toString() +
+                " slowmode has been set to "`\`${time} ${format}\`.`
+            )
+            .addFields({
+              name: "Reason",
+              value: reason || "No reason provided",
+            })
+            .setThumbnail(
+              "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/310/snail_1f40c.png"
+            )
+            .setTimestamp(),
+        ],
+      })
+      .catch(() => {});
   }
 };

@@ -12,7 +12,7 @@ module.exports = class HelpCommand extends Command {
         {
           type: "STRING",
           name: "command",
-          description: "💡Command name",
+          description: "🐲 Command name",
           required: false,
         },
       ],
@@ -50,11 +50,13 @@ module.exports = class HelpCommand extends Command {
     let commandCount = 0;
 
     this.client.collections.commands.forEach((element) => {
-      element.adminsOnly === false &&
-      element.category != "Setup" &&
-      !categories.includes(element.category)
-        ? categories.push(element.category)
-        : null;
+      if (
+        element.adminsOnly === false &&
+        element.category != "Setup" &&
+        !categories.includes(element.category)
+      ) {
+        categories.push(element.category);
+      }
     });
 
     this.client.collections.commands
@@ -92,7 +94,14 @@ module.exports = class HelpCommand extends Command {
       return interaction.editReply({
         embeds: [embedInfo],
         components: [
-          this.client.ButtonRow(["setup-menu"], ["🔧 Setup"], ["SECONDARY"]),
+          this.client.ButtonRow([
+            {
+              customId: "setup-menu",
+              label: "Setup",
+              style: "SECONDARY",
+              emoji: "🔧",
+            },
+          ]),
         ],
       });
     }

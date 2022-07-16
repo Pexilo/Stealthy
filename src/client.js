@@ -2,57 +2,67 @@ const { ShewenyClient } = require("sheweny");
 const { mongoose } = require("mongoose");
 require("dotenv").config();
 const { token, mongo_uri, bot_state } = process.env;
+const { Intents } = require("discord.js");
 
 const client = new ShewenyClient({
   intents: [
-    "GUILDS",
-    "GUILD_MEMBERS",
-    "GUILD_MESSAGES",
-    "GUILD_VOICE_STATES",
-    "GUILD_MESSAGE_REACTIONS",
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_VOICE_STATES,
+    Intents.FLAGS.GUILD_PRESENCES,
   ],
-  partials: ["GUILD_MEMBER", "MESSAGE", "REACTION"],
+  partials: [
+    "CHANNEL",
+    "MESSAGE",
+    "REACTION",
+    "USER",
+    "GUILD_MEMBER",
+    "GUILD_PRESENCE",
+  ],
   admins: ["224537059308732416"],
   presence: {
-    status: "online", // online, idle, dnd, invisible
+    status: "online",
     activities: [
       {
         name: "/help",
-        type: "LISTENING", // WATCHING, PLAYING, STREAMING, LISTENING, CUSTOM
+        type: "LISTENING",
       },
     ],
   },
   managers: {
     commands: {
       directory: "./commands",
-      autoRegisterApplicationCommands: true, // Register commands from the application
-      loadAll: true, // Load all commands in the directory
+      autoRegisterApplicationCommands: true,
+      loadAll: true,
       default: {
         type: "SLASH_COMMAND",
         channel: "GUILD",
-        cooldown: 5,
+        cooldown: 3,
       },
     },
     events: {
-      directory: "./events", // Directory where the events are located
-      loadAll: true, // Load all events
+      directory: "./events",
+      loadAll: true,
       default: {
-        once: false, // If the event should only be executed once
+        once: false,
       },
     },
     selectMenus: {
-      directory: "./interactions/select-menus", // Directory where the select-menus are stored
-      loadAll: true, // Load all select-menus (default: true)
+      directory: "./interactions/select-menus",
+      loadAll: true,
     },
     buttons: {
-      directory: "./interactions/buttons", // Directory where the buttons are stored
-      loadAll: true, // Load all buttons (default: true)
+      directory: "./interactions/buttons",
+      loadAll: true,
     },
   },
-  mode: bot_state, // development, production
+  mode: bot_state,
 });
 
-require("./util/functions")(client); // Load the functions file
+require("./util/functions")(client);
 
 mongoose
   .connect(mongo_uri, {
@@ -63,7 +73,7 @@ mongoose
     family: 4,
   })
   .then(() => console.log("MongoDB     ✅"))
-  .catch((err) => console.error(err));
+  .catch((err) => console.error("MongoDB     ❌\n", err.reason));
 
 client.login(token);
 

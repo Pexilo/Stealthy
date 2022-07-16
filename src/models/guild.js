@@ -2,34 +2,57 @@ const mongoose = require("mongoose");
 
 const guildSchema = new mongoose.Schema({
   id: String,
-  default_Lang: { type: String, default: "en" },
-  users: { type: Array, default: [] },
+  language: { type: String, default: "en" },
 
-  logs_Cnl: { type: String, default: null },
-  roleclaim_Cnl: { type: String, default: null },
-  membercount_Cnl: { type: String, default: null },
-  JTC_Cnl: { type: String, default: null },
-
-  roleclaim_Msg: { type: String, default: null },
-  roleclaim_TipMsg: { type: String, default: null },
-  roleclaim_Fields: { type: Array, default: [] },
-
-  autorole_Roles: { type: Array, default: null },
-
-  blacklist_Time: { type: Number, default: 86400000 },
-  blacklist_MinimumAge: { type: Number, default: 3600000 },
-
-  JTC_CnlNames: {
-    type: Array,
-    default: [
-      "🗻 Everest",
-      "🌉 San Francisco",
-      "🌅 Bahamas",
-      "💳 VIP Room",
-      "🏰 Peach Castle",
-    ],
+  logs: {
+    channel: { type: String, default: null },
+    enabled: {
+      type: Array,
+      default: ["moderation", "channels", "joinLeave", "msgDelete", "msgEdit"],
+    },
+    users: { type: Array, default: [] },
   },
-  JTCs: { type: Array, default: [] },
+
+  memberCount: {
+    name: { type: String, default: "👥 Members" },
+    channel: { type: String, default: null },
+  },
+
+  roleClaim: {
+    message: { type: String, default: null },
+    type: {
+      type: String,
+      enum: ["reaction", "selectmenu", "button"],
+      default: "reaction",
+    },
+    channel: { type: String, default: null },
+    tipMessage: { type: String, default: null },
+    fields: { type: Array, default: [] },
+  },
+
+  autoRole: {
+    roles: { type: Array, default: [] },
+  },
+
+  blackList: {
+    time: { type: Number, default: 86400000 },
+    minAge: { type: Number, default: 3600000 },
+  },
+
+  joinToCreate: {
+    names: {
+      type: Array,
+      default: [
+        "🗻 Everest",
+        "🌉 San Francisco",
+        "🌅 Bahamas",
+        "💳 VIP Room",
+        "🏰 Peach Castle",
+      ],
+    },
+    channel: { type: String, default: null },
+    activeChannels: { type: Array, default: [] },
+  },
 });
 
 module.exports = mongoose.model("Guild", guildSchema);

@@ -20,8 +20,10 @@ module.exports = class messageUpdateTracker extends Event {
       return;
 
     const fetchGuild = await this.client.getGuild(guild);
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs_Cnl);
-    if (logsChannel) {
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
+
+    if (logsChannel && enabledLogs.includes("msgUpdate")) {
       const jumpTo =
         "https://discordapp.com/channels/" +
         guild.id +
@@ -53,7 +55,7 @@ module.exports = class messageUpdateTracker extends Event {
           text: `${newMessage.author.tag} - ${member.user.id}`,
         });
 
-      logsChannel.send({ embeds: [embedInfo] });
+      logsChannel.send({ embeds: [embedInfo] }).catch(() => {});
     }
   }
 };

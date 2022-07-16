@@ -29,12 +29,12 @@ module.exports = class JTCListener extends Event {
     const { member, guild } = newState;
     const fetchGuild = await this.client.getGuild(guild);
 
-    const joinToCreate = fetchGuild.JTC_Cnl;
+    const joinToCreate = fetchGuild.joinToCreate.channel;
     if (!joinToCreate) return;
 
     const oldChannel = oldState.channel;
     const newChannel = newState.channel;
-    const JTCsTab = fetchGuild.JTCs;
+    const JTCsTab = fetchGuild.joinToCreate.activeChannels;
 
     // If the user is disconnected from a voice channel OR if the user changed voice channel
     if ((oldChannel && !newChannel) || (oldChannel && newChannel)) {
@@ -54,7 +54,7 @@ module.exports = class JTCListener extends Event {
         oldChannel.delete().catch(() => {});
         JTCsTab.splice(JTCsTab.indexOf(oldChannel.id), 1);
         await this.client.updateGuild(guild, {
-          JTCs: JTCsTab,
+          "joinToCreate.activeChannels": JTCsTab,
         });
         // If the user changed channel we want to make sure before stopping the process, where the user is connected to
         if (!change) return;
@@ -63,7 +63,7 @@ module.exports = class JTCListener extends Event {
 
     // If the user connected to a voice channel OR if the user changed voice channel
     if (oldChannel !== newChannel && newChannel && newChannel == joinToCreate) {
-      const channelNames = fetchGuild.JTC_CnlNames;
+      const channelNames = fetchGuild.joinToCreate.names;
 
       const maxBitrate = (await this.client.guilds.fetch(guild.id))
         .maximumBitrate;
@@ -88,7 +88,7 @@ module.exports = class JTCListener extends Event {
         .catch(() => {});
 
       await this.client.updateGuild(guild, {
-        JTCs: JTCsTab,
+        "joinToCreate.activeChannels": JTCsTab,
       });
 
       /* Cooldown system to avoid spam,
@@ -103,7 +103,7 @@ module.exports = class JTCListener extends Event {
         voiceChannel.delete().catch(() => {});
         JTCsTab.splice(JTCsTab.indexOf(voiceChannel.id), 1);
         await this.client.updateGuild(guild, {
-          JTCs: JTCsTab,
+          "joinToCreate.activeChannels": JTCsTab,
         });
       }
     }

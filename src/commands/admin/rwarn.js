@@ -14,14 +14,19 @@ module.exports = class RWarnCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡 The user to list warns of.",
+          description: "👤 User to remove a warn from",
           required: true,
         },
         {
           type: "NUMBER",
           name: "number",
-          description: "💡 The number of the warn to remove. (see /list-warns)",
+          description: "🔢 The index of the warn to remove (see /list-warns)",
           required: true,
+        },
+        {
+          type: "STRING",
+          name: "reason",
+          description: "❔ Reason for the warn removal",
         },
       ],
     });
@@ -33,9 +38,15 @@ module.exports = class RWarnCommand extends Command {
     const member = options.getMember("user");
     if (!member) return interaction.editReply(`🚫 I can't find that user.`);
     const number = options.getNumber("number");
+    const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
-    const filteredUser = fetchGuild.users.filter((u) => u.id === member.id);
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
+
+    const filteredUser = fetchGuild.logs.users.filter(
+      (u) => u.id === member.id
+    );
     if (filteredUser.length === 0)
       return interaction.editReply(`🚫 This user has no warns.`);
 
@@ -48,12 +59,48 @@ module.exports = class RWarnCommand extends Command {
       );
     }
 
-    const filteredCase = fetchGuild.users.map((u) => u.case).indexOf(index);
-    fetchGuild.users.splice(filteredCase, 1);
-    await this.client.updateGuild(guild, { users: fetchGuild.users });
+    const filteredCase = fetchGuild.logs.users
+      .map((u) => u.case)
+      .indexOf(index);
+    const oldReason = fetchGuild.logs.users[filteredCase].reason;
+    fetchGuild.logs.users.splice(filteredCase, 1);
+    await this.client.updateGuild(guild, {
+      "logs.users": fetchGuild.logs.users,
+    });
 
-    return interaction.editReply(
+    interaction.editReply(
       `❎ Warn **#${number}** of ${member.toString()} has been removed.`
     );
+
+    if (!logsChannel || !enabledLogs.includes("moderation")) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.displayAvatarURL({
+                dynamic: true,
+              }),
+            })
+            .setDescription(
+              "Warn of " +
+                member.toString() +
+                " has been removed.\n" +
+                `➡️\`${oldReason}\``
+            )
+            .addFields({
+              name: "Reason",
+              value: `${reason || "No reason provided"}`,
+            })
+            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
+            .setFooter({
+              text: member.user.tag + " - " + member.user.id,
+            }),
+        ],
+      })
+      .catch(() => {});
   }
 };

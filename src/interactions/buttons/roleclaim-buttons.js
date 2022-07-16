@@ -10,14 +10,24 @@ module.exports = class roleClaimButtons extends Button {
 
     const fetchGuild = await this.client.getGuild(guild);
 
-    const msgId = fetchGuild.roleclaim_Msg;
-    const channelId = fetchGuild.roleclaim_Cnl;
-    const tipMsgId = fetchGuild.roleclaim_TipMsg;
+    const msgId = fetchGuild.roleClaim.message;
+    let channelId = fetchGuild.roleClaim.channel;
+    const tipMsgId = fetchGuild.roleClaim.tipMessage;
     let foundChannel, msg, tipMsg;
 
     switch (button.customId) {
       case "create-roleclaim":
         if (!(await this.client.Defer(button))) return;
+
+        if (channelId && msgId && tipMsgId) {
+          try {
+            foundChannel = guild.channels.cache.get(channelId);
+            msg = await foundChannel.messages.fetch(msgId);
+            tipMsg = await foundChannel.messages.fetch(tipMsgId);
+            msg.delete();
+            tipMsg.delete();
+          } catch (e) {}
+        }
 
         this.client.updateGuild(guild, { roleclaim_Roles: [] }); // Clear roles if they were already set
 
@@ -38,8 +48,11 @@ module.exports = class roleClaimButtons extends Button {
           })
           .then((msg) => {
             try {
-              this.client.updateGuild(guild, { roleclaim_Msg: msg.id });
-              this.client.updateGuild(guild, { roleclaim_Cnl: channel.id });
+              this.client.updateGuild(guild, { "roleClaim.message": msg.id });
+              this.client.updateGuild(guild, {
+                "roleClaim.channel": channel.id,
+              });
+              channelId = channel.id;
             } catch (e) {
               return interaction.editReply(
                 `⛔ An error occured: ${"```"}${
@@ -49,20 +62,32 @@ module.exports = class roleClaimButtons extends Button {
             }
             // Tip message for the user
             channel
-              .send("> Add roles with `/setup roleclaim add`")
+              .send({
+                content: "> Add roles with `/setup roleclaim add`",
+              })
               .then((msg) => {
-                this.client.updateGuild(guild, { roleclaim_TipMsg: msg.id });
+                this.client.updateGuild(guild, {
+                  "roleClaim.tipMessage": msg.id,
+                });
               });
 
             return button.editReply({
-              content:
-                "✅ Role Claim system created!\n\n> Use the button below to edit the role claim message.",
+              content: `Role Claim message is setup in **<#${channelId}>**.\n\n> To change the roles use, \`/setup roleclaim add/remove\` command.\n> You can edit the role claim message with the button bellow or with \`/setup roleclaim embed\``,
               components: [
-                this.client.ButtonRow(
-                  ["edit-roleclaim"],
-                  ["✏️ Edit"],
-                  ["SECONDARY"]
-                ),
+                this.client.ButtonRow([
+                  {
+                    customId: "edit-roleclaim",
+                    label: "Edit",
+                    style: "PRIMARY",
+                    emoji: "✏️",
+                  },
+                  {
+                    customId: "delete-roleclaim",
+                    label: "Delete",
+                    style: "SECONDARY",
+                    emoji: "🗑",
+                  },
+                ]),
               ],
             });
           });
@@ -128,12 +153,19 @@ module.exports = class roleClaimButtons extends Button {
       case "delete-roleclaim":
         if (!(await this.client.Defer(button))) return;
 
+        if (!fetchGuild.roleClaim.message) {
+          return button.editReply({
+            content:
+              "🚫 You need to setup the role claim system first.\n\n> Use `/setup channels`",
+          });
+        }
+
         // Clear db
         this.client.updateGuild(guild, {
           roleclaim_Roles: [],
-          roleclaim_Msg: null,
-          roleclaim_Cnl: null,
-          roleclaim_TipMsg: null,
+          "roleClaim.message": null,
+          "roleClaim.channel": null,
+          "roleClaim.tipMessage": null,
         });
 
         // Delete role claim messages if found

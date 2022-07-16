@@ -18,11 +18,14 @@ module.exports = class TranslateMessageContextMenuCommand extends Command {
 
     const message = options.getMessage("message");
     const fetchGuild = await this.client.getGuild(guild);
-    const lang = fetchGuild.default_Lang;
+    const lang = fetchGuild.language;
 
-    if (!message.content.length > 0)
+    if (!message || message.content.length === 0)
       return interaction.editReply({
-        content: await FastTranslate(TranslateMessage.notText, lang),
+        content: await this.client.FastTranslate(
+          "🚫 Unable to translate this message",
+          lang
+        ),
       });
 
     const translated = await this.client.Translate(message.content, lang);

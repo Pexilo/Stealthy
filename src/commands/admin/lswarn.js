@@ -14,7 +14,7 @@ module.exports = class LsWarnCommand extends Command {
         {
           type: "USER",
           name: "user",
-          description: "💡 The user to list warns of.",
+          description: "👤 The user to list warns of",
           required: true,
         },
       ],
@@ -28,24 +28,43 @@ module.exports = class LsWarnCommand extends Command {
     if (!member) return interaction.editReply(`🚫 I can't find that user.`);
 
     const fetchGuild = await this.client.getGuild(guild);
-    const filteredUser = fetchGuild.users.filter((u) => u.id === member.id);
+    const filteredUser = fetchGuild.logs.users.filter(
+      (u) => u.id === member.id
+    );
     if (filteredUser.length === 0)
       return interaction.editReply(`🚫 This user has no warns.`);
 
-    let warnList = `🔨 **Warns of ${member.toString()}**\n`;
+    let warnList = "";
     let i = filteredUser.length + 1;
+    let s = 1;
 
     filteredUser
       .slice()
       .reverse()
       .forEach((warn) => {
         i--;
+        s++;
+        if (s > 10) return;
         warnList += `\n**${i}:** by <@${
           warn.moderator
-        }> - ${this.client.Formatter(warn.date)}\n`;
+        }> - ${this.client.Formatter(warn.date, "relative")}\n`;
         warnList += `Reason: \`${warn.reason}\`\n`;
       });
 
-    return interaction.editReply(warnList);
+    return interaction.editReply({
+      embeds: [
+        this.client
+          .Embed()
+          .setAuthor({
+            name: `${member.user.tag} warns 🔨`,
+            iconURL: member.user.avatarURL({ dynamic: true }),
+          })
+          .setDescription(warnList)
+          .setTimestamp()
+          .setFooter({
+            text: `${member.user.tag} - ${member.user.id}`,
+          }),
+      ],
+    });
   }
 };

@@ -15,7 +15,7 @@ module.exports = class messageReactionRemoveTracker extends Event {
 
     const fetchGuild = await this.client.getGuild(guild);
 
-    const msgId = fetchGuild.roleclaim_Msg;
+    const msgId = fetchGuild.roleClaim.message;
     if (messageReaction.message.id !== msgId) return;
 
     const emoji = messageReaction._emoji.name;
@@ -24,7 +24,7 @@ module.exports = class messageReactionRemoveTracker extends Event {
       ? customEmoji
       : this.client.GetEmojiNameFromUni(emoji);
 
-    const roleId = fetchGuild.roleclaim_Fields.filter(
+    const roleId = fetchGuild.roleClaim.fields.filter(
       (r) => r.emojiName == emojiName
     )[0].roleId;
 

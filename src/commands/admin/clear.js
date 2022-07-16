@@ -5,7 +5,7 @@ module.exports = class ClearCommand extends Command {
     super(client, {
       name: "clear",
       description: "⛑️ Clear a certain amount of messages from a channel.",
-      examples: "/clear `number:5` => 🔥Delete `5` messages in a channel",
+      examples: "/clear `number:5` => ⛑️ Delete `5` messages in a channel",
       category: "Admin",
       userPermissions: ["ADMINISTRATOR"],
       clientPermissions: ["MANAGE_MESSAGES"],
@@ -13,7 +13,7 @@ module.exports = class ClearCommand extends Command {
         {
           type: "INTEGER",
           name: "number",
-          description: "💡Number of messages to delete",
+          description: "🔢 Number of messages to delete",
           required: true,
           min: 1,
           max: 100,
@@ -38,7 +38,14 @@ module.exports = class ClearCommand extends Command {
         " " +
         interaction.channel.toString(),
       components: [
-        this.client.ButtonRow(["confirm-clear"], ["Yes"], ["SECONDARY"]),
+        this.client.ButtonRow([
+          {
+            customId: "confirm-clear",
+            label: "",
+            style: "SUCCESS",
+            emoji: "✅",
+          },
+        ]),
       ],
     });
   }
