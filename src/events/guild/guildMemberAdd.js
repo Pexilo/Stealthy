@@ -17,8 +17,9 @@ module.exports = class guildMemberAddTracker extends Event {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
-    if (logsChannel) {
+    if (logsChannel && enabledLogs.includes("joinLeave")) {
       let warn = false;
       const blacklistMinAge = fetchGuild.blackList.minAge;
       const blacklistTime = fetchGuild.blackList.time;

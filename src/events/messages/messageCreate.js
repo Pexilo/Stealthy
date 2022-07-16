@@ -28,7 +28,9 @@ module.exports = class messageCreateTracker extends Event {
       const logsChannel = this.client.channels.cache.get(
         fetchGuild.logs.channel
       );
-      if (logsChannel) {
+      const enabledLogs = fetchGuild.logs.enabled;
+
+      if (logsChannel && enabledLogs.includes("moderation")) {
         message.delete();
 
         return logsChannel

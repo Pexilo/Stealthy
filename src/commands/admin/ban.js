@@ -36,6 +36,7 @@ module.exports = class BanCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     try {
       await member.ban({
@@ -57,7 +58,7 @@ module.exports = class BanCommand extends Command {
       }`
     );
 
-    if (!logsChannel) return;
+    if (!logsChannel || !enabledLogs.includes("moderation")) return;
     logsChannel
       .send({
         embeds: [

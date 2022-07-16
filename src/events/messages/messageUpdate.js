@@ -21,7 +21,9 @@ module.exports = class messageUpdateTracker extends Event {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    if (logsChannel) {
+    const enabledLogs = fetchGuild.logs.enabled;
+
+    if (logsChannel && enabledLogs.includes("msgUpdate")) {
       const jumpTo =
         "https://discordapp.com/channels/" +
         guild.id +

@@ -37,6 +37,7 @@ module.exports = class UnBanCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     try {
       await guild.members.unban(memberId, [
@@ -54,7 +55,7 @@ module.exports = class UnBanCommand extends Command {
       }`
     );
 
-    if (!logsChannel) return;
+    if (!logsChannel || !enabledLogs.includes("moderation")) return;
     logsChannel
       .send({
         embeds: [

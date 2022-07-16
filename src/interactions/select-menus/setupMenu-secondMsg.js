@@ -46,7 +46,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           fetchGuild.joinToCreate.channel
         );
 
-        return selectMenu.editReply({
+        selectMenu.editReply({
           content: `${
             logsChannel
               ? "> **`🚀` Logs** channel is setup in " +
@@ -79,6 +79,22 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
               : ""
           }\nPlease use, \`/setup channels\` command to setup your channels.`,
         });
+
+        if (logsChannel) {
+          return selectMenu.editReply({
+            components: [
+              this.client.ButtonRow([
+                {
+                  customId: "setup-logs",
+                  label: "Setup Logs",
+                  style: "PRIMARY",
+                  emoji: "🚀",
+                },
+              ]),
+            ],
+          });
+        }
+
         break;
 
       case "jtc_option":

@@ -28,12 +28,21 @@ module.exports = (client) => {
       return prettyMilliseconds(ms, option);
     }),
     /* This function is used to create a new row for a select menu. */
-    (client.SelectMenuRow = (customId, placeholder = null, options = null) => {
+    (client.SelectMenuRow = (
+      customId,
+      placeholder = null,
+      options = null,
+      amount = null
+    ) => {
       let menuRow = new MessageActionRow().addComponents(
         new MessageSelectMenu().setCustomId(customId)
       );
-      placeholder ? menuRow.components[0].setPlaceholder(placeholder) : null;
-      options ? menuRow.components[0].addOptions(options) : null;
+      if (placeholder) menuRow.components[0].setPlaceholder(placeholder);
+      if (amount) {
+        menuRow.components[0].setMinValues(amount.min);
+        menuRow.components[0].setMaxValues(amount.max);
+      }
+      if (options) menuRow.components[0].addOptions(options);
       return menuRow;
     }),
     /* This function is used to create buttons. */

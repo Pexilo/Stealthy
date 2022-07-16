@@ -61,6 +61,7 @@ module.exports = class SlowModeCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     const formattedTime = format === "minutes" ? time * 60 : time;
 
@@ -86,7 +87,7 @@ module.exports = class SlowModeCommand extends Command {
       `🐌 ${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
     );
 
-    if (!logsChannel) return;
+    if (!logsChannel || !enabledLogs.includes("channels")) return;
     logsChannel
       .send({
         embeds: [

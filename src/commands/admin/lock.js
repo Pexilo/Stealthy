@@ -41,6 +41,7 @@ module.exports = class LockCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     try {
       await channel.permissionOverwrites.edit(guild.id, {
@@ -56,7 +57,7 @@ module.exports = class LockCommand extends Command {
       `🔒 Channel ${channel.toString()} has been locked.\n\n> Use \`/unlock\` to unlock it.`
     );
 
-    if (!logsChannel) return;
+    if (!logsChannel || !enabledLogs.includes("channels")) return;
     logsChannel
       .send({
         embeds: [

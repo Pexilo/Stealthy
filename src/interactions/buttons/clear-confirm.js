@@ -21,12 +21,13 @@ module.exports = class ClearConfirmButton extends Button {
         const logsChannel = this.client.channels.cache.get(
           fetchGuild.logs.channel
         );
+        const enabledLogs = fetchGuild.logs.enabled;
 
         button.editReply({
           content: "⛑️ " + `\`${number}\`` + " messages have been cleared",
         });
 
-        if (!logsChannel) return;
+        if (!logsChannel || !enabledLogs.includes("channels")) return;
         logsChannel
           .send({
             embeds: [

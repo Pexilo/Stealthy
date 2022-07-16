@@ -24,8 +24,9 @@ module.exports = class messageDeleteTracker extends Event {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
-    if (logsChannel) {
+    if (logsChannel && enabledLogs.includes("msgDelete")) {
       return logsChannel
         .send({
           embeds: [

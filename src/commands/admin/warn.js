@@ -36,6 +36,7 @@ module.exports = class WarnCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     const userArray = fetchGuild.logs.users;
     const cases = fetchGuild.logs.users.map((u) => u.case);
@@ -58,7 +59,7 @@ module.exports = class WarnCommand extends Command {
       content: `🔨 ${member.toString()} has been warn.`,
     });
 
-    if (!logsChannel) return;
+    if (!logsChannel || !enabledLogs.includes("moderation")) return;
     logsChannel
       .send({
         embeds: [

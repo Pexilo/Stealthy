@@ -42,6 +42,7 @@ module.exports = class RWarnCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     const filteredUser = fetchGuild.logs.users.filter(
       (u) => u.id === member.id
@@ -71,7 +72,7 @@ module.exports = class RWarnCommand extends Command {
       `❎ Warn **#${number}** of ${member.toString()} has been removed.`
     );
 
-    if (!logsChannel) return;
+    if (!logsChannel || !enabledLogs.includes("moderation")) return;
     logsChannel
       .send({
         embeds: [

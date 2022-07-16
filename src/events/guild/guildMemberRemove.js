@@ -19,8 +19,9 @@ module.exports = class guildMemberRemoveTracker extends Event {
     try {
       logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     } catch (e) {}
+    const enabledLogs = fetchGuild.logs.enabled;
 
-    if (logsChannel) {
+    if (logsChannel && enabledLogs.includes("joinLeave")) {
       const searchRoles = member.roles.cache
         .filter((r) => r.id !== guild.id)
         .map((r) => r.toString())

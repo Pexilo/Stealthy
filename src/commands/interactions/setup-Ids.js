@@ -842,9 +842,55 @@ module.exports = class SetupBotCommand extends Command {
             );
 
           await this.client.updateGuild(guild, { "logs.channel": channel.id });
+          const enabledLogs = fetchGuild.logs.enabled;
 
           return interaction.editReply({
-            content: `🚀 Logs channel is now set up in ${channel.toString()}`,
+            content: `🚀 Logs channel is now set up in ${channel.toString()}\n\nYou can **enable or disable logs** with the **select below**.`,
+            components: [
+              this.client.SelectMenuRow(
+                "logs-select",
+                "What logs do you want to see?",
+                [
+                  {
+                    label: "Moderation",
+                    description: "Kick, ban, mute, warn, blacklist commands",
+                    value: "moderation",
+                    emoji: "🛡️",
+                    default: enabledLogs.includes("moderation"),
+                  },
+                  {
+                    label: "Channels changes",
+                    description: "Slowmode, lock, clear commands.",
+                    value: "channels",
+                    emoji: "📙",
+                    default: enabledLogs.includes("channels"),
+                  },
+                  {
+                    label: "Join & Leave",
+                    description:
+                      "Whenever a member joins or leaves the server.",
+                    value: "joinLeave",
+                    emoji: "📝",
+                    default: enabledLogs.includes("joinLeave"),
+                  },
+                  {
+                    label: "Message deleted",
+                    description: "If a message is deleted by a user.",
+                    value: "msgDelete",
+                    emoji: "🗑",
+                    default: enabledLogs.includes("msgDelete"),
+                  },
+                  {
+                    label: "Message edited",
+                    description: "If a message is edited by a user.",
+                    value: "msgEdit",
+                    emoji: "✍️",
+                    default: enabledLogs.includes("msgEdit"),
+                  },
+                ],
+                { min: 0, max: 5 }
+              ),
+            ],
           });
         }
 

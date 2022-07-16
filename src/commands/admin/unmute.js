@@ -35,6 +35,7 @@ module.exports = class UnMuteCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     // Check if the member is already muted
     if (!member.isCommunicationDisabled()) {
@@ -53,7 +54,7 @@ module.exports = class UnMuteCommand extends Command {
       content: `🔊 ${member.toString()} is no longer muted.`,
     });
 
-    if (!logsChannel) return;
+    if (!logsChannel || !enabledLogs.includes("moderation")) return;
     logsChannel
       .send({
         embeds: [

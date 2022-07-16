@@ -6,6 +6,10 @@ const guildSchema = new mongoose.Schema({
 
   logs: {
     channel: { type: String, default: null },
+    enabled: {
+      type: Array,
+      default: ["moderation", "channels", "joinLeave", "msgDelete", "msgEdit"],
+    },
     users: { type: Array, default: [] },
   },
 

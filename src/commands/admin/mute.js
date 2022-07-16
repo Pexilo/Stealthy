@@ -63,6 +63,7 @@ module.exports = class MuteCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
 
     format === "minutes" ? (duration *= 60000) : (duration *= 3600000);
 
@@ -85,7 +86,7 @@ module.exports = class MuteCommand extends Command {
       )}`,
     });
 
-    if (!logsChannel) return;
+    if (!logsChannel || !enabledLogs.includes("moderation")) return;
     logsChannel
       .send({
         embeds: [
