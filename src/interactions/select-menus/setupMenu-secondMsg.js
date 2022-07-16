@@ -80,18 +80,51 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           }\nPlease use, \`/setup channels\` command to setup your channels.`,
         });
 
-        if (logsChannel) {
+        if (
+          logsChannel ||
+          roleclaimChannel ||
+          membercountChannel ||
+          JTCChannel
+        ) {
+          let buttons = [];
+          if (logsChannel) {
+            buttons.push({
+              customId: "setup-logs",
+              label: "Setup Logs",
+              style: "SECONDARY",
+              emoji: "🚀",
+            });
+          }
+
+          if (roleclaimChannel) {
+            buttons.push({
+              customId: "edit-roleclaim",
+              label: "Edit Role Claim message",
+              style: "SECONDARY",
+              emoji: "🗂️",
+            });
+          }
+
+          if (membercountChannel) {
+            buttons.push({
+              customId: "rename-membercount",
+              label: "Rename Member Count",
+              style: "SECONDARY",
+              emoji: "🧾",
+            });
+          }
+
+          if (JTCChannel) {
+            buttons.push({
+              customId: "channels-names-JTC",
+              label: "Edit Join to Create names",
+              style: "SECONDARY",
+              emoji: "🔊",
+            });
+          }
+
           return selectMenu.editReply({
-            components: [
-              this.client.ButtonRow([
-                {
-                  customId: "setup-logs",
-                  label: "Setup Logs",
-                  style: "PRIMARY",
-                  emoji: "🚀",
-                },
-              ]),
-            ],
+            components: [this.client.ButtonRow(buttons)],
           });
         }
 
