@@ -69,7 +69,7 @@ module.exports = class guildMemberAddTracker extends Event {
           )
           .setColor("#ffcc4d");
       }
-      await logsChannel.send({ embeds: [EmbedInfo] });
+      logsChannel.send({ embeds: [EmbedInfo] }).catch(() => {});
     }
 
     /*

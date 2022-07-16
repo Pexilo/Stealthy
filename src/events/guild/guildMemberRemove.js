@@ -49,14 +49,14 @@ module.exports = class guildMemberRemoveTracker extends Event {
 
       if (member.joinedTimestamp) {
         embedInfo.addFields({
-          name: "📅 " + "Account Age" + ":",
+          name: "📥 " + "Joined the server" + ":",
           value: `${this.client.Formatter(
             member.joinedTimestamp
           )} - ${this.client.Formatter(member.joinedTimestamp, "relative")}`,
         });
       }
 
-      logsChannel.send({ embeds: [embedInfo] });
+      logsChannel.send({ embeds: [embedInfo] }).catch(() => {});
     }
 
     /*

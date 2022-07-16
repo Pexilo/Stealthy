@@ -36,10 +36,6 @@ module.exports = class WarnCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    if (!logsChannel)
-      return interaction.editReply(
-        `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
-      );
 
     const userArray = fetchGuild.logs.users;
     const cases = fetchGuild.logs.users.map((u) => u.case);
@@ -58,32 +54,35 @@ module.exports = class WarnCommand extends Command {
     userArray.push(user);
     await this.client.updateGuild(guild, { "logs.users": userArray });
 
-    logsChannel.send({
-      embeds: [
-        this.client
-          .Embed()
-          .setAuthor({
-            name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.avatarURL({ dynamic: true }),
-          })
-          .setDescription(
-            `${member.toString()} has been warn.\n\nUse, \`/warns-list\` to see all warns.`
-          )
-          .setFields({
-            name: `Reason` + ":",
-            value: `${reason || "No reason provided"}`,
-            inline: true,
-          })
-          .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-          .setTimestamp()
-          .setFooter({
-            text: `${member.user.tag} - ${member.user.id}`,
-          }),
-      ],
-    });
-
-    return interaction.editReply({
+    interaction.editReply({
       content: `🔨 ${member.toString()} has been warn.`,
     });
+
+    if (!logsChannel) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.avatarURL({ dynamic: true }),
+            })
+            .setDescription(
+              `${member.toString()} has been warn.\n\nUse, \`/warns-list\` to see all warns.`
+            )
+            .setFields({
+              name: `Reason` + ":",
+              value: `${reason || "No reason provided"}`,
+              inline: true,
+            })
+            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
+            .setFooter({
+              text: `${member.user.tag} - ${member.user.id}`,
+            }),
+        ],
+      })
+      .catch(() => {});
   }
 };

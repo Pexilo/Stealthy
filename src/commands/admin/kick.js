@@ -36,10 +36,6 @@ module.exports = class KickCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    if (!logsChannel)
-      return interaction.editReply(
-        `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
-      );
 
     try {
       await member.kick(
@@ -50,35 +46,37 @@ module.exports = class KickCommand extends Command {
         "🚫 You don't have permission to kick this user."
       );
     }
-
-    logsChannel.send({
-      embeds: [
-        this.client
-          .Embed()
-          .setAuthor({
-            name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.displayAvatarURL({
-              dynamic: true,
-            }),
-          })
-          .setDescription(member.toString() + " has been kicked.")
-          .addFields({
-            name: "Reason",
-            value: `${reason || "No reason provided"}`,
-          })
-          .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-          .setColor("#8B0000")
-          .setTimestamp()
-          .setFooter({
-            text: member.user.tag + " - " + member.user.id,
-          }),
-      ],
-    });
-
-    return interaction.editReply(
+    interaction.editReply(
       `🔪 ${member.toString()} has been kick from the server.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );
+
+    if (!logsChannel) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.displayAvatarURL({
+                dynamic: true,
+              }),
+            })
+            .setDescription(member.toString() + " has been kicked.")
+            .addFields({
+              name: "Reason",
+              value: `${reason || "No reason provided"}`,
+            })
+            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+            .setColor("#c97628")
+            .setTimestamp()
+            .setFooter({
+              text: member.user.tag + " - " + member.user.id,
+            }),
+        ],
+      })
+      .catch(() => {});
   }
 };

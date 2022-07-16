@@ -31,6 +31,15 @@ module.exports = class interactionCreateEvent extends Event {
       });
     }
 
+    // lazy fix because permissions are terrible to setup, WIP ig
+    if (!guild.me.permissions.has("ADMINISTRATOR")) {
+      return interaction.reply({
+        content:
+          "🚫 I need the `ADMINISTRATOR` permission to operate properly.",
+        ephemeral: true,
+      });
+    }
+
     if (interaction.isModalSubmit()) {
       if (interaction.customId === "channels-names-JTC") {
         //get input from modal

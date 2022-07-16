@@ -4,7 +4,7 @@ module.exports = class SlowModeCommand extends Command {
   constructor(client) {
     super(client, {
       name: "slowmode",
-      description: "🕒 Set a slowmode for a channel.",
+      description: "🐌 Set a slowmode for a channel.",
       examples:
         "/slowmode `channel:General` `format:minutes` `time:1` => 🕒 Set the slowmode for the General channel to 1 minute.",
       category: "Admin",
@@ -59,6 +59,9 @@ module.exports = class SlowModeCommand extends Command {
     const time = options.getNumber("time");
     const reason = options.getString("reason");
 
+    const fetchGuild = await this.client.getGuild(guild);
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+
     const formattedTime = format === "minutes" ? time * 60 : time;
 
     try {
@@ -75,12 +78,40 @@ module.exports = class SlowModeCommand extends Command {
 
     if (time == 0) {
       return interaction.editReply(
-        `🕒 ${channel.toString()} slowmode has been reset.`
+        `🐌 ${channel.toString()} slowmode has been reset.`
       );
     }
 
-    return interaction.editReply(
-      `🕒 ${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
+    interaction.editReply(
+      `🐌 ${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
     );
+
+    if (!logsChannel) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.displayAvatarURL({
+                dynamic: true,
+              }),
+            })
+            .setDescription(
+              channel.toString() +
+                " slowmode has been set to "`\`${time} ${format}\`.`
+            )
+            .addFields({
+              name: "Reason",
+              value: reason || "No reason provided",
+            })
+            .setThumbnail(
+              "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/310/snail_1f40c.png"
+            )
+            .setTimestamp(),
+        ],
+      })
+      .catch(() => {});
   }
 };

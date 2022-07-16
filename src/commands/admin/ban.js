@@ -36,10 +36,6 @@ module.exports = class BanCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    if (!logsChannel)
-      return interaction.editReply(
-        `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
-      );
 
     try {
       await member.ban({
@@ -48,39 +44,44 @@ module.exports = class BanCommand extends Command {
         }`,
       });
     } catch (e) {
+      console.log("🚀 ~ e", e);
+
       return interaction.editReply(
         "🚫 You don't have permission to ban this user."
       );
     }
 
-    logsChannel.send({
-      embeds: [
-        this.client
-          .Embed()
-          .setAuthor({
-            name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.displayAvatarURL({
-              dynamic: true,
-            }),
-          })
-          .setDescription(member.toString() + " has been banned.")
-          .addFields({
-            name: "Reason",
-            value: `${reason || "No reason provided"}`,
-          })
-          .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-          .setColor("#8B0000")
-          .setTimestamp()
-          .setFooter({
-            text: member.user.tag + " - " + member.user.id,
-          }),
-      ],
-    });
-
-    return interaction.editReply(
+    interaction.editReply(
       `🔪 ${member.toString()} has been banned from the server.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );
+
+    if (!logsChannel) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.displayAvatarURL({
+                dynamic: true,
+              }),
+            })
+            .setDescription(member.toString() + " has been banned.")
+            .addFields({
+              name: "Reason",
+              value: `${reason || "No reason provided"}`,
+            })
+            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+            .setColor("#b72a2a")
+            .setTimestamp()
+            .setFooter({
+              text: member.user.tag + " - " + member.user.id,
+            }),
+        ],
+      })
+      .catch(() => {});
   }
 };

@@ -63,10 +63,6 @@ module.exports = class MuteCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    if (!logsChannel)
-      return interaction.editReply(
-        `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
-      );
 
     format === "minutes" ? (duration *= 60000) : (duration *= 3600000);
 
@@ -82,38 +78,41 @@ module.exports = class MuteCommand extends Command {
         }${"```"}\nPlease contact an administrator of the bot for further assistance.`
       );
     }
-
-    logsChannel.send({
-      embeds: [
-        this.client
-          .Embed()
-          .setAuthor({
-            name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.avatarURL({ dynamic: true }),
-          })
-          .setDescription(
-            `${member.toString()} has been muted for \`${this.client.PrettyMs(
-              duration
-            )}\`\n\nTo unmute, use \`/unmute user:@${member.user.tag}\``
-          )
-          .setFields({
-            name: `Reason` + ":",
-            value: `${reason || "No reason provided"}`,
-            inline: true,
-          })
-          .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-          .setTimestamp()
-          .setFooter({
-            text: `${member.user.tag} - ${member.user.id}`,
-          }),
-      ],
-    });
-
-    return interaction.editReply({
+    interaction.editReply({
       content: `🔇 ${member.toString()} has been muted for ${this.client.PrettyMs(
         duration,
         { verbose: true }
       )}`,
     });
+
+    if (!logsChannel) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.avatarURL({ dynamic: true }),
+            })
+            .setDescription(
+              `${member.toString()} has been muted for \`${this.client.PrettyMs(
+                duration
+              )}\`\n\nTo unmute, use \`/unmute\`.`
+            )
+            .setFields({
+              name: `Reason` + ":",
+              value: `${reason || "No reason provided"}`,
+              inline: true,
+            })
+            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
+            .setColor("#c97628")
+            .setFooter({
+              text: `${member.user.tag} - ${member.user.id}`,
+            }),
+        ],
+      })
+      .catch(() => {});
   }
 };

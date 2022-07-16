@@ -53,7 +53,7 @@ module.exports = class messageUpdateTracker extends Event {
           text: `${newMessage.author.tag} - ${member.user.id}`,
         });
 
-      logsChannel.send({ embeds: [embedInfo] });
+      logsChannel.send({ embeds: [embedInfo] }).catch(() => {});
     }
   }
 };

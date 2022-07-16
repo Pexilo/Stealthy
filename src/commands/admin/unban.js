@@ -37,10 +37,6 @@ module.exports = class UnBanCommand extends Command {
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    if (!logsChannel)
-      return interaction.editReply(
-        `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
-      );
 
     try {
       await guild.members.unban(memberId, [
@@ -52,34 +48,36 @@ module.exports = class UnBanCommand extends Command {
         "🚫 This user is not banned from this server."
       );
     }
-
-    logsChannel.send({
-      embeds: [
-        this.client
-          .Embed()
-          .setAuthor({
-            name: `by ${interaction.user.tag}`,
-            iconURL: interaction.user.displayAvatarURL({
-              dynamic: true,
-            }),
-          })
-          .setDescription(`\`${memberId}\` has been unbanned.`)
-          .addFields({
-            name: "Reason",
-            value: `${reason || "No reason provided"}`,
-          })
-          .setColor("#8B0000")
-          .setTimestamp()
-          .setFooter({
-            text: memberId,
-          }),
-      ],
-    });
-
-    return interaction.editReply(
+    interaction.editReply(
       `🔪 \`${memberId}\` has been unbanned from the server.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );
+
+    if (!logsChannel) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.displayAvatarURL({
+                dynamic: true,
+              }),
+            })
+            .setDescription(`\`${memberId}\` has been unbanned.`)
+            .addFields({
+              name: "Reason",
+              value: `${reason || "No reason provided"}`,
+            })
+            .setColor("#b72a2a")
+            .setTimestamp()
+            .setFooter({
+              text: memberId,
+            }),
+        ],
+      })
+      .catch(() => {});
   }
 };

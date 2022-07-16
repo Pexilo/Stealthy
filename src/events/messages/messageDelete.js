@@ -26,25 +26,27 @@ module.exports = class messageDeleteTracker extends Event {
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
 
     if (logsChannel) {
-      return logsChannel.send({
-        embeds: [
-          this.client
-            .Embed()
-            .setAuthor({
-              name: `${message.author.username} message removed.`,
-              iconURL: member.user.displayAvatarURL({ dynamic: true }),
-            })
-            .setDescription(
-              `Message from <@${member.id}> in <#${channel.id}>\n
+      return logsChannel
+        .send({
+          embeds: [
+            this.client
+              .Embed()
+              .setAuthor({
+                name: `${message.author.username} message removed.`,
+                iconURL: member.user.displayAvatarURL({ dynamic: true }),
+              })
+              .setDescription(
+                `Message from <@${member.id}> in <#${channel.id}>\n
               ${"```"}${message.content}${"```"}`
-            )
-            .setColor("#8B0000")
-            .setTimestamp()
-            .setFooter({
-              text: `${message.author.tag} - ${member.user.id}`,
-            }),
-        ],
-      });
+              )
+              .setColor("#8B0000")
+              .setTimestamp()
+              .setFooter({
+                text: `${message.author.tag} - ${member.user.id}`,
+              }),
+          ],
+        })
+        .catch(() => {});
     }
   }
 };

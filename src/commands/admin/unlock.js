@@ -18,6 +18,11 @@ module.exports = class UnlockCommand extends Command {
           required: true,
           channelTypes: ["GUILD_TEXT"],
         },
+        {
+          type: "STRING",
+          name: "reason",
+          description: "❔ Reason for the unlock",
+        },
       ],
     });
   }
@@ -30,6 +35,10 @@ module.exports = class UnlockCommand extends Command {
     if (channel.permissionsFor(guild.id).has("SEND_MESSAGES")) {
       return interaction.editReply("🚫 This channel is already unlocked.");
     }
+    const reason = options.getString("reason");
+
+    const fetchGuild = await this.client.getGuild(guild);
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
 
     try {
       await channel.permissionOverwrites.edit(guild.id, {
@@ -44,5 +53,32 @@ module.exports = class UnlockCommand extends Command {
     interaction.editReply(
       `🔓 Channel ${channel.toString()} has been unlocked.`
     );
+
+    if (!logsChannel) return;
+    logsChannel
+      .send({
+        embeds: [
+          this.client
+            .Embed()
+            .setAuthor({
+              name: `by ${interaction.user.tag}`,
+              iconURL: interaction.user.displayAvatarURL({
+                dynamic: true,
+              }),
+            })
+            .setDescription(channel.toString() + " has been unlocked.")
+            .addFields({
+              name: "Reason",
+              value: reason || "No reason provided",
+            })
+            .setThumbnail(
+              "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/322/unlocked_1f513.png"
+            )
+            .setColor("#ffac33")
+
+            .setTimestamp(),
+        ],
+      })
+      .catch(() => {});
   }
 };
