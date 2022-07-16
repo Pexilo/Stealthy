@@ -26,9 +26,7 @@ module.exports = class roleClaimButtons extends Button {
             tipMsg = await foundChannel.messages.fetch(tipMsgId);
             msg.delete();
             tipMsg.delete();
-          } catch (e) {
-            console.log(e);
-          }
+          } catch (e) {}
         }
 
         this.client.updateGuild(guild, { roleclaim_Roles: [] }); // Clear roles if they were already set

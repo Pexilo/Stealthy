@@ -71,7 +71,6 @@ module.exports = class SlowModeCommand extends Command {
         `by ${interaction.member.user.tag}${reason ? ": " + reason : ""}`
       );
     } catch (e) {
-      console.log(e.message);
       return interaction.editReply(
         "🚫 You don't have permission to set the slowmode for this channel."
       );

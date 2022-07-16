@@ -44,7 +44,6 @@ module.exports = class UnBanCommand extends Command {
         `by ${interaction.member.user.tag}${reason ? ": " + reason : ""}`,
       ]);
     } catch (e) {
-      console.log(e);
       return interaction.editReply(
         "🚫 This user is not banned from this server."
       );

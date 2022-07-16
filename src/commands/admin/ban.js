@@ -45,8 +45,6 @@ module.exports = class BanCommand extends Command {
         }`,
       });
     } catch (e) {
-      console.log("🚀 ~ e", e);
-
       return interaction.editReply(
         "🚫 You don't have permission to ban this user."
       );
