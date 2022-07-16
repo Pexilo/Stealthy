@@ -8,7 +8,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
   async execute(selectMenu) {
     if (!(await this.client.Defer(selectMenu))) return;
-    const { guild, member } = selectMenu;
+    const { guild } = selectMenu;
     const fetchGuild = await this.client.getGuild(guild);
 
     switch (selectMenu.values[0]) {

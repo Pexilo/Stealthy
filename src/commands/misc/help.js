@@ -50,11 +50,13 @@ module.exports = class HelpCommand extends Command {
     let commandCount = 0;
 
     this.client.collections.commands.forEach((element) => {
-      element.adminsOnly === false &&
-      element.category != "Setup" &&
-      !categories.includes(element.category)
-        ? categories.push(element.category)
-        : null;
+      if (
+        element.adminsOnly === false &&
+        element.category != "Setup" &&
+        !categories.includes(element.category)
+      ) {
+        categories.push(element.category);
+      }
     });
 
     this.client.collections.commands

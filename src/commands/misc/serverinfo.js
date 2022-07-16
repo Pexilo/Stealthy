@@ -32,8 +32,8 @@ module.exports = class ServerInfoCommand extends Command {
     const boostLevel = {
       NONE: "❎",
       TIER_1: "Level 1",
-      TIER_1: "Level 2",
-      TIER_1: "Level 3",
+      TIER_2: "Level 2",
+      TIER_3: "Level 3",
     };
 
     const serverinfo = this.client

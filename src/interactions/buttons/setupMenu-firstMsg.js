@@ -7,7 +7,7 @@ module.exports = class SetupMenuButton extends Button {
   }
   async execute(button) {
     if (!(await this.client.Defer(button))) return;
-    const { guild, member } = button;
+    const { member } = button;
 
     if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
       return button.editReply(

@@ -16,7 +16,7 @@ module.exports = class AutoRoleSetupButtons extends Button {
         if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
           return button.editReply(`🚫 You don't have permission to do that!`);
 
-        if (!fetchGuild.autoRole.roles.length > 0)
+        if (fetchGuild.autoRole.roles.length === 0)
           return button.editReply(`🚫 The autorole system is not set.`);
 
         await this.client.updateGuild(guild, {
@@ -28,7 +28,7 @@ module.exports = class AutoRoleSetupButtons extends Button {
       case "list-autorole":
         const autoroleArray = fetchGuild.autoRole.roles;
 
-        if (!autoroleArray.length > 0)
+        if (autoroleArray.length === 0)
           return button.editReply(
             `🚫 No autorole set.\n\n> Set one with \`/setup autorole add\``
           );

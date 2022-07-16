@@ -22,7 +22,6 @@ module.exports = class messageCreateTracker extends Event {
       (message.content.includes("discord.gg/") ||
         message.content.includes("discord.com/invite/")) &&
       (!message.author.bot ||
-        !channel.type === "dm" ||
         !member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
     ) {
       const logsChannel = this.client.channels.cache.get(

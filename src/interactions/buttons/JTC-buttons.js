@@ -13,7 +13,7 @@ module.exports = class JTCSetupButtons extends Button {
      * -- These 3 types of errors are handle and will not crash the bot
      */
 
-    const { guild, member } = button;
+    const { guild } = button;
 
     const fetchGuild = await this.client.getGuild(guild);
     switch (button.customId) {

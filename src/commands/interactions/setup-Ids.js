@@ -503,12 +503,12 @@ module.exports = class SetupBotCommand extends Command {
                 );
               }
             }
-            if (!roleId && roleRC)
+            if (roleRC)
               return interaction.editReply(
                 `🚫 ${roleRC.toString()} is not used.`
               );
 
-            if (!roleId && emoji)
+            if (emoji)
               return interaction.editReply(
                 `🚫 ${
                   emoji.startsWith("<") ? emoji : `\`${emoji}\``
@@ -578,12 +578,12 @@ module.exports = class SetupBotCommand extends Command {
             });
 
           case "remove":
-            if (!autoroleArray.length > 0)
+            if (!autoroleArray || autoroleArray.length === 0)
               return interaction.editReply(
                 `🚫 No autorole set.\n\n> Set one with \`/setup autorole add\``
               );
 
-            if (!autoroleArray.filter((r) => r == roleAR.id).length > 0)
+            if (autoroleArray.filter((r) => r == roleAR.id).length === 0)
               return interaction.editReply(
                 `🚫 ${roleAR.toString()} is not in the list.${
                   moreThanOneRole
@@ -799,7 +799,7 @@ module.exports = class SetupBotCommand extends Command {
               parent: parentFound,
             })
             .then(async (c) => {
-              async (c) => await c.lockPermissions();
+              await c.lockPermissions();
               await this.client.updateGuild(guild, {
                 "joinToCreate.channel": c.id,
               });

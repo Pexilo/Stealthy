@@ -78,7 +78,7 @@ module.exports = class guildMemberAddTracker extends Event {
      */
 
     const autoRoles = fetchGuild.autoRole.roles;
-    if (!autoRoles.length > 0) autoRoleSystem = false;
+    if (autoRoles.length === 0) autoRoleSystem = false;
 
     if (autoRoleSystem) {
       autoRoles
