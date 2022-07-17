@@ -45,8 +45,12 @@ module.exports = class interactionCreateEvent extends Event {
         const channels =
           interaction.fields.getTextInputValue("channel-JTC-input");
 
-        //split channel names
-        const result = channels.replace(/[\n\r]/g, "").split(",");
+        //split channel names remove spaces, line breaks, empty strings
+        const result = channels
+          .replace(/[\n\r]/g, "")
+          .split(",")
+          .filter((n) => n.length !== 0)
+          .map((n) => n.trim());
 
         let list = "";
         result.forEach((element) => {
