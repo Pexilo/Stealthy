@@ -13,7 +13,9 @@
 
 > Lightweight, easy-to-use Discord bot that aims to enrich the lifestyle of your server
 
+[![CodeFactor](https://www.codefactor.io/repository/github/pexilo/stealthy/badge)](https://www.codefactor.io/repository/github/pexilo/stealthy)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/62ce9585dd0c42e8af7b4c11e7fe456d)](https://www.codacy.com/gh/Pexilo/Stealthy/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Pexilo/Stealthy&utm_campaign=Badge_Grade)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Pexilo_Stealthy&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Pexilo_Stealthy)
 
 ## 🐲 About Stealthy
 
