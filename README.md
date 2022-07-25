@@ -1,6 +1,6 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/67436391/179372665-4b6373ae-be8e-44df-845b-5e0c657b8129.png" align="center">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+    <img alt="Version" src="https://img.shields.io/badge/version-1.0.1-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
   <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
     <img src="https://dcbadge.vercel.app/api/shield/877249354954580059?bot=true?&theme=blurple" />
   </a>

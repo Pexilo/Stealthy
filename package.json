@@ -1,6 +1,6 @@
 {
   "name": "stealthy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight, easy-to-use Discord bot that aims to enrich the lifestyle of your server",
   "main": "src/pm2.config.js",
   "scripts": {
