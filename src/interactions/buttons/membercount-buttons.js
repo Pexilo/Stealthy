@@ -6,7 +6,7 @@ module.exports = class memberCountButtons extends Button {
   }
 
   async execute(button) {
-    const { guild, member } = button;
+    const { guild } = button;
 
     const fetchGuild = await this.client.getGuild(guild);
 
@@ -20,7 +20,7 @@ module.exports = class memberCountButtons extends Button {
       });
 
       return button.reply({
-        content: "🚫 Membercount channel not found",
+        content: "`🚫` Membercount channel not found",
         ephemeral: true,
       });
     }
@@ -31,7 +31,7 @@ module.exports = class memberCountButtons extends Button {
 
         await memberCountChannel.delete().catch((e) => {
           return button.editReply({
-            content: `⛔ An error occured: ${"```"}${
+            content: `\`⛔\` An error occured: ${"```"}${
               e.message
             }${"```"}\nPlease contact an administrator of the bot for further assistance.`,
           });
@@ -43,7 +43,7 @@ module.exports = class memberCountButtons extends Button {
         });
 
         return button.editReply({
-          content: "❎ Membercount channel deleted",
+          content: "`❎` Membercount channel deleted",
         });
 
       case "rename-membercount":

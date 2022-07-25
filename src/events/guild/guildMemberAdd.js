@@ -70,7 +70,7 @@ module.exports = class guildMemberAddTracker extends Event {
           )
           .setColor("#ffcc4d");
       }
-      logsChannel.send({ embeds: [EmbedInfo] }).catch(() => {});
+      logsChannel.send({ embeds: [EmbedInfo] }).catch(() => undefined);
     }
 
     /*
@@ -86,7 +86,7 @@ module.exports = class guildMemberAddTracker extends Event {
         .reverse()
         .forEach((role) => {
           guild.roles.cache.find((r) => r.id === role);
-          member.roles.add(role).catch((e) => {});
+          member.roles.add(role).catch(() => undefined);
         });
     }
 

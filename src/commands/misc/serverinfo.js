@@ -25,8 +25,8 @@ module.exports = class ServerInfoCommand extends Command {
       NONE: "❎",
       LOW: "Low",
       MEDIUM: "Medium",
-      HIGH: "(╯°□°）╯︵ ┻━┻",
-      VERY_HIGH: "┻━┻ ﾐヽ(ಠ益ಠ)ノ彡┻━┻",
+      HIGH: "High",
+      VERY_HIGH: "Very High",
     };
 
     const boostLevel = {
@@ -123,7 +123,6 @@ module.exports = class ServerInfoCommand extends Command {
 
     interaction.editReply({
       embeds: [serverinfo],
-      ephemeral: true,
     });
   }
 };

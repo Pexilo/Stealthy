@@ -46,28 +46,29 @@ module.exports = class roleClaimButtons extends Button {
                 }),
             ],
           })
-          .then((msg) => {
+          .then((embed) => {
             try {
-              this.client.updateGuild(guild, { "roleClaim.message": msg.id });
               this.client.updateGuild(guild, {
+                "roleClaim.message": embed.id,
                 "roleClaim.channel": channel.id,
               });
               channelId = channel.id;
             } catch (e) {
               return interaction.editReply(
-                `⛔ An error occured: ${"```"}${
+                `\`⛔\` An error occured: ${"```"}${
                   e.message
                 }${"```"}\nPlease contact an administrator of the bot for further assistance.`
               );
             }
+
             // Tip message for the user
             channel
               .send({
                 content: "> Add roles with `/setup roleclaim add`",
               })
-              .then((msg) => {
+              .then((tip) => {
                 this.client.updateGuild(guild, {
-                  "roleClaim.tipMessage": msg.id,
+                  "roleClaim.tipMessage": tip.id,
                 });
               });
 
@@ -99,7 +100,7 @@ module.exports = class roleClaimButtons extends Button {
         if (!channelId || !msgId) {
           return button.reply({
             content:
-              "🚫 You need to setup the roleclaim system first.\n\n> Use `/setup channels`",
+              "`🚫` You need to setup the roleclaim system first.\n\n> Use `/setup channels`",
             ephemeral: true,
           });
         }
@@ -111,7 +112,7 @@ module.exports = class roleClaimButtons extends Button {
         } catch (e) {
           return button.reply({
             content:
-              "⛔ An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
+              "`⛔` An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
             ephemeral: true,
           });
         }
@@ -150,13 +151,15 @@ module.exports = class roleClaimButtons extends Button {
           ])
         );
 
+        break;
+
       case "delete-roleclaim":
         if (!(await this.client.Defer(button))) return;
 
         if (!fetchGuild.roleClaim.message) {
           return button.editReply({
             content:
-              "🚫 You need to setup the role claim system first.\n\n> Use `/setup channels`",
+              "`🚫` You need to setup the role claim system first.\n\n> Use `/setup channels`",
           });
         }
 
@@ -178,7 +181,7 @@ module.exports = class roleClaimButtons extends Button {
         } catch (e) {}
 
         return button.editReply({
-          content: "❎ Role Claim system deleted!",
+          content: "`❎` Role Claim system deleted!",
         });
     }
   }

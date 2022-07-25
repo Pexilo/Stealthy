@@ -31,7 +31,7 @@ module.exports = class WarnCommand extends Command {
     const { guild, options } = interaction;
 
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`🚫 I can't find that user.`);
+    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
@@ -56,7 +56,7 @@ module.exports = class WarnCommand extends Command {
     await this.client.updateGuild(guild, { "logs.users": userArray });
 
     interaction.editReply({
-      content: `🔨 ${member.toString()} has been warn.`,
+      content: `\`🔨\` ${member.toString()} has been warn.`,
     });
 
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
@@ -84,6 +84,6 @@ module.exports = class WarnCommand extends Command {
             }),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

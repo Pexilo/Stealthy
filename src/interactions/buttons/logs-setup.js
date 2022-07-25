@@ -14,7 +14,7 @@ module.exports = class logsSetupButton extends Button {
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     if (!logsChannel) {
       return button.editReply(
-        `🚫 I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
+        `\`🚫\` I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
       );
     }
     const enabledLogs = fetchGuild.logs.enabled;

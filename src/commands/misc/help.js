@@ -30,7 +30,9 @@ module.exports = class HelpCommand extends Command {
         .map((cmd) => cmd);
 
       if (command.length < 1) {
-        return interaction.editReply(`🚫 Command \`${commandArg}\` not found.`);
+        return interaction.editReply(
+          `\`🚫\` Command \`${commandArg}\` not found.`
+        );
       }
 
       return interaction.editReply({
@@ -61,7 +63,7 @@ module.exports = class HelpCommand extends Command {
 
     this.client.collections.commands
       .filter((cmd) => !cmd.adminsOnly)
-      .map((cmd) => commandCount++);
+      .map((_cmd) => commandCount++);
 
     const embedInfo = this.client
       .Embed()

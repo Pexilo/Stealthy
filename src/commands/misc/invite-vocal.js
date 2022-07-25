@@ -33,7 +33,7 @@ module.exports = class InviteVocalCommand extends Command {
 
     // Check if the user is in a voice channel (voiceChannel is null if the user isn't)
     if (!voiceChannel)
-      return interaction.editReply("🚫 You are not in a voice channel");
+      return interaction.editReply("`🚫` You are not in a voice channel");
 
     const targetMember = options.getMember("member");
 
@@ -58,9 +58,9 @@ module.exports = class InviteVocalCommand extends Command {
         ],
       })
       // If the DM can't be sent, return an error with advice to fix the issue
-      .catch((e) => {
+      .catch(() => {
         return interaction.editReply(
-          `🚫 Can not send message to ${targetMember.toString()}
+          `\`🚫\` Can not send message to ${targetMember.toString()}
           > 1. The user don't accept direct messages,
           > 2. The user is not in the same server as the bot,
           > 3. The user as blocked the bot.`

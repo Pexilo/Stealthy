@@ -15,7 +15,7 @@ module.exports = class BotInfoCommand extends Command {
 
     const bot = interaction.client;
 
-    return await interaction.editReply({
+    await interaction.editReply({
       embeds: [
         this.client
           .Embed()

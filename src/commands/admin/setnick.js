@@ -37,7 +37,7 @@ module.exports = class SetNicknameCommand extends Command {
     const { options, guild } = interaction;
 
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`🚫 I can't find this user.`);
+    if (!member) return interaction.editReply(`\`🚫\` I can't find this user.`);
     const nickname = options.getString("nickname");
     const reason = options.getString("reason");
 
@@ -52,11 +52,11 @@ module.exports = class SetNicknameCommand extends Command {
       );
     } catch (e) {
       return interaction.editReply(
-        "🚫 You don't have permission to change the nickname of this user."
+        "`🚫` You don't have permission to change the nickname of this user."
       );
     }
     interaction.editReply(
-      `✍️ Nickname of ${member.toString()} has been set to \`${nickname}\`.${
+      `\`✍️\` Nickname of ${member.toString()} has been set to \`${nickname}\`.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );
@@ -89,6 +89,6 @@ module.exports = class SetNicknameCommand extends Command {
             }),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

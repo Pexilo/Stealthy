@@ -57,7 +57,7 @@ module.exports = class guildMemberRemoveTracker extends Event {
         });
       }
 
-      logsChannel.send({ embeds: [embedInfo] }).catch(() => {});
+      logsChannel.send({ embeds: [embedInfo] }).catch(() => undefined);
     }
 
     /*

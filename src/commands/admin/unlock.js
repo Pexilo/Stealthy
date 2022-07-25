@@ -33,7 +33,7 @@ module.exports = class UnlockCommand extends Command {
 
     const channel = options.getChannel("channel");
     if (channel.permissionsFor(guild.id).has("SEND_MESSAGES")) {
-      return interaction.editReply("🚫 This channel is already unlocked.");
+      return interaction.editReply("`🚫` This channel is already unlocked.");
     }
     const reason = options.getString("reason");
 
@@ -47,12 +47,12 @@ module.exports = class UnlockCommand extends Command {
       });
     } catch (e) {
       return interaction.editReply(
-        "🚫 You don't have permission to unlock this channel."
+        "`🚫` You don't have permission to unlock this channel."
       );
     }
 
     interaction.editReply(
-      `🔓 Channel ${channel.toString()} has been unlocked.`
+      `\`🔓\` Channel ${channel.toString()} has been unlocked.`
     );
 
     if (!logsChannel || !enabledLogs.includes("channels")) return;
@@ -80,6 +80,6 @@ module.exports = class UnlockCommand extends Command {
             .setTimestamp(),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

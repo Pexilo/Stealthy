@@ -34,7 +34,7 @@ module.exports = class interactionCreateEvent extends Event {
     if (!guild.me.permissions.has("ADMINISTRATOR")) {
       return interaction.reply({
         content:
-          "🚫 I need the `ADMINISTRATOR` permission to operate properly.",
+          "`🚫` I need the `ADMINISTRATOR` permission to operate properly.",
         ephemeral: true,
       });
     }
@@ -62,7 +62,7 @@ module.exports = class interactionCreateEvent extends Event {
         });
 
         await interaction.reply({
-          content: `✅ New JTC channel names:\n${list}`,
+          content: `\`✅\` New JTC channel names:\n${list}`,
           ephemeral: true,
         });
       }
@@ -78,7 +78,7 @@ module.exports = class interactionCreateEvent extends Event {
         } catch (e) {
           return interaction.reply({
             content:
-              "⛔ An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
+              "`⛔` An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
             ephemeral: true,
           });
         }
@@ -113,7 +113,7 @@ module.exports = class interactionCreateEvent extends Event {
             rolesEmbed.setColor(color);
           } catch (e) {
             return interaction.reply({
-              content: `🚫 Invalid color.\n\n> Please use a hexadecimal color code.\n\n> For example: \`#ff0000\``,
+              content: `\`🚫\` Invalid color.\n\n> Please use a hexadecimal color code.\n\n> For example: \`#ff0000\``,
               ephemeral: true,
             });
           }
@@ -121,7 +121,7 @@ module.exports = class interactionCreateEvent extends Event {
 
         if (!title && !description && !footer && !color)
           return interaction.reply({
-            content: "🚫 No changes made.",
+            content: "`🚫` No changes made.",
             ephemeral: true,
           });
 
@@ -130,7 +130,7 @@ module.exports = class interactionCreateEvent extends Event {
         });
 
         await interaction.reply({
-          content: "✅ Roleclaim embed updated.",
+          content: "``✅`` Roleclaim embed updated.",
           ephemeral: true,
         });
       }
@@ -141,7 +141,7 @@ module.exports = class interactionCreateEvent extends Event {
 
         if (!name) {
           return interaction.reply({
-            content: "🚫 No changes made.",
+            content: "`🚫` No changes made.",
             ephemeral: true,
           });
         }
@@ -156,7 +156,7 @@ module.exports = class interactionCreateEvent extends Event {
 
         if (!memberCountChannel) {
           return interaction.reply({
-            content: "🚫 Unable to find the member count channel.",
+            content: "`🚫` Unable to find the member count channel.",
             ephemeral: true,
           });
         }
@@ -168,7 +168,7 @@ module.exports = class interactionCreateEvent extends Event {
         );
 
         await interaction.reply({
-          content: "✅ Member count channel updated.",
+          content: "``✅`` Member count channel updated.",
           ephemeral: true,
         });
       }

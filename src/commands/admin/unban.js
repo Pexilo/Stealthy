@@ -32,7 +32,8 @@ module.exports = class UnBanCommand extends Command {
     const { options, guild } = interaction;
 
     const memberId = options.getString("userid");
-    if (!memberId) return interaction.editReply(`🚫 I can't find that user.`);
+    if (!memberId)
+      return interaction.editReply(`\`🚫\` I can't find that user.`);
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
@@ -45,11 +46,11 @@ module.exports = class UnBanCommand extends Command {
       ]);
     } catch (e) {
       return interaction.editReply(
-        "🚫 This user is not banned from this server."
+        "`🚫` This user is not banned from this server."
       );
     }
     interaction.editReply(
-      `🔪 \`${memberId}\` has been unbanned from the server.${
+      `\`🔪\` \`${memberId}\` has been unbanned from the server.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );
@@ -78,6 +79,6 @@ module.exports = class UnBanCommand extends Command {
             }),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

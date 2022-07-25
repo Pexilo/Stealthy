@@ -30,7 +30,7 @@ module.exports = class UnMuteCommand extends Command {
     const { guild, options } = interaction;
 
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`🚫 I can't find that user.`);
+    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
@@ -39,7 +39,7 @@ module.exports = class UnMuteCommand extends Command {
 
     // Check if the member is already muted
     if (!member.isCommunicationDisabled()) {
-      return interaction.editReply(`🔊 ${member.toString()} is not muted.`);
+      return interaction.editReply(`\`🔊\` ${member.toString()} is not muted.`);
     }
 
     try {
@@ -48,10 +48,12 @@ module.exports = class UnMuteCommand extends Command {
         `by ${interaction.user.tag} ${reason ? ": " + reason : ""}`
       );
     } catch (e) {
-      return interaction.editReply(`🚫 I can't unmute ${member.toString()}.`);
+      return interaction.editReply(
+        `\`🚫\` I can't unmute ${member.toString()}.`
+      );
     }
     interaction.editReply({
-      content: `🔊 ${member.toString()} is no longer muted.`,
+      content: `\`🔊\` ${member.toString()} is no longer muted.`,
     });
 
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
@@ -79,6 +81,6 @@ module.exports = class UnMuteCommand extends Command {
             }),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

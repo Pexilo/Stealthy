@@ -32,11 +32,12 @@ module.exports = class LockCommand extends Command {
     const { options, guild } = interaction;
 
     const channel = options.getChannel("channel");
-    if (!channel) return interaction.editReply(`🚫 I can't find this channel.`);
+    if (!channel)
+      return interaction.editReply(`\`🚫\` I can't find this channel.`);
     const reason = options.getString("reason");
 
     if (!channel.permissionsFor(guild.id).has("SEND_MESSAGES")) {
-      return interaction.editReply("🚫 This channel is already locked.");
+      return interaction.editReply("`🚫` This channel is already locked.");
     }
 
     const fetchGuild = await this.client.getGuild(guild);
@@ -49,12 +50,12 @@ module.exports = class LockCommand extends Command {
       });
     } catch (e) {
       return interaction.editReply(
-        "🚫 You don't have permission to lock this channel."
+        "`🚫` You don't have permission to lock this channel."
       );
     }
 
     interaction.editReply(
-      `🔒 Channel ${channel.toString()} has been locked.\n\n> Use \`/unlock\` to unlock it.`
+      `\`🔒\` Channel ${channel.toString()} has been locked.\n\n> Use \`/unlock\` to unlock it.`
     );
 
     if (!logsChannel || !enabledLogs.includes("channels")) return;
@@ -81,6 +82,6 @@ module.exports = class LockCommand extends Command {
             .setTimestamp(),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };
