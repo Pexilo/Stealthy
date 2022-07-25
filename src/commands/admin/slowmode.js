@@ -54,7 +54,8 @@ module.exports = class SlowModeCommand extends Command {
     const { options } = interaction;
 
     const channel = options.getChannel("channel");
-    if (!channel) return interaction.editReply(`🚫 I can't find this channel.`);
+    if (!channel)
+      return interaction.editReply(`\`🚫\` I can't find this channel.`);
     const format = options.getString("format");
     const time = options.getNumber("time");
     const reason = options.getString("reason");
@@ -72,18 +73,18 @@ module.exports = class SlowModeCommand extends Command {
       );
     } catch (e) {
       return interaction.editReply(
-        "🚫 You don't have permission to set the slowmode for this channel."
+        "`🚫` You don't have permission to set the slowmode for this channel."
       );
     }
 
     if (time == 0) {
       return interaction.editReply(
-        `🐌 ${channel.toString()} slowmode has been reset.`
+        `\`🐌\` ${channel.toString()} slowmode has been reset.`
       );
     }
 
     interaction.editReply(
-      `🐌 ${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
+      `\`🐌\` ${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
     );
 
     if (!logsChannel || !enabledLogs.includes("channels")) return;
@@ -112,6 +113,6 @@ module.exports = class SlowModeCommand extends Command {
             .setTimestamp(),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

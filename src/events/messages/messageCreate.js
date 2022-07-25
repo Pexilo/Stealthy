@@ -64,7 +64,7 @@ module.exports = class messageCreateTracker extends Event {
                 }),
             ],
           })
-          .catch(() => {});
+          .catch(() => undefined);
       }
     }
   }

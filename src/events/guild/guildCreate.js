@@ -32,6 +32,6 @@ module.exports = class guildCreateEvent extends Event {
           ]),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

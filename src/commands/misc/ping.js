@@ -15,7 +15,7 @@ module.exports = class PingCommand extends Command {
     const end = Date.now() - 500;
     const time = end - start;
 
-    return await interaction.editReply({
+    await interaction.editReply({
       embeds: [
         this.client
           .Embed()

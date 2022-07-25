@@ -34,7 +34,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           } your language.`,
           components: [languageRow],
         });
-        break;
+
       case "channel_option":
         //can't change right here channels Id's, notify user to do it manually with /setup channels
         const logsChannel = fetchGuild.logs.channel;
@@ -127,7 +127,6 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
             components: [this.client.ButtonRow(buttons)],
           });
         }
-
         break;
 
       case "jtc_option":
@@ -142,7 +141,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
         if (findChannel) {
           return selectMenu.editReply({
-            content: `🔊 **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> JTC channel ${findChannel.toString()} is currently setup in **${
+            content: `\`🔊\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> JTC channel ${findChannel.toString()} is currently setup in **${
               findChannel.parent ? findChannel.parent.toString() : "default"
             }** category.\n\nPlease use the **buttons below** to **edit** this feature.`,
             components: [
@@ -165,8 +164,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         }
 
         return selectMenu.editReply({
-          content:
-            "🔊 **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> You can also use `/setup channels` to choose a specific category.\n\nPlease use the **buttons below** to **edit** this feature.",
+          content: `\`🔊\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> You can also use \`/setup channels\` to choose a different category than **${firstCategory.name}**.`,
           components: [
             this.client.ButtonRow([
               {
@@ -178,14 +176,13 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
             ]),
           ],
         });
-        break;
 
       case "blacklist_option":
         const blacklistTime = fetchGuild.blackList.time;
         const blacklistMinAge = fetchGuild.blackList.minAge;
 
         return selectMenu.editReply({
-          content: `🛡️ **Blacklist** is a feature that **prevents freshly created accounts from joining your server**. New accounts are often **bots, scams and adverts** that could be used maliciously to **harm your server users**.\n\nBlacklist is **activated by default**, you can change the times according to **your needs**:\n> \`Blacklist length: ${this.client.PrettyMs(
+          content: `\`🛡️\` **Blacklist** is a feature that **prevents freshly created accounts from joining your server**. New accounts are often **bots, scams and adverts** that could be used maliciously to **harm your server users**.\n\nBlacklist is **activated by default**, you can change the times according to **your needs**:\n> \`Blacklist length: ${this.client.PrettyMs(
             blacklistTime,
             {
               verbose: true,
@@ -201,10 +198,8 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           )}\` ${
             blacklistMinAge == 3600000 ? " (default)" : ""
           }\n> ↪ *change how long the bot will block the newcomer for.*
-           \n⏱️ To change the blacklist times, please use, \`/setup blacklist\` command.`,
+           \n\`⏱️\` To change the blacklist times, please use, \`/setup blacklist\` command.`,
         });
-
-        break;
 
       case "roleclaim_option":
         const msgId = fetchGuild.roleClaim.message;
@@ -212,7 +207,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
         if (msgId && channelId) {
           return selectMenu.editReply({
-            content: `🗂️ **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> **Role Claim message** is setup in **<#${channelId}>**.\n> To change the roles use, \`/setup roleclaim add|remove\` command.\n\nYou can **edit the role claim** system with the **buttons bellow**.`,
+            content: `\`🗂️\` **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> **Role Claim message** is setup in **<#${channelId}>**.\n> To change the roles use, \`/setup roleclaim add|remove\` command.\n\nYou can **edit the role claim** system with the **buttons bellow**.`,
             components: [
               this.client.ButtonRow([
                 {
@@ -233,7 +228,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         }
 
         return selectMenu.editReply({
-          content: `🗂️ **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> Please use, \`/setup channels\` command to setup your role claim message in a different channel than ${selectMenu.channel.toString()}.`,
+          content: `\`🗂️\` **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can also use \`/setup channels\` to setup your role claim in a different channel than ${selectMenu.channel.toString()}.`,
           components: [
             this.client.ButtonRow([
               {
@@ -245,19 +240,18 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
             ]),
           ],
         });
-        break;
 
       case "autorole_option":
         const autoroleArray = fetchGuild.autoRole.roles;
 
         if (!autoroleArray.length > 0) {
           return selectMenu.editReply({
-            content: `🎩 **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> Please use, \`/setup autorole add\` command to setup this feature.`,
+            content: `\`🎩\` **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can use \`/setup autorole add\` to setup this feature.`,
           });
         }
 
         return selectMenu.editReply({
-          content: `🎩 **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> Use, \`/setup autorole add|remove\` to edit this feature.\n\n🧮 **Roles** that will be **given to newcomers**: ${autoroleArray
+          content: `\`🎩\` **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can use, \`/setup autorole add|remove\` to edit this feature.\n\n\`🧮\` **Roles** that will be **given to newcomers**: ${autoroleArray
             .map((r) => `<@&${r}>`)
             .join(", ")}`,
           components: [
@@ -271,7 +265,6 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
             ]),
           ],
         });
-        break;
     }
   }
 };

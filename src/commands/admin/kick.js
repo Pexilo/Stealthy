@@ -31,7 +31,7 @@ module.exports = class KickCommand extends Command {
     const { options, guild } = interaction;
 
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`🚫 I can't find that user.`);
+    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
@@ -44,11 +44,11 @@ module.exports = class KickCommand extends Command {
       );
     } catch (e) {
       return interaction.editReply(
-        "🚫 You don't have permission to kick this user."
+        "`🚫` You don't have permission to kick this user."
       );
     }
     interaction.editReply(
-      `🔪 ${member.toString()} has been kick from the server.${
+      `\`🔪\` ${member.toString()} has been kick from the server.${
         reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );
@@ -78,6 +78,6 @@ module.exports = class KickCommand extends Command {
             }),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

@@ -11,14 +11,15 @@
   "author": "Pexilo",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^13.8.1",
-    "discord-together": "^1.3.3",
-    "sheweny": "^3.4.3",
-    "mongoose": "^6.4.3",
-    "deepl": "^1.0.13",
-    "dotenv": "^16.0.1",
-    "node-emoji": "^1.11.0",
     "dayjs": "^1.11.3",
-    "pretty-ms": "^7.0.1"
+    "deepl": "^1.0.13",
+    "discord-together": "^1.3.3",
+    "discord.js": "^13.8.1",
+    "dotenv": "^16.0.1",
+    "mongoose": "^6.4.3",
+    "node-emoji": "^1.11.0",
+    "pretty-ms": "^7.0.1",
+    "sheweny": "^3.4.3",
+    "@nastyox/rando.js": "^2.0.5"
   }
 }

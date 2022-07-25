@@ -56,16 +56,17 @@ module.exports = class MuteCommand extends Command {
     const { guild, options } = interaction;
 
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`🚫 I can't find that user.`);
+    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
     const format = options.getString("format");
-    let duration = options.getInteger("duration");
+    const duration =
+      format === "minutes"
+        ? options.getInteger("duration") * 60000
+        : options.getInteger("duration") * 3600000;
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
-
-    format === "minutes" ? (duration *= 60000) : (duration *= 3600000);
 
     try {
       member.timeout(
@@ -74,7 +75,7 @@ module.exports = class MuteCommand extends Command {
       );
     } catch (e) {
       return interaction.editReply(
-        `⛔ An error occured: ${"```"}${
+        `\`⛔\` An error occured: ${"```"}${
           e.message
         }${"```"}\nPlease contact an administrator of the bot for further assistance.`
       );
@@ -114,6 +115,6 @@ module.exports = class MuteCommand extends Command {
             }),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

@@ -23,13 +23,13 @@ module.exports = class TranslateMessageContextMenuCommand extends Command {
     if (!message || message.content.length === 0)
       return interaction.editReply({
         content: await this.client.FastTranslate(
-          "🚫 Unable to translate this message",
+          "`🚫` Unable to translate this message",
           lang
         ),
       });
 
     const translated = await this.client.Translate(message.content, lang);
-    return await interaction.editReply({
+    await interaction.editReply({
       embeds: [
         this.client
           .Embed()

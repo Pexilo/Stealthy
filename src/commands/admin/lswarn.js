@@ -25,14 +25,14 @@ module.exports = class LsWarnCommand extends Command {
     const { guild, options } = interaction;
 
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`🚫 I can't find that user.`);
+    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
 
     const fetchGuild = await this.client.getGuild(guild);
     const filteredUser = fetchGuild.logs.users.filter(
       (u) => u.id === member.id
     );
     if (filteredUser.length === 0)
-      return interaction.editReply(`🚫 This user has no warns.`);
+      return interaction.editReply(`\`🚫\` This user has no warns.`);
 
     let warnList = "";
     let i = filteredUser.length + 1;

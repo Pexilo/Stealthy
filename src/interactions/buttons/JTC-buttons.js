@@ -35,7 +35,7 @@ module.exports = class JTCSetupButtons extends Button {
           else
             return button.editReply({
               content:
-                "⛔ JTC already setup, delete it first in order to create a new one",
+                "`⛔` JTC already setup, delete it first in order to create a new one",
             });
         }
 
@@ -50,10 +50,10 @@ module.exports = class JTCSetupButtons extends Button {
             type: "GUILD_VOICE",
             parent: firstCategory,
           })
-          .then(async (channel) => await channel.lockPermissions())
+          .then(async (channel) => channel.lockPermissions())
           .catch((e) => {
             return button.editReply(
-              `⛔ An error occured: ${"```"}${
+              `\`⛔\` An error occured: ${"```"}${
                 e.message
               }${"```"}\nPlease contact an administrator of the bot for further assistance.`
             );
@@ -65,7 +65,7 @@ module.exports = class JTCSetupButtons extends Button {
         });
 
         button.editReply({
-          content: `✅ JTC channel created in: **${
+          content: `\`✅\` JTC channel created in: **${
             voiceChannel.parent ? `<#${voiceChannel.parentId}>` : "default"
           }** category.
           \n> You can move it to another category if you want.\n > You can use \`/invite-vc member:\` to invite someone in dm to join your channel.`,
@@ -78,7 +78,7 @@ module.exports = class JTCSetupButtons extends Button {
         //if the channel doesn't exist in the database, stop the process
         if (!fetchGuild.joinToCreate.channel) {
           return button.editReply({
-            content: "⛔ JTC channel doesn't exist, create it first",
+            content: "`⛔` JTC channel doesn't exist, create it first",
           });
         }
 
@@ -95,20 +95,20 @@ module.exports = class JTCSetupButtons extends Button {
         //if the channel isn't found, it means that the channel has been deleted in hand
         if (!channelToDelete) {
           return button.editReply(
-            `⛔ JTC channel doesn't exist, maybe it has already been deleted?`
+            `\`⛔\` JTC channel doesn't exist, maybe it has already been deleted?`
           );
         }
         //delete the channel
         channelToDelete.delete().catch((e) => {
           return button.editReply(
-            `⛔ An error occured: ${"```"}${
+            `\`⛔\` An error occured: ${"```"}${
               e.message
             }${"```"}\nPlease contact an administrator of the bot for further assistance.`
           );
         });
 
         return button.editReply({
-          content: `❎ JTC channel deleted in: **${
+          content: `\`❎\` JTC channel deleted in: **${
             channelToDelete.parent
               ? `<#${channelToDelete.parentId}>`
               : "default"

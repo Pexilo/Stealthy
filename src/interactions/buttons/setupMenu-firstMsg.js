@@ -11,7 +11,7 @@ module.exports = class SetupMenuButton extends Button {
 
     if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
       return button.editReply(
-        `🚫 You don't have permission to do that! Missing \`MANAGE_GUILD\``
+        `\`🚫\` You don't have permission to do that! Missing \`MANAGE_GUILD\``
       );
 
     button.editReply({

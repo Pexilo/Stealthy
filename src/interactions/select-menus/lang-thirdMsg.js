@@ -21,6 +21,6 @@ module.exports = class LanguageMenu3MsgSelect extends SelectMenu {
         );
       }
     }
-    return selectMenu.editReply("🚫 Something went wrong, please try again.");
+    return selectMenu.editReply("`🚫` Something went wrong, please try again.");
   }
 };

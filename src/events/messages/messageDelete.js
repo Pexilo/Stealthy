@@ -47,7 +47,7 @@ module.exports = class messageDeleteTracker extends Event {
               }),
           ],
         })
-        .catch(() => {});
+        .catch(() => undefined);
     }
   }
 };

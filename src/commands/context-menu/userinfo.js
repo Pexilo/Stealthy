@@ -13,7 +13,7 @@ module.exports = class UserInfoContextMenuCommand extends Command {
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
 
-    const { options, guild } = interaction;
+    const { options } = interaction;
     const member = options.getMember("user");
 
     let userInfo = this.client

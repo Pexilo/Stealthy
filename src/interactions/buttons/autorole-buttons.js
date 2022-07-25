@@ -14,27 +14,29 @@ module.exports = class AutoRoleSetupButtons extends Button {
     switch (button.customId) {
       case "reset-autorole":
         if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
-          return button.editReply(`🚫 You don't have permission to do that!`);
+          return button.editReply(
+            `\`🚫\` You don't have permission to do that!`
+          );
 
         if (fetchGuild.autoRole.roles.length === 0)
-          return button.editReply(`🚫 The autorole system is not set.`);
+          return button.editReply(`\`🚫\` The autorole system is not set.`);
 
         await this.client.updateGuild(guild, {
           "autoRole.roles": [],
         });
 
-        return button.editReply(`❎ The autorole system as been reset`);
+        return button.editReply(`\`❎\` The autorole system as been reset`);
 
       case "list-autorole":
         const autoroleArray = fetchGuild.autoRole.roles;
 
         if (autoroleArray.length === 0)
           return button.editReply(
-            `🚫 No autorole set.\n\n> Set one with \`/setup autorole add\``
+            `\`🚫\` No autorole set.\n\n> Set one with \`/setup autorole add\``
           );
 
         return button.editReply({
-          content: `✅ Roles that will be given to newcomers: ${autoroleArray
+          content: `\`✅\` Roles that will be given to newcomers: ${autoroleArray
             .map((r) => `<@&${r}>`)
             .join(", ")}`,
           components: [

@@ -36,7 +36,7 @@ module.exports = class RWarnCommand extends Command {
     const { guild, options } = interaction;
 
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`🚫 I can't find that user.`);
+    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
     const number = options.getNumber("number");
     const reason = options.getString("reason");
 
@@ -48,14 +48,14 @@ module.exports = class RWarnCommand extends Command {
       (u) => u.id === member.id
     );
     if (filteredUser.length === 0)
-      return interaction.editReply(`🚫 This user has no warns.`);
+      return interaction.editReply(`\`🚫\` This user has no warns.`);
 
     let index;
     try {
       index = filteredUser[number - 1].case;
     } catch (e) {
       return interaction.editReply(
-        `🚫 Warn **#${number}** of ${member.toString()} does not exist.`
+        `\`🚫\` Warn **#${number}** of ${member.toString()} does not exist.`
       );
     }
 
@@ -69,7 +69,7 @@ module.exports = class RWarnCommand extends Command {
     });
 
     interaction.editReply(
-      `❎ Warn **#${number}** of ${member.toString()} has been removed.`
+      `\`❎\` Warn **#${number}** of ${member.toString()} has been removed.`
     );
 
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
@@ -101,6 +101,6 @@ module.exports = class RWarnCommand extends Command {
             }),
         ],
       })
-      .catch(() => {});
+      .catch(() => undefined);
   }
 };

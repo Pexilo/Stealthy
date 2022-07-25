@@ -51,7 +51,7 @@ module.exports = class JTCListener extends Event {
         JTCsTab.filter((JTC) => JTC == oldChannel.id).length > 0
       ) {
         // Delete the empty channel and the entry in the database
-        oldChannel.delete().catch(() => {});
+        oldChannel.delete().catch(() => undefined);
         JTCsTab.splice(JTCsTab.indexOf(oldChannel.id), 1);
         await this.client.updateGuild(guild, {
           "joinToCreate.activeChannels": JTCsTab,
@@ -70,7 +70,7 @@ module.exports = class JTCListener extends Event {
 
       let voiceChannel;
       await guild.channels
-        .create(this.client.searchRandom(channelNames)[0], {
+        .create(this.client.searchRandom(channelNames), {
           type: "GUILD_VOICE",
           parent: newChannel.parent,
           bitrate: maxBitrate,
@@ -80,27 +80,25 @@ module.exports = class JTCListener extends Event {
           voiceChannel.setVideoQualityMode(2); // 2 = Video Quality Mode: High => 720p
           JTCsTab.push(channel.id);
           setTimeout(
-            () => member.voice.setChannel(channel).catch(() => {}),
+            () => member.voice.setChannel(channel).catch(() => undefined),
             500
           );
-          await channel.lockPermissions().catch(() => {});
+          channel.lockPermissions();
         })
-        .catch(() => {});
+        .catch(() => undefined);
 
       await this.client.updateGuild(guild, {
         "joinToCreate.activeChannels": JTCsTab,
       });
 
-      /* Cooldown system to avoid spam,
-       * TODO: if the bot restart during this cooldown it could be a problem, need to be fixed
-       */
+      // Cooldown system to avoid spam,
       await newChannel.permissionOverwrites.edit(member, { CONNECT: false });
       setTimeout(() => newChannel.permissionOverwrites.delete(member), 5000);
 
       // if the user doesn't switch in the newly created channel in less than 3s delete it
       await this.client.Wait(3000);
       if (voiceChannel.members.size < 1) {
-        voiceChannel.delete().catch(() => {});
+        voiceChannel.delete().catch(() => undefined);
         JTCsTab.splice(JTCsTab.indexOf(voiceChannel.id), 1);
         await this.client.updateGuild(guild, {
           "joinToCreate.activeChannels": JTCsTab,

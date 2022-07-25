@@ -20,7 +20,7 @@ module.exports = class messageReactionAddTracker extends Event {
     if (messageReaction.message.id !== msgId) return;
 
     const emoji = messageReaction._emoji.name;
-    const customEmoji = await this.client.FindCustomEmoji(this.client, emoji);
+    const customEmoji = await this.client.FindCustomEmoji(emoji);
     const emojiName = customEmoji
       ? customEmoji
       : this.client.GetEmojiNameFromUni(emoji);
@@ -29,9 +29,9 @@ module.exports = class messageReactionAddTracker extends Event {
       (r) => r.emojiName == emojiName
     )[0].roleId;
 
-    const role = guild.roles.cache.find((role) => role.id === roleId);
-    const member = guild.members.cache.find((member) => member.id === user.id);
+    const role = guild.roles.cache.find((r) => r.id === roleId);
+    const member = guild.members.cache.find((m) => m.id === user.id);
 
-    member.roles.add(role).catch(() => {});
+    member.roles.add(role).catch(() => undefined);
   }
 };

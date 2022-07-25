@@ -241,7 +241,7 @@ module.exports = class SetupBotCommand extends Command {
           return interaction.reply({
             ephemeral: true,
             content:
-              "🚫 You need to setup the roleclaim system first.\n\n> Use `/setup channels`",
+              "`🚫` You need to setup the roleclaim system first.\n\n> Use `/setup channels`",
           });
         }
 
@@ -252,7 +252,7 @@ module.exports = class SetupBotCommand extends Command {
           return interaction.reply({
             ephemeral: true,
             content:
-              "⛔ An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
+              "`⛔` An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
           });
         }
 
@@ -260,7 +260,8 @@ module.exports = class SetupBotCommand extends Command {
           tipMsg = await foundChannel.messages.fetch(tipMsgId);
         } catch (e) {}
 
-        let roleRC = options.getRole("role");
+        let roleRC = options.getRole("role"),
+          roleAlreadyExist;
         if (
           roleRC &&
           this.client.HighestRole(guild, this.client.user.id) <
@@ -269,14 +270,14 @@ module.exports = class SetupBotCommand extends Command {
         ) {
           return interaction.reply({
             ephemeral: true,
-            content: `🚫 One of my roles need to be above ${roleRC.toString()} to perform this action.\n\n> You can do this in \`server settings -> roles\``,
+            content: `\`🚫\` One of my roles need to be above ${roleRC.toString()} to perform this action.\n\n> You can do this in \`server settings -> roles\``,
           });
         }
 
         if (roleRC && roleRC.id === guild.id) {
           return interaction.reply({
             ephemeral: true,
-            content: `🚫 You can't assign <@&${guild.id}>`,
+            content: `\`🚫\` You can't assign <@&${guild.id}>`,
           });
         }
 
@@ -284,13 +285,14 @@ module.exports = class SetupBotCommand extends Command {
 
         let emojiName,
           isEmojiCustom = false,
-          customEmoji;
+          customEmoji,
+          emojiAlreadyExist;
 
         if (emoji && emoji.startsWith("<") && emoji.endsWith(">")) {
-          if (!(await this.client.IsValidEmoji(this.client, emoji)))
+          if (!(await this.client.IsValidEmoji(emoji)))
             return interaction.reply({
               ephemeral: true,
-              content: `🚫 I can't find \`:${
+              content: `\`🚫\` I can't find \`:${
                 emoji.split(":")[1]
               }:\` emoji.\n\n> I need to be in the same server as the emoji`,
             });
@@ -301,7 +303,7 @@ module.exports = class SetupBotCommand extends Command {
         if (emoji && !isEmojiCustom && !this.client.HasEmoji(emoji)) {
           return interaction.reply({
             ephemeral: true,
-            content: `🚫 \` ${emoji} \` is not supported.\n\n> Please provide one [emoji](https://emojipedia.org)`,
+            content: `\`🚫\` \` ${emoji} \` is not supported.\n\n> Please provide one [emoji](https://emojipedia.org)`,
           });
         }
         if (emoji && !isEmojiCustom)
@@ -333,23 +335,23 @@ module.exports = class SetupBotCommand extends Command {
 
             if (msg.reactions.cache.size >= 20) {
               return interaction.editReply(
-                `⛔ The role claim message has reached the maximum amount of reactions.\n\n> You can provide up to 20 roles.`
+                `\`⛔\` The role claim message has reached the maximum amount of reactions.\n\n> You can provide up to 20 roles.`
               );
             }
 
             const fieldsArray = fetchGuild.roleClaim.fields;
 
-            const emojiAlreadyExist = fieldsArray.filter(
+            emojiAlreadyExist = fieldsArray.filter(
               (f) => emojiName === f.emojiName
             );
 
-            const roleAlreadyExist = fieldsArray.filter(
+            roleAlreadyExist = fieldsArray.filter(
               (f) => roleRC.id === f.roleId
             );
 
             if (emojiName && emojiAlreadyExist.length > 0) {
               return interaction.editReply(
-                `🚫 \`${
+                `\`🚫\` \`${
                   isEmojiCustom ? emojiName : `\`${emoji}\``
                 }\` is already used with <@&${
                   emojiAlreadyExist[0].roleId
@@ -359,7 +361,7 @@ module.exports = class SetupBotCommand extends Command {
 
             if (roleRC && roleAlreadyExist.length > 0) {
               return interaction.editReply(
-                `🚫 You have already added ${roleRC.toString()} with ${
+                `\`🚫\` You have already added ${roleRC.toString()} with ${
                   roleAlreadyExist[0].emojiName.startsWith("<")
                     ? roleAlreadyExist[0].emojiName
                     : `\`${this.client.GetEmojiFromName(
@@ -391,7 +393,7 @@ module.exports = class SetupBotCommand extends Command {
             });
 
             return interaction.editReply(
-              `✅ Added ${roleRC.toString()} with ${
+              `\`✅\` Added ${roleRC.toString()} with ${
                 isEmojiCustom ? emojiName : `\`${emoji}\``
               }`
             );
@@ -409,8 +411,8 @@ module.exports = class SetupBotCommand extends Command {
 
             // no arguments provided
             if (!roleRC && !emoji) {
-              msg.delete().catch(() => {});
-              tipMsg.delete().catch(() => {});
+              msg.delete().catch(() => undefined);
+              tipMsg.delete().catch(() => undefined);
 
               await this.client.updateGuild(guild, {
                 "roleClaim.fields": [],
@@ -420,7 +422,7 @@ module.exports = class SetupBotCommand extends Command {
               });
 
               return interaction.editReply(
-                `❎ Successfully removed role claim system.`
+                `\`❎\` Successfully removed role claim system.`
               );
             }
 
@@ -440,13 +442,13 @@ module.exports = class SetupBotCommand extends Command {
                   : this.client.GetEmojiNameFromUni(fieldValue);
               }
 
-              const emojiAlreadyExist = emoji
+              emojiAlreadyExist = emoji
                 ? fetchGuild.roleClaim.fields.filter(
                     (f) => emojiName === f.emojiName
                   )
                 : null;
 
-              const roleAlreadyExist = roleRC
+              roleAlreadyExist = roleRC
                 ? fetchGuild.roleClaim.fields.filter(
                     (f) => roleRC.id === f.roleId
                   )
@@ -471,9 +473,11 @@ module.exports = class SetupBotCommand extends Command {
                 roleId = roleRC ? roleRC.id : roldDB[0].roleId;
 
                 // get correct emojis for the response
-                !isEmojiCustom
-                  ? (emojiUNI = this.client.GetEmojiFromName(fieldValue))
-                  : (customEmoji = fieldValue.split(":")[2].slice(0, -1));
+                if (isEmojiCustom) {
+                  customEmoji = fieldValue.split(":")[2].slice(0, -1);
+                } else {
+                  emojiUNI = this.client.GetEmojiFromName(fieldValue);
+                }
 
                 rolesEmbed.fields.splice(i, 1);
                 const filteredField = fetchGuild.roleClaim.fields
@@ -497,7 +501,7 @@ module.exports = class SetupBotCommand extends Command {
                 });
 
                 return interaction.editReply(
-                  `❎ Removed <@&${roleId}> with ${
+                  `\`❎\` Removed <@&${roleId}> with ${
                     isEmojiCustom ? fieldValue : `\`${emojiUNI}\``
                   }`
                 );
@@ -505,17 +509,18 @@ module.exports = class SetupBotCommand extends Command {
             }
             if (roleRC)
               return interaction.editReply(
-                `🚫 ${roleRC.toString()} is not used.`
+                `\`🚫\` ${roleRC.toString()} is not used.`
               );
 
             if (emoji)
               return interaction.editReply(
-                `🚫 ${
+                `\`🚫\` ${
                   emoji.startsWith("<") ? emoji : `\`${emoji}\``
                 } is not used.`
               );
             break;
         }
+        break;
 
       case "autorole":
         if (!(await this.client.Defer(interaction))) return;
@@ -527,7 +532,7 @@ module.exports = class SetupBotCommand extends Command {
           case "add":
             if (roleAR.id === guild.id) {
               return interaction.editReply(
-                `🚫 You can't assign <@&${guild.id}>`
+                `\`🚫\` You can't assign <@&${guild.id}>`
               );
             }
 
@@ -536,19 +541,19 @@ module.exports = class SetupBotCommand extends Command {
               roleAR.rawPosition
             ) {
               return interaction.editReply(
-                `🚫 One of my roles need to be above ${roleAR.toString()} to perform this action.\n\n> You can do this in \`server settings -> roles\``
+                `\`🚫\` One of my roles need to be above ${roleAR.toString()} to perform this action.\n\n> You can do this in \`server settings -> roles\``
               );
             }
 
             if (autoroleArray.length === 5) {
               return interaction.editReply(
-                `🚫 You can't have more than 5 roles assigned.\n\n> Use \`/setup setup autorole list\` to see the list of roles.`
+                `\`🚫\` You can't have more than 5 roles assigned.\n\n> Use \`/setup setup autorole list\` to see the list of roles.`
               );
             }
 
             if (autoroleArray.filter((r) => r == roleAR.id).length > 0) {
               return interaction.editReply(
-                `🚫 ${roleAR.toString()} is already in the list.`
+                `\`🚫\` ${roleAR.toString()} is already in the list.`
               );
             }
 
@@ -558,7 +563,7 @@ module.exports = class SetupBotCommand extends Command {
             });
 
             return interaction.editReply({
-              content: `✅ Added autorole ${roleAR.toString()}.`,
+              content: `\`✅\` Added autorole ${roleAR.toString()}.`,
               components: [
                 this.client.ButtonRow([
                   {
@@ -580,12 +585,12 @@ module.exports = class SetupBotCommand extends Command {
           case "remove":
             if (!autoroleArray || autoroleArray.length === 0)
               return interaction.editReply(
-                `🚫 No autorole set.\n\n> Set one with \`/setup autorole add\``
+                `\`🚫\` No autorole set.\n\n> Set one with \`/setup autorole add\``
               );
 
             if (autoroleArray.filter((r) => r == roleAR.id).length === 0)
               return interaction.editReply(
-                `🚫 ${roleAR.toString()} is not in the list.${
+                `\`🚫\` ${roleAR.toString()} is not in the list.${
                   moreThanOneRole
                     ? `\n\n> Role(s): ${autoroleArray
                         .map((r) => `<@&${r}>`)
@@ -601,7 +606,7 @@ module.exports = class SetupBotCommand extends Command {
             });
 
             return interaction.editReply(
-              `❎ Removed autorole ${roleAR.toString()}.${
+              `\`❎\` Removed autorole ${roleAR.toString()}.${
                 moreThanOneRole
                   ? `\n\n> Role(s): ${autoroleArray
                       .map((r) => `<@&${r}>`)
@@ -622,7 +627,7 @@ module.exports = class SetupBotCommand extends Command {
         if (usage === "roleclaim") {
           if (channel.type !== "GUILD_TEXT") {
             return interaction.editReply(
-              `🚫 **${channel.toString()}** is not a text channel.`
+              `\`🚫\` **${channel.toString()}** is not a text channel.`
             );
           }
 
@@ -662,26 +667,27 @@ module.exports = class SetupBotCommand extends Command {
                   }),
               ],
             })
-            .then((msg) => {
+            .then((embedMsg) => {
               try {
-                this.client.updateGuild(guild, { "roleClaim.message": msg.id });
                 this.client.updateGuild(guild, {
+                  "roleClaim.message": embedMsg.id,
                   "roleClaim.channel": channel.id,
                 });
               } catch (e) {
                 return interaction.editReply(
-                  `⛔ An error occured: ${"```"}${
+                  `\`⛔\` An error occured: ${"```"}${
                     e.message
                   }${"```"}\nPlease contact an administrator of the bot for further assistance.`
                 );
               }
+
               channel
                 .send({
                   content: "> Add roles with `/setup roleclaim add`",
                 })
-                .then((msg) => {
+                .then((tipMsg) => {
                   this.client.updateGuild(guild, {
-                    "roleClaim.tipMessage": msg.id,
+                    "roleClaim.tipMessage": tipMsg.id,
                   });
                 });
             });
@@ -689,7 +695,7 @@ module.exports = class SetupBotCommand extends Command {
           await this.client.Wait(1000);
 
           return interaction.editReply({
-            content: `✅ Role Claim system created in ${channel.toString()}\n\n> Use the button below to edit the role claim message.`,
+            content: `\`✅\` Role Claim system created in ${channel.toString()}\n\n> Use the button below to edit the role claim message.`,
             components: [
               this.client.ButtonRow([
                 {
@@ -713,7 +719,7 @@ module.exports = class SetupBotCommand extends Command {
             let channelFound = await guild.channels.cache.get(
               fetchGuild.memberCount.channel
             );
-            if (channelFound) channelFound.delete().catch(() => {});
+            if (channelFound) channelFound.delete().catch(() => undefined);
             await this.client.updateGuild(guild, {
               "memberCount.channel": null,
             });
@@ -750,7 +756,7 @@ module.exports = class SetupBotCommand extends Command {
             })
             .catch((e) => {
               return interaction.editReply(
-                `⛔ An error occured: ${"```"}${
+                `\`⛔\` An error occured: ${"```"}${
                   e.message
                 }${"```"}\nPlease contact an administrator of the bot for further assistance.`
               );
@@ -785,7 +791,7 @@ module.exports = class SetupBotCommand extends Command {
               fetchGuild.joinToCreate.channel
             );
 
-            if (channelFound) channelFound.delete().catch(() => {});
+            if (channelFound) channelFound.delete().catch(() => undefined);
             await this.client.updateGuild(guild, {
               "joinToCreate.channel": null,
             });
@@ -806,7 +812,7 @@ module.exports = class SetupBotCommand extends Command {
             })
             .catch((e) => {
               return interaction.editReply(
-                `⛔ An error occured: ${"```"}${
+                `\`⛔\` An error occured: ${"```"}${
                   e.message
                 }${"```"}\nPlease contact an administrator of the bot for further assistance.`
               );
@@ -838,7 +844,7 @@ module.exports = class SetupBotCommand extends Command {
         if (usage === "logs") {
           if (channel.type === "GUILD_CATEGORY")
             return interaction.editReply(
-              `🚫 You can't assign a category as a logs channel.`
+              `\`🚫\` You can't assign a category as a logs channel.`
             );
 
           await this.client.updateGuild(guild, { "logs.channel": channel.id });
@@ -915,9 +921,10 @@ module.exports = class SetupBotCommand extends Command {
 
         const choice = options.getString("choice");
         const format = options.getString("format");
-        let time = options.getInteger("time");
-
-        format === "minutes" ? (time *= 60000) : (time *= 3600000);
+        const time =
+          format === "minutes"
+            ? options.getInteger("time") * 60000
+            : options.getInteger("time") * 3600000;
 
         if (choice === "blacklist_minimum_age") {
           await this.client.updateGuild(guild, {

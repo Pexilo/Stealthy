@@ -30,13 +30,7 @@ module.exports = class ClearCommand extends Command {
     const number = options.getInteger("number");
 
     return interaction.editReply({
-      content:
-        "❓" +
-        "Are you sure you want to clear" +
-        ` **${number}** ` +
-        "messages in" +
-        " " +
-        interaction.channel.toString(),
+      content: `\`❓\` Are you sure you want to clear **${number}** messages in ${interaction.channel.toString()}`,
       components: [
         this.client.ButtonRow([
           {
