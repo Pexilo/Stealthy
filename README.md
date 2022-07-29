@@ -1,6 +1,8 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/67436391/179372665-4b6373ae-be8e-44df-845b-5e0c657b8129.png" align="center">
+  <a href="https://github.com/Pexilo/Stealthy/releases" target="_blank">
     <img alt="Version" src="https://img.shields.io/badge/version-1.0.1-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+  </a>
   <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
     <img src="https://dcbadge.vercel.app/api/shield/877249354954580059?bot=true?&theme=blurple" />
   </a>
@@ -53,11 +55,11 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 ## 📬 Future updates
 
-#### 🤖 Discord v13 -> v14 / 🚀 Sheweny v3 -> v4
+#### 🤖 Discord `v13` -> `v14` & 🚀 Sheweny `v3` -> `v4`
 
 #### 🗂️ Multiple Role Claim, 🔉 Join to Create systems for the same server
 
-#### 🧮 Role Claim types (reaction, select menu, buttons)
+#### 🧮 Role Claim types *(reaction, select menu, buttons)*
 
 #### 💬 Languages support
 
@@ -73,7 +75,7 @@ Stealthy is my first ambitious personal project, it has been under development s
     <a href="https://www.mongodb.com/" target="_blank">
         <img alt="MongoDB" src="https://user-images.githubusercontent.com/67436391/179426484-d3fb357a-4702-4785-b0e1-7dc443923dab.jpeg" />
     </a>
-        <a href="https://www.deepl.com/fr/translator" target="_blank">
+        <a href="https://www.deepl.com/" target="_blank">
         <img alt="DeeplAPI" src="https://user-images.githubusercontent.com/67436391/179426610-3bcc829f-a7b1-4ce0-a437-212ab4c8b6e1.png" />
     </a>
     <a href="https://inovaperf.fr/" target="_blank">
