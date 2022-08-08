@@ -1,7 +1,7 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/67436391/182243493-2dbaf788-fb39-463b-bcb9-05303d7d4a7f.png" align="center">
   <a href="https://github.com/Pexilo/Stealthy/releases" target="_blank">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.0.1-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+    <img alt="Version" src="https://img.shields.io/badge/version-1.1.0-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
   </a>
   <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
     <img src="https://dcbadge.vercel.app/api/shield/877249354954580059?bot=true?&theme=blurple" />
@@ -55,13 +55,11 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 ## 📬 Future updates
 
-#### 🤖 Discord `v13` -> `v14` & 🚀 Sheweny `v3` -> `v4`
-
-#### 🗂️ Multiple Role Claim, 🔉 Join to Create systems for the same server
-
-#### 🧮 Role Claim types *(reaction, select menu, buttons)*
-
-#### 💬 Languages support
+- [x] 🤖 Discord `v13` -> `v14` [2b80de7](https://github.com/Pexilo/Stealthy/commit/2b80de7979f529222495512d52cd9480ee326869)
+- [x] 🚀 Sheweny `v3` -> `v4` [2b80de7](https://github.com/Pexilo/Stealthy/commit/2b80de7979f529222495512d52cd9480ee326869)
+- [ ] 🗂️ Multiple Role Claim, 🔉 Join to Create systems for the same server
+- [ ] 🧮 Role Claim types *(reaction, select menu, buttons)*
+- [ ] 💬 Languages support
 
 ## 🦾 Powerred by
 
@@ -83,7 +81,7 @@ Stealthy is my first ambitious personal project, it has been under development s
     </a>
 </div>
 
-##### `Discord1Js v13.8.1`, `Sheweny v3.4.3`, `Mongoose v6.4.3`, `DeeplAPI v1.0.13`, `Inovaperf` (remote server)
+##### `DiscordJs v14.1.2`, `Sheweny v4.0.2`, `Mongoose v6.4.3`, `DeeplAPI v1.0.13`, `Inovaperf` (remote server)
 
 ---
 
