@@ -24,7 +24,7 @@ module.exports = class AvatarMessageContextMenuCommand extends Command {
       embeds: [
         this.client
           .Embed()
-          .setAuthor({ name: message.author.tag })
+          .setDescription(message.author.toString())
           .setImage(
             message.author.displayAvatarURL({
               dynamic: true,

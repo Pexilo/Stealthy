@@ -13,13 +13,8 @@ module.exports = class messageDeleteTracker extends Event {
      */
 
     const { guild, channel, member } = message;
-    if (message.content == null || member == null) return;
 
-    if (
-      message.author.bot ||
-      channel.type === "dm" ||
-      message.embeds.length > 0
-    )
+    if (member == null || message.author.bot || message.embeds.length > 0)
       return;
 
     const fetchGuild = await this.client.getGuild(guild);
@@ -27,25 +22,40 @@ module.exports = class messageDeleteTracker extends Event {
     const enabledLogs = fetchGuild.logs.enabled;
 
     if (logsChannel && enabledLogs.includes("msgDelete")) {
+      let embed = this.client
+        .Embed()
+        .setAuthor({
+          name: `${message.author.username} message removed.`,
+          iconURL: member.user.displayAvatarURL({ dynamic: true }),
+        })
+        .setDescription(
+          `Message from <@${member.id}> in <#${channel.id}>\n
+              ${
+                message.content.length !== 0
+                  ? `\`\`\`${message.content}\`\`\``
+                  : ""
+              }`
+        )
+        .setColor("#8B0000")
+        .setTimestamp()
+        .setFooter({
+          text: `${message.author.tag} - ${member.user.id}`,
+        });
+
+      if (message.attachments.size > 0) {
+        embed.addFields({
+          name: "Attachments",
+          value: message.attachments
+            .map((attachment) => {
+              return `[${attachment.name}](${attachment.url})`;
+            })
+            .join("\n"),
+        });
+      }
+
       return logsChannel
         .send({
-          embeds: [
-            this.client
-              .Embed()
-              .setAuthor({
-                name: `${message.author.username} message removed.`,
-                iconURL: member.user.displayAvatarURL({ dynamic: true }),
-              })
-              .setDescription(
-                `Message from <@${member.id}> in <#${channel.id}>\n
-              ${"```"}${message.content}${"```"}`
-              )
-              .setColor("#8B0000")
-              .setTimestamp()
-              .setFooter({
-                text: `${message.author.tag} - ${member.user.id}`,
-              }),
-          ],
+          embeds: [embed],
         })
         .catch(() => undefined);
     }

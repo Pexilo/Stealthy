@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
 
 module.exports = class SlowModeCommand extends Command {
   constructor(client) {
@@ -8,18 +9,18 @@ module.exports = class SlowModeCommand extends Command {
       examples:
         "/slowmode `channel:General` `format:minutes` `time:1` => 🕒 Set the slowmode for the General channel to 1 minute.",
       category: "Admin",
-      userPermissions: ["MANAGE_CHANNELS"],
-      clientPermissions: ["MANAGE_CHANNELS"],
+      userPermissions: ["ManageChannels"],
+      clientPermissions: ["ManageChannels"],
       options: [
         {
-          type: "CHANNEL",
+          type: ApplicationCommandOptionType.Channel,
           name: "channel",
           description: "📙 Channel to set the slowmode for",
           required: true,
-          channelTypes: ["GUILD_TEXT"],
+          channelTypes: [ChannelType.GuildText],
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "format",
           description: "🕒 Wich format do you want to use ?",
           required: true,
@@ -35,13 +36,13 @@ module.exports = class SlowModeCommand extends Command {
           ],
         },
         {
-          type: "NUMBER",
+          type: ApplicationCommandOptionType.Number,
           name: "time",
           description: "⏱️ Define the time",
           required: true,
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "reason",
           description: "❔ Reason for the slowmode",
         },
@@ -51,7 +52,7 @@ module.exports = class SlowModeCommand extends Command {
 
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
-    const { options } = interaction;
+    const { options, guild } = interaction;
 
     const channel = options.getChannel("channel");
     if (!channel)
@@ -100,8 +101,7 @@ module.exports = class SlowModeCommand extends Command {
               }),
             })
             .setDescription(
-              channel.toString() +
-                " slowmode has been set to "`\`${time} ${format}\`.`
+              `${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
             )
             .addFields({
               name: "Reason",

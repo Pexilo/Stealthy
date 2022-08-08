@@ -1,5 +1,4 @@
 const { Button } = require("sheweny");
-const { Permissions } = require("discord.js");
 
 module.exports = class AutoRoleSetupButtons extends Button {
   constructor(client) {
@@ -13,7 +12,7 @@ module.exports = class AutoRoleSetupButtons extends Button {
 
     switch (button.customId) {
       case "reset-autorole":
-        if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
+        if (!member.permissions.has("ManageGuild"))
           return button.editReply(
             `\`🚫\` You don't have permission to do that!`
           );

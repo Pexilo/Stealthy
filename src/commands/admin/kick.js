@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class KickCommand extends Command {
   constructor(client) {
@@ -7,18 +8,18 @@ module.exports = class KickCommand extends Command {
       description: "🔪 Kick a member from the server.",
       examples: "/kick `user:@Pexilo#0001` => 🔪 Kick Pexilo from the server.",
       category: "Admin",
-      userPermissions: ["KICK_MEMBERS"],
-      clientPermissions: ["KICK_MEMBERS"],
+      userPermissions: ["KickMembers"],
+      clientPermissions: ["KickMembers"],
       options: [
         {
-          type: "USER",
+          type: ApplicationCommandOptionType.User,
           name: "user",
           description: "👤 User to kick",
           required: true,
         },
 
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "reason",
           description: "❔ Reason for the kick",
         },
@@ -49,7 +50,7 @@ module.exports = class KickCommand extends Command {
     }
     interaction.editReply(
       `\`🔪\` ${member.toString()} has been kick from the server.${
-        reason ? `\n> Reason: \`${reason}\`` : ""
+        reason ? `\n\n> Reason: \`${reason}\`` : ""
       }`
     );
 

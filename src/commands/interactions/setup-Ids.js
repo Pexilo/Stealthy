@@ -1,5 +1,5 @@
 const { Command } = require("sheweny");
-const { Permissions } = require("discord.js");
+const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
 
 module.exports = class SetupBotCommand extends Command {
   constructor(client) {
@@ -8,20 +8,20 @@ module.exports = class SetupBotCommand extends Command {
       description: "📝 Setup bot commands",
       examples: "I think I don't have to detail much here 💭",
       category: "Setup",
-      userPermissions: ["MANAGE_GUILD"],
+      userPermissions: ["ManageGuild"],
       options: [
         {
-          type: "SUB_COMMAND",
+          type: ApplicationCommandOptionType.Subcommand,
           name: "menu",
           description: "🔧 View the setup menu of Stealthy",
         },
         {
-          type: "SUB_COMMAND",
+          type: ApplicationCommandOptionType.Subcommand,
           name: "channels",
           description: "📙 Setup your channels",
           options: [
             {
-              type: "STRING",
+              type: ApplicationCommandOptionType.String,
               name: "usage",
               description: "📝 Type of channel to setup",
               required: true,
@@ -45,21 +45,21 @@ module.exports = class SetupBotCommand extends Command {
               ],
             },
             {
-              type: "CHANNEL",
+              type: ApplicationCommandOptionType.Channel,
               name: "channel",
               description: "🚀 Choose a channel",
               required: true,
-              channelTypes: ["GUILD_TEXT", "GUILD_CATEGORY"],
+              channelTypes: [ChannelType.GuildText, ChannelType.GuildCategory],
             },
           ],
         },
         {
-          type: "SUB_COMMAND",
+          type: ApplicationCommandOptionType.Subcommand,
           name: "blacklist",
           description: "👮 Manage newcomers restrictions",
           options: [
             {
-              type: "STRING",
+              type: ApplicationCommandOptionType.String,
               name: "choice",
               description: "📝 Type of timer to setup",
               required: true,
@@ -75,7 +75,7 @@ module.exports = class SetupBotCommand extends Command {
               ],
             },
             {
-              type: "STRING",
+              type: ApplicationCommandOptionType.String,
               name: "format",
               description: "🕒 Wich format do you want to use ?",
               required: true,
@@ -91,7 +91,7 @@ module.exports = class SetupBotCommand extends Command {
               ],
             },
             {
-              type: "INTEGER",
+              type: ApplicationCommandOptionType.Integer,
               name: "time",
               description: "⏱️ Define the time",
               required: true,
@@ -101,30 +101,30 @@ module.exports = class SetupBotCommand extends Command {
           ],
         },
         {
-          type: "SUB_COMMAND_GROUP",
+          type: ApplicationCommandOptionType.SubcommandGroup,
           name: "roleclaim",
           description: "🎈 Setup Role Claim system",
           options: [
             {
-              type: "SUB_COMMAND",
+              type: ApplicationCommandOptionType.Subcommand,
               name: "add",
               description: "🎈 Add a role to the Role Claim system",
               options: [
                 {
-                  type: "ROLE",
+                  type: ApplicationCommandOptionType.Role,
                   name: "role",
                   description: "🧮 Choose the role you want to add",
                   required: true,
                 },
                 {
-                  type: "STRING",
+                  type: ApplicationCommandOptionType.String,
                   name: "emoji",
                   description:
                     "😄 Choose the emoji you want to use for this role",
                   required: true,
                 },
                 {
-                  type: "STRING",
+                  type: ApplicationCommandOptionType.String,
                   name: "description",
                   description:
                     "✍️ Choose the description of this role (optional)",
@@ -133,18 +133,18 @@ module.exports = class SetupBotCommand extends Command {
               ],
             },
             {
-              type: "SUB_COMMAND",
+              type: ApplicationCommandOptionType.Subcommand,
               name: "remove",
               description: "🎈 Delete a role from the Role Claim system",
               options: [
                 {
-                  type: "ROLE",
+                  type: ApplicationCommandOptionType.Role,
                   name: "role",
                   description: "🧮 Choose the role you want to delete",
                   required: false,
                 },
                 {
-                  type: "STRING",
+                  type: ApplicationCommandOptionType.String,
                   name: "emoji",
                   description: "😄 Choose the emoji you want to delete",
                   required: false,
@@ -154,19 +154,19 @@ module.exports = class SetupBotCommand extends Command {
           ],
         },
         {
-          type: "SUB_COMMAND_GROUP",
+          type: ApplicationCommandOptionType.SubcommandGroup,
           name: "autorole",
           description:
             "🎩 Assign automatically roles to a newcomer when they join the server",
           options: [
             {
-              type: "SUB_COMMAND",
+              type: ApplicationCommandOptionType.Subcommand,
               name: "add",
               description:
                 "🎩 Assign a new role to a newcomer when they join the server",
               options: [
                 {
-                  type: "ROLE",
+                  type: ApplicationCommandOptionType.Role,
                   name: "role",
                   description: "🧮 The role to assign to the newcomer",
                   required: true,
@@ -174,12 +174,12 @@ module.exports = class SetupBotCommand extends Command {
               ],
             },
             {
-              type: "SUB_COMMAND",
+              type: ApplicationCommandOptionType.Subcommand,
               name: "remove",
               description: "🎩 Remove a role from the list of autoroles",
               options: [
                 {
-                  type: "ROLE",
+                  type: ApplicationCommandOptionType.Role,
                   name: "role",
                   description: "🧮 The role to remove from the list",
                   required: true,
@@ -381,11 +381,13 @@ module.exports = class SetupBotCommand extends Command {
               "roleClaim.fields": fieldsArray,
             });
 
-            rolesEmbed.addField(
-              `${description ? description : roleRC.name}`,
-              emoji,
-              true
-            );
+            rolesEmbed.addFields([
+              {
+                name: `${description ? description : roleRC.name}`,
+                value: emoji,
+                inline: true,
+              },
+            ]);
             msg.react(emoji);
 
             await msg.edit({
@@ -479,7 +481,7 @@ module.exports = class SetupBotCommand extends Command {
                   emojiUNI = this.client.GetEmojiFromName(fieldValue);
                 }
 
-                rolesEmbed.fields.splice(i, 1);
+                rolesEmbed.data.fields.splice(i, 1);
                 const filteredField = fetchGuild.roleClaim.fields
                   .map((u) => u.roleId)
                   .indexOf(
@@ -625,7 +627,7 @@ module.exports = class SetupBotCommand extends Command {
         let noParent = false;
 
         if (usage === "roleclaim") {
-          if (channel.type !== "GUILD_TEXT") {
+          if (channel.type !== ChannelType.GuildText) {
             return interaction.editReply(
               `\`🚫\` **${channel.toString()}** is not a text channel.`
             );
@@ -645,9 +647,7 @@ module.exports = class SetupBotCommand extends Command {
                 tipMsg = await foundChannel.messages.fetch(tipMsgId);
                 msg.delete();
                 tipMsg.delete();
-              } catch (e) {
-                console.log(e);
-              }
+              } catch (e) {}
             }
 
             this.client.updateGuild(guild, { roleclaim_Roles: [] });
@@ -725,21 +725,23 @@ module.exports = class SetupBotCommand extends Command {
             });
           }
 
-          let parentFound = channel.type === "GUILD_CATEGORY" ? channel : null;
+          let parentFound =
+            channel.type === ChannelType.GuildCategory ? channel : null;
           if (!parentFound) noParent = true;
           await guild.channels
-            .create("Members: ", {
-              type: "GUILD_VOICE",
+            .create({
+              name: "👥 Members:",
+              type: ChannelType.GuildVoice,
               parent: parentFound,
               permissionOverwrites: [
                 {
                   id: this.client.application.id,
-                  allow: [Permissions.FLAGS.CONNECT],
+                  allow: ["Connect"],
                 },
                 {
                   id: guild.id,
-                  allow: [Permissions.FLAGS.VIEW_CHANNEL],
-                  deny: [Permissions.FLAGS.CONNECT],
+                  allow: ["ViewChannel"],
+                  deny: ["Connect"],
                 },
               ],
             })
@@ -753,6 +755,28 @@ module.exports = class SetupBotCommand extends Command {
               await this.client.updateGuild(guild, {
                 "memberCount.channel": c.id,
               });
+
+              return interaction.editReply({
+                content: `🧾 Member count channel is now set up in ${
+                  !noParent ? `<#${channel.id}>` : "default category"
+                }.`,
+                components: [
+                  this.client.ButtonRow([
+                    {
+                      customId: "rename-membercount",
+                      label: "Rename",
+                      style: "PRIMARY",
+                      emoji: "✏️",
+                    },
+                    {
+                      customId: "delete-membercount",
+                      label: "Delete",
+                      style: "SECONDARY",
+                      emoji: "🗑",
+                    },
+                  ]),
+                ],
+              });
             })
             .catch((e) => {
               return interaction.editReply(
@@ -762,27 +786,7 @@ module.exports = class SetupBotCommand extends Command {
               );
             });
 
-          return interaction.editReply({
-            content: `🧾 Member count channel is now set up in ${
-              !noParent ? `<#${channel.id}>` : "default category"
-            }.`,
-            components: [
-              this.client.ButtonRow([
-                {
-                  customId: "rename-membercount",
-                  label: "Rename",
-                  style: "PRIMARY",
-                  emoji: "✏️",
-                },
-                {
-                  customId: "delete-membercount",
-                  label: "Delete",
-                  style: "SECONDARY",
-                  emoji: "🗑",
-                },
-              ]),
-            ],
-          });
+          return;
         }
 
         if (usage === "jtc") {
@@ -797,17 +801,42 @@ module.exports = class SetupBotCommand extends Command {
             });
           }
 
-          let parentFound = channel.type === "GUILD_CATEGORY" ? channel : null;
+          let parentFound =
+            channel.type === ChannelType.GuildCategory ? channel : null;
           if (!parentFound) noParent = true;
           await guild.channels
-            .create("🔉 Create a channel", {
-              type: "GUILD_VOICE",
+            .create({
+              name: "🔉 Create a channel",
+              type: ChannelType.GuildVoice,
               parent: parentFound,
             })
             .then(async (c) => {
-              await c.lockPermissions();
+              await c.lockPermissions().catch(() => undefined);
+
               await this.client.updateGuild(guild, {
                 "joinToCreate.channel": c.id,
+              });
+
+              return interaction.editReply({
+                content: `🔉 Join to create channel is now set up in ${
+                  !noParent ? `<#${channel.id}>` : "default category"
+                } `,
+                components: [
+                  this.client.ButtonRow([
+                    {
+                      customId: "channels-names-JTC",
+                      label: "Channels Names",
+                      style: "PRIMARY",
+                      emoji: "✏️",
+                    },
+                    {
+                      customId: "delete-JTC",
+                      label: "Delete",
+                      style: "SECONDARY",
+                      emoji: "🗑",
+                    },
+                  ]),
+                ],
               });
             })
             .catch((e) => {
@@ -817,32 +846,11 @@ module.exports = class SetupBotCommand extends Command {
                 }${"```"}\nPlease contact an administrator of the bot for further assistance.`
               );
             });
-
-          return interaction.editReply({
-            content: `🔉 Join to create channel is now set up in ${
-              !noParent ? `<#${channel.id}>` : "default category"
-            } `,
-            components: [
-              this.client.ButtonRow([
-                {
-                  customId: "channels-names-JTC",
-                  label: "Channels Names",
-                  style: "PRIMARY",
-                  emoji: "✏️",
-                },
-                {
-                  customId: "delete-jtc",
-                  label: "Delete",
-                  style: "SECONDARY",
-                  emoji: "🗑",
-                },
-              ]),
-            ],
-          });
+          return;
         }
 
         if (usage === "logs") {
-          if (channel.type === "GUILD_CATEGORY")
+          if (channel.type === ChannelType.GuildCategory)
             return interaction.editReply(
               `\`🚫\` You can't assign a category as a logs channel.`
             );
@@ -851,7 +859,7 @@ module.exports = class SetupBotCommand extends Command {
           const enabledLogs = fetchGuild.logs.enabled;
 
           return interaction.editReply({
-            content: `🚀 Logs channel is now set up in ${channel.toString()}\n\nYou can **enable or disable logs** with the **select below**.`,
+            content: `\`🚀\` Logs channel is now set up in ${channel.toString()}\n\nYou can **enable or disable logs** with the **select below**.`,
             components: [
               this.client.SelectMenuRow(
                 "logs-select",
@@ -939,7 +947,7 @@ module.exports = class SetupBotCommand extends Command {
         }
 
         return interaction.editReply({
-          content: `🔒 ${this.client.Capitalize(
+          content: `\`🔒\` ${this.client.Capitalize(
             choice.replace(/_/g, " ")
           )} is now set to: \`${this.client.PrettyMs(time, {
             verbose: true,

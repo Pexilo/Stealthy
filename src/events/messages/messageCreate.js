@@ -1,5 +1,4 @@
 const { Event } = require("sheweny");
-const { Permissions } = require("discord.js");
 
 module.exports = class messageCreateTracker extends Event {
   constructor(client) {
@@ -16,14 +15,14 @@ module.exports = class messageCreateTracker extends Event {
     const { guild, channel, member } = message;
 
     if (!member) return;
-    const fetchGuild = await this.client.getGuild(guild);
 
     if (
       (message.content.includes("discord.gg/") ||
         message.content.includes("discord.com/invite/")) &&
-      (!message.author.bot ||
-        !member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
+      (!message.author.bot || !member.permissions.has("ManageMessages"))
     ) {
+      const fetchGuild = await this.client.getGuild(guild);
+
       const logsChannel = this.client.channels.cache.get(
         fetchGuild.logs.channel
       );

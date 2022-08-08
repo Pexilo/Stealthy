@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class MuteCommand extends Command {
   constructor(client) {
@@ -9,17 +10,17 @@ module.exports = class MuteCommand extends Command {
       examples:
         "/mute `member:@Pexilo#0001` `format:minutes` `duration:5` => 🔇Mute `@Pexilo#0001` for `5` `minutes`",
       category: "Admin",
-      userPermissions: ["MODERATE_MEMBERS"],
-      clientPermissions: ["MODERATE_MEMBERS"],
+      userPermissions: ["ModerateMembers"],
+      clientPermissions: ["ModerateMembers"],
       options: [
         {
-          type: "USER",
+          type: ApplicationCommandOptionType.User,
           name: "user",
           description: "👤 User to mute",
           required: true,
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "format",
           description: "🕒 Format to use",
           required: true,
@@ -35,7 +36,7 @@ module.exports = class MuteCommand extends Command {
           ],
         },
         {
-          type: "INTEGER",
+          type: ApplicationCommandOptionType.Integer,
           name: "duration",
           description: "⏱️ Time to mute",
           required: true,
@@ -43,7 +44,7 @@ module.exports = class MuteCommand extends Command {
           maxValue: 670,
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "reason",
           description: "❔ Reason for the mute",
           required: false,

@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class ClearCommand extends Command {
   constructor(client) {
@@ -7,16 +8,16 @@ module.exports = class ClearCommand extends Command {
       description: "⛑️ Clear a certain amount of messages from a channel.",
       examples: "/clear `number:5` => ⛑️ Delete `5` messages in a channel",
       category: "Admin",
-      userPermissions: ["ADMINISTRATOR"],
-      clientPermissions: ["MANAGE_MESSAGES"],
+      userPermissions: ["Administrator"],
+      clientPermissions: ["ManageMessages"],
       options: [
         {
-          type: "INTEGER",
+          type: ApplicationCommandOptionType.Integer,
           name: "number",
           description: "🔢 Number of messages to delete",
           required: true,
-          min: 1,
-          max: 100,
+          min_value: 1,
+          max_value: 100,
         },
       ],
     });
@@ -35,7 +36,6 @@ module.exports = class ClearCommand extends Command {
         this.client.ButtonRow([
           {
             customId: "confirm-clear",
-            label: "",
             style: "SUCCESS",
             emoji: "✅",
           },

@@ -53,7 +53,7 @@ module.exports = class guildMemberRemoveTracker extends Event {
           name: "📥 " + "Joined the server" + ":",
           value: `${this.client.Formatter(
             member.joinedTimestamp
-          )} - ${this.client.Formatter(member.joinedTimestamp, "relative")}`,
+          )} - ${this.client.Formatter(member.joinedTimestamp, "R")}`,
         });
       }
 

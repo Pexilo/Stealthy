@@ -1,5 +1,5 @@
 const { Command } = require("sheweny");
-const { Permissions } = require("discord.js");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class HelpCommand extends Command {
   constructor(client) {
@@ -10,7 +10,7 @@ module.exports = class HelpCommand extends Command {
       category: "Misc",
       options: [
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "command",
           description: "🐲 Command name",
           required: false,
@@ -26,8 +26,8 @@ module.exports = class HelpCommand extends Command {
 
     if (commandArg) {
       let command = this.client.collections.commands
-        .filter((cmd) => cmd.name.toLowerCase() === commandArg.toLowerCase())
-        .map((cmd) => cmd);
+        .filter((cmd) => cmd[0].name.toLowerCase() === commandArg.toLowerCase())
+        .map((cmd) => cmd[0]);
 
       if (command.length < 1) {
         return interaction.editReply(
@@ -53,16 +53,16 @@ module.exports = class HelpCommand extends Command {
 
     this.client.collections.commands.forEach((element) => {
       if (
-        element.adminsOnly === false &&
-        element.category != "Setup" &&
-        !categories.includes(element.category)
+        element[0].adminsOnly === false &&
+        element[0].category !== "Setup" &&
+        !categories.includes(element[0].category)
       ) {
-        categories.push(element.category);
+        categories.push(element[0].category);
       }
     });
 
     this.client.collections.commands
-      .filter((cmd) => !cmd.adminsOnly)
+      .filter((cmd) => !cmd[0].adminsOnly)
       .map((_cmd) => commandCount++);
 
     const embedInfo = this.client
@@ -80,8 +80,10 @@ module.exports = class HelpCommand extends Command {
       embedInfo.addFields({
         name: `${category}`,
         value: `${this.client.collections.commands
-          .filter((cmd) => cmd.category === category)
-          .map((cmd) => `\`${cmd.name}\``)
+          .filter((cmd) => cmd[0].category === category)
+          .map(
+            (cmd) => `\`${this.client.Capitalize(cmd[0].name.toLowerCase())}\``
+          )
           .join(", ")}`,
       });
     }
@@ -92,7 +94,7 @@ module.exports = class HelpCommand extends Command {
         " commands:"
     );
 
-    if (member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+    if (member.permissions.has("ManageGuild")) {
       return interaction.editReply({
         embeds: [embedInfo],
         components: [
