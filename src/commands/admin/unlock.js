@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
 
 module.exports = class UnlockCommand extends Command {
   constructor(client) {
@@ -8,18 +9,18 @@ module.exports = class UnlockCommand extends Command {
       examples:
         "/unlock `channel:#general` => 🔓 Allow users to send messages in #general.",
       category: "Admin",
-      userPermissions: ["MANAGE_CHANNELS"],
-      clientPermissions: ["MANAGE_CHANNELS"],
+      userPermissions: ["ManageChannels"],
+      clientPermissions: ["ManageChannels"],
       options: [
         {
-          type: "CHANNEL",
+          type: ApplicationCommandOptionType.Channel,
           name: "channel",
           description: "📙 Channel to unlock",
           required: true,
-          channelTypes: ["GUILD_TEXT"],
+          channelTypes: [ChannelType.GuildText],
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "reason",
           description: "❔ Reason for the unlock",
         },
@@ -32,7 +33,7 @@ module.exports = class UnlockCommand extends Command {
     if (!(await this.client.Defer(interaction))) return;
 
     const channel = options.getChannel("channel");
-    if (channel.permissionsFor(guild.id).has("SEND_MESSAGES")) {
+    if (channel.permissionsFor(guild.id).has("SendMessages")) {
       return interaction.editReply("`🚫` This channel is already unlocked.");
     }
     const reason = options.getString("reason");
@@ -43,7 +44,7 @@ module.exports = class UnlockCommand extends Command {
 
     try {
       await channel.permissionOverwrites.edit(guild.id, {
-        SEND_MESSAGES: true,
+        SendMessages: true,
       });
     } catch (e) {
       return interaction.editReply(

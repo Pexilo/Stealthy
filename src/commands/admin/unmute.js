@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class UnMuteCommand extends Command {
   constructor(client) {
@@ -7,17 +8,17 @@ module.exports = class UnMuteCommand extends Command {
       description: "🔊 Unmute a specific member.",
       examples: "/unmute `member:@Pexilo#0001` => 🔉 Unmute `@Pexilo#0001`",
       category: "Admin",
-      userPermissions: ["MODERATE_MEMBERS"],
-      clientPermissions: ["MODERATE_MEMBERS"],
+      userPermissions: ["ModerateMembers"],
+      clientPermissions: ["ModerateMembers"],
       options: [
         {
-          type: "USER",
+          type: ApplicationCommandOptionType.User,
           name: "user",
           description: "👤 Member to unmute",
           required: true,
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "reason",
           description: "❔ Reason for the unmute",
           required: false,
@@ -44,7 +45,7 @@ module.exports = class UnMuteCommand extends Command {
 
     try {
       member.timeout(
-        0,
+        null,
         `by ${interaction.user.tag} ${reason ? ": " + reason : ""}`
       );
     } catch (e) {

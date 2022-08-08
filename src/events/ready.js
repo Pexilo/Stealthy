@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { ChannelType } = require("discord.js");
 const { bot_state } = process.env;
 
 module.exports = class Ready extends Event {
@@ -11,7 +12,7 @@ module.exports = class Ready extends Event {
 
   execute(client) {
     const textChannels = client.channels.cache.filter(
-      (channel) => channel.type == "GUILD_TEXT"
+      (channel) => channel.type === ChannelType.GuildText
     );
     const usersCount = client.guilds.cache.reduce(
       (a, g) => a + g.memberCount,

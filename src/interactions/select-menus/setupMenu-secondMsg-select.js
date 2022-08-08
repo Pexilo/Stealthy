@@ -189,15 +189,12 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
             }
           )}\` ${
             blacklistTime == 86400000 ? " (default)" : ""
-          }\n> ↪ *change the minimum age a newcomer must be to join the server.*
-          > \`Minimum account age required: ${this.client.PrettyMs(
-            blacklistMinAge,
-            {
-              verbose: true,
-            }
-          )}\` ${
-            blacklistMinAge == 3600000 ? " (default)" : ""
           }\n> ↪ *change how long the bot will block the newcomer for.*
+          > \`Account age required: ${this.client.PrettyMs(blacklistMinAge, {
+            verbose: true,
+          })}\` ${
+            blacklistMinAge == 3600000 ? " (default)" : ""
+          }\n> ↪ *change the minimum age a newcomer must be to join the server.*
            \n\`⏱️\` To change the blacklist times, please use, \`/setup blacklist\` command.`,
         });
 

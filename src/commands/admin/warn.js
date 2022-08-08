@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class WarnCommand extends Command {
   constructor(client) {
@@ -8,17 +9,17 @@ module.exports = class WarnCommand extends Command {
       examples:
         "/warn `member:@Pexilo#0001` `reason:some reason` => 🔨 Warn `@Pexilo#0001` for `some reason`",
       category: "Admin",
-      userPermissions: ["MODERATE_MEMBERS"],
-      clientPermissions: ["MODERATE_MEMBERS"],
+      userPermissions: ["ModerateMembers"],
+      clientPermissions: ["ModerateMembers"],
       options: [
         {
-          type: "USER",
+          type: ApplicationCommandOptionType.User,
           name: "user",
           description: "👤 User to warn",
           required: true,
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "reason",
           description: "❔ Reason for the warn",
           required: true,

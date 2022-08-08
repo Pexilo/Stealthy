@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class SetNicknameCommand extends Command {
   constructor(client) {
@@ -8,23 +9,23 @@ module.exports = class SetNicknameCommand extends Command {
       examples:
         "/setnick `user:@Pexilo#0001` `nickname:Pexi` => ✍️ Change the nickname of @Pexilo#0001 to Pexi.",
       category: "Admin",
-      userPermissions: ["MANAGE_NICKNAMES"],
-      clientPermissions: ["MANAGE_NICKNAMES"],
+      userPermissions: ["ManageNicknames"],
+      clientPermissions: ["ManageNicknames"],
       options: [
         {
-          type: "USER",
+          type: ApplicationCommandOptionType.User,
           name: "user",
           description: "👤 User to change the nickname of",
           required: true,
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "nickname",
           description: "✏️ New nickname",
           required: true,
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "reason",
           description: "❔ Reason for changing the nickname",
         },
@@ -57,7 +58,7 @@ module.exports = class SetNicknameCommand extends Command {
     }
     interaction.editReply(
       `\`✍️\` Nickname of ${member.toString()} has been set to \`${nickname}\`.${
-        reason ? `\n> Reason: \`${reason}\`` : ""
+        reason ? `\n\n> Reason: \`${reason}\`` : ""
       }`
     );
 

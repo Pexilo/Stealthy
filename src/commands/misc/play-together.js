@@ -1,6 +1,6 @@
 const { Command } = require("sheweny");
 const { DiscordTogether } = require("discord-together");
-const { MessageActionRow, MessageButton } = require("discord.js");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class PlayTogetherCommand extends Command {
   constructor(client) {
@@ -12,7 +12,7 @@ module.exports = class PlayTogetherCommand extends Command {
       category: "Misc",
       options: [
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "activity",
           description: "🎮 Activity to play",
           required: true,
@@ -186,13 +186,14 @@ module.exports = class PlayTogetherCommand extends Command {
               .setColor(activities[activity].color),
           ],
           components: [
-            new MessageActionRow().addComponents(
-              new MessageButton()
-                .setEmoji(activities[activity].emoji)
-                .setLabel(activities[activity].name)
-                .setStyle("LINK")
-                .setURL(invite.code)
-            ),
+            this.client.ButtonRow([
+              {
+                url: invite.code,
+                label: activities[activity].name,
+                style: "LINK",
+                emoji: activities[activity].emoji,
+              },
+            ]),
           ],
         });
       });

@@ -112,7 +112,7 @@ module.exports = class JTCSetupButtons extends Button {
             channelToDelete.parent
               ? `<#${channelToDelete.parentId}>`
               : "default"
-          }** category\n\n> Note that you can create only one "Join to create" channel per server.`,
+          }** category\n\n> Note that you can create **only one** Join to create channel **per server**.`,
         });
 
       case "channels-names-JTC":
@@ -123,7 +123,7 @@ module.exports = class JTCSetupButtons extends Button {
             {
               customId: "channel-JTC-input",
               label: "Names (must be separated by a comma)",
-              style: "PARAGRAPH",
+              style: "Paragraph",
               placeholder: `${this.client.Truncate(channelNames)}`,
               required: true,
             },

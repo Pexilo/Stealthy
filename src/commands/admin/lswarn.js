@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class LsWarnCommand extends Command {
   constructor(client) {
@@ -8,11 +9,11 @@ module.exports = class LsWarnCommand extends Command {
       examples:
         "/warns-list `member:@Pexilo#0001` => 🔨 List all warns of `@Pexilo#0001`",
       category: "Admin",
-      userPermissions: ["MODERATE_MEMBERS"],
-      clientPermissions: ["MODERATE_MEMBERS"],
+      userPermissions: ["ModerateMembers"],
+      clientPermissions: ["ModerateMembers"],
       options: [
         {
-          type: "USER",
+          type: ApplicationCommandOptionType.User,
           name: "user",
           description: "👤 The user to list warns of",
           required: true,
@@ -47,7 +48,7 @@ module.exports = class LsWarnCommand extends Command {
         if (s > 10) return;
         warnList += `\n**${i}:** by <@${
           warn.moderator
-        }> - ${this.client.Formatter(warn.date, "relative")}\n`;
+        }> - ${this.client.Formatter(warn.date, "R")}\n`;
         warnList += `Reason: \`${warn.reason}\`\n`;
       });
 

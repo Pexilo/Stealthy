@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class UnBanCommand extends Command {
   constructor(client) {
@@ -8,18 +9,18 @@ module.exports = class UnBanCommand extends Command {
       examples:
         "/unban `user:@Pexilo#0001` => 🔪 Unban Pexilo from the server.",
       category: "Admin",
-      userPermissions: ["BAN_MEMBERS"],
-      clientPermissions: ["BAN_MEMBERS"],
+      userPermissions: ["BanMembers"],
+      clientPermissions: ["BanMembers"],
       options: [
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "userid",
           description: "👤 Id of the user to unban",
           required: true,
         },
 
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "reason",
           description: "❔ Reason for the unban",
         },
@@ -51,7 +52,7 @@ module.exports = class UnBanCommand extends Command {
     }
     interaction.editReply(
       `\`🔪\` \`${memberId}\` has been unbanned from the server.${
-        reason ? `\n> Reason: \`${reason}\`` : ""
+        reason ? `\n\n\n> Reason: \`${reason}\`` : ""
       }`
     );
 

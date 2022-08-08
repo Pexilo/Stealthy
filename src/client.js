@@ -2,25 +2,24 @@ const { ShewenyClient } = require("sheweny");
 const { mongoose } = require("mongoose");
 require("dotenv").config();
 const { token, mongo_uri, bot_state } = process.env;
-const { Intents } = require("discord.js");
+const { Partials, GatewayIntentBits } = require("discord.js");
 
 const client = new ShewenyClient({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_VOICE_STATES,
-    Intents.FLAGS.GUILD_PRESENCES,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.MessageContent,
   ],
   partials: [
-    "CHANNEL",
-    "MESSAGE",
-    "REACTION",
-    "USER",
-    "GUILD_MEMBER",
-    "GUILD_PRESENCE",
+    Partials.Channel,
+    Partials.Message,
+    Partials.Reaction,
+    Partials.User,
+    Partials.GuildMember,
   ],
   admins: ["224537059308732416"],
   presence: {
@@ -56,6 +55,10 @@ const client = new ShewenyClient({
     },
     buttons: {
       directory: "./interactions/buttons",
+      loadAll: true,
+    },
+    modals: {
+      directory: "./interactions/modals",
       loadAll: true,
     },
   },

@@ -8,12 +8,16 @@ module.exports = class ClearConfirmButton extends Button {
     if (!(await this.client.Defer(button))) return;
     const { guild, message, channel } = button;
 
+    let replied = false;
     const number = message.content.match(/\d+/)[0];
     channel.bulkDelete(number).catch(() => {
+      replied = true;
       return button.editReply(
         `\`🚫\` You can't purge messages that are older than 14 days.`
       );
     });
+    await this.client.Wait(2000);
+    if (replied) return;
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);

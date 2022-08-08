@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class RWarnCommand extends Command {
   constructor(client) {
@@ -8,23 +9,23 @@ module.exports = class RWarnCommand extends Command {
       examples:
         "/warn-remove `member:@Pexilo#0001` `number:2` => 🔨 Remove warn #2 from `@Pexilo#0001`",
       category: "Admin",
-      userPermissions: ["MODERATE_MEMBERS"],
-      clientPermissions: ["MODERATE_MEMBERS"],
+      userPermissions: ["ModerateMembers"],
+      clientPermissions: ["ModerateMembers"],
       options: [
         {
-          type: "USER",
+          type: ApplicationCommandOptionType.User,
           name: "user",
           description: "👤 User to remove a warn from",
           required: true,
         },
         {
-          type: "NUMBER",
+          type: ApplicationCommandOptionType.Number,
           name: "number",
           description: "🔢 The index of the warn to remove (see /list-warns)",
           required: true,
         },
         {
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
           name: "reason",
           description: "❔ Reason for the warn removal",
         },

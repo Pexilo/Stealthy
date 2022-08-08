@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { ChannelType } = require("discord.js");
 
 module.exports = class JTCListener extends Event {
   constructor(client) {
@@ -70,8 +71,9 @@ module.exports = class JTCListener extends Event {
 
       let voiceChannel;
       await guild.channels
-        .create(this.client.searchRandom(channelNames), {
-          type: "GUILD_VOICE",
+        .create({
+          name: this.client.searchRandom(channelNames),
+          type: ChannelType.GuildVoice,
           parent: newChannel.parent,
           bitrate: maxBitrate,
         })
@@ -92,7 +94,7 @@ module.exports = class JTCListener extends Event {
       });
 
       // Cooldown system to avoid spam,
-      await newChannel.permissionOverwrites.edit(member, { CONNECT: false });
+      await newChannel.permissionOverwrites.edit(member, { Connect: false });
       setTimeout(() => newChannel.permissionOverwrites.delete(member), 5000);
 
       // if the user doesn't switch in the newly created channel in less than 3s delete it

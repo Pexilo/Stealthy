@@ -17,21 +17,21 @@ module.exports = class logsEnabledSelect extends SelectMenu {
       .map((value) => {
         switch (value) {
           case "msgDelete":
-            return "message deletes";
+            return "\n`🗑️` *Message deletes*";
           case "msgEdit":
-            return "message edits";
+            return "\n`✍` *Message edits*";
           case "joinLeave":
-            return "join & leave";
+            return "\n`🚪` *Join & Leave*";
           case "moderation":
-            return "moderation";
+            return "\n`🛡️` *Moderation*";
           case "channels":
-            return "channels";
+            return "\n`📙` *Channels*";
         }
       })
       .join(", ");
 
     return selectMenu.editReply({
-      content: `Logs enabled for \`${spelledValues}\`\n\n> To **log kick, ban, mute** commands, it is **necessary** to use the **commands given by Stealthy** (\`/kick\`, \`/ban\` & \`/mute\`)`,
+      content: `**Logs enabled:**${spelledValues}\n\n> To log \`Kick\`, \`Ban\`, \`Mute\` commands, it is **necessary** to use the **commands given by Stealthy** (\`/kick\`, \`/ban\` & \`/mute\`)`,
     });
   }
 };

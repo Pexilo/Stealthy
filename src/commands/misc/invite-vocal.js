@@ -1,4 +1,5 @@
 const { Command } = require("sheweny");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = class InviteVocalCommand extends Command {
   constructor(client) {
@@ -11,7 +12,7 @@ module.exports = class InviteVocalCommand extends Command {
       category: "Misc",
       options: [
         {
-          type: "USER",
+          type: ApplicationCommandOptionType.User,
           name: "member",
           description: "💡 The user to invite",
           required: true,

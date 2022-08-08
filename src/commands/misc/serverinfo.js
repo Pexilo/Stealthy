@@ -15,26 +15,11 @@ module.exports = class ServerInfoCommand extends Command {
     const { guild } = interaction;
     const owner = await guild.fetchOwner();
 
-    const filterLevels = {
-      DISABLED: "Off",
-      MEMBERS_WITHOUT_ROLES: "No Role",
-      ALL_MEMBERS: "Everyone",
-    };
+    const filterLevels = ["Off", "No Role", "Everyone"];
 
-    const verificationLevels = {
-      NONE: "❎",
-      LOW: "Low",
-      MEDIUM: "Medium",
-      HIGH: "High",
-      VERY_HIGH: "Very High",
-    };
+    const verificationLevels = ["❎", "Low", "Medium", "High", "Very High"];
 
-    const boostLevel = {
-      NONE: "❎",
-      TIER_1: "Level 1",
-      TIER_2: "Level 2",
-      TIER_3: "Level 3",
-    };
+    const boostLevel = ["❎", "Level 1", "Level 2", "Level 3"];
 
     const serverinfo = this.client
       .Embed()
@@ -48,7 +33,7 @@ module.exports = class ServerInfoCommand extends Command {
           name: "📅 " + "Creation date" + ":",
           value: `${this.client.Formatter(
             guild.createdAt
-          )} - ${this.client.Formatter(guild.createdAt, "relative")}`,
+          )} - ${this.client.Formatter(guild.createdAt, "R")}`,
           inline: true,
         },
         {
@@ -92,13 +77,16 @@ module.exports = class ServerInfoCommand extends Command {
           name: "\u200B",
           value: "\u200B",
           inline: true,
-        },
-        {
-          name: "💰 " + "Server Boost" + ":",
-          value: `${"```"}${boostLevel[guild.premiumTier]}${"```"}`,
-          inline: true,
         }
       );
+
+    if (guild.premiumTier != 0) {
+      serverinfo.addFields({
+        name: "💰 " + "Server Boost" + ":",
+        value: `${"```"}${boostLevel[guild.premiumTier]}${"```"}`,
+        inline: true,
+      });
+    }
 
     if (guild.description != null) {
       serverinfo.setDescription(

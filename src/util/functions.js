@@ -1,26 +1,28 @@
 const {
-  MessageEmbed,
-  MessageSelectMenu,
-  MessageActionRow,
-  MessageButton,
-  Modal,
-  TextInputComponent,
+  EmbedBuilder,
+  SelectMenuBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  time,
 } = require("discord.js");
 const prettyMilliseconds = require("pretty-ms");
 const Translate = require("deepl");
 const wait = require("node:util").promisify(setTimeout);
 require("dotenv").config();
-const { Formatters } = require("discord.js");
 const dayjs = require("dayjs");
 const nodeEmoji = require("node-emoji");
-const { Guild } = require("../models");
+const { Guild } = require("../db-model");
 const { rando } = require("@nastyox/rando.js");
 
 // This file contains all the functions that are used in the bot to avoid code duplication.
 module.exports = (client) => {
   /* This function is used to create a new embed. */
   client.Embed = (color = true) => {
-    let embed = new MessageEmbed();
+    let embed = new EmbedBuilder();
     if (color) embed.setColor("#508fb0");
     return embed;
   };
@@ -37,8 +39,8 @@ module.exports = (client) => {
     options = null,
     amount = null
   ) => {
-    let menuRow = new MessageActionRow().addComponents(
-      new MessageSelectMenu().setCustomId(customId)
+    let menuRow = new ActionRowBuilder().addComponents(
+      new SelectMenuBuilder().setCustomId(customId)
     );
     if (placeholder) menuRow.components[0].setPlaceholder(placeholder);
     if (amount) {
@@ -51,9 +53,27 @@ module.exports = (client) => {
 
   /* This function is used to create buttons. */
   client.ButtonRow = (buttons) => {
-    let buttonRow = new MessageActionRow();
+    let buttonRow = new ActionRowBuilder();
     buttons.forEach((btn) => {
-      let button = new MessageButton().setLabel(btn.label).setStyle(btn.style);
+      let button = new ButtonBuilder();
+      if (btn.label) button.setLabel(btn.label);
+      switch (btn.style) {
+        case "SUCCESS":
+          button.setStyle(ButtonStyle.Success);
+          break;
+        case "PRIMARY":
+          button.setStyle(ButtonStyle.Primary);
+          break;
+        case "SECONDARY":
+          button.setStyle(ButtonStyle.Secondary);
+          break;
+        case "DANGER":
+          button.setStyle(ButtonStyle.Danger);
+          break;
+        case "LINK":
+          button.setStyle(ButtonStyle.Link);
+          break;
+      }
       if (btn.emoji) button.setEmoji(btn.emoji);
       if (btn.url) button.setURL(btn.url);
       else button.setCustomId(btn.customId);
@@ -64,11 +84,11 @@ module.exports = (client) => {
 
   /* This function is used to create modals. */
   client.ModalRow = (customId, title, textInput) => {
-    const modal = new Modal().setCustomId(customId).setTitle(title);
+    const modal = new ModalBuilder().setCustomId(customId).setTitle(title);
     textInput.forEach((element) => {
       modal.addComponents(
-        new MessageActionRow().addComponents(
-          new TextInputComponent()
+        new ActionRowBuilder().addComponents(
+          new TextInputBuilder()
             .setCustomId(element.customId)
             .setLabel(element.label)
             .setStyle(element.style)
@@ -139,12 +159,8 @@ module.exports = (client) => {
   };
 
   /* This function is used to format the time. */
-  client.Formatter = (
-    ms,
-    option = Formatters.TimestampStyles.ShortDateTime
-  ) => {
-    if (option === "relative") option = Formatters.TimestampStyles.RelativeTime;
-    return Formatters.time(dayjs(ms).unix(), option);
+  client.Formatter = (ms, option = "f") => {
+    return time(dayjs(ms).unix(), option);
   };
 
   /* This function is used to limit a string to a specified length (used for Modals) */

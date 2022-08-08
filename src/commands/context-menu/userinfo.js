@@ -25,16 +25,12 @@ module.exports = class UserInfoContextMenuCommand extends Command {
       .addFields(
         {
           name: "📅 " + "Account created" + ":",
-          value: `${this.client.Formatter(
-            member.user.createdAt
-          )} - ${this.client.Formatter(member.user.createdAt, "relative")}`,
+          value: `${this.client.Formatter(member.user.createdAt, "R")}`,
           inline: true,
         },
         {
           name: "📥 " + "Joined the server" + ":",
-          value: `${this.client.Formatter(
-            member.joinedAt
-          )} - ${this.client.Formatter(member.joinedAt, "relative")}`,
+          value: `${this.client.Formatter(member.joinedAt, "R")}`,
           inline: true,
         }
       );
@@ -50,13 +46,13 @@ module.exports = class UserInfoContextMenuCommand extends Command {
     }
 
     if (member.presence.activities.length > 0) {
-      const activityType = {
-        PLAYING: "🎮 Playing",
-        STREAMING: "🎥 Streaming",
-        LISTENING: "🎧 Listening",
-        WATCHING: "📺 Watching",
-        CUSTOM_STATUS: "📝 Custom Status",
-      };
+      const activityType = [
+        "🎮 Playing",
+        "🎥 Streaming",
+        "🎧 Listening",
+        "📺 Watching",
+        "📝 Custom Status",
+      ];
 
       member.presence.activities.forEach((activity) => {
         userInfo.addFields({

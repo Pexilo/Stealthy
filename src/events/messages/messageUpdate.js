@@ -12,18 +12,14 @@ module.exports = class messageUpdateTracker extends Event {
      * Logs users modify their messages - Admin category
      */
     const { guild, channel, member } = newMessage;
-    if (
-      newMessage.author.bot ||
-      channel.type === "dm" ||
-      newMessage.content == oldMessage.content
-    )
+    if (newMessage.author.bot || newMessage.content == oldMessage.content)
       return;
 
     const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
-    if (logsChannel && enabledLogs.includes("msgUpdate")) {
+    if (logsChannel && enabledLogs.includes("msgEdit")) {
       const jumpTo =
         "https://discordapp.com/channels/" +
         guild.id +

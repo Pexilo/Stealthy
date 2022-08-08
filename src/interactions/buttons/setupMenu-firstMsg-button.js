@@ -1,5 +1,4 @@
 const { Button } = require("sheweny");
-const { Permissions } = require("discord.js");
 
 module.exports = class SetupMenuButton extends Button {
   constructor(client) {
@@ -9,9 +8,9 @@ module.exports = class SetupMenuButton extends Button {
     if (!(await this.client.Defer(button))) return;
     const { member } = button;
 
-    if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD))
+    if (!member.permissions.has("ManageGuild"))
       return button.editReply(
-        `\`🚫\` You don't have permission to do that! Missing \`MANAGE_GUILD\``
+        `\`🚫\` You don't have permission to do that! Missing \`ManageGuild\``
       );
 
     button.editReply({
