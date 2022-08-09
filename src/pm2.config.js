@@ -8,10 +8,10 @@ module.exports = {
       ignore_watch: [],
 
       env_production: {
-        bot_state: "production",
+        BOT_STATE: "production",
       },
       env_development: {
-        bot_state: "development",
+        BOT_STATE: "development",
       },
 
       watch_options: {

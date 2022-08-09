@@ -1,6 +1,6 @@
 const { Event } = require("sheweny");
 const { ChannelType } = require("discord.js");
-const { bot_state } = process.env;
+const { BOT_STATE } = process.env;
 
 module.exports = class Ready extends Event {
   constructor(client) {
@@ -20,7 +20,7 @@ module.exports = class Ready extends Event {
     );
 
     console.log(
-      `${client.user.username}    ✅ - ${this.client.Capitalize(bot_state)}
+      `${client.user.username}    ✅ - ${this.client.Capitalize(BOT_STATE)}
 ♦ Servers:  ${client.guilds.cache.size}
 ♦ Users:    ${usersCount}
 ♦ Channels: ${textChannels.size}`
