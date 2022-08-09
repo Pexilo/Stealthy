@@ -1,10 +1,9 @@
 {
   "name": "stealthy",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Lightweight, easy-to-use Discord bot that aims to enrich the lifestyle of your server",
-  "main": "src/pm2.config.js",
+  "main": "src/client.js",
   "scripts": {
-    "start": "nodemon -x \"node src/client.js || touch src/client.js\"",
     "dev": "pm2 start src/pm2.config.js --env development && pm2 log 0",
     "prod": "pm2 start src/pm2.config.js --env production && pm2 log 0"
   },

@@ -1,7 +1,7 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/67436391/182243493-2dbaf788-fb39-463b-bcb9-05303d7d4a7f.png" align="center">
   <a href="https://github.com/Pexilo/Stealthy/releases" target="_blank">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.1.0-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+    <img alt="Version" src="https://img.shields.io/badge/version-1.1.1-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
   </a>
   <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
     <img src="https://dcbadge.vercel.app/api/shield/877249354954580059?bot=true?&theme=blurple" />
@@ -58,10 +58,10 @@ Stealthy is my first ambitious personal project, it has been under development s
 - [x] 🤖 Discord `v13` -> `v14` [2b80de7](https://github.com/Pexilo/Stealthy/commit/2b80de7979f529222495512d52cd9480ee326869)
 - [x] 🚀 Sheweny `v3` -> `v4` [2b80de7](https://github.com/Pexilo/Stealthy/commit/2b80de7979f529222495512d52cd9480ee326869)
 - [ ] 🗂️ Multiple Role Claim, 🔉 Join to Create systems for the same server
-- [ ] 🧮 Role Claim types *(reaction, select menu, buttons)*
+- [ ] 🧮 Role Claim types _(reaction, select menu, buttons)_
 - [ ] 💬 Languages support
 
-## 🦾 Powerred by
+## 🦾 Powered by
 
 <div align="center" style="display:flex;">
     <a href="https://discord.js.org/" target="_blank">
@@ -81,7 +81,7 @@ Stealthy is my first ambitious personal project, it has been under development s
     </a>
 </div>
 
-##### `DiscordJs v14.1.2`, `Sheweny v4.0.2`, `Mongoose v6.4.3`, `DeeplAPI v1.0.13`, `Inovaperf` (remote server)
+##### `DiscordJs v14.1.2`, `Sheweny v4.0.2`, `Mongoose v6.4.3`, `DeeplAPI v1.0.13`, `Inovaperf`
 
 ---
 
@@ -92,6 +92,78 @@ Stealthy is my first ambitious personal project, it has been under development s
 ### 🤝 Contributing
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Pexilo/Stealthy/issues).
+
+### 📝 License
+
+[MIT License](https://github.com/Pexilo/Stealthy/blob/main/LICENSE)
+Copyright (c) 2022 Pexilo
+
+## ⚙️ Installation
+
+### Requirements
+
+- Node 16.9 or higher
+
+- MongoDB cluster
+
+1. Create an [account](https://account.mongodb.com/account/login)
+2. Create a cluster
+3. Connect it with "connect your application"
+4. Copy your connection string
+5. Replace `<password>` with your database access user password
+
+- Deepl Auth Key
+
+1. Create an account
+2. Copy your [authentification key](https://www.deepl.com/fr/account/summary)
+
+### Start the bot
+
+- Clone the repo
+
+```
+git clone https://github.com/Pexilo/Stealthy.git
+```
+
+##### 🤖 BOT INVITE
+
+1. Replace `<clientId>` with your bot Id
+
+``
+https://discord.com/api/oauth2/authorize?client_id=<clientId>&permissions=8&scope=bot%20applications.commands
+``
+
+2. Invite your bot with the above link to a desired server
+
+_Note: Your bot must have all privileged gateway intents checked to work properly_
+
+##### 🧾 ENV FILE
+
+1. Replace content of `example.env`
+
+```
+TOKEN=your-bot-token
+DEEPL_API_KEY=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX:fx
+MONGO_URI=mongodb+srv://username:password@clusterName.6bo3a.mongodb.net/Data
+```
+
+2. Rename the file `example.env` > `.env`
+
+##### 🚀 LAUNCH BOT
+
+1. Install dependencies
+
+```
+npm install
+```
+
+2. Start the bot
+
+```
+node .
+```
+
+---
 
 ### 👏 Show your support
 

@@ -80,7 +80,7 @@ module.exports = class ServerInfoCommand extends Command {
         }
       );
 
-    if (guild.premiumTier != 0) {
+    if (guild.premiumTier !== 0) {
       serverinfo.addFields({
         name: "💰 " + "Server Boost" + ":",
         value: `${"```"}${boostLevel[guild.premiumTier]}${"```"}`,

@@ -1,7 +1,7 @@
 const { ShewenyClient } = require("sheweny");
 const { mongoose } = require("mongoose");
 require("dotenv").config();
-const { token, mongo_uri, bot_state } = process.env;
+const { TOKEN, MONGO_URI, BOT_STATE } = process.env;
 const { Partials, GatewayIntentBits } = require("discord.js");
 
 const client = new ShewenyClient({
@@ -62,13 +62,13 @@ const client = new ShewenyClient({
       loadAll: true,
     },
   },
-  mode: bot_state,
+  mode: BOT_STATE,
 });
 
 require("./util/functions")(client);
 
 mongoose
-  .connect(mongo_uri, {
+  .connect(MONGO_URI, {
     autoIndex: false,
     maxPoolSize: 10,
     serverSelectionTimeoutMS: 5000,
@@ -78,6 +78,6 @@ mongoose
   .then(() => console.log("MongoDB     ✅"))
   .catch((err) => console.error("MongoDB     ❌\n", err.reason));
 
-client.login(token);
+client.login(TOKEN);
 
 module.exports = client;

@@ -6,7 +6,6 @@ const {
   ButtonStyle,
   ModalBuilder,
   TextInputBuilder,
-  TextInputStyle,
   time,
 } = require("discord.js");
 const prettyMilliseconds = require("pretty-ms");
@@ -108,7 +107,7 @@ module.exports = (client) => {
       free_api: true,
       text: text,
       target_lang: lang.toUpperCase(),
-      auth_key: `${process.env.deeplAuthKey}`,
+      auth_key: `${process.env.DEEPL_API_KEY}`,
     })
       .then((result) => {
         r = result.data.translations[0].text;
@@ -126,7 +125,7 @@ module.exports = (client) => {
       free_api: true,
       text: text,
       target_lang: lang.toUpperCase(),
-      auth_key: `${process.env.deeplAuthKey}`,
+      auth_key: `${process.env.DEEPL_API_KEY}`,
     })
       .then((result) => {
         r = result.data;
