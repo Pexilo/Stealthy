@@ -1,5 +1,5 @@
 const { Event } = require("sheweny");
-const { ChannelType } = require("discord.js");
+const { ChannelType, ActivityType } = require("discord.js");
 const { BOT_STATE } = process.env;
 
 module.exports = class Ready extends Event {
@@ -18,6 +18,18 @@ module.exports = class Ready extends Event {
       (a, g) => a + g.memberCount,
       0
     );
+
+    let index = 0;
+    const activities = [
+      { type: ActivityType.Listening, name: "/help", details: "for help" },
+      { type: ActivityType.Listening, name: "/setup" },
+    ];
+
+    setInterval(() => {
+      this.client.UpdateActivity(activities[index]);
+      index++;
+      if (index > activities.length - 1) index = 0;
+    }, 15000);
 
     console.log(
       `${client.user.username}    ✅ - ${this.client.Capitalize(BOT_STATE)}

@@ -72,7 +72,7 @@ module.exports = class JTCListener extends Event {
       let voiceChannel;
       await guild.channels
         .create({
-          name: this.client.searchRandom(channelNames),
+          name: this.client.SearchRandom(channelNames),
           type: ChannelType.GuildVoice,
           parent: newChannel.parent,
           bitrate: maxBitrate,
