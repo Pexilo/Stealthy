@@ -168,7 +168,7 @@ module.exports = (client) => {
   };
 
   /* This function is used to return a random element from an array. */
-  client.searchRandom = (arr) => {
+  client.SearchRandom = (arr) => {
     return rando(arr).value;
   };
 
@@ -227,6 +227,11 @@ module.exports = (client) => {
         .get(channelId)
         .setName(`${channelName}: ${guild.memberCount}`);
     } catch (e) {}
+  };
+
+  /* This function is used to change client activity */
+  client.UpdateActivity = (activity) => {
+    client.user.setActivity(activity.name, { type: activity.type });
   };
 
   /* This function is used to get the guild data from the database. */

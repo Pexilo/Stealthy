@@ -1,8 +1,8 @@
 const { ShewenyClient } = require("sheweny");
+const { Partials, GatewayIntentBits } = require("discord.js");
 const { mongoose } = require("mongoose");
 require("dotenv").config();
 const { TOKEN, MONGO_URI, BOT_STATE } = process.env;
-const { Partials, GatewayIntentBits } = require("discord.js");
 
 const client = new ShewenyClient({
   intents: [
@@ -22,15 +22,6 @@ const client = new ShewenyClient({
     Partials.GuildMember,
   ],
   admins: ["224537059308732416"],
-  presence: {
-    status: "online",
-    activities: [
-      {
-        name: "/help",
-        type: "LISTENING",
-      },
-    ],
-  },
   managers: {
     commands: {
       directory: "./commands",
