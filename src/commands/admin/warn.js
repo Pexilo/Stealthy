@@ -44,7 +44,7 @@ module.exports = class WarnCommand extends Command {
               required: true,
             },
             {
-              type: ApplicationCommandOptionType.Number,
+              type: ApplicationCommandOptionType.Integer,
               name: "number",
               description:
                 "🔢 The index of the warn to remove (see /warn list)",
@@ -159,7 +159,7 @@ module.exports = class WarnCommand extends Command {
         break;
 
       case "remove":
-        const number = options.getNumber("number");
+        const number = options.getInteger("number");
         reason = options.getString("reason");
 
         // find if the user matches the id of a logged one
