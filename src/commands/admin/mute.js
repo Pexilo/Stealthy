@@ -59,6 +59,9 @@ module.exports = class MuteCommand extends Command {
 
     const member = options.getMember("user");
     if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
+    if (member.permissions.has("ManageGuild"))
+      return interaction.editReply(`\`🚫\` I can't mute this user.`);
+
     const format = options.getString("format");
     const duration =
       format === "minutes"

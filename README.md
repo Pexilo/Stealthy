@@ -1,7 +1,7 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/67436391/182243493-2dbaf788-fb39-463b-bcb9-05303d7d4a7f.png" align="center">
   <a href="https://github.com/Pexilo/Stealthy/releases" target="_blank">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.1.2-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+    <img alt="Version" src="https://img.shields.io/badge/version-1.1.3-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
   </a>
   <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
     <img src="https://dcbadge.vercel.app/api/shield/877249354954580059?bot=true?&theme=blurple" />
@@ -11,7 +11,13 @@
   </a>
 </div>
 
+
+
 ##
+
+<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
+    <img align="right" width="350" src="https://user-images.githubusercontent.com/67436391/184276761-0a3590c3-0822-463c-b93b-f429bb3c83f8.png">
+</a>
 
 > Lightweight and easy to use discord bot meant to enrich the lifestyle of your server.
 
@@ -32,10 +38,6 @@ Stealthy is my first ambitious personal project, it has been under development s
 - Auto Role
 - Play Together
 - Invite a user to my channel
-
-<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
-    <img align="right" src="https://user-images.githubusercontent.com/67436391/184057047-16efa7fc-92d9-46b3-875c-cfcc677657a3.png">
-</a>
 
 #### 🛡️ Security & Moderation tools!
 
@@ -65,8 +67,12 @@ Stealthy is my first ambitious personal project, it has been under development s
 - [ ] 🧮 Role Claim types _(reaction, select menu, buttons)_
 - [ ] 💬 Languages support
 
----
+##
 ### 🤝 Contributing
+
+<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
+    <img align="right" width="500" src="https://user-images.githubusercontent.com/67436391/184276761-0a3590c3-0822-463c-b93b-f429bb3c83f8.png">
+</a>
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Pexilo/Stealthy/issues).
 
@@ -143,8 +149,6 @@ npm install
 ```
 node .
 ```
-
----
 
 ## 🦾 Powered by
 
