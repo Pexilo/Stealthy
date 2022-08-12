@@ -11,7 +11,13 @@
   </a>
 </div>
 
+
+
 ##
+
+<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
+    <img align="right" width="350" src="https://user-images.githubusercontent.com/67436391/184276761-0a3590c3-0822-463c-b93b-f429bb3c83f8.png">
+</a>
 
 > Lightweight and easy to use discord bot meant to enrich the lifestyle of your server.
 
@@ -32,10 +38,6 @@ Stealthy is my first ambitious personal project, it has been under development s
 - Auto Role
 - Play Together
 - Invite a user to my channel
-
-<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
-    <img align="right" src="https://user-images.githubusercontent.com/67436391/184057047-16efa7fc-92d9-46b3-875c-cfcc677657a3.png">
-</a>
 
 #### 🛡️ Security & Moderation tools!
 
@@ -67,6 +69,10 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 ---
 ### 🤝 Contributing
+
+<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
+    <img align="right" width="500" src="https://user-images.githubusercontent.com/67436391/184276761-0a3590c3-0822-463c-b93b-f429bb3c83f8.png">
+</a>
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Pexilo/Stealthy/issues).
 
