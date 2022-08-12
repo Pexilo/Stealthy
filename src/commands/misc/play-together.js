@@ -6,9 +6,10 @@ module.exports = class PlayTogetherCommand extends Command {
   constructor(client) {
     super(client, {
       name: "play",
+      description: "🎮 Play hidden Discord activities in your voice channel.",
       examples:
-        "/play `activity:📽️ Youtube` => Play Youtube together in your voice channel.",
-      description: "🎮 Play hidden Discord activities in your voice channel",
+        "/play `activity:📽️ Youtube` => Play `Youtube together` in your current voice channel",
+      usage: "https://i.imgur.com/osohUzS.png",
       category: "Misc",
       options: [
         {

@@ -7,7 +7,8 @@ module.exports = class WarnCommand extends Command {
       name: "warn",
       description: "🔨 Warn a user.",
       examples:
-        "/warn add `member:@Pexilo#0001` `reason:some reason` => 🔨 Warn `@Pexilo#0001` for `some reason`",
+        "/warn add `member:@Pexi` `reason:a reason` => 🔨 Warn `@Pexi` for `a reason`",
+      usage: "https://i.imgur.com/CjV2LF0.png",
       category: "Admin",
       userPermissions: ["ModerateMembers"],
       clientPermissions: ["ModerateMembers"],

@@ -7,6 +7,7 @@ module.exports = class UserInfoContextMenuCommand extends Command {
       type: "CONTEXT_MENU_USER",
       description: "📄 Get information about a specific user.",
       examples: "Use right click on a user -> `Applications` -> User-Info",
+      usage: "https://i.imgur.com/Y653nFR.png",
       category: "Context-Menu",
     });
   }

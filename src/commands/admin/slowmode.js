@@ -7,7 +7,8 @@ module.exports = class SlowModeCommand extends Command {
       name: "slowmode",
       description: "🐌 Set a slowmode for a channel.",
       examples:
-        "/slowmode `channel:General` `format:minutes` `time:1` => 🕒 Set the slowmode for the General channel to 1 minute.",
+        "/slowmode `channel:#general` `format:minutes` `time:1` => 🕒 Slow time between messages in `#general` channel for `1` `minute`",
+      usage: "https://i.imgur.com/wtz21Rv.png",
       category: "Admin",
       userPermissions: ["ManageChannels"],
       clientPermissions: ["ManageChannels"],
