@@ -1,4 +1,5 @@
 const { Button } = require("sheweny");
+const { ChannelType } = require("discord.js");
 
 module.exports = class JTCSetupButtons extends Button {
   constructor(client) {
@@ -40,24 +41,21 @@ module.exports = class JTCSetupButtons extends Button {
         }
 
         //find first category of the server
+        let noParent = false;
         const firstCategory = guild.channels.cache
-          .filter((c) => c.type == "GUILD_CATEGORY")
+          .filter((c) => c.type === ChannelType.GuildCategory)
           .first();
+        if (!firstCategory) noParent = true;
 
         //create the channel in the first category
         const voiceChannel = await guild.channels
-          .create("🔉 Create a channel", {
-            type: "GUILD_VOICE",
-            parent: firstCategory,
+          .create({
+            name: "🔉 Create a channel",
+            type: ChannelType.GuildVoice,
+            parent: noParent ? null : firstCategory,
           })
           .then(async (channel) => channel.lockPermissions())
-          .catch((e) => {
-            return button.editReply(
-              `\`⛔\` An error occured: ${"```"}${
-                e.message
-              }${"```"}\nPlease contact an administrator of the bot for further assistance.`
-            );
-          });
+          .catch((_e) => undefined);
 
         //set the channel in the database
         await this.client.updateGuild(guild, {

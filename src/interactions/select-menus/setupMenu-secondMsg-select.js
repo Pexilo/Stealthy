@@ -1,4 +1,5 @@
 const { SelectMenu } = require("sheweny");
+const { ChannelType } = require("discord.js");
 const { languageFlags } = require("../../languageList");
 
 module.exports = class SetupMenu2MsgSelect extends SelectMenu {
@@ -135,9 +136,11 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         );
 
         //find first category of the server
+        let noParent = false;
         const firstCategory = guild.channels.cache
-          .filter((c) => c.type == "GUILD_CATEGORY")
+          .filter((c) => c.type === ChannelType.GuildCategory)
           .first();
+        if (!firstCategory) noParent = true;
 
         if (findChannel) {
           return selectMenu.editReply({
@@ -164,12 +167,14 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         }
 
         return selectMenu.editReply({
-          content: `\`🔊\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> You can also use \`/setup channels\` to choose a different category than **${firstCategory.name}**.`,
+          content: `\`🔊\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> You can also use \`/setup channels\` to choose a different category than **${
+            noParent ? "the default one" : firstCategory.name
+          }**.`,
           components: [
             this.client.ButtonRow([
               {
                 customId: "create-JTC",
-                label: `Create in ${firstCategory.name}`,
+                label: `Create ${!noParent ? "in " + firstCategory.name : ""}`,
                 style: "SUCCESS",
                 emoji: "🔉",
               },

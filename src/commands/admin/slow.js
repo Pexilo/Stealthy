@@ -1,13 +1,13 @@
 const { Command } = require("sheweny");
 const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
 
-module.exports = class SlowModeCommand extends Command {
+module.exports = class SlowCommand extends Command {
   constructor(client) {
     super(client, {
-      name: "slowmode",
+      name: "slow",
       description: "🐌 Set a slowmode for a channel.",
       examples:
-        "/slowmode `channel:#general` `format:minutes` `time:1` => 🕒 Slow time between messages in `#general` channel for `1` `minute`",
+        "/slow `channel:#general` `format:minutes` `time:1` => 🕒 Slow time between messages in `#general` channel for `1` `minute`",
       usage: "https://i.imgur.com/wtz21Rv.png",
       category: "Admin",
       userPermissions: ["ManageChannels"],
@@ -37,7 +37,7 @@ module.exports = class SlowModeCommand extends Command {
           ],
         },
         {
-          type: ApplicationCommandOptionType.Number,
+          type: ApplicationCommandOptionType.Integer,
           name: "time",
           description: "⏱️ Define the time",
           required: true,
@@ -58,8 +58,9 @@ module.exports = class SlowModeCommand extends Command {
     const channel = options.getChannel("channel");
     if (!channel)
       return interaction.editReply(`\`🚫\` I can't find this channel.`);
+
     const format = options.getString("format");
-    const time = options.getNumber("time");
+    const time = options.getInteger("time");
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
@@ -79,15 +80,15 @@ module.exports = class SlowModeCommand extends Command {
       );
     }
 
-    if (time == 0) {
-      return interaction.editReply(
-        `\`🐌\` ${channel.toString()} slowmode has been reset.`
+    if (time === 0) {
+      interaction.editReply(
+        `\`🐇\` ${channel.toString()} slowmode has been reset.`
+      );
+    } else {
+      interaction.editReply(
+        `\`🐌\` ${channel.toString()} slowmode has been set to \`${time} ${format}\`\n\n> Use \`/unslow\` to disable it.`
       );
     }
-
-    interaction.editReply(
-      `\`🐌\` ${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
-    );
 
     if (!logsChannel || !enabledLogs.includes("channels")) return;
     logsChannel
@@ -102,14 +103,22 @@ module.exports = class SlowModeCommand extends Command {
               }),
             })
             .setDescription(
-              `${channel.toString()} slowmode has been set to \`${time} ${format}\`.`
+              `${channel.toString()} ${
+                time !== 0
+                  ? `slowmode has been set to \`${time} ${format}\`\n\n Use \`/unslow\` to disable it`
+                  : "slowmode has been disabled"
+              }.`
             )
             .addFields({
               name: "Reason",
               value: reason || "No reason provided",
             })
             .setThumbnail(
-              "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/310/snail_1f40c.png"
+              `${
+                time !== 0
+                  ? "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/310/snail_1f40c.png"
+                  : "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/google/313/rabbit_1f407.png"
+              }`
             )
             .setTimestamp(),
         ],

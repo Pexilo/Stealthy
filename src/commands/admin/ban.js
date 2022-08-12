@@ -6,7 +6,8 @@ module.exports = class BanCommand extends Command {
     super(client, {
       name: "ban",
       description: "🔪 Ban a member from the server.",
-      examples: "/ban `user:@Pexi` => 🔪 Ban `@Pexi` from the server",
+      examples:
+        "/ban `user:@Pexi` `days:3` => 🔪 Ban `@Pexi` from the server and delete the last `3 days` of messages",
       usage: "https://i.imgur.com/o0Dm3A6.png",
       category: "Admin",
       userPermissions: ["BanMembers"],
@@ -18,7 +19,14 @@ module.exports = class BanCommand extends Command {
           description: "👤 User to ban",
           required: true,
         },
-
+        {
+          type: ApplicationCommandOptionType.Integer,
+          name: "days",
+          description: "❌ Days of messages to delete",
+          required: true,
+          min_value: 0,
+          max_value: 7,
+        },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
@@ -34,6 +42,7 @@ module.exports = class BanCommand extends Command {
 
     const member = options.getMember("user");
     if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
+    const deleteDays = options.getInteger("days");
     const reason = options.getString("reason");
 
     const fetchGuild = await this.client.getGuild(guild);
@@ -42,6 +51,7 @@ module.exports = class BanCommand extends Command {
 
     try {
       await member.ban({
+        deleteMessageDays: deleteDays,
         reason: `by ${interaction.member.user.tag}${
           reason ? ": " + reason : ""
         }`,
@@ -53,8 +63,8 @@ module.exports = class BanCommand extends Command {
     }
 
     interaction.editReply(
-      `\`🔪\` ${member.toString()} has been banned from the server.${
-        reason ? `\n\n> Reason: \`${reason}\`` : ""
+      `\`🔪\` ${member.toString()} has been banned from the server.\n\n> \`${deleteDays}\` days of messages have been cleared${
+        reason ? `\n> Reason: \`${reason}\`` : ""
       }`
     );
 
@@ -71,10 +81,16 @@ module.exports = class BanCommand extends Command {
               }),
             })
             .setDescription(member.toString() + " has been banned.")
-            .addFields({
-              name: "Reason",
-              value: `${reason || "No reason provided"}`,
-            })
+            .addFields(
+              {
+                name: "Messages deleted",
+                value: `${deleteDays} days`,
+              },
+              {
+                name: "Reason",
+                value: `${reason || "No reason provided"}`,
+              }
+            )
             .setThumbnail(member.displayAvatarURL({ dynamic: true }))
             .setColor("#b72a2a")
             .setTimestamp()

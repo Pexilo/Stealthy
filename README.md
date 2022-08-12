@@ -1,7 +1,7 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/67436391/182243493-2dbaf788-fb39-463b-bcb9-05303d7d4a7f.png" align="center">
   <a href="https://github.com/Pexilo/Stealthy/releases" target="_blank">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.1.2-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+    <img alt="Version" src="https://img.shields.io/badge/version-1.1.3-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
   </a>
   <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
     <img src="https://dcbadge.vercel.app/api/shield/877249354954580059?bot=true?&theme=blurple" />
@@ -67,7 +67,7 @@ Stealthy is my first ambitious personal project, it has been under development s
 - [ ] 🧮 Role Claim types _(reaction, select menu, buttons)_
 - [ ] 💬 Languages support
 
----
+##
 ### 🤝 Contributing
 
 <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
@@ -149,8 +149,6 @@ npm install
 ```
 node .
 ```
-
----
 
 ## 🦾 Powered by
 
