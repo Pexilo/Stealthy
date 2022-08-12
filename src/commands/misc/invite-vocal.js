@@ -5,11 +5,13 @@ module.exports = class InviteVocalCommand extends Command {
   constructor(client) {
     super(client, {
       name: "invite-vc",
-      type: "SLASH_COMMAND",
-      description: "💌 Invite someone to your vocal channel",
+      description: "💌 Invite someone to your vocal channel.",
       examples:
-        "/invite-vc `member:@Pexilo#0001` => 📧 DM an invitation to connect in your voice channel",
+        "/invite-vc `member:@Pexilo` => 📧 Invite (DM) `@Pexilo` to your voice channel",
+      usage: "https://i.imgur.com/5NjZuQp.png",
       category: "Misc",
+      clientPermissions: ["SendMessages"],
+      memberPermissions: ["SendMessages"],
       options: [
         {
           type: ApplicationCommandOptionType.User,

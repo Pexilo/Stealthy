@@ -5,8 +5,9 @@ module.exports = class AvatarUserContextMenuCommand extends Command {
     super(client, {
       name: "Show-Avatar",
       type: "CONTEXT_MENU_USER",
-      description: "🖼️ Get avatar of a specific user",
+      description: "🖼️ Get avatar of a specific user.",
       examples: "Use right click on a user -> `Applications` -> Show-Avatar",
+      usage: "https://i.imgur.com/ebWVSJO.png",
       category: "Context-Menu",
     });
   }

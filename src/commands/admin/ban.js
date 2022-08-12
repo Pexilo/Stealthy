@@ -6,7 +6,8 @@ module.exports = class BanCommand extends Command {
     super(client, {
       name: "ban",
       description: "🔪 Ban a member from the server.",
-      examples: "/ban `user:@Pexilo#0001` => 🔪 Ban Pexilo from the server.",
+      examples: "/ban `user:@Pexi` => 🔪 Ban `@Pexi` from the server",
+      usage: "https://i.imgur.com/o0Dm3A6.png",
       category: "Admin",
       userPermissions: ["BanMembers"],
       clientPermissions: ["BanMembers"],
@@ -53,7 +54,7 @@ module.exports = class BanCommand extends Command {
 
     interaction.editReply(
       `\`🔪\` ${member.toString()} has been banned from the server.${
-        reason ? `\n\n\n> Reason: \`${reason}\`` : ""
+        reason ? `\n\n> Reason: \`${reason}\`` : ""
       }`
     );
 

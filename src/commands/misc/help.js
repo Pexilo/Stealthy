@@ -5,7 +5,7 @@ module.exports = class HelpCommand extends Command {
   constructor(client) {
     super(client, {
       name: "help",
-      description: "🔍 Show commands list",
+      description: "🔍 Show commands list.",
       examples: "/help `command:ping` => 🔍 Show details about command `ping`",
       category: "Misc",
       options: [
@@ -42,7 +42,8 @@ module.exports = class HelpCommand extends Command {
             .setAuthor({ name: `${command[0].category}` })
             .setDescription(
               `${command[0].description}\n\nExample: ${command[0].examples}`
-            ),
+            )
+            .setImage(command[0].usage),
         ],
       });
     }
@@ -88,7 +89,7 @@ module.exports = class HelpCommand extends Command {
       });
     }
     embedInfo.setDescription(
-      "To setup Stealthy features please press the button below! 🐲 \n\n" +
+      "To setup Stealthy features please press the button below! `🐲` \n\n" +
         "List of the " +
         commandCount +
         " commands:"
