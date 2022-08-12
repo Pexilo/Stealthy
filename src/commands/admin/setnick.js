@@ -7,7 +7,8 @@ module.exports = class SetNicknameCommand extends Command {
       name: "nick",
       description: "✍️ Change the nickname of a user.",
       examples:
-        "/setnick `user:@Pexilo#0001` `nickname:Pexi` => ✍️ Change the nickname of @Pexilo#0001 to Pexi.",
+        "/setnick `user:@Pexi` `nickname:Pexilo` => ✍️ Change the nickname of `@Pexi` to `Pexilo`",
+      usage: "https://i.imgur.com/lZSnzz8.png",
       category: "Admin",
       userPermissions: ["ManageNicknames"],
       clientPermissions: ["ManageNicknames"],
@@ -75,7 +76,7 @@ module.exports = class SetNicknameCommand extends Command {
               }),
             })
             .setDescription(
-              `${member.toString()} nickname has been changed. \`${
+              `${member.toString()} nickname has been changed.\n\`${
                 member.user.username
               } -> ${nickname}\``
             )

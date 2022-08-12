@@ -7,7 +7,8 @@ module.exports = class LockCommand extends Command {
       name: "lock",
       description: "🔒 Lock the current channel.",
       examples:
-        "/lock `channel:#general` => 🔒 Forbid users from sending messages in #general.",
+        "/lock `channel:#general` => 🔒 Forbid users from sending messages in `#general`",
+      usage: "https://i.imgur.com/MTb1WLk.png",
       category: "Admin",
       userPermissions: ["ManageChannels"],
       clientPermissions: ["ManageChannels"],

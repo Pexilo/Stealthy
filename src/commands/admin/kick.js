@@ -6,7 +6,8 @@ module.exports = class KickCommand extends Command {
     super(client, {
       name: "kick",
       description: "🔪 Kick a member from the server.",
-      examples: "/kick `user:@Pexilo#0001` => 🔪 Kick Pexilo from the server.",
+      examples: "/kick `user:@Pexi` => 🔪 Kick `@Pexi` from the server",
+      usage: "https://i.imgur.com/b2t76SZ.png",
       category: "Admin",
       userPermissions: ["KickMembers"],
       clientPermissions: ["KickMembers"],

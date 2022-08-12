@@ -241,7 +241,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
       case "autorole_option":
         const autoroleArray = fetchGuild.autoRole.roles;
 
-        if (!autoroleArray.length > 0) {
+        if (autoroleArray.length === 0) {
           return selectMenu.editReply({
             content: `\`🎩\` **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can use \`/setup autorole add\` to setup this feature.`,
           });

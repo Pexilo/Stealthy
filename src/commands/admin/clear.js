@@ -7,6 +7,7 @@ module.exports = class ClearCommand extends Command {
       name: "clear",
       description: "⛑️ Clear a certain amount of messages from a channel.",
       examples: "/clear `number:5` => ⛑️ Delete `5` messages in a channel",
+      usage: "https://i.imgur.com/drN25If.png",
       category: "Admin",
       userPermissions: ["Administrator"],
       clientPermissions: ["ManageMessages"],

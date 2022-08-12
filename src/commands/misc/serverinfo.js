@@ -6,6 +6,7 @@ module.exports = class ServerInfoCommand extends Command {
       name: "serverinfo",
       description: "⛲ Get information about the server.",
       examples: "/serverinfo => Get server information",
+      usage: "https://i.imgur.com/g7XvucX.png",
       category: "Misc",
     });
   }
@@ -94,7 +95,7 @@ module.exports = class ServerInfoCommand extends Command {
       );
     }
 
-    if (guild.premiumSubscriptionCount != 0) {
+    if (guild.premiumSubscriptionCount !== 0) {
       serverinfo.addFields(
         {
           name: "🪙 " + "Boost" + ":",

@@ -6,9 +6,10 @@ module.exports = class MuteCommand extends Command {
     super(client, {
       name: "mute",
       type: "SLASH_COMMAND",
-      description: "🔇Mute a specific member",
+      description: "🔇 Mute a specific member",
       examples:
-        "/mute `member:@Pexilo#0001` `format:minutes` `duration:5` => 🔇Mute `@Pexilo#0001` for `5` `minutes`",
+        "/mute `member:@Pexi` `format:minutes` `duration:5` => 🔇 Mute `@Pexi` for `5` `minutes`",
+      usage: "https://i.imgur.com/u0TBXu4.png",
       category: "Admin",
       userPermissions: ["ModerateMembers"],
       clientPermissions: ["ModerateMembers"],
