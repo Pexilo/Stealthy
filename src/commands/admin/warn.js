@@ -91,7 +91,7 @@ module.exports = class WarnCommand extends Command {
         const userArray = fetchGuild.logs.users;
 
         // get the highest case number from the array of warns to increment it
-        const cases = fetchGuild.logs.users.map((u) => u.case);
+        const cases = userArray.map((u) => u.case);
         const highestCase = Math.max(...cases);
 
         // build the new warn object

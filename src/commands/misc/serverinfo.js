@@ -95,7 +95,7 @@ module.exports = class ServerInfoCommand extends Command {
       );
     }
 
-    if (guild.premiumSubscriptionCount != 0) {
+    if (guild.premiumSubscriptionCount !== 0) {
       serverinfo.addFields(
         {
           name: "🪙 " + "Boost" + ":",
