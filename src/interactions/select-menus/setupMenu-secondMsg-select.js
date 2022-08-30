@@ -189,17 +189,19 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           fetchGuild.moderationTools.enabled.includes("blacklist");
 
         if (!blacklistState) {
-          return interaction.editReply({
+          return selectMenu.editReply({
             content:
               "`🛡️` Blacklist feature is disabled\n\n> Would you like to activate it?",
-            components: this.client.ButtonRow([
-              {
-                customId: "blacklist-tool",
-                label: "",
-                style: "SUCCESS",
-                emoji: "✅",
-              },
-            ]),
+            components: [
+              this.client.ButtonRow([
+                {
+                  customId: "blacklist-tool",
+                  label: "",
+                  style: "SUCCESS",
+                  emoji: "✅",
+                },
+              ]),
+            ],
           });
         }
 
