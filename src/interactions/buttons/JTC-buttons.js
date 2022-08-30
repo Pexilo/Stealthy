@@ -55,7 +55,7 @@ module.exports = class JTCSetupButtons extends Button {
             parent: noParent ? null : firstCategory,
           })
           .then(async (channel) => channel.lockPermissions())
-          .catch((_e) => undefined);
+          .catch(() => undefined);
 
         //set the channel in the database
         await this.client.updateGuild(guild, {
@@ -115,7 +115,7 @@ module.exports = class JTCSetupButtons extends Button {
 
       case "channels-names-JTC":
         const channelNames = fetchGuild.joinToCreate.names.join(", ");
-        //prepare the modal, intercepted in interactionCreate class (temp)
+
         await button.showModal(
           this.client.ModalRow("channels-names-JTC", "JTC channel names", [
             {
