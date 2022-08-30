@@ -31,6 +31,7 @@ const client = new ShewenyClient({
         type: "SLASH_COMMAND",
         channel: "GUILD",
         cooldown: 3,
+        userPermissions: ["UseApplicationCommands"],
       },
     },
     events: {

@@ -4,6 +4,13 @@ const guildSchema = new mongoose.Schema({
   id: String,
   language: { type: String, default: "en" },
 
+  moderationTools: {
+    enabled: {
+      type: Array,
+      default: ["blacklist"],
+    },
+  },
+
   logs: {
     channel: { type: String, default: null },
     enabled: {

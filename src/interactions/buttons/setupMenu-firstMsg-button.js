@@ -22,39 +22,45 @@ module.exports = class SetupMenuButton extends Button {
           "What feature do you want to configure?",
           [
             {
-              label: "Channels Setup",
+              label: "Channels",
               description: "REQUIRED - Configure the channels used by the bot.",
               value: "channel_option",
               emoji: "📚",
             },
             {
-              label: "Join to Create Setup",
+              label: "Join to Create",
               description:
                 "OPTIONAL - Lighten your voice channels with just one",
               value: "jtc_option",
               emoji: "🔊",
             },
             {
-              label: "Role Claim Setup",
+              label: "Role Claim",
               description: "OPTIONAL - Let users claim roles from a message",
               value: "roleclaim_option",
               emoji: "🗂️",
             },
             {
-              label: "Auto Role Setup",
+              label: "Auto Role",
               description: "OPTIONAL - Give roles to newcomers",
               value: "autorole_option",
               emoji: "🎩",
             },
             {
-              label: "Blacklist Setup",
+              label: "Blacklist",
               description:
                 "OPTIONAL - Protect your server against bots, scams, etc.",
               value: "blacklist_option",
               emoji: "🛡️",
             },
             {
-              label: "Language Setup",
+              label: "Moderation Tools",
+              description: "OPTIONAL - Enable or disable moderation features",
+              value: "moderation_option",
+              emoji: "🗡️",
+            },
+            {
+              label: "Language",
               description: "OPTIONAL - (WIP - Not implemented yet)",
               value: "lang_option",
               emoji: "🌐",
