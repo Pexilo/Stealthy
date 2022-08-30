@@ -185,6 +185,23 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
       case "blacklist_option":
         const blacklistTime = fetchGuild.blackList.time;
         const blacklistMinAge = fetchGuild.blackList.minAge;
+        const blacklistState =
+          fetchGuild.moderationTools.enabled.includes("blacklist");
+
+        if (!blacklistState) {
+          return interaction.editReply({
+            content:
+              "`🛡️` Blacklist feature is disabled\n\n> Would you like to activate it?",
+            components: this.client.ButtonRow([
+              {
+                customId: "blacklist-tool",
+                label: "",
+                style: "SUCCESS",
+                emoji: "✅",
+              },
+            ]),
+          });
+        }
 
         return selectMenu.editReply({
           content: `\`🛡️\` **Blacklist** is a feature that **prevents freshly created accounts from joining your server**. New accounts are often **bots, scams and adverts** that could be used maliciously to **harm your server users**.\n\nBlacklist is **activated by default**, you can change the times according to **your needs**:\n> \`Blacklist length: ${this.client.PrettyMs(
@@ -265,6 +282,36 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
                 emoji: "🗑",
               },
             ]),
+          ],
+        });
+
+      case "moderation_option":
+        const moderationTools = fetchGuild.moderationTools;
+
+        return selectMenu.editReply({
+          components: [
+            this.client.SelectMenuRow(
+              "moderation-tools-select",
+              "Manage your tools",
+              [
+                {
+                  label: "Blacklist",
+                  description: "Protect your server against bots, scams, etc.",
+                  value: "blacklist",
+                  emoji: "🛡️",
+                  default: moderationTools.enabled.includes("blacklist"),
+                },
+                {
+                  label: "Discord invites suppressor",
+                  description:
+                    "Automatically deletes invitations sent by non-moderators",
+                  value: "delDcInvites",
+                  emoji: "🔗",
+                  default: moderationTools.enabled.includes("delDcInvites"),
+                },
+              ],
+              { min: 0, max: 2 }
+            ),
           ],
         });
     }
