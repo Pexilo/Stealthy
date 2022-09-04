@@ -16,7 +16,8 @@ module.exports = class messageUpdateTracker extends Event {
       return;
 
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
-    const {} = this.client.la[lang];
+    const { messageUpdate } = this.client.la[lang].events.messages;
+
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
@@ -32,18 +33,18 @@ module.exports = class messageUpdateTracker extends Event {
       const embedInfo = this.client
         .Embed()
         .setAuthor({
-          name: `${newMessage.author.username} edited a message.`,
+          name: eval(messageUpdate.embed1.author),
           iconURL: member.user.displayAvatarURL({ dynamic: true }),
         })
-        .setDescription(`[Edited message](${jumpTo}) in ${channel.toString()}`)
+        .setDescription(eval(messageUpdate.embed1.description))
         .addFields(
           {
-            name: "Old message" + ":",
-            value: `${"```"}${oldMessage.content}${"```"}`,
+            name: messageUpdate.embed1.field1.name,
+            value: eval(messageUpdate.embed1.field1.value),
           },
           {
-            name: "Modified message" + ":",
-            value: `${"```"}${newMessage.content}${"```"}`,
+            name: messageUpdate.embed1.field2.name,
+            value: eval(messageUpdate.embed1.field2.value),
           }
         )
         .setColor("#FFA500")

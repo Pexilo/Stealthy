@@ -18,7 +18,8 @@ module.exports = class messageDeleteTracker extends Event {
       return;
 
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
-    const {} = this.client.la[lang];
+    const { messageDelete } = this.client.la[lang].events.messages;
+
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
@@ -26,17 +27,14 @@ module.exports = class messageDeleteTracker extends Event {
       let embed = this.client
         .Embed()
         .setAuthor({
-          name: `${message.author.username} message removed.`,
+          name: eval(messageDelete.embed1.author),
           iconURL: member.user.displayAvatarURL({ dynamic: true }),
         })
-        .setDescription(
-          `Message from <@${member.id}> in <#${channel.id}>\n
-              ${
-                message.content.length !== 0
-                  ? `\`\`\`${message.content}\`\`\``
-                  : ""
-              }`
-        )
+        .setDescription(eval(messageDelete.embed1.description))
+        .setFields({
+          name: messageDelete.embed1.field1.name,
+          value: eval(messageDelete.embed1.field1.value),
+        })
         .setColor("#8B0000")
         .setTimestamp()
         .setFooter({
@@ -45,7 +43,7 @@ module.exports = class messageDeleteTracker extends Event {
 
       if (message.attachments.size > 0) {
         embed.addFields({
-          name: "Attachments",
+          name: messageDelete.embed1.field2,
           value: message.attachments
             .map((attachment) => {
               return `[${attachment.name}](${attachment.url})`;

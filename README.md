@@ -34,36 +34,40 @@ Stealthy is my first ambitious personal project, it has been under development s
 - Role Claim
 - Join to Create
 - Auto Role
-- Play Together
-- Invite a user to my channel
+- Discord activities
+- Invite to my channel
 
 #### 🛡️ Security & Moderation tools!
 
 - Complete logging system
 - Ban, kick, warm, mute users
-- Join protection against bots raids and scammers
+- Blacklist protection against bots raids and scammers
 - Discord invites suppression
 - Lock, slowdown, clear channels
-- Deletes, Edits messages logs
-- Join/Leave logs
 
 #### ⚜️ Useful commands
 
-- Show avatar
-- Show user, server, bot info
+- Get user avatar
+- User, server, bot info
 - Translate messages
 
 #### Check at any time these features with `/help`
 
 > Some of the above features are using context-menu system, try to right click on a message or a user, and select 'applications'.
 
+## 🌎 Supported Languages
+
+#### ☕ English
+#### 🥖 French
+
 ## 📬 Future updates
 
 - [x] 🤖 Discord `v14` [2b80de7](https://github.com/Pexilo/Stealthy/commit/2b80de7979f529222495512d52cd9480ee326869)
 - [x] 🚀 Sheweny `v4` [2b80de7](https://github.com/Pexilo/Stealthy/commit/2b80de7979f529222495512d52cd9480ee326869)
-- [ ] 🗂️ Multiple Role Claim, 🔉 Join to Create systems for the same server
+- [x] 💬 Languages support
+- [ ] ⚒️ Better permissions
+- [ ] 🗂️ Multiple Role Claim, 🔉 Join to Create
 - [ ] 🧮 Role Claim types _(reaction, select menu, buttons)_
-- [ ] 💬 Languages support
 
 ##
 ### 🤝 Contributing

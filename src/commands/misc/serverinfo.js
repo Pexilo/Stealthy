@@ -16,26 +16,28 @@ module.exports = class ServerInfoCommand extends Command {
   }
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
-
     const { guild } = interaction;
+
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { serverinfo } = this.client.la[lang].commands.misc;
+
     const owner = await guild.fetchOwner();
 
-    const filterLevels = ["Off", "No Role", "Everyone"];
+    const filterLevels = serverinfo.filterLevels;
+    const verificationLevels = serverinfo.verificationLevels;
+    const boostLevel = serverinfo.boostLevel;
 
-    const verificationLevels = ["❎", "Low", "Medium", "High", "Very High"];
-
-    const boostLevel = ["❎", "Level 1", "Level 2", "Level 3"];
-
-    const serverinfo = this.client
+    const embed = this.client
       .Embed()
       .setAuthor({
         name: guild.name + " - " + guild.id,
         iconURL: guild.iconURL({ dynamic: true }),
       })
-      .setDescription(`Owner: ${owner.user.toString()}`)
+      .setDescription(eval(serverinfo.embed1.description1))
       .addFields(
         {
-          name: "📅 " + "Creation date" + ":",
+          name: serverinfo.embed1.field1,
           value: `${this.client.Formatter(
             guild.createdAt
           )} - ${this.client.Formatter(guild.createdAt, "R")}`,
@@ -52,12 +54,12 @@ module.exports = class ServerInfoCommand extends Command {
           inline: true,
         },
         {
-          name: "👤 " + "Members" + ":",
+          name: serverinfo.embed1.field2,
           value: `${"```"}${guild.memberCount}${"```"}`,
           inline: true,
         },
         {
-          name: "🗣️ " + "Maximum bitrate" + ":",
+          name: serverinfo.embed1.field3,
           value: `${"```"}${guild.maximumBitrate} kb/s${"```"}`,
           inline: true,
         },
@@ -67,12 +69,12 @@ module.exports = class ServerInfoCommand extends Command {
           inline: true,
         },
         {
-          name: "🔒 " + "Filter level" + ":",
+          name: serverinfo.embed1.field4,
           value: `${"```"}${filterLevels[guild.explicitContentFilter]}${"```"}`,
           inline: true,
         },
         {
-          name: "🔐 " + "Verification" + ":",
+          name: serverinfo.embed1.field5,
           value: `${"```"}${
             verificationLevels[guild.verificationLevel]
           }${"```"}`,
@@ -86,23 +88,21 @@ module.exports = class ServerInfoCommand extends Command {
       );
 
     if (guild.premiumTier !== 0) {
-      serverinfo.addFields({
-        name: "💰 " + "Server Boost" + ":",
+      embed.addFields({
+        name: serverinfo.embed1.field6,
         value: `${"```"}${boostLevel[guild.premiumTier]}${"```"}`,
         inline: true,
       });
     }
 
     if (guild.description != null) {
-      serverinfo.setDescription(
-        `Owner: ${owner.user.toString()}\n${"```"}${guild.description}${"```"}`
-      );
+      embed.setDescription(eval(serverinfo.embed1.description2));
     }
 
     if (guild.premiumSubscriptionCount !== 0) {
-      serverinfo.addFields(
+      embed.addFields(
         {
-          name: "🪙 " + "Boost" + ":",
+          name: serverinfo.embed1.field7,
           value: `${"```"}${guild.premiumSubscriptionCount}${"```"}`,
           inline: true,
         },
@@ -115,7 +115,7 @@ module.exports = class ServerInfoCommand extends Command {
     }
 
     interaction.editReply({
-      embeds: [serverinfo],
+      embeds: [embed],
     });
   }
 };

@@ -277,9 +277,33 @@
       }
     },
     "misc": {
-      "botinfo": {},
-      "help": {},
-      "invite-vocal": {},
+      "botinfo": {
+        "embed1": {
+          "description": "`Maintainer: [Pexilo#7866](https://github.com/Pexilo)`",
+          "field1": "🤖 Version:",
+          "field2": "⚡ Memory usage:",
+          "field3": "⏲️ Uptime:",
+          "field4": "🧭 Servers:"
+        }
+      },
+      "help": {
+        "embed1": {
+          "description": "`${command[0].description}\n\n> Example: ${command[0].examples}`"
+        },
+        "embed2": {
+          "author": "`Hey! I'm ${bot.user.username}`",
+          "description": "`To setup Stealthy features please press the button below! \\`🐲\\`\n\n List of the ${commandCount} commands:`",
+          "footer": "/help command: for information on a specific command.",
+          "button1": "Setup"
+        }
+      },
+      "inviteVocal": {
+        "reply": "`\\`📨\\` Invite sent to ${targetMember.toString()}`",
+        "embed1": {
+          "author": "Invitation received",
+          "description": "`${member} has invited you to <#${voiceChannel.id}>\n\n*💡Click the channel name to join*`"
+        }
+      },
       "ping": {
         "embed1": {
           "title": "🏓 Pong!",
@@ -291,23 +315,93 @@
           }
         }
       },
-      "play-together": {},
-      "serverinfo": {}
+      "playTogether": {
+        "embed1": {
+          "author": "`${activities[activity].name} ${activities[activity].nitro? '⚠️ Only for boosted servers': ''}`",
+          "description": "`Click the button below to begin the activity!\n\nYou are currently in <#${member.voice.channel.id}>`",
+          "footer": "${activities[activity].nitro? '⚠️ This discord server must be at least level 2 Nitro to play this activity.': 'The activity will begin in your current voice channel.'}`"
+        }
+      },
+      "serverinfo": {
+        "filterLevels": ["Off", "No Role", "Everyone"],
+        "verificationLevels": ["❎", "Low", "Medium", "High", "Highest"],
+        "boostLevel": ["❎", "Level 1", "Level 2", "Level 3"],
+        "embed1": {
+          "description1": "`Owner: ${owner.user.toString()}`",
+          "description2": "`Owner: ${owner.user.toString()}\n\n> ${guild.description}\n᲼`",
+          "field1": "📅 Creation date:",
+          "field2": "👤 Members:",
+          "field3": "🗣️ Maximum bitrate:",
+          "field4": "🔒 Filter level:",
+          "field5": "🔐 Verification level:",
+          "field6": "💰 Server Boost:",
+          "field7": "🪙 Boost:"
+        }
+      }
     }
   },
   "events": {
     "guild": {
       "guildCreate": {},
       "guildDelete": {},
-      "guildMemberAdd": {},
-      "guildMemberRemove": {}
+      "guildMemberAdd": {
+        "embed1": {
+          "author": "`${member.user.username} has joined the server!`",
+          "title": "Account temporarilly blacklisted",
+          "description": "`member.toString()\n\n>Use \\`/unmute\\` to remove the restriction`",
+          "field1": "📅 Creation date:",
+          "field2": {
+            "name": "Reason",
+            "value": "`Account younger than: \\`${this.client.PrettyMs(blacklistMinAge, {verbose: true,})}\\``"
+          }
+        }
+      },
+      "guildMemberRemove": {
+        "embed1": {
+          "author": "`${member.user.username} has left the server!`",
+          "field1": "🧮 Roles:",
+          "field2": "📅 Joined the server:"
+        }
+      }
     },
     "messages": {
-      "messageCreate": {},
-      "messageDelete": {},
+      "messageCreate": {
+        "embed1": {
+          "author": "`${message.author.username} has sent an invite link.`",
+          "description": "`Message sent by <@${member.id}> deleted in <#${channel.id}>`",
+          "field1": {
+            "name": "Reason",
+            "value": "Invite link sent"
+          }
+        }
+      },
+      "messageDelete": {
+        "embed1": {
+          "author": "`${message.author.username} message removed.`",
+          "description": "`Message sent by <@${member.id}> deleted in <#${channel.id}>`",
+          "field1": {
+            "name": "Content",
+            "value": "`\\`${message.content}\\``"
+          },
+          "field2": "Attachments"
+        }
+      },
       "messageReactionAdd": {},
       "messageReactionRemove": {},
-      "messageUpdate": {}
+      "messageUpdate": {
+        "embed1": {
+          "author": "`${newMessage.author.username} message edited.`",
+          "description": "`[Edited message](${jumpTo}) in ${channel.toString()}`",
+          "field1": {
+            "name": "Before",
+            "value": "`\\`${oldMessage.content}\\``"
+          },
+          "field2": {
+            "name": "After",
+            "value": "`\\`${newMessage.content}\\``"
+          }
+        }
+      }
     },
     "misc": {
       "interactionCreate": {},
@@ -315,8 +409,12 @@
       "voiceStateUpdate": {}
     },
     "permissions": {
-      "clientMissingPermissions": {},
-      "userMissingPermissions": {}
+      "clientMissingPermissions": {
+        "reply": "`I need \\`${missing}\\` permission(s) to execute this command`"
+      },
+      "userMissingPermissions": {
+        "reply": "`You need \\`${missing}\\` permission(s) to execute this command`"
+      }
     }
   },
   "interactions": {
@@ -377,6 +475,10 @@
     "error32": "`🚫` This user has no warns.",
     "error33": "`\\`🚫\\` Warn **#${number}** of ${member.toString()} does not exist.`",
     "error34": "`🚫` I can't find this message.",
-    "error35": "`🚫` Unable to translate this message"
+    "error35": "`🚫` Unable to translate this message.",
+    "error36": "`\\`🚫\\` Command \\`${commandArg}\\` not found.`",
+    "error37": "`🚫` You are not in a voice channel.",
+    "error38": "`\\`🚫\\` Can not send message to ${targetMember.toString()}\n\n> 1. The user don't accept direct messages,\n> 2. The user is not in the same server as the bot,\n> 3. The user have blocked the bot.`",
+    "error39": "`🚫` I need the `Administator` permission to operate properly."
   }
 }

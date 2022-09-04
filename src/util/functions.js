@@ -285,5 +285,6 @@ module.exports = (client) => {
   client.FetchAndGetLang = async (guild) => {
     const guildData = await client.GetGuild(guild);
     if (guildData) return { fetchGuild: guildData, lang: guildData.language };
+    else return { fetchGuild: null, lang: null };
   };
 };

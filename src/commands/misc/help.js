@@ -24,8 +24,12 @@ module.exports = class HelpCommand extends Command {
   }
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
-
     const { options, member } = interaction;
+
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { help } = this.client.la[lang].commands.misc;
+
     const commandArg = options.getString("command");
 
     if (commandArg) {
@@ -34,9 +38,7 @@ module.exports = class HelpCommand extends Command {
         .map((cmd) => cmd[0]);
 
       if (command.length < 1) {
-        return interaction.editReply(
-          `\`🚫\` Command \`${commandArg}\` not found.`
-        );
+        return interaction.editReply(eval(errors.error36));
       }
 
       return interaction.editReply({
@@ -44,9 +46,7 @@ module.exports = class HelpCommand extends Command {
           this.client
             .Embed()
             .setAuthor({ name: `${command[0].category}` })
-            .setDescription(
-              `${command[0].description}\n\nExample: ${command[0].examples}`
-            )
+            .setDescription(eval(help.embed1.description))
             .setImage(command[0].usage),
         ],
       });
@@ -73,12 +73,12 @@ module.exports = class HelpCommand extends Command {
     const embedInfo = this.client
       .Embed()
       .setAuthor({
-        name: `Hey! I'm ${bot.user.username}`,
+        name: eval(help.embed2.author),
         iconURL: bot.user.displayAvatarURL({ dynamic: true }),
       })
 
       .setFooter({
-        text: `/help command: for information on a specific command.`,
+        text: help.embed2.footer,
       });
 
     for (const category of categories) {
@@ -92,12 +92,7 @@ module.exports = class HelpCommand extends Command {
           .join(", ")}`,
       });
     }
-    embedInfo.setDescription(
-      "To setup Stealthy features please press the button below! `🐲` \n\n" +
-        "List of the " +
-        commandCount +
-        " commands:"
-    );
+    embedInfo.setDescription(eval(help.embed2.description));
 
     if (member.permissions.has("ManageGuild")) {
       return interaction.editReply({
@@ -106,7 +101,7 @@ module.exports = class HelpCommand extends Command {
           this.client.ButtonRow([
             {
               customId: "setup-menu",
-              label: "Setup",
+              label: help.embed2.button1,
               style: "SECONDARY",
               emoji: "🔧",
             },

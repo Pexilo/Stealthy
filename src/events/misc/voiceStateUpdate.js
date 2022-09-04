@@ -86,7 +86,7 @@ module.exports = class JTCListener extends Event {
             () => member.voice.setChannel(channel).catch(() => undefined),
             500
           );
-          channel.lockPermissions();
+          channel.lockPermissions().catch(() => undefined);
         })
         .catch(() => undefined);
 
