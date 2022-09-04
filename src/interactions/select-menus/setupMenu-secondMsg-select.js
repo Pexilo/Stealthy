@@ -1,6 +1,6 @@
 const { SelectMenu } = require("sheweny");
 const { ChannelType } = require("discord.js");
-const { languageFlags } = require("../../languageList");
+const { supportedLanguages } = require("../../languages/supportedLanguages");
 
 module.exports = class SetupMenu2MsgSelect extends SelectMenu {
   constructor(client) {
@@ -16,11 +16,11 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
       case "lang_option":
         const languageRow = this.client.SelectMenuRow(
           "language-select",
-          "Which language do you want to use?"
+          "Select a supported language"
         );
 
         const defaultLanguage = fetchGuild.language;
-        for (const [key, value] of Object.entries(languageFlags)) {
+        for (const [key, value] of Object.entries(supportedLanguages)) {
           languageRow.components[0].addOptions({
             label: key,
             value: `${key}_option`,

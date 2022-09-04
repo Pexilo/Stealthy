@@ -1,5 +1,5 @@
 const { SelectMenu } = require("sheweny");
-const { languageFlags } = require("../../languageList");
+const { supportedLanguages } = require("../../languages/supportedLanguages");
 
 module.exports = class LanguageMenu3MsgSelect extends SelectMenu {
   constructor(client) {
@@ -9,7 +9,7 @@ module.exports = class LanguageMenu3MsgSelect extends SelectMenu {
     if (!(await this.client.Defer(selectMenu))) return;
     const { guild } = selectMenu;
 
-    for (const [key, value] of Object.entries(languageFlags)) {
+    for (const [key, value] of Object.entries(supportedLanguages)) {
       if (selectMenu.values[0] === `${key}_option`) {
         this.client.updateGuild(guild, { language: key });
 
