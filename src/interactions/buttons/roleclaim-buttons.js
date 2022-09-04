@@ -8,7 +8,8 @@ module.exports = class roleClaimButtons extends Button {
   async execute(button) {
     const { guild, channel } = button;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
 
     const msgId = fetchGuild.roleClaim.message;
     let channelId = fetchGuild.roleClaim.channel;
@@ -29,7 +30,7 @@ module.exports = class roleClaimButtons extends Button {
           } catch (e) {}
         }
 
-        this.client.updateGuild(guild, { roleclaim_Roles: [] }); // Clear roles if they were already set
+        this.client.UpdateGuild(guild, { roleclaim_Roles: [] }); // Clear roles if they were already set
 
         // Send the embed and store Ids in db
         channel
@@ -48,7 +49,7 @@ module.exports = class roleClaimButtons extends Button {
           })
           .then((embed) => {
             try {
-              this.client.updateGuild(guild, {
+              this.client.UpdateGuild(guild, {
                 "roleClaim.message": embed.id,
                 "roleClaim.channel": channel.id,
               });
@@ -67,7 +68,7 @@ module.exports = class roleClaimButtons extends Button {
                 content: "> Add roles with `/setup roleclaim add`",
               })
               .then((tip) => {
-                this.client.updateGuild(guild, {
+                this.client.UpdateGuild(guild, {
                   "roleClaim.tipMessage": tip.id,
                 });
               });
@@ -164,7 +165,7 @@ module.exports = class roleClaimButtons extends Button {
         }
 
         // Clear db
-        this.client.updateGuild(guild, {
+        this.client.UpdateGuild(guild, {
           roleclaim_Roles: [],
           "roleClaim.message": null,
           "roleClaim.channel": null,

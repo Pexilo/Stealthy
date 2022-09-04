@@ -6,11 +6,11 @@ module.exports = class ClearCommand extends Command {
     super(client, {
       name: "clear",
       nameLocalizations: {},
-      description: "⛑️ Clear a certain amount of messages from a channel.",
+      description: "🧹 Clear a certain amount of messages from a channel.",
       descriptionLocalizations: {
-        fr: "⛑️ Supprimer un certain nombre de messages d'un salon.",
+        fr: "🧹 Supprimer un certain nombre de messages d'un salon.",
       },
-      examples: "/clear `number:5` => ⛑️ Delete `5` messages in a channel",
+      examples: "/clear `number:5` => 🧹 Delete `5` messages in a channel",
       usage: "https://i.imgur.com/drN25If.png",
       category: "Admin",
       userPermissions: ["Administrator"],
@@ -32,13 +32,15 @@ module.exports = class ClearCommand extends Command {
 
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
+    const { guild, options } = interaction;
 
-    const { options } = interaction;
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { clear } = this.client.la[lang].commands.admin;
 
     const number = options.getInteger("number");
 
     return interaction.editReply({
-      content: `\`❓\` Are you sure you want to clear **${number}** messages in ${interaction.channel.toString()}`,
+      content: eval(clear.reply),
       components: [
         this.client.ButtonRow([
           {

@@ -78,10 +78,14 @@ module.exports = class MuteCommand extends Command {
     if (!(await this.client.Defer(interaction))) return;
     const { guild, options } = interaction;
 
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { mute } = this.client.la[lang].commands.admin;
+
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
+    if (!member) return interaction.editReply(errors.error1);
     if (member.permissions.has("ManageGuild"))
-      return interaction.editReply(`\`🚫\` I can't mute this user.`);
+      return interaction.editReply(errors.error7);
 
     const format = options.getString("format");
     const duration =
@@ -90,27 +94,17 @@ module.exports = class MuteCommand extends Command {
         : options.getInteger("duration") * 3600000;
     const reason = options.getString("reason");
 
-    const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
     try {
-      member.timeout(
-        duration,
-        `by ${interaction.member.user.tag}${reason ? ": " + reason : ""}`
-      );
+      member.timeout(duration, eval(mute.auditlog));
     } catch (e) {
-      return interaction.editReply(
-        `\`⛔\` An error occured: ${"```"}${
-          e.message
-        }${"```"}\nPlease contact an administrator of the bot for further assistance.`
-      );
+      return interaction.editReply(eval(errors.error8));
     }
+
     interaction.editReply({
-      content: `🔇 ${member.toString()} has been muted for ${this.client.PrettyMs(
-        duration,
-        { verbose: true }
-      )}`,
+      content: eval(mute.reply),
     });
 
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
@@ -120,19 +114,22 @@ module.exports = class MuteCommand extends Command {
           this.client
             .Embed()
             .setAuthor({
-              name: `by ${interaction.user.tag}`,
+              name: eval(mute.embed1.author),
               iconURL: interaction.user.avatarURL({ dynamic: true }),
             })
-            .setDescription(
-              `${member.toString()} has been muted for \`${this.client.PrettyMs(
-                duration
-              )}\`\n\nTo unmute, use \`/unmute\`.`
+            .setDescription(eval(mute.embed1.description))
+            .setFields(
+              {
+                name: mute.embed1.field1.name,
+                value: eval(mute.embed1.field1.value),
+                inline: true,
+              },
+              {
+                name: mute.embed1.field2.name,
+                value: eval(mute.embed1.field2.value),
+                inline: true,
+              }
             )
-            .setFields({
-              name: `Reason` + ":",
-              value: `${reason || "No reason provided"}`,
-              inline: true,
-            })
             .setThumbnail(member.displayAvatarURL({ dynamic: true }))
             .setTimestamp()
             .setColor("#c97628")

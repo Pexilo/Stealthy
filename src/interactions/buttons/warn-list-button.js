@@ -9,7 +9,8 @@ module.exports = class warnListButton extends Button {
     if (!(await this.client.Defer(button))) return;
     const { guild, message } = button;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
 
     // find if the button is on the logged embed or the replied message
     let res;

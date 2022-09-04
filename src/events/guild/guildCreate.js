@@ -8,7 +8,7 @@ module.exports = class guildCreateEvent extends Event {
   }
 
   async execute(guild) {
-    await this.client.createGuild(guild);
+    await this.client.CreateGuild(guild);
 
     if (!guild.systemChannelId) return;
     await this.client.Wait(3000); // send after 3 seconds so the system welcome msg comes first

@@ -8,6 +8,6 @@ module.exports = class guildDeleteEvent extends Event {
   }
 
   async execute(guild) {
-    await this.client.deleteGuild(guild);
+    await this.client.DeleteGuild(guild);
   }
 };

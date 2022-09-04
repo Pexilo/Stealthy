@@ -21,16 +21,12 @@ module.exports = class TranslateMessageContextMenuCommand extends Command {
     const { guild, options } = interaction;
 
     const message = options.getMessage("message");
-    const fetchGuild = await this.client.getGuild(guild);
-    const lang = fetchGuild.language;
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { translateMessage } = this.client.la[lang].commands.contextMenu;
 
     if (!message || message.content.length === 0)
-      return interaction.editReply({
-        content: await this.client.FastTranslate(
-          "`🚫` Unable to translate this message",
-          lang
-        ),
-      });
+      return interaction.editReply(errors.error35);
 
     // what language the user can translate to
     const translateTo = {
@@ -64,7 +60,7 @@ module.exports = class TranslateMessageContextMenuCommand extends Command {
     );
 
     await interaction.editReply({
-      content: "`🔖` Select a language to translate this message",
+      content: translateMessage.reply,
       components: [
         this.client.ButtonRow(languagesButtons.slice(0, 5)),
         this.client.ButtonRow(languagesButtons.slice(5, 10)),

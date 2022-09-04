@@ -18,12 +18,16 @@ module.exports = class AvatarMessageContextMenuCommand extends Command {
 
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
+    const { guild } = interaction;
+
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
 
     const message = await interaction.channel.messages.fetch(
       interaction.targetId
     );
 
-    if (!message) return interaction.editReply(`❓Message not found`);
+    if (!message) return interaction.editReply(errors.error34);
 
     return interaction.editReply({
       embeds: [

@@ -11,7 +11,7 @@ module.exports = class LanguageMenu3MsgSelect extends SelectMenu {
 
     for (const [key, value] of Object.entries(supportedLanguages)) {
       if (selectMenu.values[0] === `${key}_option`) {
-        this.client.updateGuild(guild, { language: key });
+        this.client.UpdateGuild(guild, { language: key });
 
         return selectMenu.editReply(
           `${await this.client.FastTranslate(

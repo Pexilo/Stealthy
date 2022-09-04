@@ -1,31 +1,296 @@
 {
   "commands": {
     "admin": {
-      "ban": {},
-      "clear": {},
-      "kick": {},
-      "lock": {},
-      "mute": {},
-      "setnick": {},
-      "setup-ids": {},
-      "slow": {},
-      "unban": {},
-      "unlock": {},
-      "unmute": {},
-      "unslow": {},
-      "warn": {}
+      "ban": {
+        "auditlog": "`by ${interaction.member.user.tag} ${reason ? `: ${reason}` : ''}`",
+        "reply": "`\\`🔪\\` ${member.toString()} has been banned from the server.\n\n> \\`${deleteDays}\\` days of messages have been cleared${reason ? `\n> Reason: \\`${reason}\\`` : ''}`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`${member.toString()} has been banned.`",
+          "field1": {
+            "name": "Messages deleted",
+            "value": "`${deleteDays} days`"
+          },
+          "field2": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "clear": {
+        "reply": "`\\`❓\\` Are you sure you want to clear **${number}** messages in ${interaction.channel.toString()}`"
+      },
+      "kick": {
+        "auditlog": "`by ${interaction.member.user.tag}${reason ? `: ${reason}` : ''}`",
+        "reply": "`\\`👢\\` ${member.toString()} has been kicked from the server.${reason ? `\n\n> Reason: \\`${reason}\\``: ''}`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`${member.toString()} has been kicked.`",
+          "field1": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "lock": {
+        "reply": "`\\`🔒\\` ${channel.toString()} has been locked.\n\n> Use \\`/unlock\\` to unlock it.`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`${channel.toString()} has been locked.`",
+          "field1": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "mute": {
+        "auditlog": "`by ${interaction.member.user.tag} ${reason ? `: ${reason}` : ''}`",
+        "reply": "`🔇 ${member.toString()} has been muted.\n\n> Use \\`/unmute\\` to unmute.`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`${member.toString()} has been muted`",
+          "field1": {
+            "name": "Duration",
+            "value": "`\\`${this.client.PrettyMs(duration,{ verbose: true })}\\``"
+          },
+          "field2": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "nick": {
+        "auditlog": "`by ${interaction.member.user.tag}${reason ? `: ${reason}` : ''}`",
+        "reply": "`\\`✍️\\` ${member.toString()}'s nickname has been set to \\`${nickname}\\`.`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`${member.toString()}'s nickname has been set.`",
+          "field1": {
+            "name": "Nickname",
+            "value": "`\\`${nickname}\\``"
+          },
+          "field2": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "setupIds": {
+        "menu": {
+          "reply": "`🐲` Click the button below"
+        },
+        "roleclaim": {
+          "add": {
+            "reply": "`\\`✅\\` Added ${roleRC.toString()} with ${isEmojiCustom ? emojiName : `\\`${emoji}\\``}`"
+          },
+          "remove": {
+            "replyNoArgs": "`❎` Successfully removed role claim system.",
+            "reply": "`\\`❎\\` Removed <@&${roleId}> with ${isEmojiCustom ? fieldValue : `\\`${emojiUNI}\\``}`"
+          }
+        },
+        "autorole": {
+          "add": {
+            "reply": "`\\`✅\\` Added autorole ${roleAR.toString()}.`",
+            "button1": "List",
+            "button2": "Reset"
+          },
+          "remove": {
+            "reply": " `\\`❎\\` Removed autorole ${roleAR.toString()}.${moreThanOneRole? `\n\n> Role(s): ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`: ''}`"
+          }
+        },
+        "channels": {
+          "roleclaim": {
+            "tipMsg": "> Add roles with `/setup roleclaim add`",
+            "reply": "`\\`✅\\` Role Claim system created in ${channel.toString()}\n\n> Use the button below to edit the role claim message.`",
+            "embed1": {
+              "title": "Role Claim Title",
+              "description": "Role Claim Description\n⬅️ You can also change the color",
+              "footer": "Role Claim Footer"
+            },
+            "button1": "Edit",
+            "button2": "Delete"
+          },
+          "membercount": {
+            "name": "👥 Members:",
+            "reply": "`\\`🧾\\` Member count channel is now set up in ${!noParent ? `**<#${channel.id}>**` : 'default category'}.`",
+            "button1": "Rename",
+            "button2": "Delete"
+          },
+          "jtc": {
+            "name": "🔉 Create a channel",
+            "reply": "`\\`🔉\\` Join to create channel is now set up in ${!noParent ? `**<#${channel.id}>**` : 'default category'} `",
+            "button1": "Channels Names",
+            "button2": "Delete",
+            "button3": "Setup"
+          },
+          "logs": {
+            "reply": "`\\`🚀\\` Logs channel is now set up in ${channel.toString()}\n\nYou can **enable or disable logs** with the **select below**.`",
+            "select1": {
+              "label": "What logs do you want to see?",
+              "option1": {
+                "label": "Moderation",
+                "description": "Kick, ban, mute, warn, blacklist commands"
+              },
+              "option2": {
+                "label": "Channels changes",
+                "description": "Slowmode, lock, clear commands."
+              },
+              "option3": {
+                "label": "Join & Leave",
+                "description": "Whenever a member joins or leaves the server."
+              },
+              "option4": {
+                "label": "Message deleted",
+                "description": "If a message is deleted by a user."
+              },
+              "option5": {
+                "label": "Message edited",
+                "description": "If a message is edited by a user."
+              }
+            }
+          }
+        },
+        "blacklist": {
+          "reply1": "`🛡️` Blacklist feature is disabled\n\n> Would you like to activate it?",
+          "reply2": "`\\`🛡️\\` ${this.client.Capitalize(choice.replace(/_/g, ' '))} is now set to: \\`${this.client.PrettyMs(time, {verbose: true,})}\\``"
+        }
+      },
+      "slow": {
+        "auditlog": "`by ${interaction.member.user.tag}${reason ? `: ${reason}` : ''}`",
+        "reply1": "`\\`🐇\\` ${channel.toString()} slowmode has been reset.`",
+        "reply2": "`\\`🐌\\` ${channel.toString()} slowmode has been set to \\`${time} ${format}\\`\n\n> Use \\`/unslow\\` to disable it.`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`${channel.toString()} ${time !== 0 ? 'slowmode has been set' : 'slowmode has been disabled'}.`",
+          "field1": {
+            "name": "Duration",
+            "value": "`\\`${time !== 0 ? this.client.PrettyMs(time, {verbose: true,}) : 'reset'}\\``"
+          },
+          "field2": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "unban": {
+        "reply": "`\\`🔪\\` \\`${memberId}\\` has been unbanned from the server.`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`\\`${memberId}\\` has been unbanned.`",
+          "field1": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "unlock": {
+        "reply": "`\\`🔓\\` Channel ${channel.toString()} has been unlocked.`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`${channel.toString()} has been unlocked.`",
+          "field1": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "unmute": {
+        "auditlog": "`by ${interaction.member.user.tag} ${reason ? `: ${reason}` : ''}`",
+        "reply1": "`\\`🔊\\` ${member.toString()} is not muted.`",
+        "reply2": "`\\`🔊\\` ${member.toString()} is no longer muted.`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`${member.toString()} has been unmuted.`",
+          "field1": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "unslow": {
+        "auditlog": "`by ${interaction.member.user.tag} ${reason ? `: ${reason}` : ''}`",
+        "reply": "`\\`🐇\\` ${channel.toString()} slowmode has been disabled.`",
+        "embed1": {
+          "author": "`by ${interaction.user.tag}`",
+          "description": "`${channel.toString()} slowmode has been disabled.`",
+          "field1": {
+            "name": "Reason",
+            "value": "`${reason || 'No reason provided'}`"
+          }
+        }
+      },
+      "warn": {
+        "add": {
+          "reply": "`\\`🔨\\` ${member.toString()} has been warn.`",
+          "embed1": {
+            "author": "`by ${interaction.user.tag}`",
+            "description": "`${member.toString()} has been warn.`",
+            "field1": {
+              "name": "Reason",
+              "value": "`${reason || 'No reason provided'}`"
+            }
+          }
+        },
+        "remove": {
+          "reply": "`\\`❎\\` Warn **#${number}** of ${member.toString()} has been removed.`",
+          "embed1": {
+            "author": "`by ${interaction.user.tag}`",
+            "description": "`Warn **#${number}** of ${member.toString()} has been removed.`",
+            "field1": {
+              "name": "`Warn #${number} reason`",
+              "value": "`${oldReason || 'No reason provided'}`"
+            },
+            "field2": {
+              "name": "Reason",
+              "value": "`${reason || 'No reason provided'}`"
+            }
+          }
+        },
+        "list": {
+          "button1": "Warns",
+          "reason": "`Reason: \\`${w.reason}\\`\n`",
+          "embed1": {
+            "author": "`${member.user.tag} warns 🔨`"
+          }
+        }
+      }
     },
-    "context-menu": {
-      "avatar-message": {},
-      "avatar-user": {},
-      "translate-message": {},
-      "userinfo": {}
+    "contextMenu": {
+      "avatarMessage": {},
+      "avatarUser": {},
+      "translateMessage": {
+        "reply": "`🔖` Select a language to translate this message"
+      },
+      "userinfo": {
+        "embed1": {
+          "field1": "📅 Account created:",
+          "field2": "📥 Joined the server:",
+          "field3": "🧮 Roles:",
+          "activities": [
+            "🎮 Playing",
+            "🎥 Streaming",
+            "🎧 Listening",
+            "📺 Watching",
+            "📝 Custom Status"
+          ]
+        }
+      }
     },
     "misc": {
       "botinfo": {},
       "help": {},
       "invite-vocal": {},
-      "ping": {},
+      "ping": {
+        "embed1": {
+          "title": "🏓 Pong!",
+          "field1": {
+            "name": "🤖 Bot Latency:"
+          },
+          "field2": {
+            "name": "📡 API Latency:"
+          }
+        }
+      },
       "play-together": {},
       "serverinfo": {}
     }
@@ -76,5 +341,42 @@
       "setup-language-third": {},
       "setup-second": {}
     }
+  },
+  "errors": {
+    "error1": "`🚫` I can't find that user.",
+    "error2": "`🚫` You don't have permission to ban this user.",
+    "error3": "`🚫` You don't have permission to kick this user.",
+    "error4": "`🚫` I can't find this channel.",
+    "error5": "`🚫` This channel is already locked.",
+    "error6": "`🚫` You don't have permission to lock this channel.",
+    "error7": "`🚫` I can't mute this user.",
+    "error8": "`\\`⛔\\` An error occured: \\`\\`\\`${e.message}\\`\\`\\\nPlease contact an administrator of the bot for further assistance.`",
+    "error9": "`🚫` You don't have permission to change the nickname of this user.",
+    "error10": "`🚫` You need to setup the roleclaim system first.\n\n> Use `/setup channels`",
+    "error11": "`⛔` An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
+    "error12": "`\\`🚫\\` One of my roles need to be above ${roleRC ? roleRC.toString() : roleAR.toString()} to perform this action.\n\n> You can do this in \\`server settings -> roles\\``",
+    "error13": "`\\`🚫\\` You can't assign <@&${guild.id}>`",
+    "error14": "`\\`🚫\\` I can't find \\`:${emoji.split(':')[1]}:\\` emoji.\n\n> I need to be in the same server as the emoji`",
+    "error15": "`\\`🚫\\` \\`${emoji}\\` is not supported.\n\n> Please provide one [emoji](https://emojipedia.org)`",
+    "error16": "`⛔` The role claim message has reached the maximum amount of reactions.\n\n> You can provide up to 20 roles.",
+    "error17": "`\\`🚫\\` \\`${isEmojiCustom ? emojiName : `\\`${emoji}\\``}\\` is already used with <@&${emojiAlreadyExist[0].roleId}>.\n\n> Delete it first with \\`/setup roleclaim remove\\``",
+    "error18": "`\\`🚫\\` You have already added ${roleRC.toString()} with ${roleAlreadyExist[0].emojiName.startsWith('<')? roleAlreadyExist[0].emojiName: `\\`${this.client.GetEmojiFromName(roleAlreadyExist[0].emojiName)}\\`.\n\n> Delete it first with \\`/setup roleclaim remove\\``",
+    "error19": "`\\`🚫\\` ${roleRC.toString()} is not used.`",
+    "error20": " `\\`🚫\\` ${emoji.startsWith('<') ? emoji : `\\`${emoji}\\``} is not used.`",
+    "error21": "`🚫` You can't have more than 5 roles assigned.\n\n> Use `/setup setup autorole list` to see the list of roles.",
+    "error22": "`\\`🚫\\` ${roleAR.toString()} is already in the list.`",
+    "error23": "`🚫` No autorole set.\n\n> Set one with `/setup autorole add`",
+    "error24": "`\\`🚫\\` ${roleAR.toString()} is not in the list.${moreThanOneRole? `\n\n> Role(s): ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`: ''}`",
+    "error25": "`\\`🚫\\` **${channel.toString()}** is not a text channel.`",
+    "error26": "`🚫` You can't assign a category as a logs channel.",
+    "error27": "`🚫` You don't have permission to set the slowmode for this channel.",
+    "error28": "`🚫` This user is not banned from this server.",
+    "error29": "`🚫` This channel is already unlocked.",
+    "error30": "`🚫` You don't have permission to unlock this channel.",
+    "error31": "`\\`🚫\\` I can't unmute ${member.toString()}.`",
+    "error32": "`🚫` This user has no warns.",
+    "error33": "`\\`🚫\\` Warn **#${number}** of ${member.toString()} does not exist.`",
+    "error34": "`🚫` I can't find this message.",
+    "error35": "`🚫` Unable to translate this message"
   }
 }

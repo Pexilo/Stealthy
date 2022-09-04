@@ -17,22 +17,27 @@ module.exports = class PingCommand extends Command {
   async execute(interaction) {
     const start = Date.now();
     if (!(await this.client.Defer(interaction))) return;
+    const { guild } = interaction;
+
     const end = Date.now() - 500;
     const time = end - start;
+
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { ping } = this.client.la[lang].commands.misc;
 
     await interaction.editReply({
       embeds: [
         this.client
           .Embed()
-          .setTitle("🏓 Pong!")
+          .setTitle(ping.embed1.title)
           .addFields(
             {
-              name: "🤖 " + "Bot Latency" + ":",
+              name: ping.embed1.field1.name,
               value: `${"```"}${time}ms${"```"}`,
               inline: true,
             },
             {
-              name: "🌐 " + "API Latency" + ":",
+              name: ping.embed1.field2.name,
               value: `${"```"}${interaction.client.ws.ping}ms${"```"}`,
               inline: true,
             }

@@ -16,7 +16,8 @@ module.exports = class JTCSetupButtons extends Button {
 
     const { guild } = button;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
     switch (button.customId) {
       case "create-JTC":
         if (!(await this.client.Defer(button))) return;
@@ -29,7 +30,7 @@ module.exports = class JTCSetupButtons extends Button {
         if (fetchGuild.joinToCreate.channel) {
           //if the channel is not found, delete the channel in the database and create a new one
           if (!JTCChannel)
-            await this.client.updateGuild(guild, {
+            await this.client.UpdateGuild(guild, {
               "joinToCreate.channel": null,
             });
           //if the channel is found, stop the process
@@ -58,7 +59,7 @@ module.exports = class JTCSetupButtons extends Button {
           .catch(() => undefined);
 
         //set the channel in the database
-        await this.client.updateGuild(guild, {
+        await this.client.UpdateGuild(guild, {
           "joinToCreate.channel": voiceChannel.id,
         });
 
@@ -86,7 +87,7 @@ module.exports = class JTCSetupButtons extends Button {
         );
 
         //delete the database entry
-        await this.client.updateGuild(guild, {
+        await this.client.UpdateGuild(guild, {
           "joinToCreate.channel": null,
         });
 

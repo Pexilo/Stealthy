@@ -9,7 +9,7 @@ module.exports = class logsEnabledSelect extends SelectMenu {
     if (!(await this.client.Defer(selectMenu))) return;
     const { guild, values } = selectMenu;
 
-    await this.client.updateGuild(guild, {
+    await this.client.UpdateGuild(guild, {
       "logs.enabled": values,
     });
 

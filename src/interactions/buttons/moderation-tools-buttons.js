@@ -9,7 +9,8 @@ module.exports = class moderationToolsButtons extends Button {
     if (!(await this.client.Defer(button))) return;
 
     const { guild } = button;
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
     const moderationTools = fetchGuild.moderationTools.enabled;
 
     switch (button.customId) {
@@ -32,7 +33,7 @@ module.exports = class moderationToolsButtons extends Button {
         break;
     }
 
-    await this.client.updateGuild(guild, {
+    await this.client.UpdateGuild(guild, {
       "moderationTools.enabled": moderationTools,
     });
   }

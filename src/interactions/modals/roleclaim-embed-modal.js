@@ -7,7 +7,8 @@ module.exports = class roleClaimEmbedModal extends Modal {
 
   async execute(modal) {
     const { guild } = modal;
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
 
     const msgId = fetchGuild.roleClaim.message;
     const channelId = fetchGuild.roleClaim.channel;

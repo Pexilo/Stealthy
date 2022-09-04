@@ -8,7 +8,8 @@ module.exports = class AutoRoleSetupButtons extends Button {
   async execute(button) {
     if (!(await this.client.Defer(button))) return;
     const { guild, member } = button;
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
 
     switch (button.customId) {
       case "reset-autorole":
@@ -20,7 +21,7 @@ module.exports = class AutoRoleSetupButtons extends Button {
         if (fetchGuild.autoRole.roles.length === 0)
           return button.editReply(`\`🚫\` The autorole system is not set.`);
 
-        await this.client.updateGuild(guild, {
+        await this.client.UpdateGuild(guild, {
           "autoRole.roles": [],
         });
 

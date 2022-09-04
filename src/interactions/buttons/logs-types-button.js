@@ -10,7 +10,8 @@ module.exports = class logsSetupButton extends Button {
 
     const { guild } = button;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     if (!logsChannel) {
       return button.editReply(

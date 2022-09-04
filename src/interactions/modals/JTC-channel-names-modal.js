@@ -23,7 +23,7 @@ module.exports = class JTCNamesModal extends Modal {
       list += "➜ " + element + "\n";
     });
 
-    await this.client.updateGuild(guild, {
+    await this.client.UpdateGuild(guild, {
       "joinToCreate.names": result,
     });
 

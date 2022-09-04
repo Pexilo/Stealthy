@@ -20,7 +20,8 @@ module.exports = class messageCreateTracker extends Event {
         message.content.includes("discord.com/invite/")) &&
       !member.permissions.has("ManageMessages")
     ) {
-      const fetchGuild = await this.client.getGuild(guild);
+      const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+      const {} = this.client.la[lang];
       const delDcInvitesState =
         fetchGuild.moderationTools.enabled.includes("delDcInvites");
       if (!delDcInvitesState) return;

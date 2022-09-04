@@ -10,10 +10,10 @@ module.exports = class interactionCreateEvent extends Event {
   async execute(interaction) {
     const { guild } = interaction;
 
-    let fetchGuild = await this.client.getGuild(guild);
+    let fetchGuild = await this.client.GetGuild(guild);
 
     if (!fetchGuild) {
-      await this.client.createGuild(guild);
+      await this.client.CreateGuild(guild);
       return this.client.channels.cache.get(guild.systemChannelId).send({
         content:
           "⚠️ Database has been reset, all data of this server has been lost.\nSorry for the inconvenience.\n\n`Server initialized ✅`",

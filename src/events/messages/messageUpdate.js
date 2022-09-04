@@ -15,7 +15,8 @@ module.exports = class messageUpdateTracker extends Event {
     if (newMessage.author.bot || newMessage.content == oldMessage.content)
       return;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 

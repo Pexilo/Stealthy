@@ -7,7 +7,8 @@ module.exports = class memberCountRenameModal extends Modal {
 
   async execute(modal) {
     const { guild } = modal;
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
 
     const name = modal.fields.getTextInputValue("membercount-name-input");
     if (!name) {
@@ -17,7 +18,7 @@ module.exports = class memberCountRenameModal extends Modal {
       });
     }
 
-    await this.client.updateGuild(guild, {
+    await this.client.UpdateGuild(guild, {
       "memberCount.name": name,
     });
 

@@ -10,7 +10,8 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
   async execute(selectMenu) {
     if (!(await this.client.Defer(selectMenu))) return;
     const { guild } = selectMenu;
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
 
     switch (selectMenu.values[0]) {
       case "lang_option":

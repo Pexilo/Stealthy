@@ -39,12 +39,14 @@ module.exports = class UnBanCommand extends Command {
     if (!(await this.client.Defer(interaction))) return;
     const { options, guild } = interaction;
 
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { unban } = this.client.la[lang].commands.admin;
+
     const memberId = options.getString("userid");
-    if (!memberId)
-      return interaction.editReply(`\`🚫\` I can't find that user.`);
+    if (!memberId) return interaction.editReply(errors.error1);
     const reason = options.getString("reason");
 
-    const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
@@ -53,15 +55,9 @@ module.exports = class UnBanCommand extends Command {
         `by ${interaction.member.user.tag}${reason ? ": " + reason : ""}`,
       ]);
     } catch (e) {
-      return interaction.editReply(
-        "`🚫` This user is not banned from this server."
-      );
+      return interaction.editReply(errors.error28);
     }
-    interaction.editReply(
-      `\`🔪\` \`${memberId}\` has been unbanned from the server.${
-        reason ? `\n\n> Reason: \`${reason}\`` : ""
-      }`
-    );
+    interaction.editReply(eval(unban.reply));
 
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
     logsChannel
@@ -70,15 +66,15 @@ module.exports = class UnBanCommand extends Command {
           this.client
             .Embed()
             .setAuthor({
-              name: `by ${interaction.user.tag}`,
+              name: eval(unban.embed1.author),
               iconURL: interaction.user.displayAvatarURL({
                 dynamic: true,
               }),
             })
-            .setDescription(`\`${memberId}\` has been unbanned.`)
+            .setDescription(eval(unban.embed1.description))
             .addFields({
-              name: "Reason",
-              value: `${reason || "No reason provided"}`,
+              name: unban.embed1.field1.name,
+              value: eval(unban.embed1.field1.value),
             })
             .setColor("#b72a2a")
             .setTimestamp()

@@ -8,14 +8,15 @@ module.exports = class memberCountButtons extends Button {
   async execute(button) {
     const { guild } = button;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const {} = this.client.la[lang];
 
     const memberCountChannel = guild.channels.cache.get(
       fetchGuild.memberCount.channel
     );
 
     if (!memberCountChannel) {
-      this.client.updateGuild(guild, {
+      this.client.UpdateGuild(guild, {
         "memberCount.channel": null,
       });
 
@@ -37,7 +38,7 @@ module.exports = class memberCountButtons extends Button {
           });
         });
 
-        await this.client.updateGuild(guild, {
+        await this.client.UpdateGuild(guild, {
           "memberCount.channel": null,
           "memberCount.name": "👥 Members",
         });

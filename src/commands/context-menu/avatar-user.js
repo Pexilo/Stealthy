@@ -17,10 +17,14 @@ module.exports = class AvatarUserContextMenuCommand extends Command {
   }
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
+    const { guild } = interaction;
+
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
 
     const user = interaction.options.getUser("user");
 
-    if (!user) return interaction.editReply(`❓User not found`);
+    if (!user) return interaction.editReply(errors.error1);
 
     return interaction.editReply({
       embeds: [
