@@ -5,7 +5,11 @@ module.exports = class ClearCommand extends Command {
   constructor(client) {
     super(client, {
       name: "clear",
+      nameLocalizations: {},
       description: "⛑️ Clear a certain amount of messages from a channel.",
+      descriptionLocalizations: {
+        fr: "⛑️ Supprimer un certain nombre de messages d'un salon.",
+      },
       examples: "/clear `number:5` => ⛑️ Delete `5` messages in a channel",
       usage: "https://i.imgur.com/drN25If.png",
       category: "Admin",
@@ -15,7 +19,9 @@ module.exports = class ClearCommand extends Command {
         {
           type: ApplicationCommandOptionType.Integer,
           name: "number",
+          nameLocalizations: { fr: "nombre" },
           description: "🔢 Number of messages to delete",
+          descriptionLocalizations: { fr: "🔢 Nombre de messages à supprimer" },
           required: true,
           min_value: 1,
           max_value: 100,

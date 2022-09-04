@@ -4,7 +4,11 @@ module.exports = class PingCommand extends Command {
   constructor(client) {
     super(client, {
       name: "ping",
+      nameLocalizations: {},
       description: "🤖 Ping the bot and get the latency.",
+      descriptionLocalizations: {
+        fr: "🤖 Envoie un ping au bot et récupère la latence.",
+      },
       examples: "/ping => 🏓Pong!",
       usage: "https://i.imgur.com/w2q1bpX.png",
       category: "Misc",

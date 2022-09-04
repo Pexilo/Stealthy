@@ -4,8 +4,12 @@ module.exports = class UserInfoContextMenuCommand extends Command {
   constructor(client) {
     super(client, {
       name: "User-Info",
+      nameLocalizations: { fr: "Info-Utilisateur" },
       type: "CONTEXT_MENU_USER",
-      description: "📄 Get information about a specific user.",
+      description: "📄 Get information about a user.",
+      descriptionLocalizations: {
+        fr: "📄 Obtenir des informations sur un utilisateur.",
+      },
       examples: "Use right click on a user -> `Applications` -> User-Info",
       usage: "https://i.imgur.com/Y653nFR.png",
       category: "Context-Menu",

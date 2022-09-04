@@ -5,7 +5,9 @@ module.exports = class UnBanCommand extends Command {
   constructor(client) {
     super(client, {
       name: "unban",
+      nameLocalizations: { fr: "deban" },
       description: "🔪 Unban a member from the server.",
+      descriptionLocalizations: { fr: "🔪 Débannir un membre du serveur." },
       examples:
         "/unban `userid:7963..` => 🔪 Unban `Pexi's id` from the server.\n(you can find the `user id` in your logs)",
       usage: "https://i.imgur.com/CIw2TSM.png",
@@ -16,14 +18,18 @@ module.exports = class UnBanCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "userid",
+          nameLocalizations: { fr: "id-utilisateur" },
           description: "👤 Id of the user to unban",
+          descriptionLocalizations: { fr: "👤 Id de l'utilisateur à débannir" },
           required: true,
         },
 
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the unban",
+          descriptionLocalizations: { fr: "❔ Raison du déban" },
         },
       ],
     });

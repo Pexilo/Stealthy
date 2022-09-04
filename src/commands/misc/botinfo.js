@@ -5,7 +5,11 @@ module.exports = class BotInfoCommand extends Command {
   constructor(client) {
     super(client, {
       name: "botinfo",
+      nameLocalizations: {},
       description: "🔖 Get information about the bot.",
+      descriptionLocalizations: {
+        fr: "🔖 Obtenir des informations sur le bot.",
+      },
       examples: "/botinfo => Get bot uptime and server count",
       usage: "https://i.imgur.com/F89i1e5.png",
       category: "Misc",

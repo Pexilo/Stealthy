@@ -4,8 +4,12 @@ module.exports = class AvatarUserContextMenuCommand extends Command {
   constructor(client) {
     super(client, {
       name: "Show-Avatar",
+      nameLocalizations: { fr: "Afficher-Avatar" },
       type: "CONTEXT_MENU_USER",
-      description: "🖼️ Get avatar of a specific user.",
+      description: "🖼️ Get avatar of a user.",
+      descriptionLocalizations: {
+        fr: "🖼️ Obtenir l'avatar d'un utilisateur.",
+      },
       examples: "Use right click on a user -> `Applications` -> Show-Avatar",
       usage: "https://i.imgur.com/ebWVSJO.png",
       category: "Context-Menu",

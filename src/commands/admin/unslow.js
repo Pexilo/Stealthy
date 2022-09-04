@@ -5,7 +5,11 @@ module.exports = class UnSlowCommand extends Command {
   constructor(client) {
     super(client, {
       name: "unslow",
+      nameLocalizations: {},
       description: "🐇 Remove the slowmode of a channel.",
+      descriptionLocalizations: {
+        fr: "🐇 Retirer le slowmode d'un salon.",
+      },
       examples:
         "/unslow `channel:#general` => 🕒 Remove the slowmode of `#general` channel",
       category: "Admin",
@@ -15,14 +19,22 @@ module.exports = class UnSlowCommand extends Command {
         {
           type: ApplicationCommandOptionType.Channel,
           name: "channel",
+          nameLocalizations: { fr: "salon" },
           description: "📙 Channel to remove the slowmode from",
+          descriptionLocalizations: {
+            fr: "📙 Salon sur lequel retirer le slowmode",
+          },
           required: true,
           channelTypes: [ChannelType.GuildText],
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the slowmode",
+          descriptionLocalizations: {
+            fr: "❔ Raison du slowmode",
+          },
         },
       ],
     });

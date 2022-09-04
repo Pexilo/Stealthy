@@ -5,7 +5,11 @@ module.exports = class InviteVocalCommand extends Command {
   constructor(client) {
     super(client, {
       name: "invite-vc",
+      nameLocalizations: {},
       description: "💌 Invite someone to your vocal channel.",
+      descriptionLocalizations: {
+        fr: "💌 Inviter un membre dans votre salon vocal.",
+      },
       examples:
         "/invite-vc `member:@Pexilo` => 📧 Invite (DM) `@Pexilo` to your voice channel",
       usage: "https://i.imgur.com/5NjZuQp.png",
@@ -16,7 +20,9 @@ module.exports = class InviteVocalCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "member",
-          description: "💡 The user to invite",
+          nameLocalizations: { fr: "membre" },
+          description: "💡 Member to invite",
+          descriptionLocalizations: { fr: "💡 Le membre à inviter" },
           required: true,
         },
       ],

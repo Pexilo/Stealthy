@@ -5,14 +5,18 @@ module.exports = class HelpCommand extends Command {
   constructor(client) {
     super(client, {
       name: "help",
+      nameLocalizations: {},
       description: "🔍 Show commands list.",
+      descriptionLocalizations: { fr: "🔍 Afficher la liste des commandes." },
       examples: "/help `command:ping` => 🔍 Show details about command `ping`",
       category: "Misc",
       options: [
         {
           type: ApplicationCommandOptionType.String,
           name: "command",
+          nameLocalizations: { fr: "commande" },
           description: "🐲 Command name",
+          descriptionLocalizations: { fr: "🐲 Nom de la commande" },
           required: false,
         },
       ],

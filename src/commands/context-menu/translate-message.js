@@ -4,8 +4,12 @@ module.exports = class TranslateMessageContextMenuCommand extends Command {
   constructor(client) {
     super(client, {
       name: "Translate",
+      nameLocalizations: { fr: "Traduire" },
       type: "CONTEXT_MENU_MESSAGE",
       description: "🔖 Translate a message.",
+      descriptionLocalizations: {
+        fr: "🔖 Traduire un message.",
+      },
       examples: "Use right click on a message -> `Applications` -> Translate.",
       usage: "https://i.imgur.com/zjLEvcb.png",
       category: "Context-Menu",

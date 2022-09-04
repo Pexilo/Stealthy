@@ -5,7 +5,11 @@ module.exports = class KickCommand extends Command {
   constructor(client) {
     super(client, {
       name: "kick",
+      nameLocalizations: {},
       description: "🔪 Kick a member from the server.",
+      descriptionLocalizations: {
+        fr: "🔪 Expulser un membre du serveur.",
+      },
       examples: "/kick `user:@Pexi` => 🔪 Kick `@Pexi` from the server",
       usage: "https://i.imgur.com/b2t76SZ.png",
       category: "Admin",
@@ -15,14 +19,18 @@ module.exports = class KickCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
+          nameLocalizations: { fr: "utilisateur" },
           description: "👤 User to kick",
+          descriptionLocalizations: { fr: "👤 Utilisateur à expulser" },
           required: true,
         },
 
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the kick",
+          descriptionLocalizations: { fr: "❔ Raison de l'expulsion" },
         },
       ],
     });

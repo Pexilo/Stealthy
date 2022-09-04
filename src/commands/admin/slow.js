@@ -5,7 +5,11 @@ module.exports = class SlowCommand extends Command {
   constructor(client) {
     super(client, {
       name: "slow",
+      nameLocalizations: {},
       description: "🐌 Set a slowmode for a channel.",
+      descriptionLocalizations: {
+        fr: "🐌 Définir un slowmode pour un salon.",
+      },
       examples:
         "/slow `channel:#general` `format:minutes` `time:1` => 🕒 Slow time between messages in `#general` channel for `1` `minute`",
       usage: "https://i.imgur.com/wtz21Rv.png",
@@ -16,22 +20,32 @@ module.exports = class SlowCommand extends Command {
         {
           type: ApplicationCommandOptionType.Channel,
           name: "channel",
+          nameLocalizations: { fr: "salon" },
           description: "📙 Channel to set the slowmode for",
+          descriptionLocalizations: {
+            fr: "📙 Salon sur lequel définir le slowmode",
+          },
           required: true,
           channelTypes: [ChannelType.GuildText],
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "format",
+          nameLocalizations: {},
           description: "🕒 Wich format do you want to use ?",
+          descriptionLocalizations: {
+            fr: "🕒 Quel format voulez-vous utiliser ?",
+          },
           required: true,
           choices: [
             {
               name: "🕒 Seconds",
+              nameLocalizations: { fr: "🕒 Secondes" },
               value: "seconds",
             },
             {
               name: "🕒 Minutes",
+              nameLocalizations: {},
               value: "minutes",
             },
           ],
@@ -39,13 +53,21 @@ module.exports = class SlowCommand extends Command {
         {
           type: ApplicationCommandOptionType.Integer,
           name: "time",
+          nameLocalizations: { fr: "temps" },
           description: "⏱️ Define the time",
+          descriptionLocalizations: {
+            fr: "⏱️ Définir le temps",
+          },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the slowmode",
+          descriptionLocalizations: {
+            fr: "❔ Raison du slowmode",
+          },
         },
       ],
     });

@@ -6,7 +6,11 @@ module.exports = class PlayTogetherCommand extends Command {
   constructor(client) {
     super(client, {
       name: "play",
+      nameLocalizations: {},
       description: "🎮 Play hidden Discord activities in your voice channel.",
+      descriptionLocalizations: {
+        fr: "🎮 Jouer aux activités cachées de Discord dans votre salon vocal.",
+      },
       examples:
         "/play `activity:📽️ Youtube` => Play `Youtube together` in your current voice channel",
       usage: "https://i.imgur.com/osohUzS.png",
@@ -15,7 +19,9 @@ module.exports = class PlayTogetherCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "activity",
+          nameLocalizations: { fr: "activité" },
           description: "🎮 Activity to play",
+          descriptionLocalizations: { fr: "🎮 Activité à jouer" },
           required: true,
           choices: [
             {

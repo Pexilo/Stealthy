@@ -5,7 +5,9 @@ module.exports = class UnMuteCommand extends Command {
   constructor(client) {
     super(client, {
       name: "unmute",
-      description: "🔊 Unmute a specific member.",
+      nameLocalizations: { fr: "demute" },
+      description: "🔊 Unmute a member.",
+      descriptionLocalizations: { fr: "🔊 Demute un membre." },
       examples: "/unmute `member:@Pexi` => 🔉 Unmute `@Pexi`",
       usage: "https://i.imgur.com/Kq0yZWX.png",
       category: "Admin",
@@ -15,13 +17,17 @@ module.exports = class UnMuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
+          nameLocalizations: { fr: "utilisateur" },
           description: "👤 Member to unmute",
+          descriptionLocalizations: { fr: "👤 Membre à demuter" },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the unmute",
+          descriptionLocalizations: { fr: "❔ Raison du demute" },
           required: false,
         },
       ],

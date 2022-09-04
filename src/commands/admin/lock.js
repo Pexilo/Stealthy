@@ -5,7 +5,11 @@ module.exports = class LockCommand extends Command {
   constructor(client) {
     super(client, {
       name: "lock",
-      description: "🔒 Lock the current channel.",
+      nameLocalizations: {},
+      description: "🔒 Lock a channel.",
+      descriptionLocalizations: {
+        fr: "🔒 Verrouiller un salon.",
+      },
       examples:
         "/lock `channel:#general` => 🔒 Forbid users from sending messages in `#general`",
       usage: "https://i.imgur.com/MTb1WLk.png",
@@ -16,14 +20,18 @@ module.exports = class LockCommand extends Command {
         {
           type: ApplicationCommandOptionType.Channel,
           name: "channel",
+          nameLocalizations: { fr: "salon" },
           description: "📙 Channel to lock",
+          descriptionLocalizations: { fr: "📙 Salon à verrouiller" },
           required: true,
           channelTypes: [ChannelType.GuildText],
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the lock",
+          descriptionLocalizations: { fr: "❔ Raison du verrouillage" },
         },
       ],
     });

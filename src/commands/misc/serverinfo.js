@@ -4,7 +4,11 @@ module.exports = class ServerInfoCommand extends Command {
   constructor(client) {
     super(client, {
       name: "serverinfo",
+      nameLocalizations: { fr: "serveurinfo" },
       description: "⛲ Get information about the server.",
+      descriptionLocalizations: {
+        fr: "⛲ Obtenir des informations sur le serveur.",
+      },
       examples: "/serverinfo => Get server information",
       usage: "https://i.imgur.com/g7XvucX.png",
       category: "Misc",

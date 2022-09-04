@@ -5,8 +5,11 @@ module.exports = class MuteCommand extends Command {
   constructor(client) {
     super(client, {
       name: "mute",
-      type: "SLASH_COMMAND",
-      description: "🔇 Mute a specific member",
+      nameLocalizations: {},
+      description: "🔇 Mute a member",
+      descriptionLocalizations: {
+        fr: "🔇 Rendre muet un membre",
+      },
       examples:
         "/mute `member:@Pexi` `format:minutes` `duration:5` => 🔇 Mute `@Pexi` for `5` `minutes`",
       usage: "https://i.imgur.com/u0TBXu4.png",
@@ -17,21 +20,31 @@ module.exports = class MuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
+          nameLocalizations: { fr: "utilisateur" },
           description: "👤 User to mute",
+          descriptionLocalizations: {
+            fr: "👤 Utilisateur à rendre muet",
+          },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "format",
+
           description: "🕒 Format to use",
+          descriptionLocalizations: {
+            fr: "🕒 Format à utiliser",
+          },
           required: true,
           choices: [
             {
               name: "🕒 Minutes",
+
               value: "minutes",
             },
             {
               name: "🕒 Hours",
+              nameLocalizations: { fr: "🕒 Heures" },
               value: "hours",
             },
           ],
@@ -39,7 +52,11 @@ module.exports = class MuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.Integer,
           name: "duration",
+          nameLocalizations: { fr: "durée" },
           description: "⏱️ Time to mute",
+          descriptionLocalizations: {
+            fr: "⏱️ Temps à rendre muet",
+          },
           required: true,
           minValue: 1,
           maxValue: 670,
@@ -47,7 +64,11 @@ module.exports = class MuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the mute",
+          descriptionLocalizations: {
+            fr: "❔ Raison du mute",
+          },
           required: false,
         },
       ],

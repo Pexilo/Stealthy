@@ -5,7 +5,11 @@ module.exports = class BanCommand extends Command {
   constructor(client) {
     super(client, {
       name: "ban",
+      nameLocalizations: {},
       description: "🔪 Ban a member from the server.",
+      descriptionLocalizations: {
+        fr: "🔪 Bannir un membre du serveur.",
+      },
       examples:
         "/ban `user:@Pexi` `days:3` => 🔪 Ban `@Pexi` from the server and delete the last `3 days` of messages",
       usage: "https://i.imgur.com/o0Dm3A6.png",
@@ -16,13 +20,19 @@ module.exports = class BanCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
+          nameLocalizations: { fr: "utilisateur" },
           description: "👤 User to ban",
+          descriptionLocalizations: { fr: "👤 Utilisateur à bannir" },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.Integer,
           name: "days",
-          description: "❌ Days of messages to delete",
+          nameLocalizations: { fr: "jours" },
+          description: "❌ User messages to delete (in days)",
+          descriptionLocalizations: {
+            fr: "❌ Messages de l'utilisateur à supprimer (en jours)",
+          },
           required: true,
           min_value: 0,
           max_value: 7,
@@ -30,7 +40,9 @@ module.exports = class BanCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the ban",
+          descriptionLocalizations: { fr: "❔ Raison du bannissement" },
         },
       ],
     });

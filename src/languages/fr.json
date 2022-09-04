@@ -1,0 +1,80 @@
+{
+  "commands": {
+    "admin": {
+      "ban": {},
+      "clear": {},
+      "kick": {},
+      "lock": {},
+      "mute": {},
+      "setnick": {},
+      "setup-ids": {},
+      "slow": {},
+      "unban": {},
+      "unlock": {},
+      "unmute": {},
+      "unslow": {},
+      "warn": {}
+    },
+    "context-menu": {
+      "avatar-message": {},
+      "avatar-user": {},
+      "translate-message": {},
+      "userinfo": {}
+    },
+    "misc": {
+      "botinfo": {},
+      "help": {},
+      "invite-vocal": {},
+      "ping": {},
+      "play-together": {},
+      "serverinfo": {}
+    }
+  },
+  "events": {
+    "guild": {
+      "guildCreate": {},
+      "guildDelete": {},
+      "guildMemberAdd": {},
+      "guildMemberRemove": {}
+    },
+    "messages": {
+      "messageCreate": {},
+      "messageDelete": {},
+      "messageReactionAdd": {},
+      "messageReactionRemove": {},
+      "messageUpdate": {}
+    },
+    "misc": {
+      "interactionCreate": {},
+      "ready": {},
+      "voiceStateUpdate": {}
+    },
+    "permissions": {
+      "clientMissingPermissions": {},
+      "userMissingPermissions": {}
+    }
+  },
+  "interactions": {
+    "buttons": {
+      "autorole": {},
+      "clear-confirm": {},
+      "JTC": {},
+      "logs-types": {},
+      "membercount": {},
+      "moderation-tools": {},
+      "roleclaim": {},
+      "setup-first": {},
+      "translate": {},
+      "warn-list": {}
+    },
+    "modals": {
+      "JTC-channel-names": {},
+      "membercount-rename": {},
+      "roleclaim-embed": {}
+    },
+    "select-menus": {
+      "setup-language-third": {},
+      "setup-second": {}
+    }
+  }
+}

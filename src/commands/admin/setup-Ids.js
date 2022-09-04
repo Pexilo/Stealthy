@@ -5,7 +5,11 @@ module.exports = class SetupBotCommand extends Command {
   constructor(client) {
     super(client, {
       name: "setup",
+      nameLocalizations: {},
       description: "📝 Setup bot commands",
+      descriptionLocalizations: {
+        fr: "📝 Configurer les commandes du bot",
+      },
       examples: "I think I don't have to detail much here 💭",
       category: "Setup",
       userPermissions: ["ManageGuild"],
@@ -13,33 +17,57 @@ module.exports = class SetupBotCommand extends Command {
         {
           type: ApplicationCommandOptionType.Subcommand,
           name: "menu",
+          nameLocalizations: {},
           description: "🔧 View the setup menu of Stealthy",
+          descriptionLocalizations: {
+            fr: "🔧 Voir le menu de configuration de Stealthy",
+          },
         },
         {
           type: ApplicationCommandOptionType.Subcommand,
           name: "channels",
+          nameLocalizations: { fr: "salons" },
           description: "📙 Setup your channels",
+          descriptionLocalizations: {
+            fr: "📙 Configurer vos salons",
+          },
           options: [
             {
               type: ApplicationCommandOptionType.String,
               name: "usage",
+              nameLocalizations: { fr: "utilisation" },
               description: "📝 Type of channel to setup",
+              descriptionLocalizations: {
+                fr: "📝 Type de salon à configurer",
+              },
               required: true,
               choices: [
                 {
                   name: "🚀 Logs channel - track specific user interactions",
+                  nameLocalizations: {
+                    fr: "🚀 Salon de logs - Suivre les interactions des utilisateurs",
+                  },
                   value: "logs",
                 },
                 {
                   name: "🔊 Join to Create channel - set a voice channel creator to free up space",
+                  nameLocalizations: {
+                    fr: "🔊 Salon 'Join to Create' - Définir un salon vocal créateur pour libérer de l'espace",
+                  },
                   value: "jtc",
                 },
                 {
                   name: "🎈 Role Claim channel - allow users to choose a role with a reaction",
+                  nameLocalizations: {
+                    fr: "🎈 Salon 'Role Claim' - Permettre aux utilisateurs de choisir un rôle avec une réaction",
+                  },
                   value: "roleclaim",
                 },
                 {
                   name: "🧾 Member Count channel - allow users to see the member count of the server",
+                  nameLocalizations: {
+                    fr: "🧾 Salon 'Member Count' - Permettre aux utilisateurs de voir le nombre de membres du serveur",
+                  },
                   value: "membercount",
                 },
               ],
@@ -47,7 +75,11 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: ApplicationCommandOptionType.Channel,
               name: "channel",
+              nameLocalizations: { fr: "salon" },
               description: "🚀 Choose a channel",
+              descriptionLocalizations: {
+                fr: "🚀 Choisissez un salon",
+              },
               required: true,
               channelTypes: [ChannelType.GuildText, ChannelType.GuildCategory],
             },
@@ -56,20 +88,34 @@ module.exports = class SetupBotCommand extends Command {
         {
           type: ApplicationCommandOptionType.Subcommand,
           name: "blacklist",
+          nameLocalizations: {},
           description: "👮 Manage newcomers restrictions",
+          descriptionLocalizations: {
+            fr: "👮 Gérer les restrictions des nouveaux arrivants",
+          },
           options: [
             {
               type: ApplicationCommandOptionType.String,
               name: "choice",
+              nameLocalizations: { fr: "choix" },
               description: "📝 Type of timer to setup",
+              descriptionLocalizations: {
+                fr: "📝 Type de minuteur à configurer",
+              },
               required: true,
               choices: [
                 {
                   name: "⌚ Blacklist time - change how long the bot will block the newcomer for",
+                  nameLocalizations: {
+                    fr: "⌚ Temps de liste noire - changer la durée pendant laquelle le bot bloquera le nouveau membre",
+                  },
                   value: "blacklist_time",
                 },
                 {
                   name: "🎣 Minimum account age - change the minimum age a newcomer must be to join the server",
+                  nameLocalizations: {
+                    fr: "🎣 Âge minimum du compte - changer l'âge minimum qu'un nouveau membre doit avoir",
+                  },
                   value: "blacklist_minimum_age",
                 },
               ],
@@ -77,15 +123,21 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: ApplicationCommandOptionType.String,
               name: "format",
+              nameLocalizations: { fr: "format" },
               description: "🕒 Wich format do you want to use ?",
+              descriptionLocalizations: {
+                fr: "🕒 Quel format souhaitez-vous utiliser ?",
+              },
               required: true,
               choices: [
                 {
                   name: "🕒 Hours",
+                  nameLocalizations: { fr: "🕒 Heures" },
                   value: "hours",
                 },
                 {
                   name: "🕒 Minutes",
+                  nameLocalizations: {},
                   value: "minutes",
                 },
               ],
@@ -93,7 +145,11 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: ApplicationCommandOptionType.Integer,
               name: "time",
+              nameLocalizations: { fr: "temps" },
               description: "⏱️ Define the time",
+              descriptionLocalizations: {
+                fr: "⏱️ Définir le temps",
+              },
               required: true,
               minValue: 1,
               maxValue: 670,
@@ -103,31 +159,51 @@ module.exports = class SetupBotCommand extends Command {
         {
           type: ApplicationCommandOptionType.SubcommandGroup,
           name: "roleclaim",
+          nameLocalizations: {},
           description: "🎈 Setup Role Claim system",
+          descriptionLocalizations: {
+            fr: "🎈 Configurer le système de 'Role Claim'",
+          },
           options: [
             {
               type: ApplicationCommandOptionType.Subcommand,
               name: "add",
+              nameLocalizations: { fr: "ajouter" },
               description: "🎈 Add a role to the Role Claim system",
+              descriptionLocalizations: {
+                fr: "🎈 Ajouter un rôle au système de 'Role Claim'",
+              },
               options: [
                 {
                   type: ApplicationCommandOptionType.Role,
                   name: "role",
+                  nameLocalizations: { fr: "rôle" },
                   description: "🧮 Choose the role you want to add",
+                  descriptionLocalizations: {
+                    fr: "🧮 Choisissez le rôle que vous souhaitez ajouter",
+                  },
                   required: true,
                 },
                 {
                   type: ApplicationCommandOptionType.String,
                   name: "emoji",
+                  nameLocalizations: { fr: "emoji" },
                   description:
                     "😄 Choose the emoji you want to use for this role",
+                  descriptionLocalizations: {
+                    fr: "😄 Choisissez l'emoji que vous souhaitez utiliser pour ce rôle",
+                  },
                   required: true,
                 },
                 {
                   type: ApplicationCommandOptionType.String,
                   name: "description",
+                  nameLocalizations: {},
                   description:
                     "✍️ Choose the description of this role (optional)",
+                  descriptionLocalizations: {
+                    fr: "✍️ Choisissez la description de ce rôle (facultatif)",
+                  },
                   required: false,
                 },
               ],
@@ -135,18 +211,30 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: ApplicationCommandOptionType.Subcommand,
               name: "remove",
+              nameLocalizations: { fr: "supprimer" },
               description: "🎈 Delete a role from the Role Claim system",
+              descriptionLocalizations: {
+                fr: "🎈 Supprimer un rôle du système de 'Role Claim'",
+              },
               options: [
                 {
                   type: ApplicationCommandOptionType.Role,
                   name: "role",
+                  nameLocalizations: { fr: "rôle" },
                   description: "🧮 Choose the role you want to delete",
+                  descriptionLocalizations: {
+                    fr: "🧮 Choisissez le rôle que vous souhaitez supprimer",
+                  },
                   required: false,
                 },
                 {
                   type: ApplicationCommandOptionType.String,
                   name: "emoji",
+                  nameLocalizations: { fr: "emoji" },
                   description: "😄 Choose the emoji you want to delete",
+                  descriptionLocalizations: {
+                    fr: "😄 Choisissez l'emoji que vous souhaitez supprimer",
+                  },
                   required: false,
                 },
               ],
@@ -158,17 +246,28 @@ module.exports = class SetupBotCommand extends Command {
           name: "autorole",
           description:
             "🎩 Assign automatically roles to a newcomer when they join the server",
+          descriptionLocalizations: {
+            fr: "🎩 Attribuer automatiquement des rôles à un nouveau membre lorsqu'il rejoint le serveur",
+          },
           options: [
             {
               type: ApplicationCommandOptionType.Subcommand,
               name: "add",
+              nameLocalizations: { fr: "ajouter" },
               description:
                 "🎩 Assign a new role to a newcomer when they join the server",
+              descriptionLocalizations: {
+                fr: "🎩 Attribuer un nouveau rôle à un nouveau membre lorsqu'il rejoint le serveur",
+              },
               options: [
                 {
                   type: ApplicationCommandOptionType.Role,
                   name: "role",
+                  nameLocalizations: { fr: "rôle" },
                   description: "🧮 The role to assign to the newcomer",
+                  descriptionLocalizations: {
+                    fr: "🧮 Le rôle à attribuer au nouveau membre",
+                  },
                   required: true,
                 },
               ],
@@ -176,12 +275,20 @@ module.exports = class SetupBotCommand extends Command {
             {
               type: ApplicationCommandOptionType.Subcommand,
               name: "remove",
+              nameLocalizations: { fr: "supprimer" },
               description: "🎩 Remove a role from the list of autoroles",
+              descriptionLocalizations: {
+                fr: "🎩 Supprimer un rôle de la liste des autorôles",
+              },
               options: [
                 {
                   type: ApplicationCommandOptionType.Role,
                   name: "role",
+                  nameLocalizations: { fr: "rôle" },
                   description: "🧮 The role to remove from the list",
+                  descriptionLocalizations: {
+                    fr: "🧮 Le rôle à supprimer de la liste",
+                  },
                   required: true,
                 },
               ],

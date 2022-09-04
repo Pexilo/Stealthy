@@ -5,7 +5,9 @@ module.exports = class UnlockCommand extends Command {
   constructor(client) {
     super(client, {
       name: "unlock",
-      description: "🔓 Unlock the current channel.",
+      nameLocalizations: { fr: "delock" },
+      description: "🔓 Unlock a channel.",
+      descriptionLocalizations: { fr: "🔓 Déverrouiller un salon." },
       examples:
         "/unlock `channel:#general` => 🔓 Allow users to send messages in `#general`",
       usage: "https://i.imgur.com/FLdEF1d.png",
@@ -16,14 +18,18 @@ module.exports = class UnlockCommand extends Command {
         {
           type: ApplicationCommandOptionType.Channel,
           name: "channel",
+          nameLocalizations: { fr: "salon" },
           description: "📙 Channel to unlock",
+          descriptionLocalizations: { fr: "📙 Salon à déverrouiller" },
           required: true,
           channelTypes: [ChannelType.GuildText],
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the unlock",
+          descriptionLocalizations: { fr: "❔ Raison du déverrouillage" },
         },
       ],
     });

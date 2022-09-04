@@ -5,7 +5,11 @@ module.exports = class SetNicknameCommand extends Command {
   constructor(client) {
     super(client, {
       name: "nick",
+      nameLocalizations: {},
       description: "✍️ Change the nickname of a user.",
+      descriptionLocalizations: {
+        fr: "✍️ Change le pseudo d'un utilisateur.",
+      },
       examples:
         "/setnick `user:@Pexi` `nickname:Pexilo` => ✍️ Change the nickname of `@Pexi` to `Pexilo`",
       usage: "https://i.imgur.com/lZSnzz8.png",
@@ -16,19 +20,29 @@ module.exports = class SetNicknameCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
+          nameLocalizations: { fr: "utilisateur" },
           description: "👤 User to change the nickname of",
+          descriptionLocalizations: {
+            fr: "👤 Utilisateur dont vous voulez changer le pseudo",
+          },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "nickname",
+          nameLocalizations: { fr: "pseudo" },
           description: "✏️ New nickname",
+          descriptionLocalizations: { fr: "✏️ Nouveau pseudo" },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for changing the nickname",
+          descriptionLocalizations: {
+            fr: "❔ Raison du changement de pseudo",
+          },
         },
       ],
     });
