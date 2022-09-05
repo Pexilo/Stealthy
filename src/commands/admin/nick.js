@@ -9,6 +9,8 @@ module.exports = class SetNicknameCommand extends Command {
       description: "✍️ Change the nickname of a user.",
       descriptionLocalizations: {
         fr: "✍️ Change le pseudo d'un utilisateur.",
+        de: "✍️ Ändere den Spitznamen eines Benutzers.",
+        "es-ES": "✍️ Cambia el apodo de un usuario.",
       },
       examples:
         "/nick `user:@Pexi` `nickname:Pexilo` => ✍️ Change the nickname of `@Pexi` to `Pexilo`",
@@ -20,28 +22,44 @@ module.exports = class SetNicknameCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
-          nameLocalizations: { fr: "utilisateur" },
+          nameLocalizations: {
+            fr: "utilisateur",
+            de: "benutzer",
+            "es-ES": "usuario",
+          },
           description: "👤 User to change the nickname of",
           descriptionLocalizations: {
             fr: "👤 Utilisateur dont vous voulez changer le pseudo",
+            de: "👤 Benutzer, dessen Spitzname geändert werden soll",
+            "es-ES": "👤 Usuario cuyo apodo desea cambiar",
           },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "nickname",
-          nameLocalizations: { fr: "pseudo" },
+          nameLocalizations: {
+            fr: "pseudo",
+            de: "spitzname",
+            "es-ES": "apodo",
+          },
           description: "✏️ New nickname",
-          descriptionLocalizations: { fr: "✏️ Nouveau pseudo" },
+          descriptionLocalizations: {
+            fr: "✏️ Nouveau pseudo",
+            de: "✏️ Neuer Spitzname",
+            "es-ES": "✏️ Nuevo apodo",
+          },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
-          nameLocalizations: { fr: "raison" },
+          nameLocalizations: { fr: "raison", de: "grund", "es-ES": "razón" },
           description: "❔ Reason for changing the nickname",
           descriptionLocalizations: {
             fr: "❔ Raison du changement de pseudo",
+            de: "❔ Grund für die Änderung des Spitznamens",
+            "es-ES": "❔ Razón para cambiar el apodo",
           },
         },
       ],

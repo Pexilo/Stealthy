@@ -9,6 +9,8 @@ module.exports = class UnSlowCommand extends Command {
       description: "🐇 Remove the slowmode of a channel.",
       descriptionLocalizations: {
         fr: "🐇 Retirer le slowmode d'un salon.",
+        de: "🐇 Entferne den Slowmode eines Kanals.",
+        "es-ES": "🐇 Elimina el modo lento de un canal.",
       },
       examples:
         "/unslow `channel:#general` => 🕒 Remove the slowmode of `#general` channel",
@@ -19,10 +21,12 @@ module.exports = class UnSlowCommand extends Command {
         {
           type: ApplicationCommandOptionType.Channel,
           name: "channel",
-          nameLocalizations: { fr: "salon" },
+          nameLocalizations: { fr: "salon", de: "kanal", "es-ES": "canal" },
           description: "📙 Channel to remove the slowmode from",
           descriptionLocalizations: {
             fr: "📙 Salon sur lequel retirer le slowmode",
+            de: "📙 Kanal, von dem der Slowmode entfernt werden soll",
+            "es-ES": "📙 Canal del que eliminar el modo lento",
           },
           required: true,
           channelTypes: [ChannelType.GuildText],
@@ -30,10 +34,12 @@ module.exports = class UnSlowCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
-          nameLocalizations: { fr: "raison" },
+          nameLocalizations: { fr: "raison", de: "grund", "es-ES": "razón" },
           description: "❔ Reason for the slowmode",
           descriptionLocalizations: {
             fr: "❔ Raison du slowmode",
+            de: "❔ Grund für den Slowmode",
+            "es-ES": "❔ Razón del modo lento",
           },
         },
       ],

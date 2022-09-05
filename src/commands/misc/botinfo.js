@@ -9,6 +9,8 @@ module.exports = class BotInfoCommand extends Command {
       description: "🔖 Get information about the bot.",
       descriptionLocalizations: {
         fr: "🔖 Obtenir des informations sur le bot.",
+        de: "🔖 Informationen zum Bot abrufen.",
+        "es-ES": "🔖 Obtener información sobre el bot.",
       },
       examples: "/botinfo => Show bot version, uptime and server count",
       usage: "https://i.imgur.com/F89i1e5.png",

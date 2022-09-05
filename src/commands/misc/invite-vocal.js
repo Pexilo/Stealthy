@@ -9,6 +9,8 @@ module.exports = class InviteVocalCommand extends Command {
       description: "📨 Invite someone to your vocal channel.",
       descriptionLocalizations: {
         fr: "📨 Inviter un membre dans votre salon vocal.",
+        de: "📨 Lade jemanden in deinen Sprachkanal ein.",
+        "es-ES": "📨 Invita a alguien a tu canal de voz.",
       },
       examples:
         "/invite-vc `member:@Pexilo` => 📨 Invite (DM) `@Pexilo` to your voice channel",
@@ -20,9 +22,17 @@ module.exports = class InviteVocalCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "member",
-          nameLocalizations: { fr: "membre" },
+          nameLocalizations: {
+            fr: "membre",
+            de: "mitglied",
+            "es-ES": "miembro",
+          },
           description: "💡 Member to invite",
-          descriptionLocalizations: { fr: "💡 Le membre à inviter" },
+          descriptionLocalizations: {
+            fr: "💡 Le membre à inviter",
+            de: "💡 Mitglied, das eingeladen werden soll",
+            "es-ES": "💡 Miembro a invitar",
+          },
           required: true,
         },
       ],

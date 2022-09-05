@@ -9,6 +9,8 @@ module.exports = class SlowCommand extends Command {
       description: "🐌 Set a slowmode for a channel.",
       descriptionLocalizations: {
         fr: "🐌 Définir un slowmode pour un salon.",
+        de: "🐌 Setze einen Slowmode für einen Kanal.",
+        "es-ES": "🐌 Establece un modo lento para un canal.",
       },
       examples:
         "/slow `channel:#general` `format:minutes` `time:1` => 🕒 Slow time between messages in `#general` channel for `1` `minute`",
@@ -20,10 +22,12 @@ module.exports = class SlowCommand extends Command {
         {
           type: ApplicationCommandOptionType.Channel,
           name: "channel",
-          nameLocalizations: { fr: "salon" },
+          nameLocalizations: { fr: "salon", de: "kanal", "es-ES": "canal" },
           description: "📙 Channel to set the slowmode for",
           descriptionLocalizations: {
             fr: "📙 Salon sur lequel définir le slowmode",
+            de: "📙 Kanal, für den der Slowmode festgelegt werden soll",
+            "es-ES": "📙 Canal para establecer el modo lento",
           },
           required: true,
           channelTypes: [ChannelType.GuildText],
@@ -31,21 +35,35 @@ module.exports = class SlowCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "format",
-          nameLocalizations: {},
+          nameLocalizations: {
+            fr: "format",
+            de: "format",
+            "es-ES": "formato",
+          },
           description: "🕒 Wich format do you want to use ?",
           descriptionLocalizations: {
             fr: "🕒 Quel format voulez-vous utiliser ?",
+            de: "🕒 Welches Format möchten Sie verwenden?",
+            "es-ES": "🕒 ¿Qué formato desea usar?",
           },
           required: true,
           choices: [
             {
               name: "🕒 Seconds",
-              nameLocalizations: { fr: "🕒 Secondes" },
+              nameLocalizations: {
+                fr: "🕒 Secondes",
+                de: "🕒 Sekunden",
+                "es-ES": "🕒 Segundos",
+              },
               value: "seconds",
             },
             {
               name: "🕒 Minutes",
-              nameLocalizations: {},
+              nameLocalizations: {
+                fr: "🕒 Minutes",
+                de: "🕒 Minuten",
+                "es-ES": "🕒 Minutos",
+              },
               value: "minutes",
             },
           ],
@@ -53,20 +71,24 @@ module.exports = class SlowCommand extends Command {
         {
           type: ApplicationCommandOptionType.Integer,
           name: "time",
-          nameLocalizations: { fr: "temps" },
+          nameLocalizations: { fr: "temps", de: "zeit", "es-ES": "tiempo" },
           description: "⏱️ Define the time",
           descriptionLocalizations: {
             fr: "⏱️ Définir le temps",
+            de: "⏱️ Definieren Sie die Zeit",
+            "es-ES": "⏱️ Definir el tiempo",
           },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
-          nameLocalizations: { fr: "raison" },
+          nameLocalizations: { fr: "raison", de: "grund", "es-ES": "razón" },
           description: "❔ Reason for the slowmode",
           descriptionLocalizations: {
             fr: "❔ Raison du slowmode",
+            de: "❔ Grund für den Slowmode",
+            "es-ES": "❔ Razón del modo lento",
           },
         },
       ],

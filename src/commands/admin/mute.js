@@ -9,6 +9,8 @@ module.exports = class MuteCommand extends Command {
       description: "🔇 Mute a member",
       descriptionLocalizations: {
         fr: "🔇 Rendre muet un membre",
+        de: "🔇 Stummschalten eines Mitglieds",
+        "es-ES": "🔇 Silenciar a un miembro",
       },
       examples:
         "/mute `member:@Pexi` `format:minutes` `duration:5` => 🔇 Mute `@Pexi` for `5` `minutes`",
@@ -20,10 +22,16 @@ module.exports = class MuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
-          nameLocalizations: { fr: "utilisateur" },
+          nameLocalizations: {
+            fr: "utilisateur",
+            de: "benutzer",
+            "es-ES": "usuario",
+          },
           description: "👤 User to mute",
           descriptionLocalizations: {
             fr: "👤 Utilisateur à rendre muet",
+            de: "👤 Benutzer zum Stummschalten",
+            "es-ES": "👤 Usuario a silenciar",
           },
           required: true,
         },
@@ -34,17 +42,27 @@ module.exports = class MuteCommand extends Command {
           description: "🕒 Format to use",
           descriptionLocalizations: {
             fr: "🕒 Format à utiliser",
+            de: "🕒 Format zu verwenden",
+            "es-ES": "🕒 Formato a usar",
           },
           required: true,
           choices: [
             {
               name: "🕒 Minutes",
-
+              nameLocalizations: {
+                fr: "🕒 Minutes",
+                de: "🕒 Minuten",
+                "es-ES": "🕒 Minutos",
+              },
               value: "minutes",
             },
             {
               name: "🕒 Hours",
-              nameLocalizations: { fr: "🕒 Heures" },
+              nameLocalizations: {
+                fr: "🕒 Heures",
+                de: "🕒 Stunden",
+                "es-ES": "🕒 Horas",
+              },
               value: "hours",
             },
           ],
@@ -52,10 +70,12 @@ module.exports = class MuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.Integer,
           name: "duration",
-          nameLocalizations: { fr: "durée" },
+          nameLocalizations: { fr: "durée", de: "dauer", "es-ES": "duración" },
           description: "⏱️ Time to mute",
           descriptionLocalizations: {
             fr: "⏱️ Temps à rendre muet",
+            de: "⏱️ Zeit zum Stummschalten",
+            "es-ES": "⏱️ Tiempo para silenciar",
           },
           required: true,
           minValue: 1,
@@ -64,10 +84,12 @@ module.exports = class MuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
-          nameLocalizations: { fr: "raison" },
+          nameLocalizations: { fr: "raison", de: "grund", "es-ES": "razón" },
           description: "❔ Reason for the mute",
           descriptionLocalizations: {
             fr: "❔ Raison du mute",
+            de: "❔ Grund für das Stummschalten",
+            "es-ES": "❔ Razón del silencio",
           },
           required: false,
         },

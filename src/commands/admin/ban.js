@@ -9,6 +9,8 @@ module.exports = class BanCommand extends Command {
       description: "🔪 Ban a member from the server.",
       descriptionLocalizations: {
         fr: "🔪 Bannir un membre du serveur.",
+        de: "🔪 Banne einen Benutzer vom Server.",
+        "es-ES": "🔪 Banear a un miembro del servidor.",
       },
       examples:
         "/ban `user:@Pexi` `days:3` => 🔪 Ban `@Pexi` from the server and delete the last `3 days` of messages",
@@ -20,18 +22,28 @@ module.exports = class BanCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
-          nameLocalizations: { fr: "utilisateur" },
+          nameLocalizations: {
+            fr: "utilisateur",
+            de: "benutzer",
+            "es-ES": "usuario",
+          },
           description: "👤 User to ban",
-          descriptionLocalizations: { fr: "👤 Utilisateur à bannir" },
+          descriptionLocalizations: {
+            fr: "👤 Utilisateur à bannir",
+            de: "👤 Benutzer zu verbannen",
+            "es-ES": "👤 Usuario a banear",
+          },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.Integer,
           name: "days",
-          nameLocalizations: { fr: "jours" },
+          nameLocalizations: { fr: "jours", de: "tage", "es-ES": "días" },
           description: "❌ User messages to delete (in days)",
           descriptionLocalizations: {
             fr: "❌ Messages de l'utilisateur à supprimer (en jours)",
+            de: "❌ Benutzer-Nachrichten, die gelöscht werden sollen (in Tagen)",
+            "es-ES": "❌ Mensajes de usuario a eliminar (en días)",
           },
           required: true,
           min_value: 0,
@@ -40,9 +52,13 @@ module.exports = class BanCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
-          nameLocalizations: { fr: "raison" },
+          nameLocalizations: { fr: "raison", de: "grund", "es-ES": "razón" },
           description: "❔ Reason for the ban",
-          descriptionLocalizations: { fr: "❔ Raison du bannissement" },
+          descriptionLocalizations: {
+            fr: "❔ Raison du bannissement",
+            de: "❔ Grund für den Ban",
+            "es-ES": "❔ Razón del ban",
+          },
         },
       ],
     });

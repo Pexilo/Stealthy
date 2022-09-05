@@ -7,7 +7,11 @@ module.exports = class UnlockCommand extends Command {
       name: "unlock",
       nameLocalizations: { fr: "delock" },
       description: "🔓 Unlock a channel.",
-      descriptionLocalizations: { fr: "🔓 Déverrouiller un salon." },
+      descriptionLocalizations: {
+        fr: "🔓 Déverrouiller un salon.",
+        de: "🔓 Entsperrt einen Kanal.",
+        "es-ES": "🔓 Desbloquea un canal.",
+      },
       examples:
         "/unlock `channel:#general` => 🔓 Allow users to send messages in `#general`",
       usage: "https://i.imgur.com/FLdEF1d.png",
@@ -18,18 +22,26 @@ module.exports = class UnlockCommand extends Command {
         {
           type: ApplicationCommandOptionType.Channel,
           name: "channel",
-          nameLocalizations: { fr: "salon" },
+          nameLocalizations: { fr: "salon", de: "kanal", "es-ES": "canal" },
           description: "📙 Channel to unlock",
-          descriptionLocalizations: { fr: "📙 Salon à déverrouiller" },
+          descriptionLocalizations: {
+            fr: "📙 Salon à déverrouiller",
+            de: "📙 Kanal zum Entsperren",
+            "es-ES": "📙 Canal para desbloquear",
+          },
           required: true,
           channelTypes: [ChannelType.GuildText],
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
-          nameLocalizations: { fr: "raison" },
+          nameLocalizations: { fr: "raison", de: "grund", "es-ES": "razón" },
           description: "❔ Reason for the unlock",
-          descriptionLocalizations: { fr: "❔ Raison du déverrouillage" },
+          descriptionLocalizations: {
+            fr: "❔ Raison du déverrouillage",
+            de: "❔ Grund für die Entsperreung",
+            "es-ES": "❔ Razón para desbloquear",
+          },
         },
       ],
     });
