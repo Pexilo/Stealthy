@@ -76,7 +76,6 @@ mongoose
     socketTimeoutMS: 45000,
     family: 4,
   })
-  .then(() => console.log("MongoDB     ✅"))
   .catch((err) => console.error("MongoDB     ❌\n", err.reason));
 
 client.login(TOKEN);
