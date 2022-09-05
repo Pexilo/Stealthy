@@ -8,6 +8,8 @@ module.exports = class ServerInfoCommand extends Command {
       description: "⛲ Get information about the server.",
       descriptionLocalizations: {
         fr: "⛲ Obtenir des informations sur le serveur.",
+        de: "⛲ Informationen über den Server erhalten.",
+        "es-ES": "⛲ Obtener información sobre el servidor.",
       },
       examples: "/serverinfo => Get server information",
       usage: "https://i.imgur.com/g7XvucX.png",

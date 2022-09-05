@@ -1,7 +1,7 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/67436391/182243493-2dbaf788-fb39-463b-bcb9-05303d7d4a7f.png" align="center">
   <a href="https://github.com/Pexilo/Stealthy/releases" target="_blank">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.2.0-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+    <img alt="Version" src="https://img.shields.io/badge/version-1.2.1-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
   </a>
   <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
     <img src="https://dcbadge.vercel.app/api/shield/877249354954580059?bot=true?&theme=blurple" />
@@ -22,7 +22,7 @@
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Pexilo/Stealthy.svg?logo=lgtm&logoWidth=18&color=success)](https://lgtm.com/projects/g/Pexilo/Stealthy/context:javascript)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/62ce9585dd0c42e8af7b4c11e7fe456d)](https://www.codacy.com/gh/Pexilo/Stealthy/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Pexilo/Stealthy&utm_campaign=Badge_Grade)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Pexilo_Stealthy&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Pexilo_Stealthy)
-[![wakatime](https://wakatime.com/badge/user/505d5239-8982-443a-af40-f424ba106165/project/26f9558b-88a5-476d-8e46-70f3ee78ce18.svg?style=flat "Time spend since the 1.1.2")](https://wakatime.com/badge/user/505d5239-8982-443a-af40-f424ba106165/project/26f9558b-88a5-476d-8e46-70f3ee78ce18)    
+[![wakatime](https://wakatime.com/badge/user/505d5239-8982-443a-af40-f424ba106165/project/26f9558b-88a5-476d-8e46-70f3ee78ce18.svg?style=flat "Time spend since the 1.1.2")](https://wakatime.com/badge/user/505d5239-8982-443a-af40-f424ba106165/project/26f9558b-88a5-476d-8e46-70f3ee78ce18)
 
 ## 🐲 About Stealthy
 
@@ -58,9 +58,12 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 ## 🌎 Supported Languages
 
-#### ☕ English
-#### 🥖 French
-> More will come soon..
+#### • ☕ English᲼᲼᲼᲼᲼᲼᲼᲼• 💃 Spanish
+#### • 🥖 French
+
+
+> Thanks to Github Copilot for making most of the translations possible... 😵‍💫
+Feel free to report any [bad translations](https://github.com/Pexilo/Stealthy/issues)
 
 ## 📬 Future updates
 
@@ -71,6 +74,7 @@ Stealthy is my first ambitious personal project, it has been under development s
 - [ ] 🧮 Role Claim types _(reaction, select menu, buttons)_
 
 ##
+
 ### 🤝 Contributing
 
 <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
@@ -119,9 +123,7 @@ git clone https://github.com/Pexilo/Stealthy.git
 
 1. Replace `<clientId>` with your bot Id
 
-``
-https://discord.com/api/oauth2/authorize?client_id=<clientId>&permissions=8&scope=bot%20applications.commands
-``
+`https://discord.com/api/oauth2/authorize?client_id=<clientId>&permissions=8&scope=bot%20applications.commands`
 
 2. Invite your bot with the above link to a desired server
 

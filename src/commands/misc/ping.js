@@ -8,6 +8,8 @@ module.exports = class PingCommand extends Command {
       description: "🤖 Ping the bot and get the latency.",
       descriptionLocalizations: {
         fr: "🤖 Envoie un ping au bot et récupère la latence.",
+        de: "🤖 Pingt den Bot und erhält die Latenz.",
+        "es-ES": "🤖 Envía un ping al bot y obtén la latencia.",
       },
       examples: "/ping => 🏓Pong!",
       usage: "https://i.imgur.com/w2q1bpX.png",

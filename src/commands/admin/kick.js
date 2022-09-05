@@ -9,6 +9,8 @@ module.exports = class KickCommand extends Command {
       description: "👢 Kick a member from the server.",
       descriptionLocalizations: {
         fr: "👢 Expulser un membre du serveur.",
+        de: "👢 Kicke einen Benutzer vom Server.",
+        "es-ES": "👢 Expulsar a un miembro del servidor.",
       },
       examples: "/kick `user:@Pexi` => 👢 Kick `@Pexi` from the server",
       usage: "https://i.imgur.com/b2t76SZ.png",
@@ -19,18 +21,30 @@ module.exports = class KickCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
-          nameLocalizations: { fr: "utilisateur" },
+          nameLocalizations: {
+            fr: "utilisateur",
+            de: "benutzer",
+            "es-ES": "usuario",
+          },
           description: "👤 User to kick",
-          descriptionLocalizations: { fr: "👤 Utilisateur à expulser" },
+          descriptionLocalizations: {
+            fr: "👤 Utilisateur à expulser",
+            de: "👤 Benutzer zum kicken",
+            "es-ES": "👤 Usuario a expulsar",
+          },
           required: true,
         },
 
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
-          nameLocalizations: { fr: "raison" },
+          nameLocalizations: { fr: "raison", de: "grund", "es-ES": "razón" },
           description: "❔ Reason for the kick",
-          descriptionLocalizations: { fr: "❔ Raison de l'expulsion" },
+          descriptionLocalizations: {
+            fr: "❔ Raison de l'expulsion",
+            de: "❔ Grund für den kick",
+            "es-ES": "❔ Razón de la expulsión",
+          },
         },
       ],
     });

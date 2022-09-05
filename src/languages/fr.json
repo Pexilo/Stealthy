@@ -428,7 +428,7 @@
       "JTC": {
         "create": {
           "name": "🔉 Créer un salon",
-          "reply": "`\\`✅\\` Salon JTC créé dans la catégorie: **${voiceChannel.parent ? `<#${voiceChannel.parentId}>` : 'default'}**.\n> Vous pouvez le déplacer dans une autre catégorie si vous le souhaitez.\n > Vous pouvez utiliser \\`/invite-vc membre:\\` pour inviter quelqu'un en privé à rejoindre votre salon.`"
+          "reply": "`\\`✅\\` Salon JTC créé dans la catégorie: **${channel.parent ? `<#${channel.parentId}>` : 'default'}**.\n> Vous pouvez le déplacer dans une autre catégorie si vous le souhaitez.\n > Vous pouvez utiliser \\`/invite-vc membre:\\` pour inviter quelqu'un en privé à rejoindre votre salon.`"
         },
         "delete": {
           "reply": "`\\`❎\\` Salon JTC supprimé dans la catégorie: **${channelToDelete.parent ? `<#${channelToDelete.parentId}>`: 'default'}**\n\n> Notez que vous pouvez créer **un seul** salon JTC **par serveur**.`"
@@ -650,7 +650,7 @@
     "error9": "`🚫` Vous n'avez pas la permission de changer le pseudo de cet utilisateur.",
     "error10": "`🚫` Vous devez d'abord configurer le système de roleclaim.\n\n> Utilisez `/setup salons`",
     "error11": "`⛔` Une erreur est survenue: Impossible de trouver le message de roleclaim.\n\n> Essayez de configurer le système de roleclaim à nouveau.\n\n> Si l'erreur persiste, contactez un administrateur de Stealthy",
-    "error12": "`\\`🚫\\` Un de mes rôles doit être au-dessus de ${roleRC ? roleRC.toString() : roleAR.toString()} pour effectuer cette action.\n\n> Vous pouvez le faire dans \\`paramètres du serveur -> rôles\\``",
+    "error12": "`\\`🚫\\` Un de mes rôles doit être au-dessus de ${roleRC.toString()} pour effectuer cette action.\n\n> Vous pouvez le faire dans \\`paramètres du serveur -> rôles\\``",
     "error13": "`\\`🚫\\` Vous ne pouvez pas assigner <@&${guild.id}>`",
     "error14": "`\\`🚫\\` Je ne trouve pas l'emoji \\`:${emoji.split(':')[1]}:\\`.\n\n> Je dois être dans le même serveur que l'emoji`",
     "error15": "`\\`🚫\\` \\`${emoji}\\` n'est pas pris en charge.\n\n> Veuillez fournir un [emoji](https://emojipedia.org)`",
@@ -688,6 +688,7 @@
     "error47": "`🚫` Vous devez d'abord configurer le 'Role Claim'.\n\n> Utilisez `/setup salons`",
     "error48": "`🚫` Aucun changement effectué.",
     "error49": "`🚫` Impossible de trouver le salon 'Membercount'.",
-    "error50": "`\\`🚫\\` Couleur invalide.\n\n> Veuillez utiliser un code couleur hexadécimal.\n\n> Par exemple: \\`#ff0000\\``"
+    "error50": "`\\`🚫\\` Couleur invalide.\n\n> Veuillez utiliser un code couleur hexadécimal.\n\n> Par exemple: \\`#ff0000\\``",
+    "error51": "`\\`🚫\\` Un de mes rôles doit être au-dessus de ${roleAR.toString()} pour effectuer cette action.\n\n> Vous pouvez le faire dans \\`paramètres du serveur -> rôles\\``"
   }
 }

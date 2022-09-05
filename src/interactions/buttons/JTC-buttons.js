@@ -50,7 +50,7 @@ module.exports = class JTCSetupButtons extends Button {
         if (!firstCategory) noParent = true;
 
         //create the channel in the first category
-        const voiceChannel = await guild.channels
+        await guild.channels
           .create({
             name: JTC.create.name,
             type: ChannelType.GuildVoice,
@@ -61,12 +61,12 @@ module.exports = class JTCSetupButtons extends Button {
             await this.client.UpdateGuild(guild, {
               "joinToCreate.channel": channel.id,
             });
+            return button.editReply({
+              content: eval(JTC.create.reply),
+            });
           })
           .catch(() => undefined);
 
-        button.editReply({
-          content: eval(JTC.create.reply),
-        });
         break;
 
       case "delete-JTC":

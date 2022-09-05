@@ -14,7 +14,7 @@ module.exports = class messageReactionAddTracker extends Event {
     if (user.bot || user == null) return;
     const { guild } = messageReaction.message;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const fetchGuild = await this.client.GetGuild(guild);
 
     const msgId = fetchGuild.roleClaim.message;
     if (messageReaction.message.id !== msgId) return;

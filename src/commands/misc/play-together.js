@@ -10,6 +10,9 @@ module.exports = class PlayTogetherCommand extends Command {
       description: "🎮 Play hidden Discord activities in your voice channel.",
       descriptionLocalizations: {
         fr: "🎮 Jouer aux activités cachées de Discord dans votre salon vocal.",
+        de: "🎮 Spiele versteckte Discord-Aktivitäten in deinem Sprachkanal.",
+        "es-ES":
+          "🎮 Juega a actividades ocultas de Discord en tu canal de voz.",
       },
       examples:
         "/play `activity:📽️ Youtube` => Play `Youtube together` in your current voice channel",
@@ -19,9 +22,17 @@ module.exports = class PlayTogetherCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "activity",
-          nameLocalizations: { fr: "activité" },
+          nameLocalizations: {
+            fr: "activité",
+            de: "aktivität",
+            "es-ES": "actividad",
+          },
           description: "🎮 Activity to play",
-          descriptionLocalizations: { fr: "🎮 Activité à jouer" },
+          descriptionLocalizations: {
+            fr: "🎮 Activité à jouer",
+            de: "🎮 Aktivität zum Spielen",
+            "es-ES": "🎮 Actividad para jugar",
+          },
           required: true,
           choices: [
             {

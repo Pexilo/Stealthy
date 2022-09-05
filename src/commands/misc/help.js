@@ -7,16 +7,28 @@ module.exports = class HelpCommand extends Command {
       name: "help",
       nameLocalizations: {},
       description: "🔍 Show commands list.",
-      descriptionLocalizations: { fr: "🔍 Afficher la liste des commandes." },
+      descriptionLocalizations: {
+        fr: "🔍 Afficher la liste des commandes.",
+        de: "🔍 Zeige die Befehlsliste an.",
+        "es-ES": "🔍 Mostrar la lista de comandos.",
+      },
       examples: "/help `command:ping` => 🔍 Show details about command `ping`",
       category: "Misc",
       options: [
         {
           type: ApplicationCommandOptionType.String,
           name: "command",
-          nameLocalizations: { fr: "commande" },
+          nameLocalizations: {
+            fr: "commande",
+            de: "befehl",
+            "es-ES": "comando",
+          },
           description: "🐲 Command name",
-          descriptionLocalizations: { fr: "🐲 Nom de la commande" },
+          descriptionLocalizations: {
+            fr: "🐲 Nom de la commande",
+            de: "🐲 Befehlsname",
+            "es-ES": "🐲 Nombre del comando",
+          },
           required: false,
         },
       ],

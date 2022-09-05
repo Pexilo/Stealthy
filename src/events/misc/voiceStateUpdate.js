@@ -28,7 +28,7 @@ module.exports = class JTCListener extends Event {
      */
 
     const { member, guild } = newState;
-    const fetchGuild = await this.client.getGuild(guild);
+    const fetchGuild = await this.client.GetGuild(guild);
 
     const joinToCreate = fetchGuild.joinToCreate.channel;
     if (!joinToCreate) return;
