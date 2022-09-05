@@ -120,8 +120,10 @@ module.exports = class MuteCommand extends Command {
             .setDescription(eval(mute.embed1.description))
             .setFields(
               {
-                name: mute.embed1.field1.name,
-                value: eval(mute.embed1.field1.value),
+                name: mute.embed1.field1,
+                value: `\`${this.client.PrettyMs(duration, {
+                  verbose: true,
+                })}\``,
                 inline: true,
               },
               {

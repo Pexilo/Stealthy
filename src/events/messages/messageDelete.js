@@ -32,8 +32,8 @@ module.exports = class messageDeleteTracker extends Event {
         })
         .setDescription(eval(messageDelete.embed1.description))
         .setFields({
-          name: messageDelete.embed1.field1.name,
-          value: eval(messageDelete.embed1.field1.value),
+          name: messageDelete.embed1.field1,
+          value: `\`${message.content}\``,
         })
         .setColor("#8B0000")
         .setTimestamp()

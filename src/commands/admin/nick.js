@@ -87,8 +87,8 @@ module.exports = class SetNicknameCommand extends Command {
             .setDescription(eval(nick.embed1.description))
             .addFields(
               {
-                name: nick.embed1.field1.name,
-                value: eval(nick.embed1.field1.value),
+                name: nick.embed1.field1,
+                value: `\`${nickname}\``,
                 inline: true,
               },
               {

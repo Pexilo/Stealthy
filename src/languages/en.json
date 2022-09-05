@@ -49,10 +49,7 @@
         "embed1": {
           "author": "`by ${interaction.user.tag}`",
           "description": "`${member.toString()} has been muted`",
-          "field1": {
-            "name": "Duration",
-            "value": "`\\`${this.client.PrettyMs(duration,{ verbose: true })}\\``"
-          },
+          "field1": "Duration",
           "field2": {
             "name": "Reason",
             "value": "`${reason || 'No reason provided'}`"
@@ -65,10 +62,7 @@
         "embed1": {
           "author": "`by ${interaction.user.tag}`",
           "description": "`${member.toString()}'s nickname has been set.`",
-          "field1": {
-            "name": "Nickname",
-            "value": "`\\`${nickname}\\``"
-          },
+          "field1": "Nickname",
           "field2": {
             "name": "Reason",
             "value": "`${reason || 'No reason provided'}`"
@@ -379,10 +373,7 @@
         "embed1": {
           "author": "`${message.author.username} message removed.`",
           "description": "`Message sent by <@${member.id}> deleted in <#${channel.id}>`",
-          "field1": {
-            "name": "Content",
-            "value": "`\\`${message.content}\\``"
-          },
+          "field1": "Content",
           "field2": "Attachments"
         }
       },
@@ -392,14 +383,8 @@
         "embed1": {
           "author": "`${newMessage.author.username} message edited.`",
           "description": "`[Edited message](${jumpTo}) in ${channel.toString()}`",
-          "field1": {
-            "name": "Before",
-            "value": "`\\`${oldMessage.content}\\``"
-          },
-          "field2": {
-            "name": "After",
-            "value": "`\\`${newMessage.content}\\``"
-          }
+          "field1": "Before",
+          "field2": "After"
         }
       }
     },
@@ -432,8 +417,7 @@
         "reply": "`\\`🧹\\` \\`${number}\\` messages have been cleared`",
         "embed1": {
           "author": "`by ${button.user.tag}`",
-          "description": "`\\`${number}\\` messages have been cleared in ${channel.toString()}`",
-          "footer": "`This action will be canceled in 30 seconds`"
+          "description": "`\\`${number}\\` messages have been cleared in ${channel.toString()}`"
         }
       },
       "JTC": {
@@ -490,7 +474,7 @@
       },
       "roleclaim": {
         "create": {
-          "reply": "`Role Claim message is setup in **<#${channelId}>**.\n\n> To change the roles use, \\`/setup roleclaim add/remove\\` command.\n> You can edit the role claim message with the button bellow or with \\`/setup roleclaim embed\\``",
+          "reply": "`Role Claim message is setup in **<#${channelId}>**.\n\n> To change the roles use, \\`/setup roleclaim add/remove\\` command.\n> You can edit the role claim message with the button below.`",
           "embed1": {
             "title": "Role claim",
             "description": "Role Claim Description\n⬅️ You can also change the color",
@@ -572,7 +556,7 @@
         "reply": "`✅` Member count channel updated."
       },
       "roleclaimEmbed": {
-        "reply": "`✅` Roleclaim embed updated."
+        "reply": "`✅` Roleclaim message updated."
       }
     },
     "selectMenus": {

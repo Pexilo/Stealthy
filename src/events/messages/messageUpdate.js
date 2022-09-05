@@ -39,12 +39,12 @@ module.exports = class messageUpdateTracker extends Event {
         .setDescription(eval(messageUpdate.embed1.description))
         .addFields(
           {
-            name: messageUpdate.embed1.field1.name,
-            value: eval(messageUpdate.embed1.field1.value),
+            name: messageUpdate.embed1.field1,
+            value: `\`${oldMessage.content}\``,
           },
           {
-            name: messageUpdate.embed1.field2.name,
-            value: eval(messageUpdate.embed1.field2.value),
+            name: messageUpdate.embed1.field2,
+            value: `\`${newMessage.content}\``,
           }
         )
         .setColor("#FFA500")
