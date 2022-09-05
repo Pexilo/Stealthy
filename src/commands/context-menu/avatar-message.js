@@ -4,11 +4,17 @@ module.exports = class AvatarMessageContextMenuCommand extends Command {
   constructor(client) {
     super(client, {
       name: "Get-Avatar",
-      nameLocalizations: { fr: "Obtenir-Avatar" },
+      nameLocalizations: {
+        fr: "Obtenir-Avatar",
+        de: "Avatar-Abholen",
+        "es-ES": "Obtener-Avatar",
+      },
       type: "CONTEXT_MENU_MESSAGE",
       description: "🖼️ Get avatar of a user.",
       descriptionLocalizations: {
         fr: "🖼️ Obtenir l'avatar d'un utilisateur.",
+        de: "🖼️ Avatar eines Benutzers abrufen.",
+        "es-ES": "🖼️ Obtener el avatar de un usuario.",
       },
       examples: "Use right click on a message -> `Applications` -> Get-Avatar",
       usage: "https://i.imgur.com/oejd8GS.png",

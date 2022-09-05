@@ -9,6 +9,8 @@ module.exports = class WarnCommand extends Command {
       description: "🔨 Warn a user.",
       descriptionLocalizations: {
         fr: "🔨 Avertir un utilisateur.",
+        de: "🔨 Warne einen Benutzer.",
+        "es-ES": "🔨 Avisar a un usuario.",
       },
       examples:
         "/warn add `member:@Pexi` `reason:a reason` => 🔨 Warn `@Pexi` for `a reason`",
@@ -20,24 +22,48 @@ module.exports = class WarnCommand extends Command {
         {
           type: ApplicationCommandOptionType.Subcommand,
           name: "add",
-          nameLocalizations: { fr: "ajouter" },
+          nameLocalizations: {
+            fr: "ajouter",
+            de: "hinzufügen",
+            "es-ES": "añadir",
+          },
           description: "🔨 Warn a user",
-          descriptionLocalizations: { fr: "🔨 Avertir un utilisateur" },
+          descriptionLocalizations: {
+            fr: "🔨 Avertir un utilisateur",
+            de: "🔨 Warne einen Benutzer",
+            "es-ES": "🔨 Avisar a un usuario",
+          },
           options: [
             {
               type: ApplicationCommandOptionType.User,
               name: "user",
-              nameLocalizations: { fr: "utilisateur" },
+              nameLocalizations: {
+                fr: "utilisateur",
+                de: "benutzer",
+                "es-ES": "usuario",
+              },
               description: "👤 User to warn",
-              descriptionLocalizations: { fr: "👤 Utilisateur à avertir" },
+              descriptionLocalizations: {
+                fr: "👤 Utilisateur à avertir",
+                de: "👤 Benutzer zu warnen",
+                "es-ES": "👤 Usuario a avisar",
+              },
               required: true,
             },
             {
               type: ApplicationCommandOptionType.String,
               name: "reason",
-              nameLocalizations: { fr: "raison" },
+              nameLocalizations: {
+                fr: "raison",
+                de: "grund",
+                "es-ES": "razón",
+              },
               description: "❔ Reason for the warn",
-              descriptionLocalizations: { fr: "❔ Raison de l'avertissement" },
+              descriptionLocalizations: {
+                fr: "❔ Raison de l'avertissement",
+                de: "❔ Grund für die Warnung",
+                "es-ES": "❔ Razón de la advertencia",
+              },
               required: true,
             },
           ],
@@ -45,40 +71,65 @@ module.exports = class WarnCommand extends Command {
         {
           type: ApplicationCommandOptionType.Subcommand,
           name: "remove",
-          nameLocalizations: { fr: "retirer" },
+          nameLocalizations: {
+            fr: "retirer",
+            de: "entfernen",
+            "es-ES": "retirar",
+          },
           description: "🔨 Remove a warn from a user",
           descriptionLocalizations: {
             fr: "🔨 Retirer un avertissement d'un utilisateur",
+            de: "🔨 Entferne eine Warnung von einem Benutzer",
+            "es-ES": "🔨 Eliminar una advertencia de un usuario",
           },
           options: [
             {
               type: ApplicationCommandOptionType.User,
               name: "user",
-              nameLocalizations: { fr: "utilisateur" },
+              nameLocalizations: {
+                fr: "utilisateur",
+                de: "benutzer",
+                "es-ES": "usuario",
+              },
               description: "👤 User for whom to remove the warning",
               descriptionLocalizations: {
                 fr: "👤 l'utilisateur pour lequel retirer l'avertissement",
+                de: "👤 Benutzer, für den die Warnung entfernt werden soll",
+                "es-ES": "👤 Usuario para el que se eliminará la advertencia",
               },
               required: true,
             },
             {
               type: ApplicationCommandOptionType.Integer,
               name: "number",
-              nameLocalizations: { fr: "numéro" },
+              nameLocalizations: {
+                fr: "numéro",
+                de: "nummer",
+                "es-ES": "número",
+              },
               description:
                 "🔢 The index of the warn to remove (see /warn list)",
               descriptionLocalizations: {
                 fr: "🔢 L'index de l'avertissement à retirer (voir /warn liste)",
+                de: "🔢 Der Index der Warnung, die entfernt werden soll (siehe /warn liste)",
+                "es-ES":
+                  "🔢 El índice de la advertencia a eliminar (ver /warn lista)",
               },
               required: true,
             },
             {
               type: ApplicationCommandOptionType.String,
               name: "reason",
-              nameLocalizations: { fr: "raison" },
+              nameLocalizations: {
+                fr: "raison",
+                de: "grund",
+                "es-ES": "razón",
+              },
               description: "❔ Reason for the warn removal",
               descriptionLocalizations: {
                 fr: "❔ Raison du retrait de l'avertissement",
+                de: "❔ Grund für die Warnung",
+                "es-ES": "❔ Razón de la advertencia",
               },
             },
           ],
@@ -86,19 +137,27 @@ module.exports = class WarnCommand extends Command {
         {
           type: ApplicationCommandOptionType.Subcommand,
           name: "list",
-          nameLocalizations: { fr: "liste" },
+          nameLocalizations: { fr: "liste", de: "liste", "es-ES": "lista" },
           description: "🔨 List warns of a user",
           descriptionLocalizations: {
             fr: "🔨 Liste des avertissements d'un utilisateur",
+            de: "🔨 Warnungen eines Benutzers auflisten",
+            "es-ES": "🔨 Lista de advertencias de un usuario",
           },
           options: [
             {
               type: ApplicationCommandOptionType.User,
               name: "user",
-              nameLocalizations: { fr: "utilisateur" },
+              nameLocalizations: {
+                fr: "utilisateur",
+                de: "benutzer",
+                "es-ES": "usuario",
+              },
               description: "👤 User for whom to display the warnings",
               descriptionLocalizations: {
                 fr: "👤 L'utilisateur pour lequel afficher les avertissements",
+                de: "👤 Benutzer, für den die Warnungen angezeigt werden sollen",
+                "es-ES": "👤 Usuario para el que se mostrarán las advertencias",
               },
               required: true,
             },

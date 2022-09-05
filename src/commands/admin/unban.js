@@ -7,7 +7,11 @@ module.exports = class UnBanCommand extends Command {
       name: "unban",
       nameLocalizations: { fr: "deban" },
       description: "🔪 Unban a member from the server.",
-      descriptionLocalizations: { fr: "🔪 Débannir un membre du serveur." },
+      descriptionLocalizations: {
+        fr: "🔪 Débannir un membre du serveur.",
+        de: "🔪 Entbanne einen Benutzer vom Server.",
+        "es-ES": "🔪 Desbanea a un miembro del servidor.",
+      },
       examples:
         "/unban `userid:7963..` => 🔪 Unban `Pexi's id` from the server.\n(you can find the `user id` in your logs)",
       usage: "https://i.imgur.com/CIw2TSM.png",
@@ -18,18 +22,30 @@ module.exports = class UnBanCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "userid",
-          nameLocalizations: { fr: "id-utilisateur" },
+          nameLocalizations: {
+            fr: "id-utilisateur",
+            de: "benutzer-id",
+            "es-ES": "id-usuario",
+          },
           description: "👤 Id of the user to unban",
-          descriptionLocalizations: { fr: "👤 Id de l'utilisateur à débannir" },
+          descriptionLocalizations: {
+            fr: "👤 Id de l'utilisateur à débannir",
+            de: "👤 ID des Benutzers, der entbannt werden soll",
+            "es-ES": "👤 ID del usuario a desbanear",
+          },
           required: true,
         },
 
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
-          nameLocalizations: { fr: "raison" },
+          nameLocalizations: { fr: "raison", de: "grund", "es-ES": "razón" },
           description: "❔ Reason for the unban",
-          descriptionLocalizations: { fr: "❔ Raison du déban" },
+          descriptionLocalizations: {
+            fr: "❔ Raison du déban",
+            de: "❔ Grund für die Entbannung",
+            "es-ES": "❔ Razón del desbaneo",
+          },
         },
       ],
     });

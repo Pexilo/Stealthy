@@ -9,6 +9,8 @@ module.exports = class LockCommand extends Command {
       description: "🔒 Lock a channel.",
       descriptionLocalizations: {
         fr: "🔒 Verrouiller un salon.",
+        de: "🔒 Sperren Sie einen Kanal.",
+        "es-ES": "🔒 Bloquear un canal.",
       },
       examples:
         "/lock `channel:#general` => 🔒 Forbid users from sending messages in `#general`",
@@ -20,18 +22,26 @@ module.exports = class LockCommand extends Command {
         {
           type: ApplicationCommandOptionType.Channel,
           name: "channel",
-          nameLocalizations: { fr: "salon" },
+          nameLocalizations: { fr: "salon", de: "kanal", "es-ES": "canal" },
           description: "📙 Channel to lock",
-          descriptionLocalizations: { fr: "📙 Salon à verrouiller" },
+          descriptionLocalizations: {
+            fr: "📙 Salon à verrouiller",
+            de: "📙 Kanal sperren",
+            "es-ES": "📙 Canal para bloquear",
+          },
           required: true,
           channelTypes: [ChannelType.GuildText],
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
-          nameLocalizations: { fr: "raison" },
+          nameLocalizations: { fr: "raison", de: "grund", "es-ES": "razón" },
           description: "❔ Reason for the lock",
-          descriptionLocalizations: { fr: "❔ Raison du verrouillage" },
+          descriptionLocalizations: {
+            fr: "❔ Raison du verrouillage",
+            de: "❔ Grund für die Sperrung",
+            "es-ES": "❔ Razón del bloqueo",
+          },
         },
       ],
     });
