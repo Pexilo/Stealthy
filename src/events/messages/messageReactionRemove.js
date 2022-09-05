@@ -13,8 +13,7 @@ module.exports = class messageReactionRemoveTracker extends Event {
     if (user.bot) return;
     const { guild } = messageReaction.message;
 
-    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
-    const {} = this.client.la[lang];
+    const fetchGuild = await this.client.getGuild(guild);
 
     const msgId = fetchGuild.roleClaim.message;
     if (messageReaction.message.id !== msgId) return;
