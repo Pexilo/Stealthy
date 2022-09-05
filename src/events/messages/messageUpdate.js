@@ -22,6 +22,9 @@ module.exports = class messageUpdateTracker extends Event {
     const enabledLogs = fetchGuild.logs.enabled;
 
     if (logsChannel && enabledLogs.includes("msgEdit")) {
+      const newContent = newMessage.content.replace(/`/g, "");
+      if (newContent.length === 0) return;
+
       const jumpTo =
         "https://discordapp.com/channels/" +
         guild.id +
@@ -40,11 +43,11 @@ module.exports = class messageUpdateTracker extends Event {
         .addFields(
           {
             name: messageUpdate.embed1.field1,
-            value: `\`${oldMessage.content}\``,
+            value: `\`${oldMessage.content.replace(/`/g, "")}\``,
           },
           {
             name: messageUpdate.embed1.field2,
-            value: `\`${newMessage.content}\``,
+            value: `\`${newContent}\``,
           }
         )
         .setColor("#FFA500")

@@ -18,7 +18,10 @@ module.exports = class translateButtons extends Button {
     const message = await channel.messages.fetch(customId.split("_")[2]);
 
     // Translate the message
-    const translated = await this.client.Translate(message.content, targetlang);
+    const translated = await this.client.Translate(
+      message.content.replace(/`/g, ""),
+      targetlang
+    );
 
     return button.editReply({
       embeds: [
@@ -38,7 +41,7 @@ module.exports = class translateButtons extends Button {
                 } ` +
                 translate.embed1.field1 +
                 ":",
-              value: `${"```"}${message.content}${"```"}`,
+              value: `${"```"}${message.content.replace(/`/g, "")}${"```"}`,
             },
             {
               name:

@@ -24,6 +24,9 @@ module.exports = class messageDeleteTracker extends Event {
     const enabledLogs = fetchGuild.logs.enabled;
 
     if (logsChannel && enabledLogs.includes("msgDelete")) {
+      const content = message.content.replace(/`/g, "");
+      if (content.length === 0) return;
+
       let embed = this.client
         .Embed()
         .setAuthor({
@@ -33,7 +36,7 @@ module.exports = class messageDeleteTracker extends Event {
         .setDescription(eval(messageDelete.embed1.description))
         .setFields({
           name: messageDelete.embed1.field1,
-          value: `\`${message.content}\``,
+          value: `\`${message.content.replace(/`/g, "")}\``,
         })
         .setColor("#8B0000")
         .setTimestamp()
