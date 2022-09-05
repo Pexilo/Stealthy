@@ -7,7 +7,10 @@ module.exports = class roleClaimEmbedModal extends Modal {
 
   async execute(modal) {
     const { guild } = modal;
-    const fetchGuild = await this.client.getGuild(guild);
+
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { roleclaimEmbed } = this.client.la[lang].interactions.modals;
 
     const msgId = fetchGuild.roleClaim.message;
     const channelId = fetchGuild.roleClaim.channel;
@@ -19,8 +22,7 @@ module.exports = class roleClaimEmbedModal extends Modal {
       msg = await foundChannel.messages.fetch(msgId);
     } catch (e) {
       return modal.reply({
-        content:
-          "`⛔` An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
+        content: errors.error11,
         ephemeral: true,
       });
     }
@@ -49,7 +51,7 @@ module.exports = class roleClaimEmbedModal extends Modal {
         rolesEmbed.setColor(color);
       } catch (e) {
         return modal.reply({
-          content: `\`🚫\` Invalid color.\n\n> Please use a hexadecimal color code.\n\n> For example: \`#ff0000\``,
+          content: eval(errors.error50),
           ephemeral: true,
         });
       }
@@ -57,7 +59,7 @@ module.exports = class roleClaimEmbedModal extends Modal {
 
     if (!title && !description && !footer && !color)
       return modal.reply({
-        content: "`🚫` No changes made.",
+        content: errors.error48,
         ephemeral: true,
       });
 
@@ -66,7 +68,7 @@ module.exports = class roleClaimEmbedModal extends Modal {
     });
 
     await modal.reply({
-      content: "`✅` Roleclaim embed updated.",
+      content: roleclaimEmbed.reply,
       ephemeral: true,
     });
   }

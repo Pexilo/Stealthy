@@ -15,11 +15,16 @@ module.exports = class messageUpdateTracker extends Event {
     if (newMessage.author.bot || newMessage.content == oldMessage.content)
       return;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { messageUpdate } = this.client.la[lang].events.messages;
+
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
     if (logsChannel && enabledLogs.includes("msgEdit")) {
+      const newContent = newMessage.content.replace(/`/g, "");
+      if (newContent.length === 0) return;
+
       const jumpTo =
         "https://discordapp.com/channels/" +
         guild.id +
@@ -31,18 +36,18 @@ module.exports = class messageUpdateTracker extends Event {
       const embedInfo = this.client
         .Embed()
         .setAuthor({
-          name: `${newMessage.author.username} edited a message.`,
+          name: eval(messageUpdate.embed1.author),
           iconURL: member.user.displayAvatarURL({ dynamic: true }),
         })
-        .setDescription(`[Edited message](${jumpTo}) in ${channel.toString()}`)
+        .setDescription(eval(messageUpdate.embed1.description))
         .addFields(
           {
-            name: "Old message" + ":",
-            value: `${"```"}${oldMessage.content}${"```"}`,
+            name: messageUpdate.embed1.field1,
+            value: `\`${oldMessage.content.replace(/`/g, "")}\``,
           },
           {
-            name: "Modified message" + ":",
-            value: `${"```"}${newMessage.content}${"```"}`,
+            name: messageUpdate.embed1.field2,
+            value: `\`${newContent}\``,
           }
         )
         .setColor("#FFA500")

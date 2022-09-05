@@ -5,7 +5,11 @@ module.exports = class LockCommand extends Command {
   constructor(client) {
     super(client, {
       name: "lock",
-      description: "🔒 Lock the current channel.",
+      nameLocalizations: {},
+      description: "🔒 Lock a channel.",
+      descriptionLocalizations: {
+        fr: "🔒 Verrouiller un salon.",
+      },
       examples:
         "/lock `channel:#general` => 🔒 Forbid users from sending messages in `#general`",
       usage: "https://i.imgur.com/MTb1WLk.png",
@@ -16,14 +20,18 @@ module.exports = class LockCommand extends Command {
         {
           type: ApplicationCommandOptionType.Channel,
           name: "channel",
+          nameLocalizations: { fr: "salon" },
           description: "📙 Channel to lock",
+          descriptionLocalizations: { fr: "📙 Salon à verrouiller" },
           required: true,
           channelTypes: [ChannelType.GuildText],
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the lock",
+          descriptionLocalizations: { fr: "❔ Raison du verrouillage" },
         },
       ],
     });
@@ -33,16 +41,18 @@ module.exports = class LockCommand extends Command {
     if (!(await this.client.Defer(interaction))) return;
     const { options, guild } = interaction;
 
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { lock } = this.client.la[lang].commands.admin;
+
     const channel = options.getChannel("channel");
-    if (!channel)
-      return interaction.editReply(`\`🚫\` I can't find this channel.`);
+    if (!channel) return interaction.editReply(errors.error4);
     const reason = options.getString("reason");
 
     if (!channel.permissionsFor(guild.id).has("SendMessages")) {
-      return interaction.editReply("`🚫` This channel is already locked.");
+      return interaction.editReply(errors.error5);
     }
 
-    const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
@@ -51,14 +61,10 @@ module.exports = class LockCommand extends Command {
         SendMessages: false,
       });
     } catch (e) {
-      return interaction.editReply(
-        "`🚫` You don't have permission to lock this channel."
-      );
+      return interaction.editReply(errors.error6);
     }
 
-    interaction.editReply(
-      `\`🔒\` Channel ${channel.toString()} has been locked.\n\n> Use \`/unlock\` to unlock it.`
-    );
+    interaction.editReply(eval(lock.reply));
 
     if (!logsChannel || !enabledLogs.includes("channels")) return;
     logsChannel
@@ -67,15 +73,15 @@ module.exports = class LockCommand extends Command {
           this.client
             .Embed()
             .setAuthor({
-              name: `by ${interaction.user.tag}`,
+              name: eval(lock.embed1.author),
               iconURL: interaction.user.displayAvatarURL({
                 dynamic: true,
               }),
             })
-            .setDescription(channel.toString() + " has been locked.")
+            .setDescription(eval(lock.embed1.description))
             .addFields({
-              name: "Reason",
-              value: `${reason || "No reason provided"}`,
+              name: lock.embed1.field1.name,
+              value: eval(lock.embed1.field1.value),
             })
             .setThumbnail(
               "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/322/locked_1f512.png"

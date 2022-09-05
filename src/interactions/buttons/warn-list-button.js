@@ -9,7 +9,9 @@ module.exports = class warnListButton extends Button {
     if (!(await this.client.Defer(button))) return;
     const { guild, message } = button;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { warnList } = this.client.la[lang].interactions.buttons;
 
     // find if the button is on the logged embed or the replied message
     let res;
@@ -20,12 +22,11 @@ module.exports = class warnListButton extends Button {
 
     // find if the user matches the id of a logged one
     const filteredUser = fetchGuild.logs.users.filter((u) => u.id === userId);
-    if (filteredUser.length === 0)
-      return button.editReply(`\`🚫\` This user has no warns.`);
+    if (filteredUser.length === 0) return button.editReply(errors.error32);
 
     const member = guild.members.cache.get(userId);
 
-    let warnList = "";
+    let warns = "";
     let i = filteredUser.length + 1;
     let s = 1;
 
@@ -38,10 +39,11 @@ module.exports = class warnListButton extends Button {
         i--;
         s++;
         if (s > 10) return;
-        warnList += `\n**${i}:** by <@${
-          warn.moderator
-        }> - ${this.client.Formatter(warn.date, "R")}\n`;
-        warnList += `Reason: \`${warn.reason}\`\n`;
+        warns += `\n**${i}:** by <@${warn.moderator}> - ${this.client.Formatter(
+          warn.date,
+          "R"
+        )}\n`;
+        warns += eval(warnList.reason);
       });
 
     return button.editReply({
@@ -49,10 +51,10 @@ module.exports = class warnListButton extends Button {
         this.client
           .Embed()
           .setAuthor({
-            name: `${member.user.tag} warns 🔨`,
+            name: eval(warnList.embed1.author),
             iconURL: member.user.avatarURL({ dynamic: true }),
           })
-          .setDescription(warnList)
+          .setDescription(warns)
           .setTimestamp()
           .setFooter({
             text: `${member.user.tag} - ${member.user.id}`,

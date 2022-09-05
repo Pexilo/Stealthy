@@ -5,7 +5,11 @@ module.exports = class BanCommand extends Command {
   constructor(client) {
     super(client, {
       name: "ban",
+      nameLocalizations: {},
       description: "🔪 Ban a member from the server.",
+      descriptionLocalizations: {
+        fr: "🔪 Bannir un membre du serveur.",
+      },
       examples:
         "/ban `user:@Pexi` `days:3` => 🔪 Ban `@Pexi` from the server and delete the last `3 days` of messages",
       usage: "https://i.imgur.com/o0Dm3A6.png",
@@ -16,13 +20,19 @@ module.exports = class BanCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
+          nameLocalizations: { fr: "utilisateur" },
           description: "👤 User to ban",
+          descriptionLocalizations: { fr: "👤 Utilisateur à bannir" },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.Integer,
           name: "days",
-          description: "❌ Days of messages to delete",
+          nameLocalizations: { fr: "jours" },
+          description: "❌ User messages to delete (in days)",
+          descriptionLocalizations: {
+            fr: "❌ Messages de l'utilisateur à supprimer (en jours)",
+          },
           required: true,
           min_value: 0,
           max_value: 7,
@@ -30,7 +40,9 @@ module.exports = class BanCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the ban",
+          descriptionLocalizations: { fr: "❔ Raison du bannissement" },
         },
       ],
     });
@@ -40,33 +52,28 @@ module.exports = class BanCommand extends Command {
     if (!(await this.client.Defer(interaction))) return;
     const { options, guild } = interaction;
 
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { ban } = this.client.la[lang].commands.admin;
+
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
+    if (!member) return interaction.editReply(errors.error1);
     const deleteDays = options.getInteger("days");
     const reason = options.getString("reason");
 
-    const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
     try {
       await member.ban({
         deleteMessageDays: deleteDays,
-        reason: `by ${interaction.member.user.tag}${
-          reason ? ": " + reason : ""
-        }`,
+        reason: eval(ban.auditLog),
       });
     } catch (e) {
-      return interaction.editReply(
-        "`🚫` You don't have permission to ban this user."
-      );
+      return interaction.editReply(eval(errors.error2));
     }
 
-    interaction.editReply(
-      `\`🔪\` ${member.toString()} has been banned from the server.\n\n> \`${deleteDays}\` days of messages have been cleared${
-        reason ? `\n> Reason: \`${reason}\`` : ""
-      }`
-    );
+    interaction.editReply(eval(ban.reply));
 
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
     logsChannel
@@ -75,20 +82,22 @@ module.exports = class BanCommand extends Command {
           this.client
             .Embed()
             .setAuthor({
-              name: `by ${interaction.user.tag}`,
+              name: eval(ban.embed1.author),
               iconURL: interaction.user.displayAvatarURL({
                 dynamic: true,
               }),
             })
-            .setDescription(member.toString() + " has been banned.")
+            .setDescription(eval(ban.embed1.description))
             .addFields(
               {
-                name: "Messages deleted",
-                value: `${deleteDays} days`,
+                name: ban.embed1.field1.name,
+                value: eval(ban.embed1.field1.value),
+                inline: true,
               },
               {
-                name: "Reason",
-                value: `${reason || "No reason provided"}`,
+                name: ban.embed1.field2.name,
+                value: eval(ban.embed1.field2.value),
+                inline: true,
               }
             )
             .setThumbnail(member.displayAvatarURL({ dynamic: true }))

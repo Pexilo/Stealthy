@@ -6,7 +6,11 @@ module.exports = class PlayTogetherCommand extends Command {
   constructor(client) {
     super(client, {
       name: "play",
+      nameLocalizations: {},
       description: "🎮 Play hidden Discord activities in your voice channel.",
+      descriptionLocalizations: {
+        fr: "🎮 Jouer aux activités cachées de Discord dans votre salon vocal.",
+      },
       examples:
         "/play `activity:📽️ Youtube` => Play `Youtube together` in your current voice channel",
       usage: "https://i.imgur.com/osohUzS.png",
@@ -15,7 +19,9 @@ module.exports = class PlayTogetherCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "activity",
+          nameLocalizations: { fr: "activité" },
           description: "🎮 Activity to play",
+          descriptionLocalizations: { fr: "🎮 Activité à jouer" },
           required: true,
           choices: [
             {
@@ -65,11 +71,15 @@ module.exports = class PlayTogetherCommand extends Command {
   }
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
+    const { guild, options, member } = interaction;
 
-    const { options, member } = interaction;
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { playTogether } = this.client.la[lang].commands.misc;
+
     if (!member.voice.channel)
       return interaction.editReply({
-        content: "🔇 You need to be in a voice channel.",
+        content: errors.error37,
       });
 
     this.client.discordTogether = new DiscordTogether(this.client);
@@ -166,23 +176,13 @@ module.exports = class PlayTogetherCommand extends Command {
             this.client
               .Embed()
               .setAuthor({
-                name: `${activities[activity].name} ${
-                  activities[activity].nitro
-                    ? "⚠️ Only for boosted servers"
-                    : ""
-                }`,
+                name: eval(playTogether.embed1.author),
                 icon_url: activities[activity].iconURL,
               })
               .setThumbnail(activities[activity].iconURL)
-              .setDescription(
-                `Click the button below to begin the activity!\n\nYou are currently in <#${member.voice.channel.id}>`
-              )
+              .setDescription(eval(playTogether.embed1.description))
               .setFooter({
-                text: `${
-                  activities[activity].nitro
-                    ? "⚠️ This discord server must be at least level 2 Nitro to play this activity."
-                    : "The activity will begin in your current voice channel."
-                }`,
+                text: eval(playTogether.embed1.footer),
               })
               .setColor(activities[activity].color),
           ],

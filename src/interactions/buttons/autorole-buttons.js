@@ -8,41 +8,36 @@ module.exports = class AutoRoleSetupButtons extends Button {
   async execute(button) {
     if (!(await this.client.Defer(button))) return;
     const { guild, member } = button;
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { autorole } = this.client.la[lang].interactions.buttons;
 
     switch (button.customId) {
       case "reset-autorole":
         if (!member.permissions.has("ManageGuild"))
-          return button.editReply(
-            `\`🚫\` You don't have permission to do that!`
-          );
+          return button.editReply(errors.error40);
 
         if (fetchGuild.autoRole.roles.length === 0)
-          return button.editReply(`\`🚫\` The autorole system is not set.`);
+          return button.editReply(errors.error23);
 
-        await this.client.updateGuild(guild, {
+        await this.client.UpdateGuild(guild, {
           "autoRole.roles": [],
         });
 
-        return button.editReply(`\`❎\` The autorole system as been reset`);
+        return button.editReply(autorole.reset.reply);
 
       case "list-autorole":
         const autoroleArray = fetchGuild.autoRole.roles;
 
-        if (autoroleArray.length === 0)
-          return button.editReply(
-            `\`🚫\` No autorole set.\n\n> Set one with \`/setup autorole add\``
-          );
+        if (autoroleArray.length === 0) return button.editReply(errors.error23);
 
         return button.editReply({
-          content: `\`✅\` Roles that will be given to newcomers: ${autoroleArray
-            .map((r) => `<@&${r}>`)
-            .join(", ")}`,
+          content: eval(autorole.list.reply),
           components: [
             this.client.ButtonRow([
               {
                 customId: "reset-autorole",
-                label: "Reset",
+                label: autorole.button1,
                 style: "SECONDARY",
                 emoji: "🗑",
               },

@@ -12,19 +12,20 @@ module.exports = class ClearConfirmButton extends Button {
     const number = message.content.match(/\d+/)[0];
     channel.bulkDelete(number).catch(() => {
       replied = true;
-      return button.editReply(
-        `\`🚫\` You can't purge messages that are older than 14 days.`
-      );
+      return button.editReply(errors.error41);
     });
     await this.client.Wait(2000);
     if (replied) return;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { clearConfirm } = this.client.la[lang].interactions.buttons;
+
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
     button.editReply({
-      content: "⛑️ " + `\`${number}\`` + " messages have been cleared",
+      content: eval(clearConfirm.reply),
     });
 
     if (!logsChannel || !enabledLogs.includes("channels")) return;
@@ -34,20 +35,16 @@ module.exports = class ClearConfirmButton extends Button {
           this.client
             .Embed()
             .setAuthor({
-              name: `by ${button.user.tag}`,
+              name: eval(clearConfirm.embed1.author),
               iconURL: button.user.displayAvatarURL({
                 dynamic: true,
               }),
             })
-            .setDescription(
-              `\`${number}\`` +
-                " messages have been cleared in " +
-                channel.toString()
-            )
+            .setDescription(eval(clearConfirm.embed1.description))
             .setTimestamp()
-            .setColor("#ea596e")
+            .setColor("#ffbe3f")
             .setThumbnail(
-              "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/322/rescue-workers-helmet_26d1-fe0f.png"
+              "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/322/broom_1f9f9.png"
             ),
         ],
       })

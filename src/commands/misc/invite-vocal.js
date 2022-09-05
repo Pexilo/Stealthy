@@ -5,9 +5,13 @@ module.exports = class InviteVocalCommand extends Command {
   constructor(client) {
     super(client, {
       name: "invite-vc",
-      description: "💌 Invite someone to your vocal channel.",
+      nameLocalizations: {},
+      description: "📨 Invite someone to your vocal channel.",
+      descriptionLocalizations: {
+        fr: "📨 Inviter un membre dans votre salon vocal.",
+      },
       examples:
-        "/invite-vc `member:@Pexilo` => 📧 Invite (DM) `@Pexilo` to your voice channel",
+        "/invite-vc `member:@Pexilo` => 📨 Invite (DM) `@Pexilo` to your voice channel",
       usage: "https://i.imgur.com/5NjZuQp.png",
       category: "Misc",
       clientPermissions: ["SendMessages"],
@@ -16,7 +20,9 @@ module.exports = class InviteVocalCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "member",
-          description: "💡 The user to invite",
+          nameLocalizations: { fr: "membre" },
+          description: "💡 Member to invite",
+          descriptionLocalizations: { fr: "💡 Le membre à inviter" },
           required: true,
         },
       ],
@@ -32,11 +38,15 @@ module.exports = class InviteVocalCommand extends Command {
 
     if (!(await this.client.Defer(interaction))) return;
     const { options, member, guild } = interaction;
+
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { inviteVocal } = this.client.la[lang].commands.misc;
+
     const voiceChannel = member.voice.channel;
 
     // Check if the user is in a voice channel (voiceChannel is null if the user isn't)
-    if (!voiceChannel)
-      return interaction.editReply("`🚫` You are not in a voice channel");
+    if (!voiceChannel) return interaction.editReply(errors.error37);
 
     const targetMember = options.getMember("member");
 
@@ -47,13 +57,10 @@ module.exports = class InviteVocalCommand extends Command {
           this.client
             .Embed()
             .setAuthor({
-              name: "Invitation received",
+              name: inviteVocal.embed1.author,
               iconURL: member.user.avatarURL({ dynamic: true }),
             })
-            .setDescription(
-              `${member} has invited you to <#${voiceChannel.id}>\n
-              *💡Click the channel name to join*`
-            )
+            .setDescription(eval(inviteVocal.embed1.description))
             .setFooter({
               text: guild.name,
               iconURL: guild.iconURL({ dynamic: true }),
@@ -62,14 +69,9 @@ module.exports = class InviteVocalCommand extends Command {
       })
       // If the DM can't be sent, return an error with advice to fix the issue
       .catch(() => {
-        return interaction.editReply(
-          `\`🚫\` Can not send message to ${targetMember.toString()}
-          > 1. The user don't accept direct messages,
-          > 2. The user is not in the same server as the bot,
-          > 3. The user as blocked the bot.`
-        );
+        return interaction.editReply(eval(errors.error38));
       });
 
-    interaction.editReply(`💌 Invite sent to ${targetMember.toString()}`);
+    interaction.editReply(eval(inviteVocal.reply));
   }
 };

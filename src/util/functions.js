@@ -235,12 +235,12 @@ module.exports = (client) => {
   };
 
   /* This function is used to get the guild data from the database. */
-  client.getGuild = async (guild) => {
+  client.GetGuild = async (guild) => {
     return await Guild.findOne({ id: guild.id });
   };
 
   /* This function is used to create a new guild in the database. */
-  client.createGuild = async (guild) => {
+  client.CreateGuild = async (guild) => {
     const createGuild = new Guild({ id: guild.id });
     createGuild
       .save()
@@ -252,7 +252,7 @@ module.exports = (client) => {
   };
 
   /* This function is used to delete a guild from the database. */
-  client.deleteGuild = async (guild) => {
+  client.DeleteGuild = async (guild) => {
     await Guild.deleteOne({ id: guild.id }).then(() =>
       console.log(
         `➖ Guild: ${guild.name} - ${guild.id} - ${guild.members.cache.size} users`
@@ -261,8 +261,8 @@ module.exports = (client) => {
   };
 
   /* This function is used to update the guild data in the database. */
-  client.updateGuild = async (guild, settings) => {
-    let guildData = await client.getGuild(guild);
+  client.UpdateGuild = async (guild, settings) => {
+    let guildData = await client.GetGuild(guild);
     if (typeof guildData != "object") guildData = {};
     // if the key is an object
     for (const key in settings) {
@@ -279,5 +279,12 @@ module.exports = (client) => {
       }
     }
     return guildData.updateOne(settings);
+  };
+
+  /* This function is used to get the db data and language. */
+  client.FetchAndGetLang = async (guild) => {
+    const guildData = await client.GetGuild(guild);
+    if (guildData) return { fetchGuild: guildData, lang: guildData.language };
+    else return { fetchGuild: null, lang: null };
   };
 };

@@ -1,14 +1,16 @@
 const { Command } = require("sheweny");
-const { languageFlags } = require("../../languageList");
 
 module.exports = class TranslateMessageContextMenuCommand extends Command {
   constructor(client) {
     super(client, {
       name: "Translate",
+      nameLocalizations: { fr: "Traduire" },
       type: "CONTEXT_MENU_MESSAGE",
       description: "🔖 Translate a message.",
-      examples:
-        "Use right click on a message -> `Applications` -> Translate.\n(Translate in server selected language)",
+      descriptionLocalizations: {
+        fr: "🔖 Traduire un message.",
+      },
+      examples: "Use right click on a message -> `Applications` -> Translate.",
       usage: "https://i.imgur.com/zjLEvcb.png",
       category: "Context-Menu",
     });
@@ -19,49 +21,49 @@ module.exports = class TranslateMessageContextMenuCommand extends Command {
     const { guild, options } = interaction;
 
     const message = options.getMessage("message");
-    const fetchGuild = await this.client.getGuild(guild);
-    const lang = fetchGuild.language;
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { translateMessage } = this.client.la[lang].commands.contextMenu;
 
     if (!message || message.content.length === 0)
-      return interaction.editReply({
-        content: await this.client.FastTranslate(
-          "`🚫` Unable to translate this message",
-          lang
-        ),
-      });
+      return interaction.editReply(errors.error35);
 
-    const translated = await this.client.Translate(message.content, lang);
+    // what language the user can translate to
+    const translateTo = {
+      en: "🇺🇸",
+      fr: "🇫🇷",
+      de: "🇩🇪",
+      es: "🇪🇸",
+      it: "🇮🇹",
+      pt: "🇵🇹",
+      ru: "🇷🇺",
+      ja: "🇯🇵",
+    };
+
+    // sort languages with the guild language in first
+    const sortedLanguages = {
+      [lang]: translateTo[lang],
+      ...Object.fromEntries(
+        Object.entries(translateTo).filter(([key]) => key !== lang)
+      ),
+    };
+
+    // create the buttons
+    const languagesButtons = Object.entries(sortedLanguages).map(
+      ([key, value]) => {
+        return {
+          customId: `translate_${key}_${message.id}`,
+          style: key === lang ? "PRIMARY" : "SECONDARY",
+          emoji: value,
+        };
+      }
+    );
+
     await interaction.editReply({
-      embeds: [
-        this.client
-          .Embed()
-          .setAuthor({
-            name: message.author.tag,
-            iconURL: message.author.displayAvatarURL({ dynamic: true }),
-          })
-          .addFields(
-            {
-              name:
-                `${
-                  languageFlags[
-                    translated.translations[0].detected_source_language.toLowerCase()
-                  ]
-                } ` +
-                `${await this.client.FastTranslate("Original", lang)}` +
-                ":",
-              value: `${"```"}${message.content}${"```"}`,
-            },
-            {
-              name:
-                `${languageFlags[lang]} ` +
-                `${await this.client.FastTranslate("Translation", lang)}` +
-                ":",
-              value: `${"```"}${translated.translations[0].text}${"```"}`,
-            }
-          )
-          .setFooter({
-            text: `Powered by DeepL.com`,
-          }),
+      content: translateMessage.reply,
+      components: [
+        this.client.ButtonRow(languagesButtons.slice(0, 5)),
+        this.client.ButtonRow(languagesButtons.slice(5, 10)),
       ],
     });
   }
