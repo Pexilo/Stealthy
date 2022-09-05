@@ -64,9 +64,8 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 ## 📬 Future updates
 
-- [x] 🤖 Discord `v14` [2b80de7](https://github.com/Pexilo/Stealthy/commit/2b80de7979f529222495512d52cd9480ee326869)
-- [x] 🚀 Sheweny `v4` [2b80de7](https://github.com/Pexilo/Stealthy/commit/2b80de7979f529222495512d52cd9480ee326869)
-- [x] 💬 Languages support
+- [x] 🤖 Discord `v14` / 🚀 Sheweny `v4` [`1.1.0`](https://github.com/Pexilo/Stealthy/releases/tag/1.1.0)
+- [x] 💬 Languages support [`1.2.0`](https://github.com/Pexilo/Stealthy/releases/tag/1.2.0)
 - [ ] ⚒️ Better permissions
 - [ ] 🗂️ Multiple Role Claim, 🔉 Join to Create
 - [ ] 🧮 Role Claim types _(reaction, select menu, buttons)_
