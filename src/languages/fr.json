@@ -312,7 +312,7 @@
         "embed1": {
           "author": "`${activities[activity].name} ${activities[activity].nitro ? '⚠️ Seulement pour les serveurs boostés': ''}`",
           "description": "`Cliquez sur le bouton ci-dessous pour commencer l'activité!\n\nVous êtes actuellement dans <#${member.voice.channel.id}>`",
-          "footer": "`${activities[activity].nitro ? '⚠️ Ce serveur discord doit être au moins niveau 2 Nitro pour jouer à cette activité.' : 'L'activité commencera dans votre salon vocal actuel.'}`"
+          "footer": "`${activities[activity].nitro ? '⚠️ Ce serveur discord doit être au moins niveau 2 Nitro pour jouer à cette activité.' : 'L\\'activité commencera dans votre salon vocal actuel.'}`"
         }
       },
       "serverinfo": {
@@ -341,7 +341,10 @@
   },
   "events": {
     "guild": {
-      "guildCreate": {},
+      "guildCreate": {
+        "reply": "`Salut 👋, je suis **${this.client.user.username}**! \\`🐲\\`\n😄 Geureux d'accepter l'invitation pour **${guild.name}**.\nJe suis actuellement présent sur \\`${this.client.guilds.cache.size}\\` serveurs!\n\n> Je propose des fonctionnalités pour **améliorer le comportement de votre serveur**:\n> des commandes d'administration, un système de réaction pour les rôles, la création de salon vocal... et bien plus encore \\`🦾\\`\n> *Je peux même lancer une activité Youtube Together dans votre salon vocal!*\n\n\\`💡\\` Il est **fortement recommandé de me configurer** en utilisant le **bouton ci-dessous** et les commandes \\`/setup\\`.\n\\`${supportedLang.toUpperCase()}\\` ${langFlag} a été automatiquement défini, selon la langue du serveur.`",
+        "button1": "Setup"
+      },
       "guildDelete": {},
       "guildMemberAdd": {
         "embed1": {

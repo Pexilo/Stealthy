@@ -336,7 +336,10 @@
   },
   "events": {
     "guild": {
-      "guildCreate": {},
+      "guildCreate": {
+        "reply": "`Hello there 👋, I'm **${this.client.user.username}**! \\`🐲\\`\n😄 I gladly accept the invitation for **${guild.name}**.\nCurrently helping \\`${this.client.guilds.cache.size}\\` servers!\n\n> I provide features to **improve the behavior of your server**:\n> admin commands, role claim, join to create... and much more \\`🦾\\`\n> *I even have the ability to run a Youtube Together activity in your voice channel!*\n\n\\`💡\\` It is **strongly suggested to configure me** using the **button below** and the \\`/setup\\` commands.\n\\`${supportedLang.toUpperCase()}\\` ${langFlag} has been automatically set, according to the server's language.`",
+        "button1": "Setup"
+      },
       "guildDelete": {},
       "guildMemberAdd": {
         "embed1": {
