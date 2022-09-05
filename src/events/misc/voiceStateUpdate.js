@@ -54,7 +54,7 @@ module.exports = class JTCListener extends Event {
         // Delete the empty channel and the entry in the database
         oldChannel.delete().catch(() => undefined);
         JTCsTab.splice(JTCsTab.indexOf(oldChannel.id), 1);
-        await this.client.updateGuild(guild, {
+        await this.client.UpdateGuild(guild, {
           "joinToCreate.activeChannels": JTCsTab,
         });
         // If the user changed channel we want to make sure before stopping the process, where the user is connected to
@@ -85,11 +85,11 @@ module.exports = class JTCListener extends Event {
             () => member.voice.setChannel(channel).catch(() => undefined),
             500
           );
-          channel.lockPermissions();
+          channel.lockPermissions().catch(() => undefined);
         })
         .catch(() => undefined);
 
-      await this.client.updateGuild(guild, {
+      await this.client.UpdateGuild(guild, {
         "joinToCreate.activeChannels": JTCsTab,
       });
 
@@ -102,7 +102,7 @@ module.exports = class JTCListener extends Event {
       if (voiceChannel.members.size < 1) {
         voiceChannel.delete().catch(() => undefined);
         JTCsTab.splice(JTCsTab.indexOf(voiceChannel.id), 1);
-        await this.client.updateGuild(guild, {
+        await this.client.UpdateGuild(guild, {
           "joinToCreate.activeChannels": JTCsTab,
         });
       }

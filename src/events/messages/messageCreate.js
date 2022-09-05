@@ -20,7 +20,9 @@ module.exports = class messageCreateTracker extends Event {
         message.content.includes("discord.com/invite/")) &&
       !member.permissions.has("ManageMessages")
     ) {
-      const fetchGuild = await this.client.getGuild(guild);
+      const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+      const { messageCreate } = this.client.la[lang].events.messages;
+
       const delDcInvitesState =
         fetchGuild.moderationTools.enabled.includes("delDcInvites");
       if (!delDcInvitesState) return;
@@ -39,22 +41,14 @@ module.exports = class messageCreateTracker extends Event {
               this.client
                 .Embed()
                 .setAuthor({
-                  name: `${message.author.username} has sent an invite link.`,
+                  name: eval(messageCreate.embed1.author),
                   iconURL: member.user.displayAvatarURL({ dynamic: true }),
                 })
-                .setDescription(
-                  `Message sent by <@${member.id}> deleted in <#${channel.id}>`
-                )
-                .addFields(
-                  {
-                    name: "\u200B",
-                    value: `${"```"}${message.content}${"```"}`,
-                  },
-                  {
-                    name: "Reason" + ":",
-                    value: "Invite link",
-                  }
-                )
+                .setDescription(eval(messageCreate.embed1.description))
+                .addFields({
+                  name: messageCreate.embed1.field1.name,
+                  value: messageCreate.embed1.field1.value,
+                })
                 .setColor("#ffcc4d")
                 .setThumbnail(
                   "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/warning_26a0-fe0f.png"

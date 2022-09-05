@@ -5,7 +5,11 @@ module.exports = class WarnCommand extends Command {
   constructor(client) {
     super(client, {
       name: "warn",
+      nameLocalizations: {},
       description: "🔨 Warn a user.",
+      descriptionLocalizations: {
+        fr: "🔨 Avertir un utilisateur.",
+      },
       examples:
         "/warn add `member:@Pexi` `reason:a reason` => 🔨 Warn `@Pexi` for `a reason`",
       usage: "https://i.imgur.com/CjV2LF0.png",
@@ -16,18 +20,24 @@ module.exports = class WarnCommand extends Command {
         {
           type: ApplicationCommandOptionType.Subcommand,
           name: "add",
+          nameLocalizations: { fr: "ajouter" },
           description: "🔨 Warn a user",
+          descriptionLocalizations: { fr: "🔨 Avertir un utilisateur" },
           options: [
             {
               type: ApplicationCommandOptionType.User,
               name: "user",
+              nameLocalizations: { fr: "utilisateur" },
               description: "👤 User to warn",
+              descriptionLocalizations: { fr: "👤 Utilisateur à avertir" },
               required: true,
             },
             {
               type: ApplicationCommandOptionType.String,
               name: "reason",
+              nameLocalizations: { fr: "raison" },
               description: "❔ Reason for the warn",
+              descriptionLocalizations: { fr: "❔ Raison de l'avertissement" },
               required: true,
             },
           ],
@@ -35,37 +45,61 @@ module.exports = class WarnCommand extends Command {
         {
           type: ApplicationCommandOptionType.Subcommand,
           name: "remove",
+          nameLocalizations: { fr: "retirer" },
           description: "🔨 Remove a warn from a user",
+          descriptionLocalizations: {
+            fr: "🔨 Retirer un avertissement d'un utilisateur",
+          },
           options: [
             {
               type: ApplicationCommandOptionType.User,
               name: "user",
-              description: "👤 User to remove a warn from",
+              nameLocalizations: { fr: "utilisateur" },
+              description: "👤 User for whom to remove the warning",
+              descriptionLocalizations: {
+                fr: "👤 l'utilisateur pour lequel retirer l'avertissement",
+              },
               required: true,
             },
             {
               type: ApplicationCommandOptionType.Integer,
               name: "number",
+              nameLocalizations: { fr: "numéro" },
               description:
                 "🔢 The index of the warn to remove (see /warn list)",
+              descriptionLocalizations: {
+                fr: "🔢 L'index de l'avertissement à retirer (voir /warn liste)",
+              },
               required: true,
             },
             {
               type: ApplicationCommandOptionType.String,
               name: "reason",
+              nameLocalizations: { fr: "raison" },
               description: "❔ Reason for the warn removal",
+              descriptionLocalizations: {
+                fr: "❔ Raison du retrait de l'avertissement",
+              },
             },
           ],
         },
         {
           type: ApplicationCommandOptionType.Subcommand,
           name: "list",
-          description: "🔨 List all warns for a user",
+          nameLocalizations: { fr: "liste" },
+          description: "🔨 List warns of a user",
+          descriptionLocalizations: {
+            fr: "🔨 Liste des avertissements d'un utilisateur",
+          },
           options: [
             {
               type: ApplicationCommandOptionType.User,
               name: "user",
-              description: "👤 The user to list warns of",
+              nameLocalizations: { fr: "utilisateur" },
+              description: "👤 User for whom to display the warnings",
+              descriptionLocalizations: {
+                fr: "👤 L'utilisateur pour lequel afficher les avertissements",
+              },
               required: true,
             },
           ],
@@ -77,10 +111,13 @@ module.exports = class WarnCommand extends Command {
     if (!(await this.client.Defer(interaction))) return;
     const { guild, options } = interaction;
 
-    const member = options.getMember("user");
-    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { warn } = this.client.la[lang].commands.admin;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const member = options.getMember("user");
+    if (!member) return interaction.editReply(errors.error1);
+
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
@@ -106,15 +143,15 @@ module.exports = class WarnCommand extends Command {
         };
 
         userArray.push(user);
-        await this.client.updateGuild(guild, { "logs.users": userArray });
+        await this.client.UpdateGuild(guild, { "logs.users": userArray });
 
         interaction.editReply({
-          content: `\`🔨\` ${member.toString()} has been warn.`,
+          content: eval(warn.add.reply),
           components: [
             this.client.ButtonRow([
               {
                 customId: "warns-list",
-                label: "Warns",
+                label: warn.list.button1,
                 style: "SECONDARY",
                 emoji: "🔨",
               },
@@ -129,13 +166,13 @@ module.exports = class WarnCommand extends Command {
               this.client
                 .Embed()
                 .setAuthor({
-                  name: `by ${interaction.user.tag}`,
+                  name: eval(warn.add.embed1.author),
                   iconURL: interaction.user.avatarURL({ dynamic: true }),
                 })
-                .setDescription(`${member.toString()} has been warn.`)
+                .setDescription(eval(warn.add.embed1.description))
                 .setFields({
-                  name: `Reason` + ":",
-                  value: `${reason || "No reason provided"}`,
+                  name: warn.add.embed1.field1.name,
+                  value: eval(warn.add.embed1.field1.value),
                   inline: true,
                 })
                 .setThumbnail(member.displayAvatarURL({ dynamic: true }))
@@ -148,7 +185,7 @@ module.exports = class WarnCommand extends Command {
               this.client.ButtonRow([
                 {
                   customId: "warns-list",
-                  label: "Warns",
+                  label: warn.list.button1,
                   style: "SECONDARY",
                   emoji: "🔨",
                 },
@@ -165,16 +202,14 @@ module.exports = class WarnCommand extends Command {
         // find if the user matches the id of a logged one
         filteredUser = fetchGuild.logs.users.filter((u) => u.id === member.id);
         if (filteredUser.length === 0)
-          return interaction.editReply(`\`🚫\` This user has no warns.`);
+          return interaction.editReply(errors.error32);
 
         let index;
         try {
           // find the warn (-1 because warns are front listed from 1)
           index = filteredUser[number - 1].case;
         } catch (e) {
-          return interaction.editReply(
-            `\`🚫\` Warn **#${number}** of ${member.toString()} does not exist.`
-          );
+          return interaction.editReply(eval(errors.error33));
         }
 
         // get the index of the warn to remove
@@ -187,17 +222,17 @@ module.exports = class WarnCommand extends Command {
 
         // remove the warn from the db
         fetchGuild.logs.users.splice(filteredCase, 1);
-        await this.client.updateGuild(guild, {
+        await this.client.UpdateGuild(guild, {
           "logs.users": fetchGuild.logs.users,
         });
 
         interaction.editReply({
-          content: `\`❎\` Warn **#${number}** of ${member.toString()} has been removed.`,
+          content: eval(warn.remove.reply),
           components: [
             this.client.ButtonRow([
               {
                 customId: "warns-list",
-                label: "Warns",
+                label: warn.list.button1,
                 style: "SECONDARY",
                 emoji: "🔨",
               },
@@ -212,21 +247,24 @@ module.exports = class WarnCommand extends Command {
               this.client
                 .Embed()
                 .setAuthor({
-                  name: `by ${interaction.user.tag}`,
+                  name: eval(warn.remove.embed1.author),
                   iconURL: interaction.user.displayAvatarURL({
                     dynamic: true,
                   }),
                 })
-                .setDescription(
-                  "Warn of " +
-                    member.toString() +
-                    " has been removed.\n" +
-                    `➡️\`${oldReason}\``
+                .setDescription(eval(warn.remove.embed1.description))
+                .addFields(
+                  {
+                    name: eval(warn.remove.embed1.field1.name),
+                    value: eval(warn.remove.embed1.field1.value),
+                    inline: true,
+                  },
+                  {
+                    name: warn.remove.embed1.field2.name,
+                    value: eval(warn.remove.embed1.field2.value),
+                    inline: true,
+                  }
                 )
-                .addFields({
-                  name: "Reason",
-                  value: `${reason || "No reason provided"}`,
-                })
                 .setThumbnail(member.displayAvatarURL({ dynamic: true }))
                 .setTimestamp()
                 .setFooter({
@@ -237,7 +275,7 @@ module.exports = class WarnCommand extends Command {
               this.client.ButtonRow([
                 {
                   customId: "warns-list",
-                  label: "Warns",
+                  label: warn.list.button1,
                   style: "SECONDARY",
                   emoji: "🔨",
                 },
@@ -251,7 +289,7 @@ module.exports = class WarnCommand extends Command {
         // find if the user matches the id of a logged one
         filteredUser = fetchGuild.logs.users.filter((u) => u.id === member.id);
         if (filteredUser.length === 0)
-          return interaction.editReply(`\`🚫\` This user has no warns.`);
+          return interaction.editReply(errors.error32);
 
         let warnList = "";
         let i = filteredUser.length + 1;
@@ -262,14 +300,14 @@ module.exports = class WarnCommand extends Command {
         filteredUser
           .slice()
           .reverse()
-          .forEach((warn) => {
+          .forEach((w) => {
             i--;
             s++;
             if (s > 10) return;
             warnList += `\n**${i}:** by <@${
-              warn.moderator
-            }> - ${this.client.Formatter(warn.date, "R")}\n`;
-            warnList += `Reason: \`${warn.reason}\`\n`;
+              w.moderator
+            }> - ${this.client.Formatter(w.date, "R")}\n`;
+            warnList += eval(warn.list.reason);
           });
 
         return interaction.editReply({
@@ -277,7 +315,7 @@ module.exports = class WarnCommand extends Command {
             this.client
               .Embed()
               .setAuthor({
-                name: `${member.user.tag} warns 🔨`,
+                name: eval(warn.list.embed1.author),
                 iconURL: member.user.avatarURL({ dynamic: true }),
               })
               .setDescription(warnList)

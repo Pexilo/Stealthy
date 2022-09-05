@@ -5,8 +5,11 @@ module.exports = class MuteCommand extends Command {
   constructor(client) {
     super(client, {
       name: "mute",
-      type: "SLASH_COMMAND",
-      description: "🔇 Mute a specific member",
+      nameLocalizations: {},
+      description: "🔇 Mute a member",
+      descriptionLocalizations: {
+        fr: "🔇 Rendre muet un membre",
+      },
       examples:
         "/mute `member:@Pexi` `format:minutes` `duration:5` => 🔇 Mute `@Pexi` for `5` `minutes`",
       usage: "https://i.imgur.com/u0TBXu4.png",
@@ -17,21 +20,31 @@ module.exports = class MuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
+          nameLocalizations: { fr: "utilisateur" },
           description: "👤 User to mute",
+          descriptionLocalizations: {
+            fr: "👤 Utilisateur à rendre muet",
+          },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "format",
+
           description: "🕒 Format to use",
+          descriptionLocalizations: {
+            fr: "🕒 Format à utiliser",
+          },
           required: true,
           choices: [
             {
               name: "🕒 Minutes",
+
               value: "minutes",
             },
             {
               name: "🕒 Hours",
+              nameLocalizations: { fr: "🕒 Heures" },
               value: "hours",
             },
           ],
@@ -39,7 +52,11 @@ module.exports = class MuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.Integer,
           name: "duration",
+          nameLocalizations: { fr: "durée" },
           description: "⏱️ Time to mute",
+          descriptionLocalizations: {
+            fr: "⏱️ Temps à rendre muet",
+          },
           required: true,
           minValue: 1,
           maxValue: 670,
@@ -47,7 +64,11 @@ module.exports = class MuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the mute",
+          descriptionLocalizations: {
+            fr: "❔ Raison du mute",
+          },
           required: false,
         },
       ],
@@ -57,10 +78,14 @@ module.exports = class MuteCommand extends Command {
     if (!(await this.client.Defer(interaction))) return;
     const { guild, options } = interaction;
 
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { mute } = this.client.la[lang].commands.admin;
+
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
+    if (!member) return interaction.editReply(errors.error1);
     if (member.permissions.has("ManageGuild"))
-      return interaction.editReply(`\`🚫\` I can't mute this user.`);
+      return interaction.editReply(errors.error7);
 
     const format = options.getString("format");
     const duration =
@@ -69,27 +94,17 @@ module.exports = class MuteCommand extends Command {
         : options.getInteger("duration") * 3600000;
     const reason = options.getString("reason");
 
-    const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
     try {
-      member.timeout(
-        duration,
-        `by ${interaction.member.user.tag}${reason ? ": " + reason : ""}`
-      );
+      member.timeout(duration, eval(mute.auditlog));
     } catch (e) {
-      return interaction.editReply(
-        `\`⛔\` An error occured: ${"```"}${
-          e.message
-        }${"```"}\nPlease contact an administrator of the bot for further assistance.`
-      );
+      return interaction.editReply(eval(errors.error8));
     }
+
     interaction.editReply({
-      content: `🔇 ${member.toString()} has been muted for ${this.client.PrettyMs(
-        duration,
-        { verbose: true }
-      )}`,
+      content: eval(mute.reply),
     });
 
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
@@ -99,19 +114,24 @@ module.exports = class MuteCommand extends Command {
           this.client
             .Embed()
             .setAuthor({
-              name: `by ${interaction.user.tag}`,
+              name: eval(mute.embed1.author),
               iconURL: interaction.user.avatarURL({ dynamic: true }),
             })
-            .setDescription(
-              `${member.toString()} has been muted for \`${this.client.PrettyMs(
-                duration
-              )}\`\n\nTo unmute, use \`/unmute\`.`
+            .setDescription(eval(mute.embed1.description))
+            .setFields(
+              {
+                name: mute.embed1.field1,
+                value: `\`${this.client.PrettyMs(duration, {
+                  verbose: true,
+                })}\``,
+                inline: true,
+              },
+              {
+                name: mute.embed1.field2.name,
+                value: eval(mute.embed1.field2.value),
+                inline: true,
+              }
             )
-            .setFields({
-              name: `Reason` + ":",
-              value: `${reason || "No reason provided"}`,
-              inline: true,
-            })
             .setThumbnail(member.displayAvatarURL({ dynamic: true }))
             .setTimestamp()
             .setColor("#c97628")

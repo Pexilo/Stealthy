@@ -5,7 +5,9 @@ module.exports = class UnMuteCommand extends Command {
   constructor(client) {
     super(client, {
       name: "unmute",
-      description: "🔊 Unmute a specific member.",
+      nameLocalizations: { fr: "demute" },
+      description: "🔊 Unmute a member.",
+      descriptionLocalizations: { fr: "🔊 Demute un membre." },
       examples: "/unmute `member:@Pexi` => 🔉 Unmute `@Pexi`",
       usage: "https://i.imgur.com/Kq0yZWX.png",
       category: "Admin",
@@ -15,13 +17,17 @@ module.exports = class UnMuteCommand extends Command {
         {
           type: ApplicationCommandOptionType.User,
           name: "user",
+          nameLocalizations: { fr: "utilisateur" },
           description: "👤 Member to unmute",
+          descriptionLocalizations: { fr: "👤 Membre à demuter" },
           required: true,
         },
         {
           type: ApplicationCommandOptionType.String,
           name: "reason",
+          nameLocalizations: { fr: "raison" },
           description: "❔ Reason for the unmute",
+          descriptionLocalizations: { fr: "❔ Raison du demute" },
           required: false,
         },
       ],
@@ -31,31 +37,29 @@ module.exports = class UnMuteCommand extends Command {
     if (!(await this.client.Defer(interaction))) return;
     const { guild, options } = interaction;
 
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { unmute } = this.client.la[lang].commands.admin;
+
     const member = options.getMember("user");
-    if (!member) return interaction.editReply(`\`🚫\` I can't find that user.`);
+    if (!member) return interaction.editReply(errors.error1);
     const reason = options.getString("reason");
 
-    const fetchGuild = await this.client.getGuild(guild);
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
 
     // Check if the member is already muted
     if (!member.isCommunicationDisabled()) {
-      return interaction.editReply(`\`🔊\` ${member.toString()} is not muted.`);
+      return interaction.editReply(eval(unmute.reply1));
     }
 
     try {
-      member.timeout(
-        null,
-        `by ${interaction.user.tag} ${reason ? ": " + reason : ""}`
-      );
+      member.timeout(null, eval(unmute.auditlog));
     } catch (e) {
-      return interaction.editReply(
-        `\`🚫\` I can't unmute ${member.toString()}.`
-      );
+      return interaction.editReply(eval(errors.error31));
     }
     interaction.editReply({
-      content: `\`🔊\` ${member.toString()} is no longer muted.`,
+      content: eval(unmute.reply2),
     });
 
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
@@ -65,14 +69,13 @@ module.exports = class UnMuteCommand extends Command {
           this.client
             .Embed()
             .setAuthor({
-              name: `by ${interaction.user.tag}`,
+              name: eval(unmute.embed1.author),
               iconURL: interaction.user.avatarURL({ dynamic: true }),
             })
-            .setDescription(`${member.toString()} has been unmuted.`)
+            .setDescription(eval(unmute.embed1.description))
             .setFields({
-              name: `Reason` + ":",
-              value: `${reason || "No reason provided"}`,
-              inline: true,
+              name: unmute.embed1.field1.name,
+              value: eval(unmute.embed1.field1.value),
             })
             .setThumbnail(member.displayAvatarURL({ dynamic: true }))
             .setTimestamp()

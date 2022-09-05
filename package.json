@@ -1,6 +1,6 @@
 {
   "name": "stealthy",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Lightweight, easy to use discord bot meant to enrich the lifestyle of your server.",
   "main": "src/client.js",
   "scripts": {
@@ -19,6 +19,6 @@
     "mongoose": "^6.4.3",
     "node-emoji": "^1.11.0",
     "pretty-ms": "^7.0.1",
-    "sheweny": "^4.0.2"
+    "sheweny": "^4.0.3"
   }
 }

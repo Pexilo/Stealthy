@@ -9,8 +9,11 @@ module.exports = class clientMissingPermissionsEvent extends Event {
   }
 
   async execute(interaction, missing) {
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { clientMissingPermissions } = this.client.la[lang].events.misc;
+
     interaction.reply({
-      content: `I need \`${missing}\` permissions to execute this command`,
+      content: eval(clientMissingPermissions.reply),
       ephemeral: true,
     });
   }

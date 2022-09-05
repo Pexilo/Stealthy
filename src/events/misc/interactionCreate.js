@@ -10,13 +10,13 @@ module.exports = class interactionCreateEvent extends Event {
   async execute(interaction) {
     const { guild } = interaction;
 
-    let fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
 
     if (!fetchGuild) {
-      await this.client.createGuild(guild);
+      await this.client.CreateGuild(guild);
       return this.client.channels.cache.get(guild.systemChannelId).send({
         content:
-          "⚠️ Database has been reset, all data of this server has been lost.\nSorry for the inconvenience.\n\n`Server initialized ✅`",
+          "`⚠️` Database has been reset, all data of this server has been lost.\nSorry for the inconvenience.\n\n`Server initialized ✅`",
         components: [
           this.client.ButtonRow([
             {
@@ -30,12 +30,12 @@ module.exports = class interactionCreateEvent extends Event {
       });
     }
 
+    const { errors } = this.client.la[lang];
     // lazy fix because permissions are terrible to setup, WIP
     guild.members.fetchMe().then((me) => {
       if (!me.permissions.has("Administrator")) {
         return interaction.reply({
-          content:
-            "`🚫` I need the `Administator` permission to operate properly.",
+          content: errors.error39,
           ephemeral: true,
         });
       }

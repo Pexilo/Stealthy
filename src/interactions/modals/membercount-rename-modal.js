@@ -7,17 +7,20 @@ module.exports = class memberCountRenameModal extends Modal {
 
   async execute(modal) {
     const { guild } = modal;
-    const fetchGuild = await this.client.getGuild(guild);
+
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
+    const { membercountRename } = this.client.la[lang].interactions.modals;
 
     const name = modal.fields.getTextInputValue("membercount-name-input");
     if (!name) {
       return modal.reply({
-        content: "`🚫` No changes made.",
+        content: errors.error48,
         ephemeral: true,
       });
     }
 
-    await this.client.updateGuild(guild, {
+    await this.client.UpdateGuild(guild, {
       "memberCount.name": name,
     });
 
@@ -27,7 +30,7 @@ module.exports = class memberCountRenameModal extends Modal {
 
     if (!memberCountChannel) {
       return modal.reply({
-        content: "`🚫` Unable to find the member count channel.",
+        content: errors.error49,
         ephemeral: true,
       });
     }
@@ -35,7 +38,7 @@ module.exports = class memberCountRenameModal extends Modal {
     this.client.UpdateMemberCount(guild, fetchGuild.memberCount.channel, name);
 
     await modal.reply({
-      content: "``✅`` Member count channel updated.",
+      content: membercountRename.reply,
       ephemeral: true,
     });
   }

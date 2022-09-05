@@ -3,6 +3,7 @@ const { Partials, GatewayIntentBits } = require("discord.js");
 const { mongoose } = require("mongoose");
 require("dotenv").config();
 const { TOKEN, MONGO_URI, BOT_STATE } = process.env;
+const { supportedLanguages } = require("./languages/supportedLanguages");
 
 const client = new ShewenyClient({
   intents: [
@@ -58,6 +59,14 @@ const client = new ShewenyClient({
 });
 
 require("./util/functions")(client);
+
+client.la = {};
+let languages = Object.keys(supportedLanguages);
+for (const lang of languages) {
+  client.la[lang] = require(`./languages/${lang}.json`);
+}
+
+Object.freeze(client.la);
 
 mongoose
   .connect(MONGO_URI, {

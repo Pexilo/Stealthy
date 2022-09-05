@@ -9,7 +9,10 @@ module.exports = class logsEnabledSelect extends SelectMenu {
     if (!(await this.client.Defer(selectMenu))) return;
     const { guild, values } = selectMenu;
 
-    await this.client.updateGuild(guild, {
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { logsEnabled } = this.client.la[lang].interactions.selectMenus;
+
+    await this.client.UpdateGuild(guild, {
       "logs.enabled": values,
     });
 
@@ -17,21 +20,21 @@ module.exports = class logsEnabledSelect extends SelectMenu {
       .map((value) => {
         switch (value) {
           case "msgDelete":
-            return "\n`🗑️` *Message deletes*";
+            return logsEnabled.spelledValues.msgDelete;
           case "msgEdit":
-            return "\n`✍` *Message edits*";
+            return logsEnabled.spelledValues.msgEdit;
           case "joinLeave":
-            return "\n`🚪` *Join & Leave*";
+            return logsEnabled.spelledValues.joinLeave;
           case "moderation":
-            return "\n`🛡️` *Moderation*";
+            return logsEnabled.spelledValues.moderation;
           case "channels":
-            return "\n`📙` *Channels*";
+            return logsEnabled.spelledValues.channels;
         }
       })
       .join(", ");
 
     return selectMenu.editReply({
-      content: `**Logs enabled:**${spelledValues}\n\n> To log \`Kick\`, \`Ban\`, \`Mute\` commands, it is **necessary** to use the **commands given by Stealthy** (\`/kick\`, \`/ban\` & \`/mute\`)`,
+      content: eval(logsEnabled.reply),
     });
   }
 };

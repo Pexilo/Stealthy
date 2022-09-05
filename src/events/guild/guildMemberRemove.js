@@ -12,8 +12,8 @@ module.exports = class guildMemberRemoveTracker extends Event {
     /*
      * Logs users who leave the server - Admin category
      */
-    const fetchGuild = await this.client.getGuild(guild);
-    if (!fetchGuild) return;
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { guildMemberRemove } = this.client.la[lang].events.guild;
 
     let logsChannel = null;
     try {
@@ -22,15 +22,20 @@ module.exports = class guildMemberRemoveTracker extends Event {
     const enabledLogs = fetchGuild.logs.enabled;
 
     if (logsChannel && enabledLogs.includes("joinLeave")) {
-      const searchRoles = member.roles.cache
-        .filter((r) => r.id !== guild.id)
-        .map((r) => r.toString())
-        .join(", ");
+      let roles = member.roles.cache
+        .reverse()
+        .filter((r) => r.id !== member.guild.id)
+        .map((r) => r);
+
+      if (roles.length > 3) {
+        roles.splice(3);
+        roles.push("...");
+      }
 
       const embedInfo = this.client
         .Embed()
         .setAuthor({
-          name: `${member.user.username} has left the server.`,
+          name: eval(guildMemberRemove.embed1.author),
           iconURL: member.user.displayAvatarURL({ dynamic: true }),
         })
         .setDescription(member.toString())
@@ -41,19 +46,19 @@ module.exports = class guildMemberRemoveTracker extends Event {
           text: `${member.user.tag} - ${member.user.id}`,
         });
 
-      if (searchRoles) {
-        embedInfo.addFields({
-          name: "🧮 " + "Roles" + ":",
-          value: searchRoles,
-        });
-      }
-
       if (member.joinedTimestamp) {
         embedInfo.addFields({
-          name: "📥 " + "Joined the server" + ":",
+          name: guildMemberRemove.embed1.field2,
           value: `${this.client.Formatter(
             member.joinedTimestamp
           )} - ${this.client.Formatter(member.joinedTimestamp, "R")}`,
+        });
+      }
+
+      if (roles) {
+        embedInfo.addFields({
+          name: guildMemberRemove.embed1.field1,
+          value: roles.map((r) => r.toString()).join(", "),
         });
       }
 

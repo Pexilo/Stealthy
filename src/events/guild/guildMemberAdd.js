@@ -13,9 +13,11 @@ module.exports = class guildMemberAddTracker extends Event {
      * Logs new users and blacklist accounts created under 24h - Admin category
      */
     const { guild } = member;
-    let autoRoleSystem = true;
 
-    const fetchGuild = await this.client.getGuild(guild);
+    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { guildMemberAdd } = this.client.la[lang].events.guild;
+
+    let autoRoleSystem = true;
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
     const blacklistState =
@@ -32,18 +34,18 @@ module.exports = class guildMemberAddTracker extends Event {
       const EmbedInfo = this.client
         .Embed()
         .setAuthor({
-          name: `${member.user.username} has joined the server!`,
+          name: eval(guildMemberAdd.embed1.author),
           iconURL: member.user.displayAvatarURL({ dynamic: true }),
         })
 
-        .setColor("#3ba55d")
         .setDescription(member.toString())
         .addFields({
-          name: "📅 " + "Account created" + ":",
+          name: guildMemberAdd.embed1.field1,
           value: `${this.client.Formatter(
             member.user.createdTimestamp
           )} - ${this.client.Formatter(member.user.createdTimestamp, "R")}`,
         })
+        .setColor("#3ba55d")
         .setTimestamp()
         .setFooter({
           text: `${member.user.tag} - ${member.user.id}`,
@@ -51,18 +53,11 @@ module.exports = class guildMemberAddTracker extends Event {
 
       if (warn && blacklistState) {
         member.timeout(blacklistTime);
-        EmbedInfo.setTitle("Account temporarilly blacklisted")
-          .setDescription(
-            member.toString() + "\nUse `/unmute` to remove the restriction"
-          )
+        EmbedInfo.setTitle(guildMemberAdd.embed1.title)
+          .setDescription(rval(guildMemberAdd.embed1.description))
           .setFields({
-            name: "Reason" + ":",
-            value:
-              "Account younger than" +
-              ":" +
-              `\`${this.client.PrettyMs(blacklistMinAge, {
-                verbose: true,
-              })}\``,
+            name: guildMemberAdd.embed1.field2.name,
+            value: eval(guildMemberAdd.embed1.field2.value),
           })
           .setThumbnail(
             "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/warning_26a0-fe0f.png"

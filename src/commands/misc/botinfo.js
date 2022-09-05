@@ -5,42 +5,57 @@ module.exports = class BotInfoCommand extends Command {
   constructor(client) {
     super(client, {
       name: "botinfo",
+      nameLocalizations: {},
       description: "🔖 Get information about the bot.",
-      examples: "/botinfo => Get bot uptime and server count",
+      descriptionLocalizations: {
+        fr: "🔖 Obtenir des informations sur le bot.",
+      },
+      examples: "/botinfo => Show bot version, uptime and server count",
       usage: "https://i.imgur.com/F89i1e5.png",
       category: "Misc",
     });
   }
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
+    const { guild, client } = interaction;
 
-    const bot = interaction.client;
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { botinfo } = this.client.la[lang].commands.misc;
+
+    const memoryUsage = process.memoryUsage().heapUsed / 1024 / 1024;
 
     await interaction.editReply({
       embeds: [
         this.client
           .Embed()
           .setAuthor({
-            name: bot.user.username,
-            iconURL: bot.user.displayAvatarURL({ dynamic: true }),
+            name: client.user.username,
+            iconURL: client.user.displayAvatarURL({ dynamic: true }),
           })
-          .setDescription(
-            `Maintainer: [Pexilo#7866](https://github.com/Pexilo)`
-          )
+          .setDescription(eval(botinfo.embed1.description))
           .addFields(
             {
-              name: "🤖 " + "Version" + ":",
+              name: botinfo.embed1.field1,
               value: `${"```"}${botVersion}${"```"}`,
               inline: true,
             },
             {
-              name: "⏲️ " + "Uptime" + ":",
-              value: `${"```"}${this.client.PrettyMs(bot.uptime)}${"```"}`,
+              name: botinfo.embed1.field2,
+              value: `${"```"}${Math.round(memoryUsage * 100) / 100}mb${"```"}`,
               inline: true,
             },
             {
-              name: "🧭 " + "Servers" + ":",
-              value: `${"```"}${bot.guilds.cache.size} ${"```"}`,
+              name: "\u200B",
+              value: "\u200B",
+            },
+            {
+              name: botinfo.embed1.field3,
+              value: `${"```"}${this.client.PrettyMs(client.uptime)}${"```"}`,
+              inline: true,
+            },
+            {
+              name: botinfo.embed1.field4,
+              value: `${"```"}${client.guilds.cache.size} ${"```"}`,
               inline: true,
             }
           ),
