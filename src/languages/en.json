@@ -423,7 +423,7 @@
       "JTC": {
         "create": {
           "name": "🔉 Create a channel",
-          "reply": "`\\`✅\\` JTC channel created in: **${voiceChannel.parent ? `<#${voiceChannel.parentId}>` : 'default'}** category.\n> You can move it to another category if you want.\n > You can use \\`/invite-vc member:\\` to invite someone in dm to join your channel.`"
+          "reply": "`\\`✅\\` JTC channel created in: **${channel.parent ? `<#${channel.parentId}>` : 'default'}** category.\n> You can move it to another category if you want.\n > You can use \\`/invite-vc member:\\` to invite someone in dm to join your channel.`"
         },
         "delete": {
           "reply": "`\\`❎\\` JTC channel deleted in: **${channelToDelete.parent ? `<#${channelToDelete.parentId}>`: 'default'}** category\n\n> Note that you can create **only one** Join to create channel **per server**.`"
@@ -645,7 +645,7 @@
     "error9": "`🚫` You don't have permission to change the nickname of this user.",
     "error10": "`🚫` You need to setup the roleclaim system first.\n\n> Use `/setup channels`",
     "error11": "`⛔` An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
-    "error12": "`\\`🚫\\` One of my roles need to be above ${roleRC ? roleRC.toString() : roleAR.toString()} to perform this action.\n\n> You can do this in \\`server settings -> roles\\``",
+    "error12": "`\\`🚫\\` One of my roles need to be above ${roleRC.toString()} to perform this action.\n\n> You can do this in \\`server settings -> roles\\``",
     "error13": "`\\`🚫\\` You can't assign <@&${guild.id}>`",
     "error14": "`\\`🚫\\` I can't find \\`:${emoji.split(':')[1]}:\\` emoji.\n\n> I need to be in the same server as the emoji`",
     "error15": "`\\`🚫\\` \\`${emoji}\\` is not supported.\n\n> Please provide one [emoji](https://emojipedia.org)`",
@@ -683,6 +683,7 @@
     "error47": "`🚫` You need to setup the role claim system first.\n\n> Use `/setup channels`",
     "error48": "`🚫` No changes made.",
     "error49": "`🚫` Unable to find the member count channel.",
-    "error50": "`\\`🚫\\` Invalid color.\n\n> Please use a hexadecimal color code.\n\n> For example: \\`#ff0000\\``"
+    "error50": "`\\`🚫\\` Invalid color.\n\n> Please use a hexadecimal color code.\n\n> For example: \\`#ff0000\\``",
+    "error51": "`\\`🚫\\` One of my roles need to be above ${roleAR.toString()} to perform this action.\n\n> You can do this in \\`server settings -> roles\\``"
   }
 }

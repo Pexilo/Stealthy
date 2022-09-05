@@ -615,7 +615,7 @@ module.exports = class SetupBotCommand extends Command {
               this.client.HighestRole(guild, this.client.user.id) <
               roleAR.rawPosition
             ) {
-              return interaction.editReply(eval(errors.error12));
+              return interaction.editReply(eval(errors.error51));
             }
 
             if (autoroleArray.length === 5) {
