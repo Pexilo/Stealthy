@@ -58,11 +58,12 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 ## 🌎 Supported Languages
 
-#### ☕ English
+#### • ☕ English᲼᲼᲼᲼᲼᲼᲼᲼• 💃 Spanish
+#### • 🥖 French
 
-#### 🥖 French
 
-> More will come soon..
+> Thanks to Github Copilot for making most of the translations possible... 😵‍💫
+Feel free to report any [bad translations](https://github.com/Pexilo/Stealthy/issues)
 
 ## 📬 Future updates
 
