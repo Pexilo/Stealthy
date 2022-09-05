@@ -8,6 +8,9 @@ module.exports = class JTCNamesModal extends Modal {
   async execute(modal) {
     const { guild } = modal;
 
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { JTCChannelNames } = this.client.la[lang].interactions.modals;
+
     //get input from modal
     const channels = modal.fields.getTextInputValue("channel-JTC-input");
 
@@ -20,7 +23,7 @@ module.exports = class JTCNamesModal extends Modal {
 
     let list = "";
     result.forEach((element) => {
-      list += "➜ " + element + "\n";
+      list += "> " + element + "\n";
     });
 
     await this.client.UpdateGuild(guild, {
@@ -28,7 +31,7 @@ module.exports = class JTCNamesModal extends Modal {
     });
 
     await modal.reply({
-      content: `\`✅\` New JTC channel names:\n${list}`,
+      content: eval(JTCChannelNames.reply),
       ephemeral: true,
     });
   }

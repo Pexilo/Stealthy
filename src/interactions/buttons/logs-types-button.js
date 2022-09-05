@@ -11,12 +11,12 @@ module.exports = class logsSetupButton extends Button {
     const { guild } = button;
 
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
-    const {} = this.client.la[lang];
+    const { errors } = this.client.la[lang];
+    const { logsTypes } = this.client.la[lang].interactions.buttons;
+
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     if (!logsChannel) {
-      return button.editReply(
-        `\`🚫\` I can't find the logs channel.\n\n> Please use \`/setup channels\` to set it up.`
-      );
+      return button.editReply(errors.error45);
     }
     const enabledLogs = fetchGuild.logs.enabled;
 
@@ -24,39 +24,39 @@ module.exports = class logsSetupButton extends Button {
       components: [
         this.client.SelectMenuRow(
           "logs-select",
-          "What logs do you want to see?",
+          logsTypes.select1.title,
           [
             {
-              label: "Moderation",
-              description: "Kick, ban, mute, warn, blacklist commands",
+              label: logsTypes.select1.option1.label,
+              description: logsTypes.select1.option1.description,
               value: "moderation",
               emoji: "🛡️",
               default: enabledLogs.includes("moderation"),
             },
             {
-              label: "Channels changes",
-              description: "Slowmode, lock, clear commands.",
+              label: logsTypes.select1.option2.label,
+              description: logsTypes.select1.option2.description,
               value: "channels",
               emoji: "📙",
               default: enabledLogs.includes("channels"),
             },
             {
-              label: "Join & Leave",
-              description: "Whenever a member joins or leaves the server.",
+              label: logsTypes.select1.option3.label,
+              description: logsTypes.select1.option3.description,
               value: "joinLeave",
               emoji: "📝",
               default: enabledLogs.includes("joinLeave"),
             },
             {
-              label: "Message deleted",
-              description: "If a message is deleted by a user.",
+              label: logsTypes.select1.option4.label,
+              description: logsTypes.select1.option4.description,
               value: "msgDelete",
               emoji: "🗑",
               default: enabledLogs.includes("msgDelete"),
             },
             {
-              label: "Message edited",
-              description: "If a message is edited by a user.",
+              label: logsTypes.select1.option5.label,
+              description: logsTypes.select1.option5.description,
               value: "msgEdit",
               emoji: "✍️",
               default: enabledLogs.includes("msgEdit"),

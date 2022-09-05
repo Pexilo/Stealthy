@@ -7,34 +7,29 @@ module.exports = class moderationToolsButtons extends Button {
 
   async execute(button) {
     if (!(await this.client.Defer(button))) return;
-
     const { guild } = button;
+
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
-    const {} = this.client.la[lang];
-    const moderationTools = fetchGuild.moderationTools.enabled;
+    const { moderationTools } = this.client.la[lang].interactions.buttons;
+
+    const modTools = fetchGuild.moderationTools.enabled;
 
     switch (button.customId) {
       case "blacklist-tool":
-        moderationTools.push("blacklist");
+        modTools.push("blacklist");
 
-        button.editReply({
-          content:
-            "`🛡️` Blacklist feature is now enabled ✅\n\n> You can re-run your command",
-        });
+        button.editReply(moderationTools.blacklist.reply);
         break;
 
       case "delDcInvites-tool":
-        moderationTools.push("delDcInvites");
+        modTools.push("delDcInvites");
 
-        button.editReply({
-          content:
-            "`🔗` Discord links suppressor is now enabled ✅\n\n> You can re-run your command",
-        });
+        button.editReply(moderationTools.delDcInv.reply);
         break;
     }
 
     await this.client.UpdateGuild(guild, {
-      "moderationTools.enabled": moderationTools,
+      "moderationTools.enabled": modTools,
     });
   }
 };

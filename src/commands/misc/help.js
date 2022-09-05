@@ -24,7 +24,7 @@ module.exports = class HelpCommand extends Command {
   }
   async execute(interaction) {
     if (!(await this.client.Defer(interaction))) return;
-    const { options, member } = interaction;
+    const { guild, options, member } = interaction;
 
     const { lang } = await this.client.FetchAndGetLang(guild);
     const { errors } = this.client.la[lang];

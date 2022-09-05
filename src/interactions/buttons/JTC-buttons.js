@@ -17,7 +17,9 @@ module.exports = class JTCSetupButtons extends Button {
     const { guild } = button;
 
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
-    const {} = this.client.la[lang];
+    const { errors } = this.client.la[lang];
+    const { JTC } = this.client.la[lang].interactions.buttons;
+
     switch (button.customId) {
       case "create-JTC":
         if (!(await this.client.Defer(button))) return;
@@ -36,8 +38,7 @@ module.exports = class JTCSetupButtons extends Button {
           //if the channel is found, stop the process
           else
             return button.editReply({
-              content:
-                "`⛔` JTC already setup, delete it first in order to create a new one",
+              content: errors.error42,
             });
         }
 
@@ -51,23 +52,20 @@ module.exports = class JTCSetupButtons extends Button {
         //create the channel in the first category
         const voiceChannel = await guild.channels
           .create({
-            name: "🔉 Create a channel",
+            name: JTC.create.name,
             type: ChannelType.GuildVoice,
             parent: noParent ? null : firstCategory,
           })
-          .then(async (channel) => channel.lockPermissions())
+          .then(async (channel) => {
+            channel.lockPermissions();
+            await this.client.UpdateGuild(guild, {
+              "joinToCreate.channel": channel.id,
+            });
+          })
           .catch(() => undefined);
 
-        //set the channel in the database
-        await this.client.UpdateGuild(guild, {
-          "joinToCreate.channel": voiceChannel.id,
-        });
-
         button.editReply({
-          content: `\`✅\` JTC channel created in: **${
-            voiceChannel.parent ? `<#${voiceChannel.parentId}>` : "default"
-          }** category.
-          \n> You can move it to another category if you want.\n > You can use \`/invite-vc member:\` to invite someone in dm to join your channel.`,
+          content: eval(JTC.create.reply),
         });
         break;
 
@@ -77,7 +75,7 @@ module.exports = class JTCSetupButtons extends Button {
         //if the channel doesn't exist in the database, stop the process
         if (!fetchGuild.joinToCreate.channel) {
           return button.editReply({
-            content: "`⛔` JTC channel doesn't exist, create it first",
+            content: errors.error43,
           });
         }
 
@@ -93,25 +91,15 @@ module.exports = class JTCSetupButtons extends Button {
 
         //if the channel isn't found, it means that the channel has been deleted in hand
         if (!channelToDelete) {
-          return button.editReply(
-            `\`⛔\` JTC channel doesn't exist, maybe it has already been deleted?`
-          );
+          return button.editReply(errors.error44);
         }
         //delete the channel
         channelToDelete.delete().catch((e) => {
-          return button.editReply(
-            `\`⛔\` An error occured: ${"```"}${
-              e.message
-            }${"```"}\nPlease contact an administrator of the bot for further assistance.`
-          );
+          return button.editReply(eval(errors.error8));
         });
 
         return button.editReply({
-          content: `\`❎\` JTC channel deleted in: **${
-            channelToDelete.parent
-              ? `<#${channelToDelete.parentId}>`
-              : "default"
-          }** category\n\n> Note that you can create **only one** Join to create channel **per server**.`,
+          content: eval(JTC.delete.reply),
         });
 
       case "channels-names-JTC":
@@ -121,7 +109,7 @@ module.exports = class JTCSetupButtons extends Button {
           this.client.ModalRow("channels-names-JTC", "JTC channel names", [
             {
               customId: "channel-JTC-input",
-              label: "Names (must be separated by a comma)",
+              label: JTC.channelsNames.modal1,
               style: "Paragraph",
               placeholder: `${this.client.Truncate(channelNames)}`,
               required: true,

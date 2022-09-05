@@ -2,7 +2,7 @@ const { SelectMenu } = require("sheweny");
 const { ChannelType } = require("discord.js");
 const { supportedLanguages } = require("../../languages/supportedLanguages");
 
-module.exports = class SetupMenu2MsgSelect extends SelectMenu {
+module.exports = class setupSecondSelect extends SelectMenu {
   constructor(client) {
     super(client, ["setup-select"]);
   }
@@ -10,14 +10,15 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
   async execute(selectMenu) {
     if (!(await this.client.Defer(selectMenu))) return;
     const { guild } = selectMenu;
+
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
-    const {} = this.client.la[lang];
+    const { setupSecond } = this.client.la[lang].interactions.selectMenus;
 
     switch (selectMenu.values[0]) {
       case "lang_option":
         const languageRow = this.client.SelectMenuRow(
           "language-select",
-          "Select a supported language"
+          setupSecond.lang.select1.title
         );
 
         const defaultLanguage = fetchGuild.language;
@@ -31,9 +32,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         }
 
         return selectMenu.editReply({
-          content: `Good, so you want to ${
-            defaultLanguage !== "en" ? "change" : "set up"
-          } your language.`,
+          content: eval(setupSecond.lang.reply),
           components: [languageRow],
         });
 
@@ -49,37 +48,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         );
 
         selectMenu.editReply({
-          content: `${
-            logsChannel
-              ? "> **`🚀` Logs** channel is setup in " +
-                `<#${logsChannel}>` +
-                ". \n"
-              : ""
-          } ${
-            roleclaimChannel
-              ? "> **`🗂️` Role claim** channel is setup in " +
-                `<#${roleclaimChannel}>` +
-                ". \n"
-              : ""
-          } ${
-            membercountChannel
-              ? "> **`🧾` Member count** channel is setup in " +
-                `**${
-                  membercountChannel.parent
-                    ? `<#${membercountChannel.parentId}>`
-                    : "default"
-                }**` +
-                " category. \n"
-              : ""
-          } ${
-            JTCChannel
-              ? "> **`🔊` Join to Create** channel is setup in " +
-                `**${
-                  JTCChannel.parent ? `<#${JTCChannel.parentId}>` : "default"
-                }**` +
-                " category. \n"
-              : ""
-          }\nPlease use, \`/setup channels\` command to setup your channels.`,
+          content: eval(setupSecond.channels.reply),
         });
 
         if (
@@ -92,7 +61,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           if (logsChannel) {
             buttons.push({
               customId: "setup-logs",
-              label: "Setup Logs",
+              label: setupSecond.channels.button1,
               style: "SECONDARY",
               emoji: "🚀",
             });
@@ -101,7 +70,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           if (roleclaimChannel) {
             buttons.push({
               customId: "edit-roleclaim",
-              label: "Edit Role Claim message",
+              label: setupSecond.channels.button2,
               style: "SECONDARY",
               emoji: "🗂️",
             });
@@ -110,7 +79,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           if (membercountChannel) {
             buttons.push({
               customId: "rename-membercount",
-              label: "Rename Member Count",
+              label: setupSecond.channels.button3,
               style: "SECONDARY",
               emoji: "🧾",
             });
@@ -119,7 +88,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           if (JTCChannel) {
             buttons.push({
               customId: "channels-names-JTC",
-              label: "Edit Join to Create names",
+              label: setupSecond.channels.button4,
               style: "SECONDARY",
               emoji: "🔊",
             });
@@ -145,20 +114,18 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
         if (findChannel) {
           return selectMenu.editReply({
-            content: `\`🔊\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> JTC channel ${findChannel.toString()} is currently setup in **${
-              findChannel.parent ? findChannel.parent.toString() : "default"
-            }** category.\n\nPlease use the **buttons below** to **edit** this feature.`,
+            content: eval(setupSecond.jtc.reply),
             components: [
               this.client.ButtonRow([
                 {
                   customId: "channels-names-JTC",
-                  label: "Setup channel names",
+                  label: setupSecond.jtc.button1,
                   style: "PRIMARY",
                   emoji: "🔧",
                 },
                 {
                   customId: "delete-JTC",
-                  label: "Delete",
+                  label: setupSecond.jtc.button2,
                   style: "SECONDARY",
                   emoji: "🗑",
                 },
@@ -168,14 +135,12 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         }
 
         return selectMenu.editReply({
-          content: `\`🔊\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> You can also use \`/setup channels\` to choose a different category than **${
-            noParent ? "the default one" : firstCategory.name
-          }**.`,
+          content: eval(setupSecond.jtc.reply2),
           components: [
             this.client.ButtonRow([
               {
                 customId: "create-JTC",
-                label: `Create ${!noParent ? "in " + firstCategory.name : ""}`,
+                label: eval(setupSecond.jtc.button3),
                 style: "SUCCESS",
                 emoji: "🔉",
               },
@@ -191,13 +156,11 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
         if (!blacklistState) {
           return selectMenu.editReply({
-            content:
-              "`🛡️` Blacklist feature is disabled\n\n> Would you like to activate it?",
+            content: setupSecond.blacklist.reply1,
             components: [
               this.client.ButtonRow([
                 {
                   customId: "blacklist-tool",
-                  label: "",
                   style: "SUCCESS",
                   emoji: "✅",
                 },
@@ -207,20 +170,7 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         }
 
         return selectMenu.editReply({
-          content: `\`🛡️\` **Blacklist** is a feature that **prevents freshly created accounts from joining your server**. New accounts are often **bots, scams and adverts** that could be used maliciously to **harm your server users**.\n\nBlacklist is **activated by default**, you can change the times according to **your needs**:\n> \`Blacklist length: ${this.client.PrettyMs(
-            blacklistTime,
-            {
-              verbose: true,
-            }
-          )}\` ${
-            blacklistTime == 86400000 ? " (default)" : ""
-          }\n> ↪ *change how long the bot will block the newcomer for.*
-          > \`Account age required: ${this.client.PrettyMs(blacklistMinAge, {
-            verbose: true,
-          })}\` ${
-            blacklistMinAge == 3600000 ? " (default)" : ""
-          }\n> ↪ *change the minimum age a newcomer must be to join the server.*
-           \n\`⏱️\` To change the blacklist times, please use, \`/setup blacklist\` command.`,
+          content: eval(setupSecond.blacklist.reply2),
         });
 
       case "roleclaim_option":
@@ -229,18 +179,18 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
         if (msgId && channelId) {
           return selectMenu.editReply({
-            content: `\`🗂️\` **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> **Role Claim message** is setup in **<#${channelId}>**.\n> To change the roles use, \`/setup roleclaim add|remove\` command.\n\nYou can **edit the role claim** system with the **buttons bellow**.`,
+            content: eval(setupSecond.roleclaim.reply1),
             components: [
               this.client.ButtonRow([
                 {
                   customId: "edit-roleclaim",
-                  label: "Edit",
+                  label: setupSecond.roleclaim.button1,
                   style: "PRIMARY",
                   emoji: "✏️",
                 },
                 {
                   customId: "delete-roleclaim",
-                  label: "Delete",
+                  label: setupSecond.roleclaim.button2,
                   style: "SECONDARY",
                   emoji: "🗑",
                 },
@@ -250,12 +200,12 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
         }
 
         return selectMenu.editReply({
-          content: `\`🗂️\` **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can also use \`/setup channels\` to setup your role claim in a different channel than ${selectMenu.channel.toString()}.`,
+          content: eval(setupSecond.roleclaim.reply2),
           components: [
             this.client.ButtonRow([
               {
                 customId: "create-roleclaim",
-                label: `Create in ${selectMenu.channel.name}`,
+                label: eval(setupSecond.roleclaim.button3),
                 style: "SUCCESS",
                 emoji: "🗂️",
               },
@@ -268,19 +218,17 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
 
         if (autoroleArray.length === 0) {
           return selectMenu.editReply({
-            content: `\`🎩\` **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can use \`/setup autorole add\` to setup this feature.`,
+            content: eval(setupSecond.autorole.reply1),
           });
         }
 
         return selectMenu.editReply({
-          content: `\`🎩\` **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can use, \`/setup autorole add|remove\` to edit this feature.\n\n\`🧮\` **Roles** that will be **given to newcomers**: ${autoroleArray
-            .map((r) => `<@&${r}>`)
-            .join(", ")}`,
+          content: eval(setupSecond.autorole.reply2),
           components: [
             this.client.ButtonRow([
               {
                 customId: "reset-autorole",
-                label: "Reset",
+                label: setupSecond.autorole.button1,
                 style: "SECONDARY",
                 emoji: "🗑",
               },
@@ -295,19 +243,20 @@ module.exports = class SetupMenu2MsgSelect extends SelectMenu {
           components: [
             this.client.SelectMenuRow(
               "moderation-tools-select",
-              "Manage your tools",
+              setupSecond.moderation.select1.title,
               [
                 {
-                  label: "Blacklist",
-                  description: "Protect your server against bots, scams, etc.",
+                  label: setupSecond.moderation.select1.option1.label,
+                  description:
+                    setupSecond.moderation.select1.option1.description,
                   value: "blacklist",
                   emoji: "🛡️",
                   default: moderationTools.enabled.includes("blacklist"),
                 },
                 {
-                  label: "Discord invites suppressor",
+                  label: setupSecond.moderation.select1.option2.label,
                   description:
-                    "Automatically deletes invitations sent by non-moderators",
+                    setupSecond.moderation.select1.option2.description,
                   value: "delDcInvites",
                   emoji: "🔗",
                   default: moderationTools.enabled.includes("delDcInvites"),

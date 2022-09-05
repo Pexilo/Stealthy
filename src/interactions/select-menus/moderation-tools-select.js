@@ -9,6 +9,9 @@ module.exports = class moderationToolsSelect extends SelectMenu {
     if (!(await this.client.Defer(selectMenu))) return;
     const { guild, values } = selectMenu;
 
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { moderationTools } = this.client.la[lang].interactions.selectMenus;
+
     await this.client.UpdateGuild(guild, {
       "moderationTools.enabled": values,
     });
@@ -17,17 +20,15 @@ module.exports = class moderationToolsSelect extends SelectMenu {
       .map((value) => {
         switch (value) {
           case "blacklist":
-            return "\n`🛡️` Blacklist";
+            return moderationTools.spelledValues.blacklist;
           case "delDcInvites":
-            return "\n`🔗` Discord Invites Suppressor";
+            return moderationTools.spelledValues.delDcInv;
         }
       })
       .join(", ");
 
     return selectMenu.editReply({
-      content: `**Moderation tools enabled:**${
-        !spelledValues ? " ❎" : spelledValues
-      }`,
+      content: eval(moderationTools.reply),
     });
   }
 };

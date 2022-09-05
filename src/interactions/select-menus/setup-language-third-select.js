@@ -1,7 +1,7 @@
 const { SelectMenu } = require("sheweny");
 const { supportedLanguages } = require("../../languages/supportedLanguages");
 
-module.exports = class LanguageMenu3MsgSelect extends SelectMenu {
+module.exports = class setupLanguageThirdSelect extends SelectMenu {
   constructor(client) {
     super(client, ["language-select"]);
   }
@@ -12,15 +12,11 @@ module.exports = class LanguageMenu3MsgSelect extends SelectMenu {
     for (const [key, value] of Object.entries(supportedLanguages)) {
       if (selectMenu.values[0] === `${key}_option`) {
         this.client.UpdateGuild(guild, { language: key });
+        const { setupLanguageThird } =
+          this.client.la[key].interactions.selectMenus;
 
-        return selectMenu.editReply(
-          `${await this.client.FastTranslate(
-            "Done, your language is now set to",
-            key.toUpperCase()
-          )} ${value}`
-        );
+        return selectMenu.editReply(eval(setupLanguageThird.reply));
       }
     }
-    return selectMenu.editReply("`🚫` Something went wrong, please try again.");
   }
 };

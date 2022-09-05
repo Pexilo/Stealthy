@@ -9,7 +9,8 @@ module.exports = class roleClaimButtons extends Button {
     const { guild, channel } = button;
 
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
-    const {} = this.client.la[lang];
+    const { errors } = this.client.la[lang];
+    const { roleclaim } = this.client.la[lang].interactions.buttons;
 
     const msgId = fetchGuild.roleClaim.message;
     let channelId = fetchGuild.roleClaim.channel;
@@ -38,12 +39,10 @@ module.exports = class roleClaimButtons extends Button {
             embeds: [
               this.client
                 .Embed()
-                .setTitle("Role Claim Title")
-                .setDescription(
-                  "Role Claim Description\n⬅️ You can also change the color"
-                )
+                .setTitle(roleclaim.create.embed1.title)
+                .setDescription(roleclaim.create.embed1.description)
                 .setFooter({
-                  text: "Role Claim Footer",
+                  text: roleclaim.create.embed1.footer,
                 }),
             ],
           })
@@ -55,17 +54,13 @@ module.exports = class roleClaimButtons extends Button {
               });
               channelId = channel.id;
             } catch (e) {
-              return interaction.editReply(
-                `\`⛔\` An error occured: ${"```"}${
-                  e.message
-                }${"```"}\nPlease contact an administrator of the bot for further assistance.`
-              );
+              eval(errors.error8);
             }
 
             // Tip message for the user
             channel
               .send({
-                content: "> Add roles with `/setup roleclaim add`",
+                content: roleclaim.create.tipMsg,
               })
               .then((tip) => {
                 this.client.UpdateGuild(guild, {
@@ -74,18 +69,18 @@ module.exports = class roleClaimButtons extends Button {
               });
 
             return button.editReply({
-              content: `Role Claim message is setup in **<#${channelId}>**.\n\n> To change the roles use, \`/setup roleclaim add/remove\` command.\n> You can edit the role claim message with the button bellow or with \`/setup roleclaim embed\``,
+              content: eval(roleclaim.create.reply),
               components: [
                 this.client.ButtonRow([
                   {
                     customId: "edit-roleclaim",
-                    label: "Edit",
+                    label: roleclaim.create.button1,
                     style: "PRIMARY",
                     emoji: "✏️",
                   },
                   {
                     customId: "delete-roleclaim",
-                    label: "Delete",
+                    label: roleclaim.create.button2,
                     style: "SECONDARY",
                     emoji: "🗑",
                   },
@@ -100,8 +95,7 @@ module.exports = class roleClaimButtons extends Button {
         // Check if role claim exists
         if (!channelId || !msgId) {
           return button.reply({
-            content:
-              "`🚫` You need to setup the roleclaim system first.\n\n> Use `/setup channels`",
+            content: errors.error10,
             ephemeral: true,
           });
         }
@@ -112,41 +106,40 @@ module.exports = class roleClaimButtons extends Button {
           msg = await foundChannel.messages.fetch(msgId);
         } catch (e) {
           return button.reply({
-            content:
-              "`⛔` An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
+            content: errors.error11,
             ephemeral: true,
           });
         }
 
         // Show modal to edit the role claim message embed
         await button.showModal(
-          this.client.ModalRow("edit-roleclaim", "Edit roleclaim embed", [
+          this.client.ModalRow("edit-roleclaim", roleclaim.edit.modal1.title, [
             {
               customId: "roleclaim-title-input",
-              label: "Title",
+              label: roleclaim.edit.modal1.input1,
               style: "Short",
               placeholder: `${this.client.Truncate(msg.embeds[0].title)}`,
               required: false,
             },
             {
               customId: "roleclaim-description-input",
-              label: "Description",
+              label: roleclaim.edit.modal1.input2,
               style: "Paragraph",
               placeholder: `${this.client.Truncate(msg.embeds[0].description)}`,
               required: false,
             },
             {
               customId: "roleclaim-footer-input",
-              label: "Footer",
+              label: roleclaim.edit.modal1.input3,
               style: "Short",
               placeholder: `${this.client.Truncate(msg.embeds[0].footer.text)}`,
               required: false,
             },
             {
               customId: "roleclaim-color-input",
-              label: "Color",
+              label: roleclaim.edit.modal1.input4.label,
               style: "Short",
-              placeholder: "color must be a hex color code (#000000)",
+              placeholder: roleclaim.edit.modal1.input4.placeholder,
               required: false,
             },
           ])
@@ -159,8 +152,7 @@ module.exports = class roleClaimButtons extends Button {
 
         if (!fetchGuild.roleClaim.message) {
           return button.editReply({
-            content:
-              "`🚫` You need to setup the role claim system first.\n\n> Use `/setup channels`",
+            content: errors.error47,
           });
         }
 
@@ -182,7 +174,7 @@ module.exports = class roleClaimButtons extends Button {
         } catch (e) {}
 
         return button.editReply({
-          content: "`❎` Role Claim system deleted!",
+          content: roleclaim.delete.reply,
         });
     }
   }

@@ -317,9 +317,9 @@
       },
       "playTogether": {
         "embed1": {
-          "author": "`${activities[activity].name} ${activities[activity].nitro? '⚠️ Only for boosted servers': ''}`",
+          "author": "`${activities[activity].name} ${activities[activity].nitro ? '⚠️ Only for boosted servers': ''}`",
           "description": "`Click the button below to begin the activity!\n\nYou are currently in <#${member.voice.channel.id}>`",
-          "footer": "${activities[activity].nitro? '⚠️ This discord server must be at least level 2 Nitro to play this activity.': 'The activity will begin in your current voice channel.'}`"
+          "footer": "`${activities[activity].nitro ? '⚠️ This discord server must be at least level 2 Nitro to play this activity.' : 'The activity will begin in your current voice channel.'}`"
         }
       },
       "serverinfo": {
@@ -419,25 +419,234 @@
   },
   "interactions": {
     "buttons": {
-      "autorole": {},
-      "clear-confirm": {},
-      "JTC": {},
-      "logs-types": {},
-      "membercount": {},
-      "moderation-tools": {},
-      "roleclaim": {},
-      "setup-first": {},
-      "translate": {},
-      "warn-list": {}
+      "autorole": {
+        "reset": {
+          "reply": "`❎` The autorole system as been reset"
+        },
+        "list": {
+          "reply": "`\\`✅\\` Roles that will be given to newcomers: ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`"
+        },
+        "button1": "Reset"
+      },
+      "clearConfirm": {
+        "reply": "`\\`🧹\\` \\`${number}\\` messages have been cleared`",
+        "embed1": {
+          "author": "`by ${button.user.tag}`",
+          "description": "`\\`${number}\\` messages have been cleared in ${channel.toString()}`",
+          "footer": "`This action will be canceled in 30 seconds`"
+        }
+      },
+      "JTC": {
+        "create": {
+          "name": "🔉 Create a channel",
+          "reply": "`\\`✅\\` JTC channel created in: **${voiceChannel.parent ? `<#${voiceChannel.parentId}>` : 'default'}** category.\n> You can move it to another category if you want.\n > You can use \\`/invite-vc member:\\` to invite someone in dm to join your channel.`"
+        },
+        "delete": {
+          "reply": "`\\`❎\\` JTC channel deleted in: **${channelToDelete.parent ? `<#${channelToDelete.parentId}>`: 'default'}** category\n\n> Note that you can create **only one** Join to create channel **per server**.`"
+        },
+        "channelsNames": {
+          "modal1": "Names (must be separated by a comma)"
+        }
+      },
+      "logsTypes": {
+        "select1": {
+          "title": "What logs do you want to see?",
+          "option1": {
+            "label": "Moderation",
+            "description": "Kick, ban, mute, warn, blacklist commands"
+          },
+          "option2": {
+            "label": "Channels changes",
+            "description": "Slowmode, lock, clear commands."
+          },
+          "option3": {
+            "label": "Join & Leave",
+            "description": "Whenever a member joins or leaves the server."
+          },
+          "option4": {
+            "label": "Message deleted",
+            "description": "If a message is deleted by a user."
+          },
+          "option5": {
+            "label": "Message edited",
+            "description": "If a message is edited by a user."
+          }
+        }
+      },
+      "membercount": {
+        "reply": "`❎` Membercount channel deleted",
+        "modal1": {
+          "title": "Change member count channel",
+          "input1": "Name"
+        }
+      },
+      "moderationTools": {
+        "blacklist": {
+          "reply": "`🛡️` Blacklist feature is now enabled ✅\n\n> You can re-run your command"
+        },
+        "delDcInv": {
+          "reply": "`🔗` Discord links suppressor is now enabled ✅\n\n> You can re-run your command"
+        }
+      },
+      "roleclaim": {
+        "create": {
+          "reply": "`Role Claim message is setup in **<#${channelId}>**.\n\n> To change the roles use, \\`/setup roleclaim add/remove\\` command.\n> You can edit the role claim message with the button bellow or with \\`/setup roleclaim embed\\``",
+          "embed1": {
+            "title": "Role claim",
+            "description": "Role Claim Description\n⬅️ You can also change the color",
+            "footer": "Role Claim Footer"
+          },
+          "tipMsg": "> Add roles with `/setup roleclaim add`",
+          "button1": "Edit",
+          "button2": "Delete"
+        },
+        "edit": {
+          "modal1": {
+            "title": "Edit role claim message",
+            "input1": "Title",
+            "input2": "Description",
+            "input3": "Footer",
+            "input4": {
+              "label": "Color",
+              "placeholder": "color must be a hex color code (#000000)"
+            }
+          }
+        },
+        "delete": {
+          "reply": "`❎` Role Claim system deleted!"
+        }
+      },
+      "setupFirst": {
+        "reply": "`What do you want to setup ${member.toString()} ?`",
+        "modal1": {
+          "title": "What feature do you want to configure?",
+          "option1": {
+            "label": "Channels",
+            "description": "REQUIRED - Configure the channels used by the bot."
+          },
+          "option2": {
+            "label": "Join to Create",
+            "description": "OPTIONAL - Lighten your voice channels with just one"
+          },
+          "option3": {
+            "label": "Role Claim",
+            "description": "OPTIONAL - Let users claim roles from a message"
+          },
+          "option4": {
+            "label": "Auto Role",
+            "description": "OPTIONAL - Give roles to newcomers"
+          },
+          "option5": {
+            "label": "Blacklist",
+            "description": "OPTIONAL - Protect your server against bots, scams, etc."
+          },
+          "option6": {
+            "label": "Moderation Tools",
+            "description": "OPTIONAL - Enable or disable moderation features"
+          },
+          "option7": {
+            "label": "Language",
+            "description": "OPTIONAL - Change the language of the bot"
+          }
+        }
+      },
+      "translate": {
+        "embed1": {
+          "field1": "Original",
+          "field2": "Translation",
+          "footer": "Powered by DeepL.com"
+        }
+      },
+      "warnList": {
+        "reason": "`Reason: \\`${warn.reason}\\`\n`",
+        "embed1": {
+          "author": "`${member.user.tag} warns 🔨`"
+        }
+      }
     },
     "modals": {
-      "JTC-channel-names": {},
-      "membercount-rename": {},
-      "roleclaim-embed": {}
+      "JTCChannelNames": {
+        "reply": "`\\`✅\\` New JTC channel names:\n${list}`"
+      },
+      "membercountRename": {
+        "reply": "`✅` Member count channel updated."
+      },
+      "roleclaimEmbed": {
+        "reply": "`✅` Roleclaim embed updated."
+      }
     },
-    "select-menus": {
-      "setup-language-third": {},
-      "setup-second": {}
+    "selectMenus": {
+      "logsEnabled": {
+        "reply": "`**Logs enabled:**${spelledValues}\n\n> To log \\`Kick\\`, \\`Ban\\`, \\`Mute\\` commands, it is **necessary** to use the **commands given by Stealthy** (\\`/kick\\`, \\`/ban\\` & \\`/mute\\`)`",
+        "spelledValues": {
+          "msgDelete": "\n`🗑️` *Message deletes*",
+          "msgEdit": "\n`✍` *Message edits*",
+          "joinLeave": "\n`🚪` *Join & Leave*",
+          "moderation": "\n`🛡️` *Moderation*",
+          "channels": "\n`📙` *Channels*"
+        }
+      },
+      "moderationTools": {
+        "reply": "`**Moderation tools enabled:**${!spelledValues ? ' ❎' : spelledValues}`",
+        "spelledValues": {
+          "blacklist": "\n`🛡️` *Blacklist*",
+          "delDcInv": "\n`🔗` *Discord links suppressor*"
+        }
+      },
+      "setupLanguageThird": {
+        "reply": "`Done, your language is now set to **${key.toUpperCase()}** ${value}`"
+      },
+      "setupSecond": {
+        "lang": {
+          "reply": "`Good, so you want to ${defaultLanguage !== 'en' ? 'change' : 'set up'} your language.`",
+          "select1": {
+            "title": "Select a supported language"
+          }
+        },
+        "channels": {
+          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** channel is setup in <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> **\\`🗂️\\` Role claim** channel is setup in <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Member count** channel is setup in **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** category. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Join to Create** channel is setup in **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** category. \n`: ''}\nPlease use, \\`/setup channels\\` command to setup your channels.`",
+          "button1": "Setup Logs",
+          "button2": "Edit Role Claim message",
+          "button3": "Rename Member Count",
+          "button4": "Edit Join to Create names"
+        },
+        "jtc": {
+          "reply1": "`\\`🔊\\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> JTC channel ${findChannel.toString()} is currently setup in **${findChannel.parent ? findChannel.parent.toString() : 'default'}** category.\n\nPlease use the **buttons below** to **edit** this feature.`",
+          "reply2": "`\\`🔊\\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> You can also use \\`/setup channels\\` to choose a different category than **${noParent ? 'the default one' : firstCategory.name}**.`",
+          "button1": "Setup channel names",
+          "button2": "Delete",
+          "button3": "`Create ${!noParent ? `in ${firstCategory.name}` : ''}`"
+        },
+        "blacklist": {
+          "reply1": "`🛡️` Blacklist feature is disabled\n\n> Would you like to activate it?",
+          "reply2": "`\\`🛡️\\` **Blacklist** is a feature that **prevents freshly created accounts from joining your server**. New accounts are often **bots, scams and adverts** that could be used maliciously to **harm your server users**.\n\nBlacklist is **activated by default**, you can change the times according to **your needs**:\n> \\`Blacklist length: ${this.client.PrettyMs(blacklistTime,{verbose: true})}\\` ${blacklistTime == 86400000 ? ' (default)' : ''}\n> ↪ *change how long the bot will block the newcomer for.*> \\`Account age required: ${this.client.PrettyMs(blacklistMinAge, {verbose: true})}\\` ${blacklistMinAge == 3600000 ? ' (default)' : ''}\n> ↪ *change the minimum age a newcomer must be to join the server.*\n\\`⏱️\\` To change the blacklist times, please use, \\`/setup blacklist\\` command.`"
+        },
+        "roleclaim": {
+          "reply1": "`\\`🗂️\\` **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> **Role Claim message** is setup in **<#${channelId}>**.\n> To change the roles use, \\`/setup roleclaim add|remove\\` command.\n\nYou can **edit the role claim** system with the **buttons bellow**.`",
+          "reply2": "`\\`🗂️\\` **Role Claim** is a feature that lets server **users pick a specific role by adding a reaction** to a message.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can also use \\`/setup channels\\` to setup your role claim in a different channel than ${selectMenu.channel.toString()}.`",
+          "button1": "Edit",
+          "button2": "Delete",
+          "button3": "`Create in ${selectMenu.channel.name}`"
+        },
+        "autorole": {
+          "reply1": "`\\`🎩\\` **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can use \\`/setup autorole add\\` to setup this feature.`",
+          "reply2": "`\\`🎩\\` **Auto Role** is a feature that **automatically** gives one or more **roles to a newcomer** on your server.\nChoose the **roles carefully**, to maintain the **security** of your server.\n\n> You can use, \\`/setup autorole add|remove\\` to edit this feature.\n\n\\`🧮\\` **Roles** that will be **given to newcomers**: ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`",
+          "button1": "Reset"
+        },
+        "moderation": {
+          "select1": {
+            "title": "Manage your tools",
+            "option1": {
+              "label": "Blacklist",
+              "description": "Protect your server against bots, scams, etc."
+            },
+            "option2": {
+              "label": "Discord invites suppressor",
+              "description": "Automatically deletes invitations sent by non-moderators"
+            }
+          }
+        }
+      }
     }
   },
   "errors": {
@@ -479,6 +688,17 @@
     "error36": "`\\`🚫\\` Command \\`${commandArg}\\` not found.`",
     "error37": "`🚫` You are not in a voice channel.",
     "error38": "`\\`🚫\\` Can not send message to ${targetMember.toString()}\n\n> 1. The user don't accept direct messages,\n> 2. The user is not in the same server as the bot,\n> 3. The user have blocked the bot.`",
-    "error39": "`🚫` I need the `Administator` permission to operate properly."
+    "error39": "`🚫` I need the `Administator` permission to operate properly.",
+    "error40": "``🚫` You don't have permission to do that!",
+    "error41": "`🚫` You can't purge messages that are older than 14 days.",
+    "error42": "`🚫` JTC already setup, delete it first in order to create a new one.",
+    "error43": "`🚫` JTC channel doesn't exist, create it first.",
+    "error44": "`🚫` JTC channel doesn't exist, maybe it has already been deleted?",
+    "error45": "`🚫` I can't find the logs channel.\n\n> Please use `/setup channels` to set it up.",
+    "error46": "`🚫` Membercount channel not found.",
+    "error47": "`🚫` You need to setup the role claim system first.\n\n> Use `/setup channels`",
+    "error48": "`🚫` No changes made.",
+    "error49": "`🚫` Unable to find the member count channel.",
+    "error50": "`\\`🚫\\` Invalid color.\n\n> Please use a hexadecimal color code.\n\n> For example: \\`#ff0000\\``"
   }
 }

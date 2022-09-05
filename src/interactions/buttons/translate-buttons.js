@@ -8,14 +8,17 @@ module.exports = class translateButtons extends Button {
 
   async execute(button) {
     if (!(await this.client.Defer(button))) return;
-    const { channel, customId } = button;
+    const { guild, channel, customId } = button;
+
+    const { lang } = await this.client.FetchAndGetLang(guild);
+    const { translate } = this.client.la[lang].interactions.buttons;
 
     // Get the language, message from the button id
-    const lang = customId.split("_")[1];
+    const targetlang = customId.split("_")[1];
     const message = await channel.messages.fetch(customId.split("_")[2]);
 
     // Translate the message
-    const translated = await this.client.Translate(message.content, lang);
+    const translated = await this.client.Translate(message.content, targetlang);
 
     return button.editReply({
       embeds: [
@@ -33,20 +36,20 @@ module.exports = class translateButtons extends Button {
                     translated.translations[0].detected_source_language.toLowerCase()
                   ]
                 } ` +
-                `${await this.client.FastTranslate("Original", lang)}` +
+                translate.embed1.field1 +
                 ":",
               value: `${"```"}${message.content}${"```"}`,
             },
             {
               name:
-                `${deeplLanguages[lang]} ` +
-                `${await this.client.FastTranslate("Translation", lang)}` +
+                `${deeplLanguages[targetlang]} ` +
+                translate.embed1.field2 +
                 ":",
               value: `${"```"}${translated.translations[0].text}${"```"}`,
             }
           )
           .setFooter({
-            text: `Powered by DeepL.com`,
+            text: translate.embed1.footer,
           }),
       ],
     });
