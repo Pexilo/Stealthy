@@ -11,13 +11,13 @@ module.exports = class Ready extends Event {
   }
 
   execute(client) {
-    const textChannels = client.channels.cache.filter(
-      (channel) => channel.type === ChannelType.GuildText
-    );
-    const usersCount = client.guilds.cache.reduce(
-      (a, g) => a + g.memberCount,
-      0
-    );
+    // const textChannels = client.channels.cache.filter(
+    //   (channel) => channel.type === ChannelType.GuildText
+    // );
+    // const usersCount = client.guilds.cache.reduce(
+    //   (a, g) => a + g.memberCount,
+    //   0
+    // );
 
     let index = 0;
     const activities = [
@@ -30,12 +30,5 @@ module.exports = class Ready extends Event {
       index++;
       if (index > activities.length - 1) index = 0;
     }, 15000);
-
-    console.log(
-      `${client.user.username}    ✅ - ${this.client.Capitalize(BOT_STATE)}
-♦ Servers:  ${client.guilds.cache.size}
-♦ Users:    ${usersCount}
-♦ Channels: ${textChannels.size}`
-    );
   }
 };
