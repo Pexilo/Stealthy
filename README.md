@@ -11,8 +11,6 @@
   </a>
 </div>
 
-
-
 ##
 
 <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
@@ -24,6 +22,7 @@
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Pexilo/Stealthy.svg?logo=lgtm&logoWidth=18&color=success)](https://lgtm.com/projects/g/Pexilo/Stealthy/context:javascript)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/62ce9585dd0c42e8af7b4c11e7fe456d)](https://www.codacy.com/gh/Pexilo/Stealthy/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Pexilo/Stealthy&utm_campaign=Badge_Grade)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Pexilo_Stealthy&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Pexilo_Stealthy)
+[![wakatime](https://wakatime.com/badge/user/505d5239-8982-443a-af40-f424ba106165/project/26f9558b-88a5-476d-8e46-70f3ee78ce18.svg?style=flat "Time spend since the 1.1.2")](https://wakatime.com/badge/user/505d5239-8982-443a-af40-f424ba106165/project/26f9558b-88a5-476d-8e46-70f3ee78ce18)    
 
 ## 🐲 About Stealthy
 
@@ -61,6 +60,7 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 #### ☕ English
 #### 🥖 French
+> More will come soon..
 
 ## 📬 Future updates
 
