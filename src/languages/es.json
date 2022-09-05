@@ -1,0 +1,689 @@
+{
+  "commands": {
+    "admin": {
+      "ban": {
+        "auditlog": "`por ${interaction.member.user.tag} ${reason ? `: ${reason}` : ''}`",
+        "reply": "`\\`🔪\\` ${member.toString()} ha sido baneado del servidor.\n\n> \\`${deleteDays}\\` días de mensajes han sido borrados${reason ? `\n> Razón: \\`${reason}\\`` : ''}`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`${member.toString()} ha sido baneado.`",
+          "field1": {
+            "name": "Mensajes borrados",
+            "value": "`${deleteDays} días`"
+          },
+          "field2": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "clear": {
+        "reply": "`\\`❓\\` ¿Estás seguro de que quieres borrar **${number}** mensajes en ${interaction.channel.toString()}`"
+      },
+      "kick": {
+        "auditlog": "`por ${interaction.member.user.tag}${reason ? `: ${reason}` : ''}`",
+        "reply": "`\\`👢\\` ${member.toString()} ha sido expulsado del servidor.${reason ? `\n\n> Razón: \\`${reason}\\``: ''}`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`${member.toString()} ha sido expulsado.`",
+          "field1": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "lock": {
+        "reply": "`\\`🔒\\` ${channel.toString()} ha sido bloqueado.\n\n> Usa \\`/unlock\\` para desbloquearlo.`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`${channel.toString()} ha sido bloqueado.`",
+          "field1": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "mute": {
+        "auditlog": "`por ${interaction.member.user.tag} ${reason ? `: ${reason}` : ''}`",
+        "reply": "`🔇 ${member.toString()} ha sido silenciado.\n\n> Usa \\`/unmute\\` para desilenciarlo.`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`${member.toString()} ha sido silenciado`",
+          "field1": "Duración",
+          "field2": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "nick": {
+        "auditlog": "`por ${interaction.member.user.tag}${reason ? `: ${reason}` : ''}`",
+        "reply": "`\\`✍️\\` El apodo de ${member.toString()} ha sido establecido en \\`${nickname}\\`.`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`El apodo de ${member.toString()} ha sido establecido.`",
+          "field1": "Apodo",
+          "field2": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "setupIds": {
+        "menu": {
+          "reply": "`🐲` Haz clic en el botón de abajo"
+        },
+        "roleclaim": {
+          "add": {
+            "reply": "`\\`✅\\` Agregado ${roleRC.toString()} con ${isEmojiCustom ? emojiName : `\\`${emoji}\\``}`"
+          },
+          "remove": {
+            "replyNoArgs": "`❎` Se ha eliminado correctamente el sistema de role claim.",
+            "reply": "`\\`❎\\` Eliminado <@&${roleId}> con ${isEmojiCustom ? fieldValue : `\\`${emojiUNI}\\``}`"
+          }
+        },
+        "autorole": {
+          "add": {
+            "reply": "`\\`✅\\` Agregado autorole ${roleAR.toString()}.`",
+            "button1": "Lista",
+            "button2": "Reiniciar"
+          },
+          "remove": {
+            "reply": " `\\`❎\\` Eliminado autorole ${roleAR.toString()}.${moreThanOneRole? `\n\n> Role(s): ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`: ''}`"
+          }
+        },
+        "channels": {
+          "roleclaim": {
+            "tipMsg": "> Agrega roles con `/setup roleclaim añadir`",
+            "reply": "`\\`✅\\` Role Claim system creado en ${channel.toString()}\n\n> Usa el botón de abajo para editar el mensaje de role claim.`",
+            "embed1": {
+              "title": "Título de Role Claim",
+              "description": "Descripción de Role Claim\n⬅️ También puedes cambiar el color",
+              "footer": "Pie de página de Role Claim"
+            },
+            "button1": "Editar",
+            "button2": "Eliminar"
+          },
+          "membercount": {
+            "name": "👥 Miembros:",
+            "reply": "`\\`🧾\\` El canal de Member count ahora está configurado en ${!noParent ? `**<#${channel.id}>**` : 'default category'}.`",
+            "button1": "Renombrar",
+            "button2": "Eliminar"
+          },
+          "jtc": {
+            "name": "🔉 Crea un canal",
+            "reply": "`\\`🔉\\` Join to create canal ahora está configurado en ${!noParent ? `**<#${channel.id}>**` : 'default category'} `",
+            "button1": "Nombres de canales",
+            "button2": "Eliminar",
+            "button3": "Configuración"
+          },
+          "logs": {
+            "reply": "`\\`🚀\\` El canal de registros ahora está configurado en ${channel.toString()}\n\nPuedes **habilitar o deshabilitar los registros** con el **selector de abajo**.`",
+            "select1": {
+              "label": "¿Qué registros quieres ver?",
+              "option1": {
+                "label": "Moderación",
+                "description": "Comandos de expulsión, prohibición, silencio, advertencia, lista negra"
+              },
+              "option2": {
+                "label": "Cambios de canales",
+                "description": "Comandos de modo lento, bloqueo, limpieza."
+              },
+              "option3": {
+                "label": "Unirse y dejar",
+                "description": "Cada vez que un miembro se une o deja el servidor."
+              },
+              "option4": {
+                "label": "Mensaje eliminado",
+                "description": "Si un mensaje es eliminado por un usuario."
+              },
+              "option5": {
+                "label": "Mensaje editado",
+                "description": "Si un mensaje es editado por un usuario."
+              }
+            }
+          }
+        },
+        "blacklist": {
+          "reply1": "`🛡️` La función de blacklist está desactivada\n\n> ¿Te gustaría activarlo?",
+          "reply2": "`\\`🛡️\\` ${this.client.Capitalize(choice.replace(/_/g, ' '))} ahora está configurado en: \\`${this.client.PrettyMs(time, {verbose: true,})}\\``"
+        }
+      },
+      "slow": {
+        "auditlog": "`por ${interaction.member.user.tag}${reason ? `: ${reason}` : ''}`",
+        "reply1": "`\\`🐇\\` El modo lento de ${channel.toString()} se ha restablecido.`",
+        "reply2": "`\\`🐌\\` El modo lento de ${channel.toString()} se ha establecido en \\`${time} ${format}\\`\n\n> Use \\`/unslow\\` para desactivarlo.`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`${channel.toString()} ${time !== 0 ? 'el modo lento se ha establecido' : 'el modo lento se ha desactivado'}.`",
+          "field1": {
+            "name": "Duración",
+            "value": "`\\`${time !== 0 ? this.client.PrettyMs(time, {verbose: true,}) : 'restablecido'}\\``"
+          },
+          "field2": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "unban": {
+        "reply": "`\\`🔪\\` \\`${memberId}\\` ha sido desbaneado del servidor.`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`\\`${memberId}\\` ha sido desbaneado.`",
+          "field1": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "unlock": {
+        "reply": "`\\`🔓\\` El canal ${channel.toString()} se ha desbloqueado.`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`${channel.toString()} se ha desbloqueado.`",
+          "field1": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "unmute": {
+        "auditlog": "`por ${interaction.member.user.tag} ${reason ? `: ${reason}` : ''}`",
+        "reply1": "`\\`🔊\\` ${member.toString()} no está silenciado.`",
+        "reply2": "`\\`🔊\\` ${member.toString()} ya no está silenciado.`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`${member.toString()} ya no está silenciado.`",
+          "field1": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "unslow": {
+        "auditlog": "`por ${interaction.member.user.tag} ${reason ? `: ${reason}` : ''}`",
+        "reply": "`\\`🐇\\` El modo lento de ${channel.toString()} se ha desactivado.`",
+        "embed1": {
+          "author": "`por ${interaction.user.tag}`",
+          "description": "`${channel.toString()} el modo lento se ha desactivado.`",
+          "field1": {
+            "name": "Razón",
+            "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+          }
+        }
+      },
+      "warn": {
+        "add": {
+          "reply": "`\\`🔨\\` ${member.toString()} ha sido advertido.`",
+          "embed1": {
+            "author": "`por ${interaction.user.tag}`",
+            "description": "`${member.toString()} ha sido advertido.`",
+            "field1": {
+              "name": "Razón",
+              "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+            }
+          }
+        },
+        "remove": {
+          "reply": "`\\`❎\\` La advertencia **#${number}** de ${member.toString()} ha sido eliminada.`",
+          "embed1": {
+            "author": "`por ${interaction.user.tag}`",
+            "description": "`La advertencia **#${number}** de ${member.toString()} ha sido eliminada.`",
+            "field1": {
+              "name": "`Razón de la advertencia #${number}`",
+              "value": "`${oldReason || 'No se ha proporcionado ninguna razón'}`"
+            },
+            "field2": {
+              "name": "Razón",
+              "value": "`${reason || 'No se ha proporcionado ninguna razón'}`"
+            }
+          }
+        },
+        "list": {
+          "button1": "Advertencias",
+          "reason": "`Razón: \\`${w.reason}\\`\n`",
+          "embed1": {
+            "author": "`${member.user.tag} advertencias 🔨`"
+          }
+        }
+      }
+    },
+    "contextMenu": {
+      "avatarMessage": {},
+      "avatarUser": {},
+      "translateMessage": {
+        "reply": "`🔖` Seleccione un idioma para traducir este mensaje"
+      },
+      "userinfo": {
+        "embed1": {
+          "field1": "📅 Cuenta creada:",
+          "field2": "📥 Se unió al servidor:",
+          "field3": "🧮 Roles:",
+          "activities": [
+            "🎮 Jugando",
+            "🎥 Transmitiendo",
+            "🎧 Escuchando",
+            "📺 Viendo",
+            "📝 Estado personalizado"
+          ]
+        }
+      }
+    },
+    "misc": {
+      "botinfo": {
+        "embed1": {
+          "description": "`Mantenedor: [Pexilo#7866](https://github.com/Pexilo)`",
+          "field1": "🤖 Versión:",
+          "field2": "⚡ Uso de memoria:",
+          "field3": "⏲️ Tiempo de actividad:",
+          "field4": "🧭 Servidores:"
+        }
+      },
+      "help": {
+        "embed1": {
+          "description": "`${command[0].description}\n\n> Ejemplo: ${command[0].examples}`"
+        },
+        "embed2": {
+          "author": "`¡Hola! Soy ${bot.user.username}`",
+          "description": "`¡Para configurar las funciones de Stealthy presione el botón de abajo! \\`🐲\\`\n\n Lista de los ${commandCount} comandos:`",
+          "footer": "/help comando: para obtener información sobre un comando específico.",
+          "button1": "Configuración"
+        }
+      },
+      "inviteVocal": {
+        "reply": "`\\`📨\\` Invitación enviada a ${targetMember.toString()}`",
+        "embed1": {
+          "author": "Invitación recibida",
+          "description": "`${member} te ha invitado a <#${voiceChannel.id}>\n\n*💡Haga clic en el nombre del canal para unirse*`"
+        }
+      },
+      "ping": {
+        "embed1": {
+          "title": "🏓 ¡Pong!",
+          "field1": {
+            "name": "🤖 Latencia del bot:"
+          },
+          "field2": {
+            "name": "📡 Latencia de la API:"
+          }
+        }
+      },
+      "playTogether": {
+        "embed1": {
+          "author": "`${activities[activity].name} ${activities[activity].nitro ? '⚠️ Solo para servidores mejorados': ''}`",
+          "description": "`¡Haga clic en el botón de abajo para comenzar la actividad!\n\nActualmente estás en <#${member.voice.channel.id}>`",
+          "footer": "`${activities[activity].nitro ? '⚠️ Este servidor de discord debe tener al menos nivel 2 Nitro para jugar esta actividad.' : 'La actividad comenzará en su canal de voz actual.'}`"
+        }
+      },
+      "serverinfo": {
+        "filterLevels": ["Desactivado", "Sin rol", "Todos"],
+        "verificationLevels": ["❎", "Bajo", "Medio", "Alto", "Máximo"],
+        "boostLevel": ["❎", "Nivel 1", "Nivel 2", "Nivel 3"],
+        "embed1": {
+          "description1": "`Dueño: ${owner.user.toString()}`",
+          "description2": "`Dueño: ${owner.user.toString()}\n\n> ${guild.description}\n᲼`",
+          "field1": "📅 Fecha de creación:",
+          "field2": "👤 Miembros:",
+          "field3": "🗣️ Bitrate máximo:",
+          "field4": "🔒 Nivel de filtro:",
+          "field5": "🔐 Nivel de verificación:",
+          "field6": "💰 Servidor Boost:",
+          "field7": "🪙 Boost:"
+        }
+      }
+    }
+  },
+  "events": {
+    "guild": {
+      "guildCreate": {},
+      "guildDelete": {},
+      "guildMemberAdd": {
+        "embed1": {
+          "author": "`${member.user.username} se ha unido al servidor!`",
+          "title": "Cuenta temporalmente en la lista negra",
+          "description": "`member.toString()\n\n>Use \\`/unmute\\` para eliminar la restricción`",
+          "field1": "📅 Fecha de creación:",
+          "field2": {
+            "name": "Razón",
+            "value": "`Cuenta menor de: \\`${this.client.PrettyMs(blacklistMinAge, {verbose: true,})}\\``"
+          }
+        }
+      },
+      "guildMemberRemove": {
+        "embed1": {
+          "author": "`${member.user.username} ha dejado el servidor!`",
+          "field1": "🧮 Roles:",
+          "field2": "📅 Se unió al servidor:"
+        }
+      }
+    },
+    "messages": {
+      "messageCreate": {
+        "embed1": {
+          "author": "`${message.author.username} ha enviado un enlace de invitación.`",
+          "description": "`Mensaje enviado por <@${member.id}> eliminado en <#${channel.id}>`",
+          "field1": {
+            "name": "Razón",
+            "value": "Enlace de invitación enviado"
+          }
+        }
+      },
+      "messageDelete": {
+        "embed1": {
+          "author": "`${message.author.username} mensaje eliminado.`",
+          "description": "`Mensaje enviado por <@${member.id}> eliminado en <#${channel.id}>`",
+          "field1": "Contenido",
+          "field2": "Archivos adjuntos"
+        }
+      },
+      "messageReactionAdd": {},
+      "messageReactionRemove": {},
+      "messageUpdate": {
+        "embed1": {
+          "author": "`${newMessage.author.username} mensaje editado.`",
+          "description": "`[Mensaje editado](${jumpTo}) en ${channel.toString()}`",
+          "field1": "Antes",
+          "field2": "Después"
+        }
+      }
+    },
+    "misc": {
+      "interactionCreate": {},
+      "ready": {},
+      "voiceStateUpdate": {}
+    },
+    "permissions": {
+      "clientMissingPermissions": {
+        "reply": "`Necesito \\`${missing}\\` permiso(s) para ejecutar este comando`"
+      },
+      "userMissingPermissions": {
+        "reply": "`Necesitas \\`${missing}\\` permiso(s) para ejecutar este comando`"
+      }
+    }
+  },
+  "interactions": {
+    "buttons": {
+      "autorole": {
+        "reset": {
+          "reply": "`❎` El sistema de autorol ha sido restablecido"
+        },
+        "list": {
+          "reply": "`\\`✅\\` Roles que se darán a los nuevos miembros: ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`"
+        },
+        "button1": "Restablecer"
+      },
+      "clearConfirm": {
+        "reply": "`\\`🧹\\` \\`${number}\\` mensajes han sido borrados`",
+        "embed1": {
+          "author": "`por ${button.user.tag}`",
+          "description": "`\\`${number}\\` mensajes han sido borrados en ${channel.toString()}`"
+        }
+      },
+      "JTC": {
+        "create": {
+          "name": "🔉 Crear un canal",
+          "reply": "`\\`✅\\` Canal JTC creado en: **${channel.parent ? `<#${channel.parentId}>` : 'default'}** categoría.\n> Puedes moverlo a otra categoría si quieres.\n > Puedes usar \\`/invite-vc member:\\` para invitar a alguien en dm a unirse a tu canal.`"
+        },
+        "delete": {
+          "reply": "`\\`❎\\` Canal JTC eliminado en: **${channelToDelete.parent ? `<#${channelToDelete.parentId}>`: 'default'}** categoría\n\n> Ten en cuenta que solo puedes crear **un** canal de unirse para crear **por servidor**.`"
+        },
+        "channelsNames": {
+          "modal1": "Nombres (deben estar separados por una coma)"
+        }
+      },
+      "logsTypes": {
+        "select1": {
+          "title": "¿Qué registros quieres ver?",
+          "option1": {
+            "label": "Moderación",
+            "description": "Comandos de expulsar, banear, silenciar, advertir, bloquear"
+          },
+          "option2": {
+            "label": "Cambios de canales",
+            "description": "Comandos de slowmode, bloquear, borrar."
+          },
+          "option3": {
+            "label": "Entrar & Salir",
+            "description": "Cada vez que un miembro se une o deja el servidor."
+          },
+          "option4": {
+            "label": "Mensaje borrado",
+            "description": "Si un mensaje es borrado por un usuario."
+          },
+          "option5": {
+            "label": "Mensaje editado",
+            "description": "Si un mensaje es editado por un usuario."
+          }
+        }
+      },
+      "membercount": {
+        "reply": "`❎` Canal de Membercount eliminado",
+        "modal1": {
+          "title": "Cambiar canal de Membercount",
+          "input1": "Nombre"
+        }
+      },
+      "moderationTools": {
+        "blacklist": {
+          "reply": "`🛡️` La función de Blacklist ahora está habilitada ✅\n\n> Puedes volver a ejecutar tu comando"
+        },
+        "delDcInv": {
+          "reply": "`🔗` Supresor de enlaces de Discord ahora está habilitado ✅\n\n> Puedes volver a ejecutar tu comando"
+        }
+      },
+      "roleclaim": {
+        "create": {
+          "reply": "`El mensaje de Role Claim está configurado en **<#${channelId}>**.\n\n> Para cambiar los roles, usa el comando \\`/setup roleclaim añadir/retirar\\`.\n> Puedes editar el mensaje de role claim con el botón de abajo.`",
+          "embed1": {
+            "title": "Role Claim",
+            "description": "Descripción de Role Claim\n⬅️ También puedes cambiar el color",
+            "footer": "Pie de página de Role Claim"
+          },
+          "tipMsg": "> Agrega roles con `/setup roleclaim añadir`",
+          "button1": "Editar",
+          "button2": "Eliminar"
+        },
+        "edit": {
+          "modal1": {
+            "title": "Editar mensaje de reclamación de rol",
+            "input1": "Título",
+            "input2": "Descripción",
+            "input3": "Pie de página",
+            "input4": {
+              "label": "Color",
+              "placeholder": "el color debe ser un código de color hexadecimal (#000000)"
+            }
+          }
+        },
+        "delete": {
+          "reply": "`❎` ¡Sistema de Role Claim eliminado!"
+        }
+      },
+      "setupFirst": {
+        "reply": "`¿Qué quieres configurar ${member.toString()} ?`",
+        "modal1": {
+          "title": "¿Qué función quieres configurar?",
+          "option1": {
+            "label": "Canales",
+            "description": "REQUERIDO - Configura los canales utilizados por el bot."
+          },
+          "option2": {
+            "label": "Join to Create",
+            "description": "OPCIONAL - Aligera tus canales de voz con solo uno"
+          },
+          "option3": {
+            "label": "Role Claim",
+            "description": "OPCIONAL - Deja que los usuarios reclamen roles de un mensaje"
+          },
+          "option4": {
+            "label": "Auto Rol",
+            "description": "OPCIONAL - Da roles a los nuevos miembros"
+          },
+          "option5": {
+            "label": "Blacklist",
+            "description": "OPCIONAL - Protege tu servidor contra bots, estafas, etc."
+          },
+          "option6": {
+            "label": "Herramientas de moderación",
+            "description": "OPCIONAL - Habilita o deshabilita funciones de moderación"
+          },
+          "option7": {
+            "label": "Idioma",
+            "description": "OPCIONAL - Cambia el idioma del bot"
+          }
+        }
+      },
+      "translate": {
+        "embed1": {
+          "field1": "Original",
+          "field2": "Traducción",
+          "footer": "por DeepL.com"
+        }
+      },
+      "warnList": {
+        "reason": "`Razón: \\`${warn.reason}\\`\n`",
+        "embed1": {
+          "author": "`${member.user.tag} advertencias 🔨`"
+        }
+      }
+    },
+    "modals": {
+      "JTCChannelNames": {
+        "reply": "`\\`✅\\` Nuevos nombres de canales JTC:\n${list}`"
+      },
+      "membercountRename": {
+        "reply": "`✅` Canal de Membercount actualizado."
+      },
+      "roleclaimEmbed": {
+        "reply": "`✅` Mensaje de reclamación de rol actualizado."
+      }
+    },
+    "selectMenus": {
+      "logsEnabled": {
+        "reply": "`**Registros habilitados:**${spelledValues}\n\n> Para registrar los comandos \\`Kick\\`, \\`Ban\\`, \\`Mute\\`, es **necesario** usar los **comandos dados por Stealthy** (\\`/kick\\`, \\`/ban\\` & \\`/mute\\`)`",
+        "spelledValues": {
+          "msgDelete": "\n`🗑️` *Eliminación de mensajes*",
+          "msgEdit": "\n`✍` *Edición de mensajes*",
+          "joinLeave": "\n`🚪` *Entrada y salida*",
+          "moderation": "\n`🛡️` *Moderación*",
+          "channels": "\n`📙` *Canales*"
+        }
+      },
+      "moderationTools": {
+        "reply": "`**Herramientas de moderación habilitadas:**${!spelledValues ? ' ❎' : spelledValues}`",
+        "spelledValues": {
+          "blacklist": "\n`🛡️` *Blacklist*",
+          "delDcInv": "\n`🔗` *Supresor de enlaces de Discord*"
+        }
+      },
+      "setupLanguageThird": {
+        "reply": "`Hecho, tu idioma ahora está configurado en **${key.toUpperCase()}** ${value}`"
+      },
+      "setupSecond": {
+        "lang": {
+          "reply": "`Bien, así que quieres ${defaultLanguage !== 'en' ? 'cambiar' : 'configurar'} tu idioma.`",
+          "select1": {
+            "title": "Selecciona un idioma compatible"
+          }
+        },
+        "channels": {
+          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** canal está configurado en <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> **\\`🗂️\\` Role Claim** canal está configurado en <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Member count** canal está configurado en **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** categoría. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Join to Create** canal está configurado en **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** categoría. \n`: ''}\nPor favor usa, el comando \\`/setup canales\\` para configurar tus canales.`",
+          "button1": "Configurar Logs",
+          "button2": "Editar mensaje de reclamación de rol",
+          "button3": "Renombrar Member Count",
+          "button4": "Editar nombres de Join to Create"
+        },
+        "jtc": {
+          "reply1": "`\\`🔊\\` **Join to Create** es una característica que **limpia el espacio del canal de voz**, haciendo uso de un **único canal para generar nuevos canales de voz**.\n\n> El canal JTC ${findChannel.toString()} está actualmente configurado en la categoría **${findChannel.parent ? findChannel.parent.toString() : 'default'}**.\n\nPor favor usa los **botones de abajo** para **editar** esta característica.`",
+          "reply2": "`\\`🔊\\` **Join to Create** es una característica que **limpia el espacio del canal de voz**, haciendo uso de un **único canal para generar nuevos canales de voz**.\n\n> También puedes usar \\`/setup canales\\` para elegir una categoría diferente que **${noParent ? 'el predeterminado' : firstCategory.name}**.`",
+          "button1": "Configurar nombres de canales",
+          "button2": "Eliminar",
+          "button3": "`Crear ${!noParent ? `en ${firstCategory.name}` : ''}`"
+        },
+        "blacklist": {
+          "reply1": "`🛡️` La característica de lista negra está desactivada\n\n> ¿Te gustaría activarla?",
+          "reply2": "`\\`🛡️\\` **Blacklist** es una característica que **impide que las cuentas recién creadas se unan a tu servidor**. Las nuevas cuentas suelen ser **bots, estafas y anuncios** que podrían ser utilizados de manera maliciosa para **dañar a los usuarios de tu servidor**.\n\nBlacklist está **activada por defecto**, puedes cambiar los tiempos según **tus necesidades**:\n> \\`Blacklist length: ${this.client.PrettyMs(blacklistTime,{verbose: true})}\\` ${blacklistTime == 86400000 ? ' (default)' : ''}\n> ↪ *cambia cuánto tiempo bloqueará el bot al nuevo miembro.*> \\`Account age required: ${this.client.PrettyMs(blacklistMinAge, {verbose: true})}\\` ${blacklistMinAge == 3600000 ? ' (default)' : ''}\n> ↪ *cambia la edad mínima que debe tener un nuevo miembro para unirse al servidor.*\n\\`⏱️\\` Para cambiar los tiempos de blacklist, por favor usa el comando \\`/setup blacklist\\`.`"
+        },
+        "roleclaim": {
+          "reply1": "`\\`🗂️\\` **Role Claim** es una característica que permite a los **usuarios del servidor elegir un rol específico agregando una reacción** a un mensaje.\nElige los **roles cuidadosamente**, para mantener la **seguridad** de tu servidor.\n\n> **El mensaje de reclamación de rol** está configurado en **<#${channelId}>**.\n> Para cambiar los roles usa el comando \\`/setup roleclaim añadir|retirar\\`.\n\nPuedes **editar el sistema de reclamación de rol** con los **botones de abajo**.`",
+          "reply2": "`\\`🗂️\\` **Role Claim** es una característica que permite a los **usuarios del servidor elegir un rol específico agregando una reacción** a un mensaje.\nElige los **roles cuidadosamente**, para mantener la **seguridad** de tu servidor.\n\n> También puedes usar \\`/setup canales\\` para configurar tu reclamación de rol en un canal diferente que ${selectMenu.channel.toString()}.`",
+          "button1": "Editar",
+          "button2": "Eliminar",
+          "button3": "`Crear en ${selectMenu.channel.name}`"
+        },
+        "autorole": {
+          "reply1": "`\\`🎩\\` **Auto Role** es una característica que **automáticamente** da uno o más **roles a un nuevo miembro** en tu servidor.\nElige los **roles cuidadosamente**, para mantener la **seguridad** de tu servidor.\n\n> Puedes usar \\`/setup autorole añadir\\` para configurar esta característica.`",
+          "reply2": "`\\`🎩\\` **Auto Role** es una característica que **automáticamente** da uno o más **roles a un nuevo miembro** en tu servidor.\nElige los **roles cuidadosamente**, para mantener la **seguridad** de tu servidor.\n\n> Puedes usar, \\`/setup autorole añadir|retirar\\` para editar esta característica.\n\n\\`🧮\\` **Roles** que serán **dadas a los nuevos miembros**: ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`",
+          "button1": "Reiniciar"
+        },
+        "moderation": {
+          "select1": {
+            "title": "Administra tus herramientas",
+            "option1": {
+              "label": "Blacklist",
+              "description": "Protege tu servidor contra bots, estafas, etc."
+            },
+            "option2": {
+              "label": "Supresor de invitaciones de Discord",
+              "description": "Elimina automáticamente las invitaciones enviadas por no moderadores"
+            }
+          }
+        }
+      }
+    }
+  },
+  "errors": {
+    "error1": "`🚫` No puedo encontrar a ese usuario.",
+    "error2": "`🚫` No tienes permiso para banear a este usuario.",
+    "error3": "`🚫` No tienes permiso para expulsar a este usuario.",
+    "error4": "`🚫` No puedo encontrar este canal.",
+    "error5": "`🚫` Este canal ya está bloqueado.",
+    "error6": "`🚫` No tienes permiso para bloquear este canal.",
+    "error7": "`🚫` No puedo silenciar a este usuario.",
+    "error8": "`\\`⛔\\` Ocurrió un error: \\`\\`\\`${e.message}\\`\\`\\\nPor favor, contacte a un administrador del bot para obtener más ayuda.`",
+    "error9": "`🚫` No tienes permiso para cambiar el apodo de este usuario.",
+    "error10": "`🚫` Necesitas configurar el sistema de role claim primero.\n\n> Usa `/setup canales`",
+    "error11": "`⛔` Ocurrió un error: No se pudo encontrar el mensaje de role claim.\n\n> Intenta configurar el sistema de role claim de nuevo.\n\n> Si el error persiste, contacta a un administrador de Stealthy",
+    "error12": "`\\`🚫\\` Uno de mis roles necesita estar por encima de ${roleRC.toString()} para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``",
+    "error13": "`\\`🚫\\` No puedes asignar <@&${guild.id}>`",
+    "error14": "`\\`🚫\\` No puedo encontrar el emoji \\`:${emoji.split(':')[1]}:\\`.\n\n> Necesito estar en el mismo servidor que el emoji`",
+    "error15": "`\\`🚫\\` \\`${emoji}\\` no es compatible.\n\n> Proporcione un [emoji](https://emojipedia.org)`",
+    "error16": "`⛔` El mensaje de role claim ha alcanzado la cantidad máxima de reacciones.\n\n> Puedes proporcionar hasta 20 roles.",
+    "error17": "`\\`🚫\\` \\`${isEmojiCustom ? emojiName : `\\`${emoji}\\``}\\` ya está en uso con <@&${emojiAlreadyExist[0].roleId}>.\n\n> Elimínalo primero con \\`/setup roleclaim retirar\\``",
+    "error18": "`\\`🚫\\` Ya has agregado ${roleRC.toString()} con ${roleAlreadyExist[0].emojiName.startsWith('<')? roleAlreadyExist[0].emojiName: `\\`${this.client.GetEmojiFromName(roleAlreadyExist[0].emojiName)}\\`.\n\n> Elimínalo primero con \\`/setup roleclaim retirar\\``",
+    "error19": "`\\`🚫\\` ${roleRC.toString()} no está en uso.`",
+    "error20": " `\\`🚫\\` ${emoji.startsWith('<') ? emoji : `\\`${emoji}\\``} no está en uso.`",
+    "error21": "`🚫` No puedes tener más de 5 roles asignados.\n\n> Usa `/setup setup autorole list` para ver la lista de roles.",
+    "error22": "`\\`🚫\\` ${roleAR.toString()} ya está en la lista.`",
+    "error23": "`🚫` No hay autorole establecido.\n\n> Establece uno con `/setup autorole añadir`",
+    "error24": "`\\`🚫\\` ${roleAR.toString()} no está en la lista.${moreThanOneRole? `\n\n> Rol(es): ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`: ''}`",
+    "error25": "`\\`🚫\\` **${channel.toString()}** no es un canal de texto.`",
+    "error26": "`🚫` No puedes asignar una categoría como canal de registros.",
+    "error27": "`🚫` No tienes permiso para establecer el slowmode para este canal.",
+    "error28": "`🚫` Este usuario no está baneado de este servidor.",
+    "error29": "`🚫` Este canal ya está desbloqueado.",
+    "error30": "`🚫` No tienes permiso para desbloquear este canal.",
+    "error31": "`\\`🚫\\` No puedo desmutear a ${member.toString()}.`",
+    "error32": "`🚫` Este usuario no tiene advertencias.",
+    "error33": "`\\`🚫\\` La advertencia **#${number}** de ${member.toString()} no existe.`",
+    "error34": "`🚫` No puedo encontrar este mensaje.",
+    "error35": "`🚫` No se puede traducir este mensaje.",
+    "error36": "`\\`🚫\\` Comando \\`${commandArg}\\` no encontrado.`",
+    "error37": "`🚫` No estás en un canal de voz.",
+    "error38": "`\\`🚫\\` No se puede enviar mensaje a ${targetMember.toString()}\n\n> 1. El usuario no acepta mensajes directos,\n> 2. El usuario no está en el mismo servidor que el bot,\n> 3. El usuario ha bloqueado al bot.`",
+    "error39": "`🚫` Necesito el permiso `Administator` para funcionar correctamente.",
+    "error40": "``🚫` ¡No tienes permiso para hacer eso!",
+    "error41": "`🚫` No puedes eliminar mensajes que tengan más de 14 días.",
+    "error42": "`🚫` JTC ya está configurado, elimínalo primero para crear uno nuevo.",
+    "error43": "`🚫` El canal JTC no existe, créalo primero.",
+    "error44": "`🚫` El canal JTC no existe, ¿quizás ya ha sido eliminado?",
+    "error45": "`🚫` No puedo encontrar el canal de registros.\n\n> Usa `/setup canales` para configurarlo.",
+    "error46": "`🚫` Canal de Membercount no encontrado.",
+    "error47": "`🚫` Primero debes configurar el sistema de role claim.\n\n> Usa `/setup canales`",
+    "error48": "`🚫` No se hicieron cambios.",
+    "error49": "`🚫` No se puede encontrar el canal de Member Count.",
+    "error50": "`\\`🚫\\` Color inválido.\n\n> Usa un código de color hexadecimal.\n\n> Por ejemplo: \\`#ff0000\\``",
+    "error51": "`\\`🚫\\` Uno de mis roles necesita estar por encima de ${roleAR.toString()} para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``"
+  }
+}
