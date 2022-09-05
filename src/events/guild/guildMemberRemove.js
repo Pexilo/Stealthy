@@ -13,6 +13,7 @@ module.exports = class guildMemberRemoveTracker extends Event {
      * Logs users who leave the server - Admin category
      */
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    if (!fetchGuild) return;
     const { guildMemberRemove } = this.client.la[lang].events.guild;
 
     let logsChannel = null;
