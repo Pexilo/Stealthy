@@ -7,6 +7,7 @@ const {
   ModalBuilder,
   TextInputBuilder,
   time,
+  PermissionFlagsBits,
 } = require("discord.js");
 const prettyMilliseconds = require("pretty-ms");
 const Translate = require("deepl");
@@ -286,5 +287,16 @@ module.exports = (client) => {
     const guildData = await client.GetGuild(guild);
     if (guildData) return { fetchGuild: guildData, lang: guildData.language };
     else return { fetchGuild: null, lang: null };
+  };
+
+  /* This function is used to check permissions before sending log message. */
+  client.LogsChannelPermsCheck = async (guild, interaction, errors) => {
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks
+      )
+    )
+      return interaction.editReply(errors.error53);
   };
 };

@@ -692,7 +692,7 @@
     "error49": "`🚫` No se puede encontrar el canal de Member Count.",
     "error50": "`\\`🚫\\` Color inválido.\n\n> Usa un código de color hexadecimal.\n\n> Por ejemplo: \\`#ff0000\\``",
     "error51": "`\\`🚫\\` Uno de mis roles necesita estar por encima de ${roleAR.toString()} para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``",
-    "error52": "`\\`🚫\\` Necesito \\`${requiredPerms.toString()}\\` permiso(s) para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``",
-    "error53": "`🚫` Necesito `SendMessages,EmbedLinks` permiso(s) para registrar esta acción.\n\n> Puedes hacer esto en `configuración del servidor -> roles`"
+    "error52": "`\\`🚫\\` Necesito \\`${requiredPerms.join(', ')}\\` permiso(s) para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``",
+    "error53": "`🚫` Necesito `SendMessages, EmbedLinks` permiso(s) para registrar esta acción.\n\n> Puedes hacer esto en `configuración del servidor -> roles`"
   }
 }

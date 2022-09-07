@@ -697,7 +697,7 @@
     "error49": "`🚫` Impossible de trouver le salon 'Membercount'.",
     "error50": "`\\`🚫\\` Couleur invalide.\n\n> Veuillez utiliser un code couleur hexadécimal.\n\n> Par exemple: \\`#ff0000\\``",
     "error51": "`\\`🚫\\` Un de mes rôles doit être au-dessus de ${roleAR.toString()} pour effectuer cette action.\n\n> Vous pouvez le faire dans \\`paramètres du serveur -> rôles\\``",
-    "error52": "`\\`🚫\\` J'ai besoin de la permission \\`${requiredPerms.toString()}\\` pour effectuer cette action.\n\n> Vous pouvez le changer dans \\`paramètres du serveur -> rôles\\``",
-    "error53": "`🚫` J'ai besoin de la permission `SendMessages,EmbedLinks` pour enregistrer cette action.\n\n> Vous pouvez le faire dans `paramètres du serveur -> rôles`"
+    "error52": "`\\`🚫\\` J'ai besoin de la permission \\`${requiredPerms.join(', ')}\\` pour effectuer cette action.\n\n> Vous pouvez le changer dans \\`paramètres du serveur -> rôles\\``",
+    "error53": "`🚫` J'ai besoin de la permission `SendMessages, EmbedLinks` pour enregistrer cette action.\n\n> Vous pouvez le faire dans `paramètres du serveur -> rôles`"
   }
 }

@@ -80,13 +80,7 @@ module.exports = class LockCommand extends Command {
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("channels")) return;
-    //permissions check
-    if (
-      !logsChannel
-        .permissionsFor(guild.me)
-        .has(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks)
-    )
-      return interaction.editReply(errors.error53);
+    await this.client.LogsChannelPermsCheck(guild, interaction, errors);
 
     logsChannel
       .send({
