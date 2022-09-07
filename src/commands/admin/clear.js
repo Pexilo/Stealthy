@@ -1,5 +1,8 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class ClearCommand extends Command {
   constructor(client) {
@@ -16,7 +19,11 @@ module.exports = class ClearCommand extends Command {
       usage: "https://i.imgur.com/drN25If.png",
       category: "Admin",
       userPermissions: ["Administrator"],
-      clientPermissions: ["ManageMessages"],
+      clientPermissions: [
+        "ViewChannel",
+        "ManageMessages",
+        "ReadMessageHistory",
+      ],
       options: [
         {
           type: ApplicationCommandOptionType.Integer,
@@ -41,6 +48,7 @@ module.exports = class ClearCommand extends Command {
     const { guild, options } = interaction;
 
     const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
     const { clear } = this.client.la[lang].commands.admin;
 
     const number = options.getInteger("number");

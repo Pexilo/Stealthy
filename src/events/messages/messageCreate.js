@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class messageCreateTracker extends Event {
   constructor(client) {
@@ -13,6 +14,17 @@ module.exports = class messageCreateTracker extends Event {
      */
 
     const { guild, channel, member } = message;
+
+    //permissions check
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.ViewChannel |
+          PermissionFlagsBits.SendMessages |
+          PermissionFlagsBits.EmbedLinks
+      )
+    )
+      return;
 
     if (!member || message.author.bot) return;
     if (

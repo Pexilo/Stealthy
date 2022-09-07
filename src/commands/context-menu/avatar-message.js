@@ -19,6 +19,7 @@ module.exports = class AvatarMessageContextMenuCommand extends Command {
       examples: "Use right click on a message -> `Applications` -> Get-Avatar",
       usage: "https://i.imgur.com/oejd8GS.png",
       category: "Context-Menu",
+      clientPermissions: ["EmbedLinks"],
     });
   }
 

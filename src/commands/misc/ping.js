@@ -14,6 +14,7 @@ module.exports = class PingCommand extends Command {
       examples: "/ping => 🏓Pong!",
       usage: "https://i.imgur.com/w2q1bpX.png",
       category: "Misc",
+      clientPermissions: ["EmbedLinks"],
     });
   }
   async execute(interaction) {

@@ -398,10 +398,10 @@
     },
     "permissions": {
       "clientMissingPermissions": {
-        "reply": "`I need \\`${missing}\\` permission(s) to execute this command`"
+        "reply": "`\\`🚫\\` I need \\`${missing}\\` permission(s) to execute this command.\n\n> You can do this in \\`server settings -> roles\\``"
       },
       "userMissingPermissions": {
-        "reply": "`You need \\`${missing}\\` permission(s) to execute this command`"
+        "reply": "`\\`🚫\\` You need \\`${missing}\\` permission(s) to execute this command`"
       }
     }
   },
@@ -417,10 +417,10 @@
         "button1": "Reset"
       },
       "clearConfirm": {
-        "reply": "`\\`🧹\\` \\`${number}\\` messages have been cleared`",
+        "reply": "`\\`🧹\\` \\`${realNb}\\` messages have been cleared`",
         "embed1": {
           "author": "`by ${button.user.tag}`",
-          "description": "`\\`${number}\\` messages have been cleared in ${channel.toString()}`"
+          "description": "`\\`${realNb}\\` messages have been cleared in ${channel.toString()}`"
         }
       },
       "JTC": {
@@ -433,6 +433,9 @@
         },
         "channelsNames": {
           "modal1": "Names (must be separated by a comma)"
+        },
+        "resetNames": {
+          "reply": "`\\`✅\\` JTC channel names have been reset to:\n> ${defaultNames.join(',\\n> ')}`"
         }
       },
       "logsTypes": {
@@ -553,7 +556,8 @@
     },
     "modals": {
       "JTCChannelNames": {
-        "reply": "`\\`✅\\` New JTC channel names:\n${list}`"
+        "reply": "`\\`✅\\` New JTC channel names:\n${list}`",
+        "button1": "Reset"
       },
       "membercountRename": {
         "reply": "`✅` Member count channel updated."
@@ -591,7 +595,7 @@
           }
         },
         "channels": {
-          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** channel is setup in <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> **\\`🗂️\\` Role claim** channel is setup in <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Member count** channel is setup in **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** category. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Join to Create** channel is setup in **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** category. \n`: ''}\nPlease use, \\`/setup channels\\` command to setup your channels.`",
+          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** channel is setup in <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> **\\`🗂️\\` Role claim** channel is setup in <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Member count** channel is setup in **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** category. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Join to Create** channel is setup in **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** category. \n`: ''}\n\\`🚀\\` Please use, \\`/setup channels\\` command to setup your channels.`",
           "button1": "Setup Logs",
           "button2": "Edit Role Claim message",
           "button3": "Rename Member Count",
@@ -644,17 +648,17 @@
     "error5": "`🚫` This channel is already locked.",
     "error6": "`🚫` You don't have permission to lock this channel.",
     "error7": "`🚫` I can't mute this user.",
-    "error8": "`\\`⛔\\` An error occured: \\`\\`\\`${e.message}\\`\\`\\\nPlease contact an administrator of the bot for further assistance.`",
+    "error8": "`\\`⛔\\` An error occured: \\`${e.message}\\`\nPlease contact an administrator of the bot for further assistance.`",
     "error9": "`🚫` You don't have permission to change the nickname of this user.",
     "error10": "`🚫` You need to setup the roleclaim system first.\n\n> Use `/setup channels`",
-    "error11": "`⛔` An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n\n> If the error persists, contact a administrator of Stealthy",
+    "error11": "`⛔` An error has occurred: Unable to find the role claim message.\n\n> Try to setup the roleclaim system again.\n> If the error persists, contact a administrator of Stealthy",
     "error12": "`\\`🚫\\` One of my roles need to be above ${roleRC.toString()} to perform this action.\n\n> You can do this in \\`server settings -> roles\\``",
     "error13": "`\\`🚫\\` You can't assign <@&${guild.id}>`",
     "error14": "`\\`🚫\\` I can't find \\`:${emoji.split(':')[1]}:\\` emoji.\n\n> I need to be in the same server as the emoji`",
     "error15": "`\\`🚫\\` \\`${emoji}\\` is not supported.\n\n> Please provide one [emoji](https://emojipedia.org)`",
     "error16": "`⛔` The role claim message has reached the maximum amount of reactions.\n\n> You can provide up to 20 roles.",
     "error17": "`\\`🚫\\` \\`${isEmojiCustom ? emojiName : `\\`${emoji}\\``}\\` is already used with <@&${emojiAlreadyExist[0].roleId}>.\n\n> Delete it first with \\`/setup roleclaim remove\\``",
-    "error18": "`\\`🚫\\` You have already added ${roleRC.toString()} with ${roleAlreadyExist[0].emojiName.startsWith('<')? roleAlreadyExist[0].emojiName: `\\`${this.client.GetEmojiFromName(roleAlreadyExist[0].emojiName)}\\`.\n\n> Delete it first with \\`/setup roleclaim remove\\``",
+    "error18": "`\\`🚫\\` You have already added ${roleRC.toString()} with ${roleAlreadyExist[0].emojiName.startsWith('<') ? roleAlreadyExist[0].emojiName : `\\`${this.client.GetEmojiFromName(roleAlreadyExist[0].emojiName)}\\`.\n\n> Delete it first with \\`/setup roleclaim remove\\``}`",
     "error19": "`\\`🚫\\` ${roleRC.toString()} is not used.`",
     "error20": " `\\`🚫\\` ${emoji.startsWith('<') ? emoji : `\\`${emoji}\\``} is not used.`",
     "error21": "`🚫` You can't have more than 5 roles assigned.\n\n> Use `/setup setup autorole list` to see the list of roles.",
@@ -687,6 +691,8 @@
     "error48": "`🚫` No changes made.",
     "error49": "`🚫` Unable to find the member count channel.",
     "error50": "`\\`🚫\\` Invalid color.\n\n> Please use a hexadecimal color code.\n\n> For example: \\`#ff0000\\``",
-    "error51": "`\\`🚫\\` One of my roles need to be above ${roleAR.toString()} to perform this action.\n\n> You can do this in \\`server settings -> roles\\``"
+    "error51": "`\\`🚫\\` One of my roles need to be above ${roleAR.toString()} to perform this action.\n\n> You can do this in \\`server settings -> roles\\``",
+    "error52": "`\\`🚫\\` I need \\`${requiredPerms.join(', ')}\\` permission(s) to perform this action.\n\n> You can do this in \\`server settings -> roles\\``",
+    "error53": "`🚫` I need `SendMessages, EmbedLinks` permission(s) to log this action.\n\n> You can do this in `server settings -> roles`"
   }
 }

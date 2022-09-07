@@ -23,7 +23,7 @@ module.exports = class JTCNamesModal extends Modal {
 
     let list = "";
     result.forEach((element) => {
-      list += "> " + element + "\n";
+      list += "> " + element + ",\n";
     });
 
     await this.client.UpdateGuild(guild, {
@@ -33,6 +33,16 @@ module.exports = class JTCNamesModal extends Modal {
     await modal.reply({
       content: eval(JTCChannelNames.reply),
       ephemeral: true,
+      components: [
+        this.client.ButtonRow([
+          {
+            customId: "reset-JTC-names",
+            label: JTCChannelNames.button1,
+            style: "SECONDARY",
+            emoji: "🗑",
+          },
+        ]),
+      ],
     });
   }
 };

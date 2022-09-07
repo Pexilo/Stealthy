@@ -1,5 +1,9 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  ChannelType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class UnlockCommand extends Command {
   constructor(client) {
@@ -17,7 +21,7 @@ module.exports = class UnlockCommand extends Command {
       usage: "https://i.imgur.com/FLdEF1d.png",
       category: "Admin",
       userPermissions: ["ManageChannels"],
-      clientPermissions: ["ManageChannels"],
+      clientPermissions: ["ViewChannel", "ManageChannels"],
       options: [
         {
           type: ApplicationCommandOptionType.Channel,
@@ -61,9 +65,6 @@ module.exports = class UnlockCommand extends Command {
     }
     const reason = options.getString("reason");
 
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    const enabledLogs = fetchGuild.logs.enabled;
-
     try {
       await channel.permissionOverwrites.edit(guild.id, {
         SendMessages: true,
@@ -74,7 +75,11 @@ module.exports = class UnlockCommand extends Command {
 
     interaction.editReply(eval(unlock.reply));
 
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("channels")) return;
+    await this.client.LogsChannelPermsCheck(guild, interaction, errors);
+
     logsChannel
       .send({
         embeds: [

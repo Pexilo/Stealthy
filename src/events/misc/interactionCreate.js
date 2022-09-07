@@ -10,7 +10,7 @@ module.exports = class interactionCreateEvent extends Event {
   async execute(interaction) {
     const { guild } = interaction;
 
-    const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { fetchGuild } = await this.client.FetchAndGetLang(guild);
 
     if (!fetchGuild) {
       await this.client.CreateGuild(guild);
@@ -29,16 +29,5 @@ module.exports = class interactionCreateEvent extends Event {
         ],
       });
     }
-
-    const { errors } = this.client.la[lang];
-    // lazy fix because permissions are terrible to setup, WIP
-    guild.members.fetchMe().then((me) => {
-      if (!me.permissions.has("Administrator")) {
-        return interaction.reply({
-          content: errors.error39,
-          ephemeral: true,
-        });
-      }
-    });
   }
 };

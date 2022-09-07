@@ -28,6 +28,7 @@ const client = new ShewenyClient({
       directory: "./commands",
       autoRegisterApplicationCommands: true,
       loadAll: true,
+      applicationPermissions: true,
       default: {
         type: "SLASH_COMMAND",
         channel: "GUILD",
@@ -65,7 +66,6 @@ let languages = Object.keys(supportedLanguages);
 for (const lang of languages) {
   client.la[lang] = require(`./languages/${lang}.json`);
 }
-
 Object.freeze(client.la);
 
 mongoose
