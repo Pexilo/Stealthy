@@ -18,6 +18,7 @@ module.exports = class PlayTogetherCommand extends Command {
         "/play `activity:📽️ Youtube` => Play `Youtube together` in your current voice channel",
       usage: "https://i.imgur.com/osohUzS.png",
       category: "Misc",
+      clientPermissions: ["ViewChannel", "ManageChannels", "EmbedLinks"],
       options: [
         {
           type: ApplicationCommandOptionType.String,

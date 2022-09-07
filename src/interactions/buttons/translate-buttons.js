@@ -1,5 +1,6 @@
 const { Button } = require("sheweny");
 const { deeplLanguages } = require("../../languages/deeplLanguages");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class translateButtons extends Button {
   constructor(client) {
@@ -11,7 +12,20 @@ module.exports = class translateButtons extends Button {
     const { guild, channel, customId } = button;
 
     const { lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
     const { translate } = this.client.la[lang].interactions.buttons;
+
+    //permissions check
+    const requiredPerms = ["EmbedLinks", "ReadMessageHistory"];
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.EmbedLinks | PermissionFlagsBits.ReadMessageHistory
+      )
+    )
+      return button.editReply({
+        content: eval(errors.error52),
+      });
 
     // Get the language, message from the button id
     const targetlang = customId.split("_")[1];

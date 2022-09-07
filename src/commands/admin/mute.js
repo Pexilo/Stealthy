@@ -1,5 +1,8 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class MuteCommand extends Command {
   constructor(client) {
@@ -17,7 +20,7 @@ module.exports = class MuteCommand extends Command {
       usage: "https://i.imgur.com/u0TBXu4.png",
       category: "Admin",
       userPermissions: ["ModerateMembers"],
-      clientPermissions: ["ModerateMembers"],
+      clientPermissions: ["ViewChannel", "ModerateMembers"],
       options: [
         {
           type: ApplicationCommandOptionType.User,
@@ -116,9 +119,6 @@ module.exports = class MuteCommand extends Command {
         : options.getInteger("duration") * 3600000;
     const reason = options.getString("reason");
 
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    const enabledLogs = fetchGuild.logs.enabled;
-
     try {
       member.timeout(duration, eval(mute.auditlog));
     } catch (e) {
@@ -129,7 +129,17 @@ module.exports = class MuteCommand extends Command {
       content: eval(mute.reply),
     });
 
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
+    //permissions check
+    if (
+      !logsChannel
+        .permissionsFor(guild.me)
+        .has(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks)
+    )
+      return interaction.editReply(errors.error53);
+
     logsChannel
       .send({
         embeds: [

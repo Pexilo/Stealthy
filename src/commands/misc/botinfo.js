@@ -15,6 +15,7 @@ module.exports = class BotInfoCommand extends Command {
       examples: "/botinfo => Show bot version, uptime and server count",
       usage: "https://i.imgur.com/F89i1e5.png",
       category: "Misc",
+      clientPermissions: ["EmbedLinks"],
     });
   }
   async execute(interaction) {

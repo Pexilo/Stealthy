@@ -1,4 +1,5 @@
 const { Button } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class memberCountButtons extends Button {
   constructor(client) {
@@ -11,6 +12,21 @@ module.exports = class memberCountButtons extends Button {
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
     const { errors } = this.client.la[lang];
     const { membercount } = this.client.la[lang].interactions.buttons;
+
+    //permissions check
+    const requiredPerms = ["ViewChannel", "Connect", "ManageRoles"];
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.ViewChannel |
+          PermissionFlagsBits.Connect |
+          PermissionFlagsBits.ManageRoles
+      )
+    )
+      return button.reply({
+        content: eval(errors.error52),
+        ephemeral: true,
+      });
 
     const memberCountChannel = guild.channels.cache.get(
       fetchGuild.memberCount.channel

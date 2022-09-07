@@ -7,16 +7,14 @@ module.exports = class AutoRoleSetupButtons extends Button {
 
   async execute(button) {
     if (!(await this.client.Defer(button))) return;
-    const { guild, member } = button;
+    const { guild } = button;
+
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
     const { errors } = this.client.la[lang];
     const { autorole } = this.client.la[lang].interactions.buttons;
 
     switch (button.customId) {
       case "reset-autorole":
-        if (!member.permissions.has("ManageGuild"))
-          return button.editReply(errors.error40);
-
         if (fetchGuild.autoRole.roles.length === 0)
           return button.editReply(errors.error23);
 

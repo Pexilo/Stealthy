@@ -1,4 +1,5 @@
 const { Button } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class roleClaimButtons extends Button {
   constructor(client) {
@@ -7,6 +8,8 @@ module.exports = class roleClaimButtons extends Button {
 
   async execute(button) {
     const { guild, channel } = button;
+    const me = await guild.members.fetchMe();
+    let requiredPerms;
 
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
     const { errors } = this.client.la[lang];
@@ -20,6 +23,27 @@ module.exports = class roleClaimButtons extends Button {
     switch (button.customId) {
       case "create-roleclaim":
         if (!(await this.client.Defer(button))) return;
+        //permissions check
+        requiredPerms = [
+          "ViewChannel",
+          "ManageRoles",
+          "AddReactions",
+          "EmbedLinks",
+          "UseExternalEmojis",
+        ];
+
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel |
+              PermissionFlagsBits.ManageRoles |
+              PermissionFlagsBits.AddReactions |
+              PermissionFlagsBits.EmbedLinks |
+              PermissionFlagsBits.UseExternalEmojis
+          )
+        )
+          return button.editReply({
+            content: eval(errors.error52),
+          });
 
         if (channelId && msgId && tipMsgId) {
           try {
@@ -92,6 +116,18 @@ module.exports = class roleClaimButtons extends Button {
         break;
 
       case "edit-roleclaim":
+        //permissions check
+        requiredPerms = ["ViewChannel", "ManageMessages"];
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel | PermissionFlagsBits.ManageMessages
+          )
+        )
+          return button.reply({
+            content: eval(errors.error52),
+            ephemeral: true,
+          });
+
         // Check if role claim exists
         if (!channelId || !msgId) {
           return button.reply({
@@ -149,6 +185,16 @@ module.exports = class roleClaimButtons extends Button {
 
       case "delete-roleclaim":
         if (!(await this.client.Defer(button))) return;
+        //permissions check
+        requiredPerms = ["ViewChannel", "ManageMessages"];
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel | PermissionFlagsBits.ManageMessages
+          )
+        )
+          return button.editReply({
+            content: eval(errors.error52),
+          });
 
         if (!fetchGuild.roleClaim.message) {
           return button.editReply({
@@ -157,11 +203,15 @@ module.exports = class roleClaimButtons extends Button {
         }
 
         // Clear db
+        const roleClaimObj = {
+          message: null,
+          type: "reaction",
+          channel: null,
+          tipMessage: null,
+          fields: [],
+        };
         this.client.UpdateGuild(guild, {
-          roleclaim_Roles: [],
-          "roleClaim.message": null,
-          "roleClaim.channel": null,
-          "roleClaim.tipMessage": null,
+          roleClaim: roleClaimObj,
         });
 
         // Delete role claim messages if found

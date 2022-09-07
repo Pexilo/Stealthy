@@ -1,6 +1,6 @@
 {
   "name": "stealthy",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Lightweight, easy to use discord bot meant to enrich the lifestyle of your server.",
   "main": "src/client.js",
   "scripts": {

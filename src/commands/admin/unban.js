@@ -1,5 +1,8 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class UnBanCommand extends Command {
   constructor(client) {
@@ -17,7 +20,7 @@ module.exports = class UnBanCommand extends Command {
       usage: "https://i.imgur.com/CIw2TSM.png",
       category: "Admin",
       userPermissions: ["BanMembers"],
-      clientPermissions: ["BanMembers"],
+      clientPermissions: ["ViewChannel", "BanMembers"],
       options: [
         {
           type: ApplicationCommandOptionType.String,
@@ -63,9 +66,6 @@ module.exports = class UnBanCommand extends Command {
     if (!memberId) return interaction.editReply(errors.error1);
     const reason = options.getString("reason");
 
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    const enabledLogs = fetchGuild.logs.enabled;
-
     try {
       await guild.members.unban(memberId, [
         `by ${interaction.member.user.tag}${reason ? ": " + reason : ""}`,
@@ -75,7 +75,17 @@ module.exports = class UnBanCommand extends Command {
     }
     interaction.editReply(eval(unban.reply));
 
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
+    //permissions check
+    if (
+      !logsChannel
+        .permissionsFor(guild.me)
+        .has(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks)
+    )
+      return interaction.editReply(errors.error53);
+
     logsChannel
       .send({
         embeds: [

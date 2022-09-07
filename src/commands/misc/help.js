@@ -14,6 +14,7 @@ module.exports = class HelpCommand extends Command {
       },
       examples: "/help `command:ping` => 🔍 Show details about command `ping`",
       category: "Misc",
+      clientPermissions: ["EmbedLinks"],
       options: [
         {
           type: ApplicationCommandOptionType.String,

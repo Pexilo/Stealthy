@@ -1,5 +1,9 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  ChannelType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class SetupBotCommand extends Command {
   constructor(client) {
@@ -15,6 +19,7 @@ module.exports = class SetupBotCommand extends Command {
       examples: "I think I don't have to detail much here 💭",
       category: "Setup",
       userPermissions: ["ManageGuild"],
+      clientPermissions: ["ViewChannel", "ManageChannels"],
       options: [
         {
           type: ApplicationCommandOptionType.Subcommand,
@@ -430,6 +435,8 @@ module.exports = class SetupBotCommand extends Command {
 
   async execute(interaction) {
     const { guild, options } = interaction;
+    const me = await guild.members.fetchMe();
+    let requiredPerms = [];
 
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
     const { errors } = this.client.la[lang];
@@ -469,6 +476,26 @@ module.exports = class SetupBotCommand extends Command {
          * 3. add:
          *   - Role position of Stealthy is lower than the choosed one -> ask to move it up
          */
+
+        //permissions check
+        requiredPerms = [
+          "ManageRoles",
+          "AddReactions",
+          "EmbedLinks",
+          "UseExternalEmojis",
+        ];
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ManageRoles |
+              PermissionFlagsBits.AddReactions |
+              PermissionFlagsBits.EmbedLinks |
+              PermissionFlagsBits.UseExternalEmojis
+          )
+        )
+          return interaction.editReply({
+            content: eval(errors.error52),
+          });
+
         const rlcType = fetchGuild.roleClaim.type;
         let msgId = fetchGuild.roleClaim.message;
         let channelId = fetchGuild.roleClaim.channel;
@@ -729,6 +756,13 @@ module.exports = class SetupBotCommand extends Command {
         break;
 
       case "autorole":
+        //permissions check
+        requiredPerms = ["ManageRoles"];
+        if (!me.permissions.has(PermissionFlagsBits.ManageRoles))
+          return interaction.editReply({
+            content: eval(errors.error52),
+          });
+
         if (!(await this.client.Defer(interaction))) return;
         const roleAR = options.getRole("role");
         const autoroleArray = fetchGuild.autoRole.roles;
@@ -809,6 +843,27 @@ module.exports = class SetupBotCommand extends Command {
             return interaction.editReply(eval(errors.error25));
           }
 
+          //permissions check
+          requiredPerms = [
+            "ManageRoles",
+            "SendMessages",
+            "AddReactions",
+            "EmbedLinks",
+            "UseExternalEmojis",
+          ];
+          if (
+            !me.permissions.has(
+              PermissionFlagsBits.ManageRoles |
+                PermissionFlagsBits.SendMessages |
+                PermissionFlagsBits.AddReactions |
+                PermissionFlagsBits.EmbedLinks |
+                PermissionFlagsBits.UseExternalEmojis
+            )
+          )
+            return interaction.editReply({
+              content: eval(errors.error52),
+            });
+
           if (fetchGuild.roleClaim.message) {
             let msgId, tipMsgId, channelId, foundChannel, msg, tipMsg;
 
@@ -887,6 +942,17 @@ module.exports = class SetupBotCommand extends Command {
           });
         }
         if (usage === "membercount") {
+          //permissions check
+          requiredPerms = ["Connect", "ManageRoles"];
+          if (
+            !me.permissions.has(
+              PermissionFlagsBits.Connect | PermissionFlagsBits.ManageRoles
+            )
+          )
+            return interaction.editReply({
+              content: eval(errors.error52),
+            });
+
           if (fetchGuild.memberCount.channel) {
             let channelFound = await guild.channels.cache.get(
               fetchGuild.memberCount.channel
@@ -949,13 +1015,26 @@ module.exports = class SetupBotCommand extends Command {
               });
             })
             .catch((e) => {
-              return interaction.editReply(eval(errors.error11));
+              return interaction.editReply(eval(errors.error8));
             });
 
           return;
         }
 
         if (usage === "jtc") {
+          //permissions check
+          requiredPerms = ["ManageRoles", "Connect", "MoveMembers"];
+          if (
+            !me.permissions.has(
+              PermissionFlagsBits.ManageRoles |
+                PermissionFlagsBits.Connect |
+                PermissionFlagsBits.MoveMembers
+            )
+          )
+            return interaction.editReply({
+              content: eval(errors.error52),
+            });
+
           if (fetchGuild.joinToCreate.channel) {
             let channelFound = await guild.channels.cache.get(
               fetchGuild.joinToCreate.channel
@@ -1010,6 +1089,17 @@ module.exports = class SetupBotCommand extends Command {
         }
 
         if (usage === "logs") {
+          //permissions check
+          requiredPerms = ["SendMessages", "EmbedLinks"];
+          if (
+            !me.permissions.has(
+              PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks
+            )
+          )
+            return interaction.editReply({
+              content: eval(errors.error52),
+            });
+
           if (channel.type === ChannelType.GuildCategory)
             return interaction.editReply(errors.error26);
 
@@ -1089,6 +1179,12 @@ module.exports = class SetupBotCommand extends Command {
 
       case "blacklist":
         if (!(await this.client.Defer(interaction))) return;
+        //permissions check
+        requiredPerms = ["ModerateMembers"];
+        if (!me.permissions.has(PermissionFlagsBits.ModerateMembers))
+          return interaction.editReply({
+            content: eval(errors.error52),
+          });
 
         const blacklistState =
           fetchGuild.moderationTools.enabled.includes("blacklist");

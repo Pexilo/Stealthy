@@ -14,6 +14,7 @@ module.exports = class ServerInfoCommand extends Command {
       examples: "/serverinfo => Get server information",
       usage: "https://i.imgur.com/g7XvucX.png",
       category: "Misc",
+      clientPermissions: ["EmbedLinks"],
     });
   }
   async execute(interaction) {

@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class messageDeleteTracker extends Event {
   constructor(client) {
@@ -14,6 +15,17 @@ module.exports = class messageDeleteTracker extends Event {
 
     const { guild, channel, member } = message;
 
+    //permissions check
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.ViewChannel |
+          PermissionFlagsBits.SendMessages |
+          PermissionFlagsBits.EmbedLinks
+      )
+    )
+      return;
+
     if (member == null || message.author.bot || message.embeds.length > 0)
       return;
 
@@ -25,7 +37,6 @@ module.exports = class messageDeleteTracker extends Event {
 
     if (logsChannel && enabledLogs.includes("msgDelete")) {
       const content = message.content.replace(/`/g, "");
-      if (content.length === 0) return;
 
       let embed = this.client
         .Embed()
@@ -34,15 +45,18 @@ module.exports = class messageDeleteTracker extends Event {
           iconURL: member.user.displayAvatarURL({ dynamic: true }),
         })
         .setDescription(eval(messageDelete.embed1.description))
-        .setFields({
-          name: messageDelete.embed1.field1,
-          value: `\`${message.content.replace(/`/g, "")}\``,
-        })
         .setColor("#8B0000")
         .setTimestamp()
         .setFooter({
           text: `${message.author.tag} - ${member.user.id}`,
         });
+
+      if (content.length > 0) {
+        embed.addFields({
+          name: messageDelete.embed1.field1,
+          value: `\`${message.content.replace(/`/g, "")}\``,
+        });
+      }
 
       if (message.attachments.size > 0) {
         embed.addFields({

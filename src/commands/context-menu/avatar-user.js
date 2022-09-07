@@ -19,6 +19,7 @@ module.exports = class AvatarUserContextMenuCommand extends Command {
       examples: "Use right click on a user -> `Applications` -> Show-Avatar",
       usage: "https://i.imgur.com/ebWVSJO.png",
       category: "Context-Menu",
+      clientPermissions: ["EmbedLinks"],
     });
   }
   async execute(interaction) {

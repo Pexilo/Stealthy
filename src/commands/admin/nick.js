@@ -1,5 +1,8 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class SetNicknameCommand extends Command {
   constructor(client) {
@@ -17,7 +20,7 @@ module.exports = class SetNicknameCommand extends Command {
       usage: "https://i.imgur.com/lZSnzz8.png",
       category: "Admin",
       userPermissions: ["ManageNicknames"],
-      clientPermissions: ["ManageNicknames"],
+      clientPermissions: ["ViewChannel", "ManageNicknames"],
       options: [
         {
           type: ApplicationCommandOptionType.User,
@@ -79,9 +82,6 @@ module.exports = class SetNicknameCommand extends Command {
     const nickname = options.getString("nickname");
     const reason = options.getString("reason");
 
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    const enabledLogs = fetchGuild.logs.enabled;
-
     try {
       await member.setNickname(nickname, eval(nick.auditlog));
     } catch (e) {
@@ -90,7 +90,17 @@ module.exports = class SetNicknameCommand extends Command {
 
     interaction.editReply(eval(nick.reply));
 
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
+    //permissions check
+    if (
+      !logsChannel
+        .permissionsFor(guild.me)
+        .has(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks)
+    )
+      return interaction.editReply(errors.error53);
+
     logsChannel
       .send({
         embeds: [

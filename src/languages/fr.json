@@ -403,10 +403,10 @@
     },
     "permissions": {
       "clientMissingPermissions": {
-        "reply": "`J'ai besoin de la permission(s) \\`${missing}\\` pour exécuter cette commande`"
+        "reply": "`\\`🚫\\` J'ai besoin de la permission \\`${missing}\\` pour exécuter cette commande.\n\n> Vous pouvez le changer dans \\`paramètres du serveur -> rôles\\``"
       },
       "userMissingPermissions": {
-        "reply": "`Vous avez besoin de la permission(s) \\`${missing}\\` pour exécuter cette commande`"
+        "reply": "`\\`🚫\\` Vous avez besoin de la permission(s) \\`${missing}\\` pour exécuter cette commande`"
       }
     }
   },
@@ -422,10 +422,10 @@
         "button1": "Réinitialiser"
       },
       "clearConfirm": {
-        "reply": "`\\`🧹\\` \\`${number}\\` messages ont été supprimés`",
+        "reply": "`\\`🧹\\` \\`${realNb}\\` messages ont été supprimés`",
         "embed1": {
           "author": "`par ${button.user.tag}`",
-          "description": "`\\`${number}\\` messages ont été supprimés dans ${channel.toString()}`"
+          "description": "`\\`${realNb}\\` messages ont été supprimés dans ${channel.toString()}`"
         }
       },
       "JTC": {
@@ -438,6 +438,9 @@
         },
         "channelsNames": {
           "modal1": "Noms (doivent être séparés par une virgule)"
+        },
+        "resetNames": {
+          "reply": "`\\`✅\\` Les noms des salons JTC ont été réinitialisés par:\n> ${defaultNames.join(',\\n> ')}`"
         }
       },
       "logsTypes": {
@@ -558,7 +561,8 @@
     },
     "modals": {
       "JTCChannelNames": {
-        "reply": "`\\`✅\\` Nouveaux noms de salons JTC:\n${list}`"
+        "reply": "`\\`✅\\` Nouveaux noms de salons JTC:\n${list}`",
+        "button1": "Réinitialiser"
       },
       "membercountRename": {
         "reply": "`✅` Salon 'Member count' mis à jour."
@@ -596,7 +600,7 @@
           }
         },
         "channels": {
-          "reply": "`${logsChannel ? `> Le salon **\\`🚀\\` Logs** est configuré dans <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> Le salon **\\`🗂️\\` Role claim** est configuré dans <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> Le salon **\\`🧾\\` Member count** est configuré dans la catégorie **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'par défaut'}**. \n`: ''} ${JTCChannel ? `> Le salon **\\`🔊\\` Join to Create** est configuré dans la catégorie **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'par défaut'}**. \n`: ''}\nVeuillez utiliser, la commande \\`/setup salons\\` pour configurer vos salons.`",
+          "reply": "`${logsChannel ? `> Le salon **\\`🚀\\` Logs** est configuré dans <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> Le salon **\\`🗂️\\` Role claim** est configuré dans <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> Le salon **\\`🧾\\` Member count** est configuré dans la catégorie **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'par défaut'}**. \n`: ''} ${JTCChannel ? `> Le salon **\\`🔊\\` Join to Create** est configuré dans la catégorie **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'par défaut'}**. \n`: ''}\n\\`🚀\\` Veuillez utiliser, la commande \\`/setup salons\\` pour configurer vos salons.`",
           "button1": "Configurer Logs",
           "button2": "Modifier le message du Role Claim",
           "button3": "Renommer le Member Count",
@@ -652,14 +656,14 @@
     "error8": "`\\`⛔\\` Une erreur est survenue: \\`\\`\\`${e.message}\\`\\`\\\nVeuillez contacter un administrateur du bot pour plus d'assistance.`",
     "error9": "`🚫` Vous n'avez pas la permission de changer le pseudo de cet utilisateur.",
     "error10": "`🚫` Vous devez d'abord configurer le système de roleclaim.\n\n> Utilisez `/setup salons`",
-    "error11": "`⛔` Une erreur est survenue: Impossible de trouver le message de roleclaim.\n\n> Essayez de configurer le système de roleclaim à nouveau.\n\n> Si l'erreur persiste, contactez un administrateur de Stealthy",
+    "error11": "`⛔` Une erreur est survenue: Impossible de trouver le message de roleclaim.\n\n> Essayez de configurer le système de roleclaim à nouveau.\n> Si l'erreur persiste, contactez un administrateur de Stealthy",
     "error12": "`\\`🚫\\` Un de mes rôles doit être au-dessus de ${roleRC.toString()} pour effectuer cette action.\n\n> Vous pouvez le faire dans \\`paramètres du serveur -> rôles\\``",
     "error13": "`\\`🚫\\` Vous ne pouvez pas assigner <@&${guild.id}>`",
     "error14": "`\\`🚫\\` Je ne trouve pas l'emoji \\`:${emoji.split(':')[1]}:\\`.\n\n> Je dois être dans le même serveur que l'emoji`",
     "error15": "`\\`🚫\\` \\`${emoji}\\` n'est pas pris en charge.\n\n> Veuillez fournir un [emoji](https://emojipedia.org)`",
     "error16": "`⛔` Le message de roleclaim a atteint le nombre maximum de réactions.\n\n> Vous pouvez fournir jusqu'à 20 rôles.",
     "error17": "`\\`🚫\\` \\`${isEmojiCustom ? emojiName : `\\`${emoji}\\``}\\` est déjà utilisé avec <@&${emojiAlreadyExist[0].roleId}>.\n\n> Supprimez-le d'abord avec \\`/setup roleclaim supprimer\\``",
-    "error18": "`\\`🚫\\` Vous avez déjà ajouté ${roleRC.toString()} avec ${roleAlreadyExist[0].emojiName.startsWith('<')? roleAlreadyExist[0].emojiName: `\\`${this.client.GetEmojiomName(roleAlreadyExist[0].emojiName)}\\`.\n\n> Supprimez-le d'abord avec \\`/setup roleclaim supprimer\\``",
+    "error18": "`\\`🚫\\` Vous avez déjà ajouté ${roleRC.toString()} avec ${roleAlreadyExist[0].emojiName.startsWith('<')? roleAlreadyExist[0].emojiName: `\\`${this.client.GetEmojiomName(roleAlreadyExist[0].emojiName)}\\`.\n\n> Supprimez-le d'abord avec \\`/setup roleclaim supprimer\\``}`",
     "error19": "`\\`🚫\\` ${roleRC.toString()} n'est pas utilisé.`",
     "error20": " `\\`🚫\\` ${emoji.startsWith('<') ? emoji : `\\`${emoji}\\``} n'est pas utilisé.`",
     "error21": "`🚫` Vous ne pouvez pas avoir plus de 5 rôles assignés.\n\n> Utilisez `/setup setup autorole list` pour voir la liste des rôles.",
@@ -692,6 +696,8 @@
     "error48": "`🚫` Aucun changement effectué.",
     "error49": "`🚫` Impossible de trouver le salon 'Membercount'.",
     "error50": "`\\`🚫\\` Couleur invalide.\n\n> Veuillez utiliser un code couleur hexadécimal.\n\n> Par exemple: \\`#ff0000\\``",
-    "error51": "`\\`🚫\\` Un de mes rôles doit être au-dessus de ${roleAR.toString()} pour effectuer cette action.\n\n> Vous pouvez le faire dans \\`paramètres du serveur -> rôles\\``"
+    "error51": "`\\`🚫\\` Un de mes rôles doit être au-dessus de ${roleAR.toString()} pour effectuer cette action.\n\n> Vous pouvez le faire dans \\`paramètres du serveur -> rôles\\``",
+    "error52": "`\\`🚫\\` J'ai besoin de la permission \\`${requiredPerms.toString()}\\` pour effectuer cette action.\n\n> Vous pouvez le changer dans \\`paramètres du serveur -> rôles\\``",
+    "error53": "`🚫` J'ai besoin de la permission `SendMessages,EmbedLinks` pour enregistrer cette action.\n\n> Vous pouvez le faire dans `paramètres du serveur -> rôles`"
   }
 }

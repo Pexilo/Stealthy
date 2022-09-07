@@ -1,5 +1,8 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class BanCommand extends Command {
   constructor(client) {
@@ -17,7 +20,7 @@ module.exports = class BanCommand extends Command {
       usage: "https://i.imgur.com/o0Dm3A6.png",
       category: "Admin",
       userPermissions: ["BanMembers"],
-      clientPermissions: ["BanMembers"],
+      clientPermissions: ["ViewChannel", "BanMembers"],
       options: [
         {
           type: ApplicationCommandOptionType.User,
@@ -77,9 +80,6 @@ module.exports = class BanCommand extends Command {
     const deleteDays = options.getInteger("days");
     const reason = options.getString("reason");
 
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    const enabledLogs = fetchGuild.logs.enabled;
-
     try {
       await member.ban({
         deleteMessageDays: deleteDays,
@@ -91,7 +91,17 @@ module.exports = class BanCommand extends Command {
 
     interaction.editReply(eval(ban.reply));
 
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
+    //permissions check
+    if (
+      !logsChannel
+        .permissionsFor(guild.me)
+        .has(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks)
+    )
+      return interaction.editReply(errors.error53);
+
     logsChannel
       .send({
         embeds: [
