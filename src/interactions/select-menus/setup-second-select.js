@@ -1,5 +1,5 @@
 const { SelectMenu } = require("sheweny");
-const { ChannelType } = require("discord.js");
+const { ChannelType, PermissionFlagsBits } = require("discord.js");
 const { supportedLanguages } = require("../../languages/supportedLanguages");
 
 module.exports = class setupSecondSelect extends SelectMenu {
@@ -11,7 +11,11 @@ module.exports = class setupSecondSelect extends SelectMenu {
     if (!(await this.client.Defer(selectMenu))) return;
     const { guild } = selectMenu;
 
+    const me = await guild.members.fetchMe();
+    let requiredPerms;
+
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    const { errors } = this.client.la[lang];
     const { setupSecond } = this.client.la[lang].interactions.selectMenus;
 
     switch (selectMenu.values[0]) {
@@ -37,6 +41,18 @@ module.exports = class setupSecondSelect extends SelectMenu {
         });
 
       case "channel_option":
+        requiredPerms = ["ViewChannel", "SendMessages", "EmbedLinks"];
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel |
+              PermissionFlagsBits.SendMessages |
+              PermissionFlagsBits.EmbedLinks
+          )
+        )
+          return selectMenu.editReply({
+            content: eval(errors.error52),
+          });
+
         //can't change right here channels Id's, notify user to do it manually with /setup channels
         const logsChannel = fetchGuild.logs.channel;
         const roleclaimChannel = fetchGuild.roleClaim.channel;
@@ -101,6 +117,24 @@ module.exports = class setupSecondSelect extends SelectMenu {
         break;
 
       case "jtc_option":
+        requiredPerms = [
+          "ViewChannel",
+          "ManageRoles",
+          "Connect",
+          "MoveMembers",
+        ];
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel |
+              PermissionFlagsBits.ManageRoles |
+              PermissionFlagsBits.Connect |
+              PermissionFlagsBits.MoveMembers
+          )
+        )
+          return selectMenu.editReply({
+            content: eval(errors.error52),
+          });
+
         const findChannel = guild.channels.cache.get(
           fetchGuild.joinToCreate.channel
         );
@@ -114,7 +148,7 @@ module.exports = class setupSecondSelect extends SelectMenu {
 
         if (findChannel) {
           return selectMenu.editReply({
-            content: eval(setupSecond.jtc.reply),
+            content: eval(setupSecond.jtc.reply1),
             components: [
               this.client.ButtonRow([
                 {
@@ -149,6 +183,17 @@ module.exports = class setupSecondSelect extends SelectMenu {
         });
 
       case "blacklist_option":
+        requiredPerms = ["ViewChannel", "ModerateMembers"];
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel |
+              PermissionFlagsBits.ModerateMembers
+          )
+        )
+          return selectMenu.editReply({
+            content: eval(errors.error52),
+          });
+
         const blacklistTime = fetchGuild.blackList.time;
         const blacklistMinAge = fetchGuild.blackList.minAge;
         const blacklistState =
@@ -174,6 +219,26 @@ module.exports = class setupSecondSelect extends SelectMenu {
         });
 
       case "roleclaim_option":
+        requiredPerms = [
+          "ViewChannel",
+          "ManageRoles",
+          "AddReactions",
+          "EmbedLinks",
+          "UseExternalEmojis",
+        ];
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel |
+              PermissionFlagsBits.ManageRoles |
+              PermissionFlagsBits.AddReactions |
+              PermissionFlagsBits.EmbedLinks |
+              PermissionFlagsBits.UseExternalEmojis
+          )
+        )
+          return selectMenu.editReply({
+            content: eval(errors.error52),
+          });
+
         const msgId = fetchGuild.roleClaim.message;
         const channelId = fetchGuild.roleClaim.channel;
 
@@ -214,6 +279,16 @@ module.exports = class setupSecondSelect extends SelectMenu {
         });
 
       case "autorole_option":
+        requiredPerms = ["ViewChannel", "ManageRoles"];
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel | PermissionFlagsBits.ManageRoles
+          )
+        )
+          return selectMenu.editReply({
+            content: eval(errors.error52),
+          });
+
         const autoroleArray = fetchGuild.autoRole.roles;
 
         if (autoroleArray.length === 0) {

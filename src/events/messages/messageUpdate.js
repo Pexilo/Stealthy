@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class messageUpdateTracker extends Event {
   constructor(client) {
@@ -12,6 +13,18 @@ module.exports = class messageUpdateTracker extends Event {
      * Logs users modify their messages - Admin category
      */
     const { guild, channel, member } = newMessage;
+
+    //permissions check
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.ViewChannel |
+          PermissionFlagsBits.SendMessages |
+          PermissionFlagsBits.EmbedLinks
+      )
+    )
+      return;
+
     if (newMessage.author.bot || newMessage.content == oldMessage.content)
       return;
 

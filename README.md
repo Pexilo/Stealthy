@@ -1,9 +1,9 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/67436391/182243493-2dbaf788-fb39-463b-bcb9-05303d7d4a7f.png" align="center">
   <a href="https://github.com/Pexilo/Stealthy/releases" target="_blank">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.2.1-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+    <img alt="Version" src="https://img.shields.io/badge/version-1.2.2-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
   </a>
-  <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
+  <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=1099932462166&scope=bot%20applications.commands" target="_blank">
     <img src="https://dcbadge.vercel.app/api/shield/877249354954580059?bot=true?&theme=blurple" />
   </a>
   <a href="https://github.com/Pexilo/Stealthy/blob/main/LICENSE" target="_blank">
@@ -13,7 +13,7 @@
 
 ##
 
-<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
+<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=1099932462166&scope=bot%20applications.commands" target="_blank">
     <img align="right" width="350" src="https://user-images.githubusercontent.com/67436391/184276761-0a3590c3-0822-463c-b93b-f429bb3c83f8.png">
 </a>
 
@@ -63,13 +63,13 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 
 > Thanks to Github Copilot for making most of the translations possible... 😵‍💫
-Feel free to report any [bad translations](https://github.com/Pexilo/Stealthy/issues)
+Feel free to report any [bad translations](https://github.com/Pexilo/Stealthy/labels/translation)
 
 ## 📬 Future updates
 
 - [x] 🤖 Discord `v14` / 🚀 Sheweny `v4` [`1.1.0`](https://github.com/Pexilo/Stealthy/releases/tag/1.1.0)
 - [x] 💬 Languages support [`1.2.0`](https://github.com/Pexilo/Stealthy/releases/tag/1.2.0)
-- [ ] ⚒️ Better permissions
+- [x] ⚒️ Better permissions [`1.2.2`](https://github.com/Pexilo/Stealthy/releases/tag/1.2.2)
 - [ ] 🗂️ Multiple Role Claim, 🔉 Join to Create
 - [ ] 🧮 Role Claim types _(reaction, select menu, buttons)_
 
@@ -77,7 +77,7 @@ Feel free to report any [bad translations](https://github.com/Pexilo/Stealthy/is
 
 ### 🤝 Contributing
 
-<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=8&scope=bot%20applications.commands" target="_blank">
+<a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=1099932462166&scope=bot%20applications.commands" target="_blank">
     <img align="right" width="500" src="https://user-images.githubusercontent.com/67436391/184276761-0a3590c3-0822-463c-b93b-f429bb3c83f8.png">
 </a>
 

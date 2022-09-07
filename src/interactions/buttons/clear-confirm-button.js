@@ -1,4 +1,5 @@
 const { Button } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class ClearConfirmButton extends Button {
   constructor(client) {
@@ -8,27 +9,36 @@ module.exports = class ClearConfirmButton extends Button {
     if (!(await this.client.Defer(button))) return;
     const { guild, message, channel } = button;
 
-    let replied = false;
-    const number = message.content.match(/\d+/)[0];
-    channel.bulkDelete(number).catch(() => {
-      replied = true;
-      return button.editReply(errors.error41);
-    });
-    await this.client.Wait(2000);
-    if (replied) return;
-
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
     const { errors } = this.client.la[lang];
     const { clearConfirm } = this.client.la[lang].interactions.buttons;
 
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    const enabledLogs = fetchGuild.logs.enabled;
+    const number = message.content.match(/\d+/)[0];
+    let realNb;
+    await channel
+      .bulkDelete(number)
+      .then((nb) => (realNb = nb.size))
+      .catch((e) => {
+        console.log(e);
+        return button.editReply(errors.error41);
+      });
+    await this.client.Wait(2000);
 
     button.editReply({
       content: eval(clearConfirm.reply),
     });
 
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("channels")) return;
+    //permissions check
+    if (
+      !logsChannel
+        .permissionsFor(guild.me)
+        .has(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks)
+    )
+      return button.editReply(errors.error53);
+
     logsChannel
       .send({
         embeds: [

@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class guildMemberAddTracker extends Event {
   constructor(client) {
@@ -13,6 +14,20 @@ module.exports = class guildMemberAddTracker extends Event {
      * Logs new users and blacklist accounts created under 24h - Admin category
      */
     const { guild } = member;
+
+    //permissions check
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.ViewChannel |
+          PermissionFlagsBits.SendMessages |
+          PermissionFlagsBits.EmbedLinks |
+          PermissionFlagsBits.ManageRoles |
+          PermissionFlagsBits.Connect |
+          PermissionFlagsBits.ManageChannels
+      )
+    )
+      return;
 
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
     const { guildMemberAdd } = this.client.la[lang].events.guild;

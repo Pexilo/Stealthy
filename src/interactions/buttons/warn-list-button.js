@@ -1,4 +1,5 @@
 const { Button } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class warnListButton extends Button {
   constructor(client) {
@@ -12,6 +13,18 @@ module.exports = class warnListButton extends Button {
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
     const { errors } = this.client.la[lang];
     const { warnList } = this.client.la[lang].interactions.buttons;
+
+    //permissions check
+    const requiredPerms = ["ViewChannel", "EmbedLinks"];
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.ViewChannel | PermissionFlagsBits.EmbedLinks
+      )
+    )
+      return button.editReply({
+        content: eval(errors.error52),
+      });
 
     // find if the button is on the logged embed or the replied message
     let res;

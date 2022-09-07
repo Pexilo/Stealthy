@@ -19,6 +19,7 @@ module.exports = class TranslateMessageContextMenuCommand extends Command {
       examples: "Use right click on a message -> `Applications` -> Translate.",
       usage: "https://i.imgur.com/zjLEvcb.png",
       category: "Context-Menu",
+      clientPermissions: ["EmbedLinks", "ViewChannel", "ReadMessageHistory"],
     });
   }
 

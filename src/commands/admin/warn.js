@@ -1,5 +1,8 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class WarnCommand extends Command {
   constructor(client) {
@@ -17,7 +20,7 @@ module.exports = class WarnCommand extends Command {
       usage: "https://i.imgur.com/CjV2LF0.png",
       category: "Admin",
       userPermissions: ["ModerateMembers"],
-      clientPermissions: ["ModerateMembers"],
+      clientPermissions: ["ViewChannel"],
       options: [
         {
           type: ApplicationCommandOptionType.Subcommand,
@@ -300,6 +303,16 @@ module.exports = class WarnCommand extends Command {
         });
 
         if (!logsChannel || !enabledLogs.includes("moderation")) return;
+        //permissions check
+        if (
+          !logsChannel
+            .permissionsFor(guild.me)
+            .has(
+              PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks
+            )
+        )
+          return interaction.editReply(errors.error53);
+
         logsChannel
           .send({
             embeds: [

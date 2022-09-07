@@ -16,8 +16,7 @@ module.exports = class InviteVocalCommand extends Command {
         "/invite-vc `member:@Pexilo` => 📨 Invite (DM) `@Pexilo` to your voice channel",
       usage: "https://i.imgur.com/5NjZuQp.png",
       category: "Misc",
-      clientPermissions: ["SendMessages"],
-      memberPermissions: ["SendMessages"],
+      clientPermissions: ["ViewChannel", "SendMessages", "EmbedLinks"],
       options: [
         {
           type: ApplicationCommandOptionType.User,

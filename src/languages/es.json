@@ -336,7 +336,10 @@
   },
   "events": {
     "guild": {
-      "guildCreate": {},
+      "guildCreate": {
+        "reply": "`¡Hola! 👋, soy **${this.client.user.username}**! \\`🐲\\`\n😄 Acepto con gusto la invitación para **${guild.name}**.\nActualmente ayudando a \\`${this.client.guilds.cache.size}\\` servidores!\n\n> Ofrezco funciones para **mejorar el comportamiento de su servidor**:\n> comandos de administración, reclamo de roles, unirse para crear... y mucho más \\`🦾\\`\n> *¡Incluso tengo la capacidad de ejecutar una actividad de Youtube Together en su canal de voz!*\n\n\\`💡\\` Se **recomienda encarecidamente configurarme** usando el **botón de abajo** y los comandos \\`/setup\\`.\n\\`${supportedLang.toUpperCase()}\\` ${langFlag} se ha establecido automáticamente, según el idioma del servidor.`",
+        "button1": "Setup"
+      },
       "guildDelete": {},
       "guildMemberAdd": {
         "embed1": {
@@ -395,10 +398,10 @@
     },
     "permissions": {
       "clientMissingPermissions": {
-        "reply": "`Necesito \\`${missing}\\` permiso(s) para ejecutar este comando`"
+        "reply": "`\\`🚫\\` Necesito \\`${missing}\\` permiso(s) para ejecutar este comando.\n\n> Puedes hacer esto en \\`ajustes del servidor -> roles\\``"
       },
       "userMissingPermissions": {
-        "reply": "`Necesitas \\`${missing}\\` permiso(s) para ejecutar este comando`"
+        "reply": "`\\`🚫\\` Necesitas \\`${missing}\\` permiso(s) para ejecutar este comando`"
       }
     }
   },
@@ -414,10 +417,10 @@
         "button1": "Restablecer"
       },
       "clearConfirm": {
-        "reply": "`\\`🧹\\` \\`${number}\\` mensajes han sido borrados`",
+        "reply": "`\\`🧹\\` \\`${realNb}\\` mensajes han sido borrados`",
         "embed1": {
           "author": "`por ${button.user.tag}`",
-          "description": "`\\`${number}\\` mensajes han sido borrados en ${channel.toString()}`"
+          "description": "`\\`${realNb}\\` mensajes han sido borrados en ${channel.toString()}`"
         }
       },
       "JTC": {
@@ -430,6 +433,9 @@
         },
         "channelsNames": {
           "modal1": "Nombres (deben estar separados por una coma)"
+        },
+        "resetNames": {
+          "reply": "`\\`✅\\` Los nombres de los canales JTC se han restablecido a:\n> ${defaultNames.join(',\\n> ')}`"
         }
       },
       "logsTypes": {
@@ -550,7 +556,8 @@
     },
     "modals": {
       "JTCChannelNames": {
-        "reply": "`\\`✅\\` Nuevos nombres de canales JTC:\n${list}`"
+        "reply": "`\\`✅\\` Nuevos nombres de canales JTC:\n${list}`",
+        "button1": "Reiniciar"
       },
       "membercountRename": {
         "reply": "`✅` Canal de Membercount actualizado."
@@ -588,7 +595,7 @@
           }
         },
         "channels": {
-          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** canal está configurado en <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> **\\`🗂️\\` Role Claim** canal está configurado en <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Member count** canal está configurado en **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** categoría. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Join to Create** canal está configurado en **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** categoría. \n`: ''}\nPor favor usa, el comando \\`/setup canales\\` para configurar tus canales.`",
+          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** canal está configurado en <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> **\\`🗂️\\` Role Claim** canal está configurado en <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Member count** canal está configurado en **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** categoría. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Join to Create** canal está configurado en **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** categoría. \n`: ''}\n\\`🚀\\` Por favor usa, el comando \\`/setup canales\\` para configurar tus canales.`",
           "button1": "Configurar Logs",
           "button2": "Editar mensaje de reclamación de rol",
           "button3": "Renombrar Member Count",
@@ -644,14 +651,14 @@
     "error8": "`\\`⛔\\` Ocurrió un error: \\`\\`\\`${e.message}\\`\\`\\\nPor favor, contacte a un administrador del bot para obtener más ayuda.`",
     "error9": "`🚫` No tienes permiso para cambiar el apodo de este usuario.",
     "error10": "`🚫` Necesitas configurar el sistema de role claim primero.\n\n> Usa `/setup canales`",
-    "error11": "`⛔` Ocurrió un error: No se pudo encontrar el mensaje de role claim.\n\n> Intenta configurar el sistema de role claim de nuevo.\n\n> Si el error persiste, contacta a un administrador de Stealthy",
+    "error11": "`⛔` Ocurrió un error: No se pudo encontrar el mensaje de role claim.\n\n> Intenta configurar el sistema de role claim de nuevo.\n> Si el error persiste, contacta a un administrador de Stealthy",
     "error12": "`\\`🚫\\` Uno de mis roles necesita estar por encima de ${roleRC.toString()} para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``",
     "error13": "`\\`🚫\\` No puedes asignar <@&${guild.id}>`",
     "error14": "`\\`🚫\\` No puedo encontrar el emoji \\`:${emoji.split(':')[1]}:\\`.\n\n> Necesito estar en el mismo servidor que el emoji`",
     "error15": "`\\`🚫\\` \\`${emoji}\\` no es compatible.\n\n> Proporcione un [emoji](https://emojipedia.org)`",
     "error16": "`⛔` El mensaje de role claim ha alcanzado la cantidad máxima de reacciones.\n\n> Puedes proporcionar hasta 20 roles.",
     "error17": "`\\`🚫\\` \\`${isEmojiCustom ? emojiName : `\\`${emoji}\\``}\\` ya está en uso con <@&${emojiAlreadyExist[0].roleId}>.\n\n> Elimínalo primero con \\`/setup roleclaim retirar\\``",
-    "error18": "`\\`🚫\\` Ya has agregado ${roleRC.toString()} con ${roleAlreadyExist[0].emojiName.startsWith('<')? roleAlreadyExist[0].emojiName: `\\`${this.client.GetEmojiFromName(roleAlreadyExist[0].emojiName)}\\`.\n\n> Elimínalo primero con \\`/setup roleclaim retirar\\``",
+    "error18": "`\\`🚫\\` Ya has agregado ${roleRC.toString()} con ${roleAlreadyExist[0].emojiName.startsWith('<')? roleAlreadyExist[0].emojiName: `\\`${this.client.GetEmojiFromName(roleAlreadyExist[0].emojiName)}\\`.\n\n> Elimínalo primero con \\`/setup roleclaim retirar\\``}`",
     "error19": "`\\`🚫\\` ${roleRC.toString()} no está en uso.`",
     "error20": " `\\`🚫\\` ${emoji.startsWith('<') ? emoji : `\\`${emoji}\\``} no está en uso.`",
     "error21": "`🚫` No puedes tener más de 5 roles asignados.\n\n> Usa `/setup setup autorole list` para ver la lista de roles.",
@@ -684,6 +691,8 @@
     "error48": "`🚫` No se hicieron cambios.",
     "error49": "`🚫` No se puede encontrar el canal de Member Count.",
     "error50": "`\\`🚫\\` Color inválido.\n\n> Usa un código de color hexadecimal.\n\n> Por ejemplo: \\`#ff0000\\``",
-    "error51": "`\\`🚫\\` Uno de mis roles necesita estar por encima de ${roleAR.toString()} para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``"
+    "error51": "`\\`🚫\\` Uno de mis roles necesita estar por encima de ${roleAR.toString()} para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``",
+    "error52": "`\\`🚫\\` Necesito \\`${requiredPerms.join(', ')}\\` permiso(s) para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``",
+    "error53": "`🚫` Necesito `SendMessages, EmbedLinks` permiso(s) para registrar esta acción.\n\n> Puedes hacer esto en `configuración del servidor -> roles`"
   }
 }

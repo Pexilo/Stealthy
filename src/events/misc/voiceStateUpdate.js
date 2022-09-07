@@ -1,5 +1,5 @@
 const { Event } = require("sheweny");
-const { ChannelType } = require("discord.js");
+const { ChannelType, PermissionFlagsBits } = require("discord.js");
 
 module.exports = class JTCListener extends Event {
   constructor(client) {
@@ -26,8 +26,20 @@ module.exports = class JTCListener extends Event {
      * So Stealthy need to make sure the old channel is (or not) empty of users, if it is delete it.
      *    Create a new one if the user goes to a JTC channel
      */
-
     const { member, guild } = newState;
+
+    //permissions check
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.ViewChannel |
+          PermissionFlagsBits.Connect |
+          PermissionFlagsBits.MoveMembers |
+          PermissionFlagsBits.ManageRoles
+      )
+    )
+      return;
+
     const fetchGuild = await this.client.GetGuild(guild);
 
     const joinToCreate = fetchGuild.joinToCreate.channel;

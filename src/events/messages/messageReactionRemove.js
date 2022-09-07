@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class messageReactionRemoveTracker extends Event {
   constructor(client) {
@@ -12,6 +13,17 @@ module.exports = class messageReactionRemoveTracker extends Event {
      */
     if (user.bot) return;
     const { guild } = messageReaction.message;
+
+    //permissions check
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.ViewChannel |
+          PermissionFlagsBits.UseExternalEmojis |
+          PermissionFlagsBits.ManageRoles
+      )
+    )
+      return;
 
     const fetchGuild = await this.client.GetGuild(guild);
 

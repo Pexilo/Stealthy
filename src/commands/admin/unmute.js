@@ -1,5 +1,8 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class UnMuteCommand extends Command {
   constructor(client) {
@@ -16,7 +19,7 @@ module.exports = class UnMuteCommand extends Command {
       usage: "https://i.imgur.com/Kq0yZWX.png",
       category: "Admin",
       userPermissions: ["ModerateMembers"],
-      clientPermissions: ["ModerateMembers"],
+      clientPermissions: ["ViewChannel", "ModerateMembers"],
       options: [
         {
           type: ApplicationCommandOptionType.User,
@@ -61,9 +64,6 @@ module.exports = class UnMuteCommand extends Command {
     if (!member) return interaction.editReply(errors.error1);
     const reason = options.getString("reason");
 
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    const enabledLogs = fetchGuild.logs.enabled;
-
     // Check if the member is already muted
     if (!member.isCommunicationDisabled()) {
       return interaction.editReply(eval(unmute.reply1));
@@ -78,7 +78,11 @@ module.exports = class UnMuteCommand extends Command {
       content: eval(unmute.reply2),
     });
 
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("moderation")) return;
+    await this.client.LogsChannelPermsCheck(guild, interaction, errors);
+
     logsChannel
       .send({
         embeds: [

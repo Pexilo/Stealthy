@@ -1,9 +1,14 @@
 const { Button } = require("sheweny");
-const { ChannelType } = require("discord.js");
+const { ChannelType, PermissionFlagsBits } = require("discord.js");
 
 module.exports = class JTCSetupButtons extends Button {
   constructor(client) {
-    super(client, ["create-JTC", "delete-JTC", "channels-names-JTC"]);
+    super(client, [
+      "create-JTC",
+      "delete-JTC",
+      "channels-names-JTC",
+      "reset-JTC-names",
+    ]);
   }
   async execute(button) {
     /*
@@ -15,6 +20,8 @@ module.exports = class JTCSetupButtons extends Button {
      */
 
     const { guild } = button;
+    const me = await guild.members.fetchMe();
+    let requiredPerms;
 
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
     const { errors } = this.client.la[lang];
@@ -23,6 +30,26 @@ module.exports = class JTCSetupButtons extends Button {
     switch (button.customId) {
       case "create-JTC":
         if (!(await this.client.Defer(button))) return;
+        //permissions check
+        requiredPerms = [
+          "ViewChannel",
+          "ManageChannels",
+          "ManageRoles",
+          "Connect",
+          "MoveMembers",
+        ];
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel |
+              PermissionFlagsBits.ManageChannels |
+              PermissionFlagsBits.ManageRoles |
+              PermissionFlagsBits.Connect |
+              PermissionFlagsBits.MoveMembers
+          )
+        )
+          return button.editReply({
+            content: eval(errors.error52),
+          });
 
         const JTCChannel = guild.channels.cache.get(
           fetchGuild.joinToCreate.channel
@@ -71,6 +98,12 @@ module.exports = class JTCSetupButtons extends Button {
 
       case "delete-JTC":
         if (!(await this.client.Defer(button))) return;
+        //permissions check
+        requiredPerms = ["ManageChannels"];
+        if (!me.permissions.has(PermissionFlagsBits.ManageChannels))
+          return button.editReply({
+            content: eval(errors.error52),
+          });
 
         //if the channel doesn't exist in the database, stop the process
         if (!fetchGuild.joinToCreate.channel) {
@@ -117,6 +150,25 @@ module.exports = class JTCSetupButtons extends Button {
           ])
         );
         break;
+
+      case "reset-JTC-names":
+        if (!(await this.client.Defer(button))) return;
+
+        const defaultNames = [
+          "🗻 Everest",
+          "🌉 San Francisco",
+          "🌅 Bahamas",
+          "💳 VIP Room",
+          "🏰 Peach Castle",
+        ];
+
+        await this.client.UpdateGuild(guild, {
+          "joinToCreate.names": defaultNames,
+        });
+
+        return button.editReply({
+          content: eval(JTC.resetNames.reply),
+        });
     }
   }
 };

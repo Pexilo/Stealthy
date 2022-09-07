@@ -1,5 +1,9 @@
 const { Command } = require("sheweny");
-const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
+const {
+  ApplicationCommandOptionType,
+  ChannelType,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = class SlowCommand extends Command {
   constructor(client) {
@@ -17,7 +21,7 @@ module.exports = class SlowCommand extends Command {
       usage: "https://i.imgur.com/wtz21Rv.png",
       category: "Admin",
       userPermissions: ["ManageChannels"],
-      clientPermissions: ["ManageChannels"],
+      clientPermissions: ["ViewChannel", "ManageChannels"],
       options: [
         {
           type: ApplicationCommandOptionType.Channel,
@@ -110,9 +114,6 @@ module.exports = class SlowCommand extends Command {
     const time = options.getInteger("time");
     const reason = options.getString("reason");
 
-    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
-    const enabledLogs = fetchGuild.logs.enabled;
-
     const formattedTime = format === "minutes" ? time * 60 : time;
 
     try {
@@ -127,7 +128,11 @@ module.exports = class SlowCommand extends Command {
       interaction.editReply(eval(slow.reply2));
     }
 
+    const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
+    const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("channels")) return;
+    await this.client.LogsChannelPermsCheck(guild, interaction, errors);
+
     logsChannel
       .send({
         embeds: [

@@ -1,4 +1,5 @@
 const { Event } = require("sheweny");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class guildMemberRemoveTracker extends Event {
   constructor(client) {
@@ -9,10 +10,25 @@ module.exports = class guildMemberRemoveTracker extends Event {
 
   async execute(member) {
     const { guild } = member;
+
+    //permissions check
+    const me = await guild.members.fetchMe();
+    if (
+      !me.permissions.has(
+        PermissionFlagsBits.ViewChannel |
+          PermissionFlagsBits.SendMessages |
+          PermissionFlagsBits.EmbedLinks |
+          PermissionFlagsBits.ManageChannels |
+          PermissionFlagsBits.Connect
+      )
+    )
+      return;
+
     /*
      * Logs users who leave the server - Admin category
      */
     const { fetchGuild, lang } = await this.client.FetchAndGetLang(guild);
+    if (!fetchGuild) return;
     const { guildMemberRemove } = this.client.la[lang].events.guild;
 
     let logsChannel = null;
@@ -55,7 +71,7 @@ module.exports = class guildMemberRemoveTracker extends Event {
         });
       }
 
-      if (roles) {
+      if (roles.length > 0) {
         embedInfo.addFields({
           name: guildMemberRemove.embed1.field1,
           value: roles.map((r) => r.toString()).join(", "),
