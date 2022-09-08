@@ -19,7 +19,6 @@
 
 > Lightweight and easy to use discord bot meant to enrich the lifestyle of your server.
 
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Pexilo/Stealthy.svg?logo=lgtm&logoWidth=18&color=success)](https://lgtm.com/projects/g/Pexilo/Stealthy/context:javascript)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/62ce9585dd0c42e8af7b4c11e7fe456d)](https://www.codacy.com/gh/Pexilo/Stealthy/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Pexilo/Stealthy&utm_campaign=Badge_Grade)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Pexilo_Stealthy&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Pexilo_Stealthy)
 [![wakatime](https://wakatime.com/badge/user/505d5239-8982-443a-af40-f424ba106165/project/26f9558b-88a5-476d-8e46-70f3ee78ce18.svg?style=flat "Time spend since the 1.1.2")](https://wakatime.com/badge/user/505d5239-8982-443a-af40-f424ba106165/project/26f9558b-88a5-476d-8e46-70f3ee78ce18)
