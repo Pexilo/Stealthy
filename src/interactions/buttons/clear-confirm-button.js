@@ -19,7 +19,6 @@ module.exports = class ClearConfirmButton extends Button {
       .bulkDelete(number)
       .then((nb) => (realNb = nb.size))
       .catch((e) => {
-        console.log(e);
         return button.editReply(errors.error41);
       });
     await this.client.Wait(2000);
@@ -31,13 +30,7 @@ module.exports = class ClearConfirmButton extends Button {
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("channels")) return;
-    //permissions check
-    if (
-      !logsChannel
-        .permissionsFor(guild.me)
-        .has(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks)
-    )
-      return button.editReply(errors.error53);
+    await this.client.LogsChannelPermsCheck(guild, interaction, errors);
 
     logsChannel
       .send({
