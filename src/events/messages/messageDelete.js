@@ -16,7 +16,8 @@ module.exports = class messageDeleteTracker extends Event {
     const { guild, channel, member } = message;
 
     //permissions check
-    const me = await guild.members.fetchMe();
+    const me = await guild.members.fetchMe().catch(() => undefined);
+    if (!me) return;
     if (
       !me.permissions.has(
         PermissionFlagsBits.ViewChannel |

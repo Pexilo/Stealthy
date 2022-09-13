@@ -29,7 +29,8 @@ module.exports = class JTCListener extends Event {
     const { member, guild } = newState;
 
     //permissions check
-    const me = await guild.members.fetchMe();
+    const me = await guild.members.fetchMe().catch(() => undefined);
+    if (!me) return;
     if (
       !me.permissions.has(
         PermissionFlagsBits.ViewChannel |

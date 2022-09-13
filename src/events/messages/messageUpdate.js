@@ -15,7 +15,8 @@ module.exports = class messageUpdateTracker extends Event {
     const { guild, channel, member } = newMessage;
 
     //permissions check
-    const me = await guild.members.fetchMe();
+    const me = await guild.members.fetchMe().catch(() => undefined);
+    if (!me) return;
     if (
       !me.permissions.has(
         PermissionFlagsBits.ViewChannel |
@@ -35,8 +36,8 @@ module.exports = class messageUpdateTracker extends Event {
     const enabledLogs = fetchGuild.logs.enabled;
 
     if (logsChannel && enabledLogs.includes("msgEdit")) {
+      if (newMessage.content.length === 0) return;
       const newContent = newMessage.content.replace(/`/g, "");
-      if (newContent.length === 0) return;
 
       const jumpTo =
         "https://discordapp.com/channels/" +
@@ -56,7 +57,9 @@ module.exports = class messageUpdateTracker extends Event {
         .addFields(
           {
             name: messageUpdate.embed1.field1,
-            value: `\`${oldMessage.content.replace(/`/g, "")}\``,
+            value: `\`${
+              oldMessage.content ? oldMessage.content.replace(/`/g, "") : ""
+            }\``,
           },
           {
             name: messageUpdate.embed1.field2,
