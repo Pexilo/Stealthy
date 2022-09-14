@@ -62,6 +62,7 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 
 > Thanks to Github Copilot for making most of the translations possible... 😵‍💫
+
 Feel free to report any [bad translations](https://github.com/Pexilo/Stealthy/labels/translation)
 
 ## 📬 Future updates
@@ -122,7 +123,7 @@ git clone https://github.com/Pexilo/Stealthy.git
 
 1. Replace `<clientId>` with your bot Id
 
-`https://discord.com/api/oauth2/authorize?client_id=<clientId>&permissions=8&scope=bot%20applications.commands`
+`https://discord.com/api/oauth2/authorize?client_id=<clientId>&permissions=1099932462166&scope=bot%20applications.commands`
 
 2. Invite your bot with the above link to a desired server
 
