@@ -1,5 +1,5 @@
 const { Event } = require("sheweny");
-// const { supportedLanguages } = require("../../languages/supportedLanguages");
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = class guildCreateEvent extends Event {
   constructor(client) {
@@ -19,23 +19,16 @@ module.exports = class guildCreateEvent extends Event {
     if (!homeChl) return;
 
     // check if the bot has the permission to send messages in the system channel
-    guild.members.fetchMe().then((me) => {
-      if (!me.permissionsIn(homeChl).has("SendMessages")) return;
+    await guild.members.fetchMe().then((me) => {
+      if (
+        !me
+          .permissionsIn(homeChl)
+          .has(
+            PermissionFlagsBits.ViewChannel | PermissionFlagsBits.SendMessages
+          )
+      )
+        return;
     });
-
-    // check if the guild language is supported
-    // let supportedLang = "en",
-    //   langFlag = "🇺🇸";
-    // for (const [key, value] of Object.entries(supportedLanguages)) {
-    //   console.log("🚀 ~ key", key);
-    //   if (key === guild.preferredLocale.split("-")[0]) {
-    //     supportedLang = key;
-    //     langFlag = value;
-    //     this.client.UpdateGuild(guild, { language: key });
-    //     break;
-    //   }
-    // }
-    // const { guildCreate } = this.client.la[supportedLang].events.guild;
 
     homeChl.send({
       content: `Hello there 👋, I'm **${this.client.user.username}**! \`🐲\`\n😄 I gladly accept the invitation for **${guild.name}**.\nCurrently helping \`${this.client.guilds.cache.size}\` servers!\n\n> I provide features to **improve the behavior of your server**:\n> admin commands, role claim, join to create... and much more \`🦾\`\n> *I even have the ability to run a Youtube Together activity in your voice channel!*\n\n\`💡\` It is **strongly suggested to configure me** using the **button below** and the \`/setup\` commands.`,
