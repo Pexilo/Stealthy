@@ -1,7 +1,7 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/67436391/182243493-2dbaf788-fb39-463b-bcb9-05303d7d4a7f.png" align="center">
   <a href="https://github.com/Pexilo/Stealthy/releases" target="_blank">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.2.3-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+    <img alt="Version" src="https://img.shields.io/badge/version-1.2.4-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
   </a>
   <a href="https://discord.com/api/oauth2/authorize?client_id=877249354954580059&permissions=1099932462166&scope=bot%20applications.commands" target="_blank">
     <img src="https://dcbadge.vercel.app/api/shield/877249354954580059?bot=true?&theme=blurple" />
@@ -41,7 +41,7 @@ Stealthy is my first ambitious personal project, it has been under development s
 
 - Complete logging system
 - Ban, kick, warm, mute users
-- Blacklist protection against bots raids and scammers
+- Blacklist, Verification protection
 - Discord invites suppression
 - Lock, slowdown, clear channels
 
@@ -58,7 +58,7 @@ Stealthy is my first ambitious personal project, it has been under development s
 ## 🌎 Supported Languages
 
 #### • ☕ English᲼᲼᲼᲼᲼᲼᲼᲼• 💃 Spanish
-#### • 🥖 French᲼᲼᲼᲼᲼᲼᲼᲼᲼᲼• 🥨 Deutsch
+#### • 🥖 French᲼᲼᲼᲼᲼᲼᲼᲼• 🥨 Deutsch
 
 > Thanks to Github Copilot for making most of the translations possible... 😵‍💫
 
@@ -135,7 +135,7 @@ _Note: Your bot must have all privileged gateway intents checked to work properl
 ```
 TOKEN=your-bot-token
 DEEPL_API_KEY=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX:fx
-MONGO_URI=mongodb+srv://username:password@clusterName.6bo3a.mongodb.net/Data
+MONGO_URI=mongodb+srv://username:password@clusterName.xxxxx.mongodb.net/Data
 ```
 
 2. Rename the file `example.env` > `.env`

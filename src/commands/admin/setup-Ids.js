@@ -66,42 +66,66 @@ module.exports = class SetupBotCommand extends Command {
                 {
                   name: "🚀 Logs channel - track specific user interactions",
                   nameLocalizations: {
-                    fr: "🚀 Salon de logs - Suivre les interactions des utilisateurs",
-                    de: "🚀 Logs-Kanal - Verfolgen Sie bestimmte Benutzerinteraktionen",
+                    fr:
+                      "🚀 Salon de logs - Suivre les interactions des utilisateurs",
+                    de:
+                      "🚀 Logs-Kanal - Verfolgen Sie bestimmte Benutzerinteraktionen",
                     "es-ES":
                       "🚀 Canal de registros - Rastrear interacciones específicas de usuario",
                   },
                   value: "logs",
                 },
                 {
-                  name: "🔊 Join to Create channel - set a voice channel creator to free up space",
+                  name:
+                    "🔊 Join to Create channel - set a voice channel creator to free up space",
                   nameLocalizations: {
-                    fr: "🔊 Salon 'Join to Create' - Définir un salon vocal créateur pour libérer de l'espace",
-                    de: "🔊 Join to Create-Kanal - Setzen Sie einen Sprachkanal, um Platz zu schaffen",
+                    fr:
+                      "🔊 Salon 'Join to Create' - Définir un salon vocal créateur pour libérer de l'espace",
+                    de:
+                      "🔊 Join to Create-Kanal - Setzen Sie einen Sprachkanal, um Platz zu schaffen",
                     "es-ES":
                       "🔊 Canal de 'Join to Create' - Establece un canal de voz para crear espacio",
                   },
                   value: "jtc",
                 },
                 {
-                  name: "🎈 Role Claim channel - allow users to choose a role with a reaction",
+                  name:
+                    "🎈 Role Claim channel - allow users to choose a role with a reaction",
                   nameLocalizations: {
-                    fr: "🎈 Salon 'Role Claim' - Permettre aux utilisateurs de choisir un rôle avec une réaction",
-                    de: "🎈 Role Claim-Kanal - Benutzern erlauben, eine Rolle mit einer Reaktion auszuwählen",
+                    fr:
+                      "🎈 Salon 'Role Claim' - Permettre aux utilisateurs de choisir un rôle avec une réaction",
+                    de:
+                      "🎈 Role Claim-Kanal - Benutzern erlauben, eine Rolle mit einer Reaktion auszuwählen",
                     "es-ES":
                       "🎈 Canal de 'Role Claim' - Permitir a los usuarios elegir un rol con una reacción",
                   },
                   value: "roleclaim",
                 },
                 {
-                  name: "🧾 Member Count channel - allow users to see the member count of the server",
+                  name:
+                    "🧾 Member Count channel - allow users to see the member count of the server",
                   nameLocalizations: {
-                    fr: "🧾 Salon 'Member Count' - Permettre aux utilisateurs de voir le nombre de membres du serveur",
-                    de: "🧾 Member Count-Kanal - Benutzern erlauben, die Mitgliederzahl des Servers anzuzeigen",
+                    fr:
+                      "🧾 Salon 'Member Count' - Permettre aux utilisateurs de voir le nombre de membres du serveur",
+                    de:
+                      "🧾 Member Count-Kanal - Benutzern erlauben, die Mitgliederzahl des Servers anzuzeigen",
                     "es-ES":
                       "🧾 Canal de 'Member Count' - Permitir a los usuarios ver la cantidad de miembros del servidor",
                   },
                   value: "membercount",
+                },
+                {
+                  name:
+                    "🔎 Verify channel - allow users to verify themselves with a captcha",
+                  nameLocalizations: {
+                    fr:
+                      "🔎 Salon 'Verify' - Permettre aux utilisateurs de se vérifier eux-mêmes avec un captcha",
+                    de:
+                      "🔎 Verify-Kanal - Benutzern erlauben, sich selbst mit einem Captcha zu verifizieren",
+                    "es-ES":
+                      "🔎 Canal de 'Verify' - Permitir a los usuarios verificarse a sí mismos con un captcha",
+                  },
+                  value: "verify",
                 },
               ],
             },
@@ -148,20 +172,26 @@ module.exports = class SetupBotCommand extends Command {
               required: true,
               choices: [
                 {
-                  name: "⌚ Blacklist time - change how long the bot will block the newcomer for",
+                  name:
+                    "⌚ Blacklist time - change how long the bot will block the newcomer for",
                   nameLocalizations: {
-                    fr: "⌚ Temps de liste noire - changer la durée pendant laquelle le bot bloquera le nouveau membre",
-                    de: "⌚ Blacklist-Zeit - Ändern Sie die Dauer, für die der Bot den Neuling blockiert",
+                    fr:
+                      "⌚ Temps de liste noire - changer la durée pendant laquelle le bot bloquera le nouveau membre",
+                    de:
+                      "⌚ Blacklist-Zeit - Ändern Sie die Dauer, für die der Bot den Neuling blockiert",
                     "es-ES":
                       "⌚ Tiempo de blacklist - cambia cuánto tiempo bloqueará el bot al nuevo miembro",
                   },
                   value: "blacklist_time",
                 },
                 {
-                  name: "🎣 Minimum account age - change the minimum age a newcomer must be to join the server",
+                  name:
+                    "🎣 Minimum account age - change the minimum age a newcomer must be to join the server",
                   nameLocalizations: {
-                    fr: "🎣 Âge minimum du compte - changer l'âge minimum qu'un nouveau membre doit avoir",
-                    de: "🎣 Mindestalter des Kontos - Ändern Sie das Mindestalter, das ein Neuling haben muss",
+                    fr:
+                      "🎣 Âge minimum du compte - changer l'âge minimum qu'un nouveau membre doit avoir",
+                    de:
+                      "🎣 Mindestalter des Kontos - Ändern Sie das Mindestalter, das ein Neuling haben muss",
                     "es-ES":
                       "🎣 Edad mínima de la cuenta - cambia la edad mínima que debe tener un nuevo miembro",
                   },
@@ -258,7 +288,8 @@ module.exports = class SetupBotCommand extends Command {
                   description: "🧮 Choose the role you want to add",
                   descriptionLocalizations: {
                     fr: "🧮 Choisissez le rôle que vous souhaitez ajouter",
-                    de: "🧮 Wählen Sie die Rolle aus, die Sie hinzufügen möchten",
+                    de:
+                      "🧮 Wählen Sie die Rolle aus, die Sie hinzufügen möchten",
                     "es-ES": "🧮 Elija el rol que desea agregar",
                   },
                   required: true,
@@ -270,8 +301,10 @@ module.exports = class SetupBotCommand extends Command {
                   description:
                     "😄 Choose the emoji you want to use for this role",
                   descriptionLocalizations: {
-                    fr: "😄 Choisissez l'emoji que vous souhaitez utiliser pour ce rôle",
-                    de: "😄 Wählen Sie das Emoji aus, das Sie für diese Rolle verwenden möchten",
+                    fr:
+                      "😄 Choisissez l'emoji que vous souhaitez utiliser pour ce rôle",
+                    de:
+                      "😄 Wählen Sie das Emoji aus, das Sie für diese Rolle verwenden möchten",
                     "es-ES": "😄 Elija el emoji que desea usar para este rol",
                   },
                   required: true,
@@ -288,7 +321,8 @@ module.exports = class SetupBotCommand extends Command {
                     "✍️ Choose the description of this role (optional)",
                   descriptionLocalizations: {
                     fr: "✍️ Choisissez la description de ce rôle (facultatif)",
-                    de: "✍️ Wählen Sie die Beschreibung dieser Rolle aus (optional)",
+                    de:
+                      "✍️ Wählen Sie die Beschreibung dieser Rolle aus (optional)",
                     "es-ES": "✍️ Elija la descripción de este rol (opcional)",
                   },
                   required: false,
@@ -353,8 +387,10 @@ module.exports = class SetupBotCommand extends Command {
           description:
             "🎩 Assign automatically roles to a newcomer when they join the server",
           descriptionLocalizations: {
-            fr: "🎩 Attribuer automatiquement des rôles à un nouveau membre lorsqu'il rejoint le serveur",
-            de: "🎩 Weisen Sie neuen Mitgliedern beim Betreten des Servers automatisch Rollen zu",
+            fr:
+              "🎩 Attribuer automatiquement des rôles à un nouveau membre lorsqu'il rejoint le serveur",
+            de:
+              "🎩 Weisen Sie neuen Mitgliedern beim Betreten des Servers automatisch Rollen zu",
             "es-ES":
               "🎩 Asigna automáticamente roles a un recién llegado cuando se une al servidor",
           },
@@ -370,8 +406,10 @@ module.exports = class SetupBotCommand extends Command {
               description:
                 "🎩 Assign a new role to a newcomer when they join the server",
               descriptionLocalizations: {
-                fr: "🎩 Attribuer un nouveau rôle à un nouveau membre lorsqu'il rejoint le serveur",
-                de: "🎩 Weisen Sie einem neuen Mitglied beim Betreten des Servers eine neue Rolle zu",
+                fr:
+                  "🎩 Attribuer un nouveau rôle à un nouveau membre lorsqu'il rejoint le serveur",
+                de:
+                  "🎩 Weisen Sie einem neuen Mitglied beim Betreten des Servers eine neue Rolle zu",
                 "es-ES":
                   "🎩 Asigna un nuevo rol a un recién llegado cuando se une al servidor",
               },
@@ -912,35 +950,37 @@ module.exports = class SetupBotCommand extends Command {
                 .send({
                   content: setupIds.channels.roleclaim.tipMsg,
                 })
-                .then((tipMsg) => {
+                .then(async (tipMsg) => {
                   this.client.UpdateGuild(guild, {
                     "roleClaim.tipMessage": tipMsg.id,
                   });
+
+                  await this.client.Wait(1000);
+                  interaction.editReply({
+                    content: eval(setupIds.channels.roleclaim.reply),
+                    components: [
+                      this.client.ButtonRow([
+                        {
+                          customId: "edit-roleclaim",
+                          label: setupIds.channels.roleclaim.button1,
+                          style: "PRIMARY",
+                          emoji: "✏️",
+                        },
+                        {
+                          customId: "delete-roleclaim",
+                          label: setupIds.channels.roleclaim.button2,
+                          style: "SECONDARY",
+                          emoji: "🗑",
+                        },
+                      ]),
+                    ],
+                  });
                 });
-            });
-
-          await this.client.Wait(1000);
-
-          return interaction.editReply({
-            content: eval(setupIds.channels.roleclaim.reply),
-            components: [
-              this.client.ButtonRow([
-                {
-                  customId: "edit-roleclaim",
-                  label: setupIds.channels.roleclaim.button1,
-                  style: "PRIMARY",
-                  emoji: "✏️",
-                },
-                {
-                  customId: "delete-roleclaim",
-                  label: setupIds.channels.roleclaim.button2,
-                  style: "SECONDARY",
-                  emoji: "🗑",
-                },
-              ]),
-            ],
-          });
+            })
+            .catch(() => interaction.editReply(errors.error26));
+          return;
         }
+
         if (usage === "membercount") {
           //permissions check
           requiredPerms = ["Connect", "ManageRoles"];
@@ -1100,7 +1140,7 @@ module.exports = class SetupBotCommand extends Command {
               content: eval(errors.error52),
             });
 
-          if (channel.type === ChannelType.GuildCategory)
+          if (channel.type !== ChannelType.GuildText)
             return interaction.editReply(errors.error26);
 
           await this.client.UpdateGuild(guild, { "logs.channel": channel.id });
@@ -1175,6 +1215,121 @@ module.exports = class SetupBotCommand extends Command {
             ],
           });
         }
+
+        if (usage === "verify") {
+          requiredPerms = ["SendMessages", "EmbedLinks", "ManageRoles"];
+
+          if (
+            !me.permissions.has(
+              PermissionFlagsBits.SendMessages |
+                PermissionFlagsBits.EmbedLinks |
+                PermissionFlagsBits.ManageRoles
+            )
+          )
+            return interaction.editReply({
+              content: eval(errors.error52),
+            });
+
+          if (channel.type !== ChannelType.GuildText)
+            return interaction.editReply(errors.error26);
+
+          let verifyRole = await guild.roles.cache.find(
+            (r) => r.id === fetchGuild.verify.role
+          );
+
+          if (fetchGuild.verify.channel) {
+            const channelFound = await guild.channels.cache.get(
+              fetchGuild.verify.channel
+            );
+            await channelFound.messages
+              .fetch(fetchGuild.verify.message)
+              .then((msg) => {
+                if (msg) msg.delete().catch(() => undefined);
+              })
+              .catch(() => {
+                this.client.UpdateGuild(guild, {
+                  "verify.channel": null,
+                  "verify.message": null,
+                });
+              });
+          }
+
+          await this.client.UpdateGuild(guild, {
+            "verify.channel": channel.id,
+          });
+
+          guild.roles.everyone.setPermissions(0n);
+          if (!verifyRole) {
+            await guild.roles
+              .create({
+                name: setupIds.channels.verify.roleName,
+                mentionable: false,
+                hoist: false,
+                permissions: [
+                  PermissionFlagsBits.SendMessages,
+                  PermissionFlagsBits.ViewChannel,
+                  PermissionFlagsBits.ReadMessageHistory,
+                ],
+              })
+              .then(async (role) => {
+                verifyRole = role;
+                await this.client.UpdateGuild(guild, {
+                  "verify.role": role.id,
+                });
+              })
+              .catch(() => interaction.editReply(errors.error54));
+          }
+
+          if (!verifyRole) return;
+          channel.permissionOverwrites.edit(guild.roles.everyone.id, {
+            ViewChannel: true,
+            ReadMessageHistory: true,
+          });
+
+          await channel
+            .send({
+              embeds: [
+                this.client
+                  .Embed()
+                  .setTitle(setupIds.channels.verify.embed1.title)
+                  .setDescription(setupIds.channels.verify.embed1.description),
+              ],
+              components: [
+                this.client.ButtonRow([
+                  {
+                    customId: "verify",
+                    label: setupIds.channels.verify.button1,
+                    style: "SUCCESS",
+                    emoji: "✅",
+                  },
+                ]),
+              ],
+            })
+            .then(async (msg) => {
+              await this.client.UpdateGuild(guild, {
+                "verify.message": msg.id,
+              });
+            })
+            .catch(() =>
+              interaction.editReply({
+                content: errors.error26,
+              })
+            );
+
+          return interaction.editReply({
+            content: eval(setupIds.channels.verify.reply),
+            components: [
+              this.client.ButtonRow([
+                {
+                  customId: "verify-edit",
+                  label: setupIds.channels.verify.button2,
+                  style: "SECONDARY",
+                  emoji: "🔧",
+                },
+              ]),
+            ],
+          });
+        }
         break;
 
       case "blacklist":
@@ -1186,8 +1341,9 @@ module.exports = class SetupBotCommand extends Command {
             content: eval(errors.error52),
           });
 
-        const blacklistState =
-          fetchGuild.moderationTools.enabled.includes("blacklist");
+        const blacklistState = fetchGuild.moderationTools.enabled.includes(
+          "blacklist"
+        );
         if (!blacklistState) {
           return interaction.editReply({
             content: setupIds.blacklist.reply1,

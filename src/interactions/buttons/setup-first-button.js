@@ -47,18 +47,24 @@ module.exports = class SetupMenuButton extends Button {
           {
             label: setupFirst.modal1.option5.label,
             description: setupFirst.modal1.option5.description,
-            value: "blacklist_option",
-            emoji: "🛡️",
+            value: "verify_option",
+            emoji: "🔎",
           },
           {
             label: setupFirst.modal1.option6.label,
             description: setupFirst.modal1.option6.description,
-            value: "moderation_option",
-            emoji: "🗡️",
+            value: "blacklist_option",
+            emoji: "🛡️",
           },
           {
             label: setupFirst.modal1.option7.label,
             description: setupFirst.modal1.option7.description,
+            value: "moderation_option",
+            emoji: "🗡️",
+          },
+          {
+            label: setupFirst.modal1.option8.label,
+            description: setupFirst.modal1.option8.description,
             value: "lang_option",
             emoji: "🌐",
           },

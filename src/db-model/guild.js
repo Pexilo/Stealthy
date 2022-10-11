@@ -7,7 +7,7 @@ const guildSchema = new mongoose.Schema({
   moderationTools: {
     enabled: {
       type: Array,
-      default: ["blacklist"],
+      default: ["blacklist", "verifyCaptcha"],
     },
   },
 
@@ -35,6 +35,12 @@ const guildSchema = new mongoose.Schema({
     channel: { type: String, default: null },
     tipMessage: { type: String, default: null },
     fields: { type: Array, default: [] },
+  },
+
+  verify: {
+    channel: { type: String, default: null },
+    message: { type: String, default: null },
+    role: { type: String, default: null },
   },
 
   autoRole: {

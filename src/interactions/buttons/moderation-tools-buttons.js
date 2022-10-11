@@ -2,7 +2,12 @@ const { Button } = require("sheweny");
 
 module.exports = class moderationToolsButtons extends Button {
   constructor(client) {
-    super(client, ["blacklist-tool", "delDcInvites-tool"]);
+    super(client, [
+      "blacklist-tool",
+      "delDcInvites-tool",
+      "verify-captcha-tool-enable",
+      "verify-captcha-tool-disable",
+    ]);
   }
 
   async execute(button) {
@@ -25,6 +30,20 @@ module.exports = class moderationToolsButtons extends Button {
         modTools.push("delDcInvites");
 
         button.editReply(moderationTools.delDcInv.reply);
+        break;
+
+      case "verify-captcha-tool-enable":
+        if (!modTools.includes("verifyCaptcha")) modTools.push("verifyCaptcha");
+
+        button.editReply(moderationTools.verifyCaptcha.reply1);
+        break;
+
+      case "verify-captcha-tool-disable":
+        if (modTools.includes("verifyCaptcha")) {
+          modTools.splice(modTools.indexOf("verifyCaptcha"), 1);
+        }
+
+        button.editReply(moderationTools.verifyCaptcha.reply2);
         break;
     }
 
