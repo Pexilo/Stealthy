@@ -680,13 +680,13 @@
               "label": "Discord Einladungen unterdrücken",
               "description": "Löscht automatisch Einladungen, die von Nicht-Moderatoren gesendet wurden"
             },
-            "option3DE": {
+            "option3": {
               "label": "Verification captcha",
               "description": "Ein captcha wird für die Verifizierungsfunktion angefordert."
             }
           }
         },
-        "verifyDE": {
+        "verify": {
           "reply": "`\\`🔎\\` Verifizierungssystem **schützt Ihren Server** vor möglichen Überfällen und Betrügereien, indem es Neulingen **erzwingt, ein Captcha auszufüllen** oder auf einen Button zu klicken, je nach Ihren Einstellungen.\\n\\n \\`⚠️\\` Es wird nicht empfohlen, das **Auto Role**-System zusammen mit diesem zu verwenden.\nVerwenden Sie \\`/setup channels\\` um es einzurichten.${\r\n verifyMsg\r\n ? `\\n\\n> Verifizierungssystem ist derzeit in ${verifyCnl.toString()} eingerichtet.${\r\n fetchGuild.moderationTools.enabled.includes(\"verifyCaptcha\")\r\n ? \"\\n> Captcha ist **aktiviert**.\"\r\n : \"\\n> Captcha ist **deaktiviert**.\"\r\n }`\r\n : \"\"\r\n}`",
           "button1": "Bearbeiten"
         }
