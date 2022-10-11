@@ -23,6 +23,8 @@ module.exports = class moderationToolsSelect extends SelectMenu {
             return moderationTools.spelledValues.blacklist;
           case "delDcInvites":
             return moderationTools.spelledValues.delDcInv;
+          case "verifyCaptcha":
+            return moderationTools.spelledValues.verifyCaptcha;
         }
       })
       .join(", ");

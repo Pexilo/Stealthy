@@ -16,14 +16,14 @@ require("dotenv").config();
 const dayjs = require("dayjs");
 const nodeEmoji = require("node-emoji");
 const { Guild } = require("../db-model");
-const { rando } = require("@nastyox/rando.js");
+const { rando, randoSequence } = require("@nastyox/rando.js");
 
 // This file contains all the functions that are used in the bot to avoid code duplication.
 module.exports = (client) => {
   /* This function is used to create a new embed. */
   client.Embed = (color = true) => {
     let embed = new EmbedBuilder();
-    if (color) embed.setColor("#508fb0");
+    if (color) embed.setColor("#2f3136");
     return embed;
   };
 
@@ -171,6 +171,14 @@ module.exports = (client) => {
   /* This function is used to return a random element from an array. */
   client.SearchRandom = (arr) => {
     return rando(arr).value;
+  };
+
+  /* This function is used to return a random sequence from an array. */
+  client.GenerateCaptcha = async () => {
+    const randomTab = randoSequence(
+      "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    );
+    return randomTab.splice(0, 5).join("");
   };
 
   /* This function is used to get the name of an emoji from its unicode. */

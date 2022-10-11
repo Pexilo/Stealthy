@@ -142,6 +142,16 @@
                 "description": "Si un mensaje es editado por un usuario."
               }
             }
+          },
+          "verify": {
+            "reply": "`\\`🔎\\` El canal de verificación ahora está configurado en ${channel.toString()}.\\n\\n> **Nota:** He creado el rol ${verifyRole.toString()}.\\n> Puedes cambiar este rol a tu gusto. *\\`ViewChannel\\` permiso es obligatorio*\\n> No es recomendable usar la función 'Auto Role' junto con esta.`",
+            "roleName": "Verificado",
+            "embed1": {
+              "title": "Verificación",
+              "description": "Presiona el botón de abajo para verificarte."
+            },
+            "button1": "Verificar",
+            "button2": "Editar"
           }
         },
         "blacklist": {
@@ -438,6 +448,23 @@
           "reply": "`\\`✅\\` Los nombres de los canales JTC se han restablecido a:\n> ${defaultNames.join(',\\n> ')}`"
         }
       },
+      "verify": {
+        "reply1": "`✅` ¡Ahora estás verificado!",
+        "reply2": "`🔎` Puedes elegir usar un captcha o no.\n\n> Un captcha es un **código aleatorio** que los nuevos miembros deben ingresar para **verificarse**.\n> Si no quieres usar un captcha, los nuevos miembros simplemente serán **verificados al hacer clic en el botón**.",
+        "alreadyVerified": "`❎` Ya estás verificado.",
+        "embed1": {
+          "title": "Verificación",
+          "description": "Por favor ingrese el siguiente código\n con el botón de abajo para verificarse.",
+          "field1": "Código"
+        },
+        "button1": "No soy un robot",
+        "button2": "Habilitar captcha",
+        "button3": "Deshabilitar",
+        "modal1": {
+          "title": "Confirma tu identidad",
+          "field1": "Código de verificación"
+        }
+      },
       "logsTypes": {
         "select1": {
           "title": "¿Qué registros quieres ver?",
@@ -476,6 +503,10 @@
         },
         "delDcInv": {
           "reply": "`🔗` Supresor de enlaces de Discord ahora está habilitado ✅\n\n> Puedes volver a ejecutar tu comando"
+        },
+        "verifyCaptcha": {
+          "reply1": "`🔎` La verificación de captcha está habilitada ✅\n\n> Ahora le pedirá al usuario que ingrese un código aleatorio cuando se una al servidor.",
+          "reply2": "`🔎` La verificación de captcha está deshabilitada ❎\n\n> Simplemente le dará el rol al recién llegado."
         }
       },
       "roleclaim": {
@@ -527,14 +558,18 @@
             "description": "OPCIONAL - Da roles a los nuevos miembros"
           },
           "option5": {
-            "label": "Blacklist",
-            "description": "OPCIONAL - Protege tu servidor contra bots, estafas, etc."
+            "label": "Verificar",
+            "description": "OPCIONAL - Verifica a los nuevos miembros con un captcha"
           },
           "option6": {
+            "label": "Blacklist",
+            "description": "OPCIONAL - Excluye temporalmente las nuevas cuentas"
+          },
+          "option7": {
             "label": "Herramientas de moderación",
             "description": "OPCIONAL - Habilita o deshabilita funciones de moderación"
           },
-          "option7": {
+          "option8": {
             "label": "Idioma",
             "description": "OPCIONAL - Cambia el idioma del bot"
           }
@@ -564,6 +599,11 @@
       },
       "roleclaimEmbed": {
         "reply": "`✅` Mensaje de reclamación de rol actualizado."
+      },
+      "verify": {
+        "reply": "`✅` ¡Ahora estás verificado!",
+        "badCode": "`❎` Código inválido.\nPor favor, inténtalo de nuevo.",
+        "alreadyVerified": "`❎` Ya estás verificado."
       }
     },
     "selectMenus": {
@@ -574,14 +614,16 @@
           "msgEdit": "\n`✍` *Edición de mensajes*",
           "joinLeave": "\n`🚪` *Entrada y salida*",
           "moderation": "\n`🛡️` *Moderación*",
-          "channels": "\n`📙` *Canales*"
+          "channels": "\n`📙` *Canales*",
+          "verifyCaptcha": "\n`🔎` *Verificación Captcha*"
         }
       },
       "moderationTools": {
         "reply": "`**Herramientas de moderación habilitadas:**${!spelledValues ? ' ❎' : spelledValues}`",
         "spelledValues": {
           "blacklist": "\n`🛡️` *Blacklist*",
-          "delDcInv": "\n`🔗` *Supresor de enlaces de Discord*"
+          "delDcInv": "\n`🔗` *Supresor de enlaces de Discord*",
+          "verifyCaptcha": "\n`🔎` *Verificación Captcha*"
         }
       },
       "setupLanguageThird": {
@@ -595,11 +637,12 @@
           }
         },
         "channels": {
-          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** canal está configurado en <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> **\\`🗂️\\` Role Claim** canal está configurado en <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Member count** canal está configurado en **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** categoría. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Join to Create** canal está configurado en **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** categoría. \n`: ''}\n\\`🚀\\` Por favor usa, el comando \\`/setup canales\\` para configurar tus canales.`",
+          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** canal está configurado en <#${logsChannel}>. \n`: ''} ${verifyChannel ? `> **\\`🔎\\` Verificar** mensaje está configurado en <#${verifyChannel}>.\n` : ''} ${roleclaimChannel ? `> **\\`🗂️\\` Reclamar rol** canal está configurado en <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Contador de miembros** canal está configurado en **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** categoría. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Unirse para crear** canal está configurado en **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** categoría. \n`: ''}\n\\`🚀\\` Por favor usa, el comando \\`/setup canales\\` para configurar tus canales.\n\\`🔎\\` Puedes deshabilitar el captcha y solo dar el rol, usa la opción 'Herramientas de moderación' en el \\`/setup menu\\`.`",
           "button1": "Configurar Logs",
           "button2": "Editar mensaje de reclamación de rol",
           "button3": "Renombrar Member Count",
-          "button4": "Editar nombres de Join to Create"
+          "button4": "Editar nombres de Join to Create",
+          "button5": "Editar verificación"
         },
         "jtc": {
           "reply1": "`\\`🔊\\` **Join to Create** es una característica que **limpia el espacio del canal de voz**, haciendo uso de un **único canal para generar nuevos canales de voz**.\n\n> El canal JTC ${findChannel.toString()} está actualmente configurado en la categoría **${findChannel.parent ? findChannel.parent.toString() : 'default'}**.\n\nPor favor usa los **botones de abajo** para **editar** esta característica.`",
@@ -634,8 +677,16 @@
             "option2": {
               "label": "Supresor de invitaciones de Discord",
               "description": "Elimina automáticamente las invitaciones enviadas por no moderadores"
+            },
+            "option3": {
+              "label": "Captcha de verificación",
+              "description": "Se solicitará un captcha para la función de verificación."
             }
           }
+        },
+        "verifyES": {
+          "reply": "`\\`🔎\\` El sistema de verificación **protege tu servidor** de posibles incursiones y estafas, obligando a los nuevos miembros a **rellenar un captcha** o a hacer clic en un botón según tus preferencias.\\n\\n \\`⚠️\\` no se recomienda usar el sistema de **Auto Role** junto con este.\\nUsa \\`/setup canales\\` para configurarlo.${\r\n verifyMsg\r\n ? `\\n\\n> El sistema de verificación está actualmente configurado en ${verifyCnl.toString()}.${\r\n fetchGuild.moderationTools.enabled.includes(\"verifyCaptcha\")\r\n ? \"\\n> Captcha está **activado**.\"\r\n : \"\\n> Captcha está **desactivado**.\"\r\n }`\r\n : \"\"\r\n}`",
+          "button1": "Editar"
         }
       }
     }
@@ -666,7 +717,7 @@
     "error23": "`🚫` No hay autorole establecido.\n\n> Establece uno con `/setup autorole añadir`",
     "error24": "`\\`🚫\\` ${roleAR.toString()} no está en la lista.${moreThanOneRole? `\n\n> Rol(es): ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`: ''}`",
     "error25": "`\\`🚫\\` **${channel.toString()}** no es un canal de texto.`",
-    "error26": "`🚫` No puedes asignar una categoría como canal de registros.",
+    "error26": "`🚫` No puedes asignar este tipo de canal de servidor, proporciona un canal de texto.",
     "error27": "`🚫` No tienes permiso para establecer el slowmode para este canal.",
     "error28": "`🚫` Este usuario no está baneado de este servidor.",
     "error29": "`🚫` Este canal ya está desbloqueado.",
@@ -693,6 +744,7 @@
     "error50": "`\\`🚫\\` Color inválido.\n\n> Usa un código de color hexadecimal.\n\n> Por ejemplo: \\`#ff0000\\``",
     "error51": "`\\`🚫\\` Uno de mis roles necesita estar por encima de ${roleAR.toString()} para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``",
     "error52": "`\\`🚫\\` Necesito \\`${requiredPerms.join(', ')}\\` permiso(s) para realizar esta acción.\n\n> Puedes hacer esto en \\`configuración del servidor -> roles\\``",
-    "error53": "`🚫` Necesito `SendMessages, EmbedLinks` permiso(s) para registrar esta acción.\n\n> Puedes hacer esto en `configuración del servidor -> roles`"
+    "error53": "`🚫` Necesito `SendMessages, EmbedLinks` permiso(s) para registrar esta acción.\n\n> Puedes hacer esto en `configuración del servidor -> roles`",
+    "error54": "`🚫` ¡El rol de verificación no está configurado!\nPor favor, póngase en contacto con un administrador de este servidor."
   }
 }

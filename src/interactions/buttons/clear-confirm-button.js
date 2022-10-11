@@ -13,14 +13,22 @@ module.exports = class ClearConfirmButton extends Button {
     const { errors } = this.client.la[lang];
     const { clearConfirm } = this.client.la[lang].interactions.buttons;
 
+    // get the amount of messages to delete from the message content
     const number = message.content.match(/\d+/)[0];
-    let realNb;
+
+    // realNb will be the real number of messages to delete
+    let realNb,
+      err41 = false; // if the messages are older than 14 days
     await channel
       .bulkDelete(number)
       .then((nb) => (realNb = nb.size))
       .catch((e) => {
+        err41 = true;
         return button.editReply(errors.error41);
       });
+    if (err41) return;
+
+    // wait for deletes to be done
     await this.client.Wait(2000);
 
     button.editReply({
@@ -30,7 +38,7 @@ module.exports = class ClearConfirmButton extends Button {
     const logsChannel = this.client.channels.cache.get(fetchGuild.logs.channel);
     const enabledLogs = fetchGuild.logs.enabled;
     if (!logsChannel || !enabledLogs.includes("channels")) return;
-    await this.client.LogsChannelPermsCheck(guild, interaction, errors);
+    await this.client.LogsChannelPermsCheck(guild, button, errors);
 
     logsChannel
       .send({
