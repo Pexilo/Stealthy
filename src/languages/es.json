@@ -684,7 +684,7 @@
             }
           }
         },
-        "verifyES": {
+        "verify": {
           "reply": "`\\`🔎\\` El sistema de verificación **protege tu servidor** de posibles incursiones y estafas, obligando a los nuevos miembros a **rellenar un captcha** o a hacer clic en un botón según tus preferencias.\\n\\n \\`⚠️\\` no se recomienda usar el sistema de **Auto Role** junto con este.\\nUsa \\`/setup canales\\` para configurarlo.${\r\n verifyMsg\r\n ? `\\n\\n> El sistema de verificación está actualmente configurado en ${verifyCnl.toString()}.${\r\n fetchGuild.moderationTools.enabled.includes(\"verifyCaptcha\")\r\n ? \"\\n> Captcha está **activado**.\"\r\n : \"\\n> Captcha está **desactivado**.\"\r\n }`\r\n : \"\"\r\n}`",
           "button1": "Editar"
         }
