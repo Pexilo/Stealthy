@@ -141,12 +141,16 @@ module.exports = class setupSecondSelect extends SelectMenu {
             content: eval(errors.error52),
           });
 
-        const verifyCnl = await guild.channels
-          .fetch(fetchGuild.verify.channel)
-          .catch(() => undefined);
+        let verifyCnl, verifyMsg;
 
-        if (verifyCnl) {
-          const verifyMsg = await verifyCnl.messages
+        if (fetchGuild.verify.channel) {
+          verifyCnl = await guild.channels
+            .fetch(fetchGuild.verify.channel)
+            .catch(() => undefined);
+        }
+
+        if (fetchGuild.verify.message) {
+          verifyMsg = await verifyCnl.messages
             .fetch(fetchGuild.verify.message)
             .catch(() => undefined);
         }
