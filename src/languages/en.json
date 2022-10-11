@@ -142,6 +142,16 @@
                 "description": "If a message is edited by a user."
               }
             }
+          },
+          "verify": {
+            "reply": "`\\`🔎\\` Verification channel is now set in ${channel.toString()}.\\n\\n> **Note:** I have created ${verifyRole.toString()} role.\\n> You can change this role to your liking. *\\`ViewChannel\\` permission is mandatory*\\n> It is not advisable to use the 'Auto Role' feature along with this one.`",
+            "roleName": "Verified",
+            "embed1": {
+              "title": "Verification",
+              "description": "Press the button below to verify yourself."
+            },
+            "button1": "Verify",
+            "button2": "Edit"
           }
         },
         "blacklist": {
@@ -438,6 +448,23 @@
           "reply": "`\\`✅\\` JTC channel names have been reset to:\n> ${defaultNames.join(',\\n> ')}`"
         }
       },
+      "verify": {
+        "reply1": "`✅` You are now verified!",
+        "reply2": "`🔎` You can choose to use a captcha or not.\n\n> A captcha is a **randomized code** that the newcomers must enter to **verify themselves**.\n> If you don't want to use a captcha, the newcomers will simply be **verified by clicking on the button**.",
+        "alreadyVerified": "`❎` You are already verified.",
+        "embed1": {
+          "title": "Verification",
+          "description": "Please enter the following code\n with the button below to verify yourself.",
+          "field1": "Code"
+        },
+        "button1": "I'm not a robot",
+        "button2": "Enable captcha",
+        "button3": "Disable",
+        "modal1": {
+          "title": "Confirm your identity",
+          "field1": "Verification code"
+        }
+      },
       "logsTypes": {
         "select1": {
           "title": "What logs do you want to see?",
@@ -476,6 +503,10 @@
         },
         "delDcInv": {
           "reply": "`🔗` Discord links suppressor is now enabled ✅\n\n> You can re-run your command"
+        },
+        "verifyCaptcha": {
+          "reply1": "`🔎` Captcha verification is enabled ✅\n\n> It will now prompt the user to enter a randomized code when they join the server.",
+          "reply2": "`🔎` Captcha verification is disabled ❎\n\n> It will simply give the role to the newcomer."
         }
       },
       "roleclaim": {
@@ -527,14 +558,18 @@
             "description": "OPTIONAL - Give roles to newcomers"
           },
           "option5": {
-            "label": "Blacklist",
-            "description": "OPTIONAL - Protect your server against bots, scams, etc."
+            "label": "Verify",
+            "description": "OPTIONAL - Verify newcomers with a captcha"
           },
           "option6": {
+            "label": "Blacklist",
+            "description": "OPTIONAL - Timeout freshly new accounts created"
+          },
+          "option7": {
             "label": "Moderation Tools",
             "description": "OPTIONAL - Enable or disable moderation features"
           },
-          "option7": {
+          "option8": {
             "label": "Language",
             "description": "OPTIONAL - Change the language of the bot"
           }
@@ -564,6 +599,11 @@
       },
       "roleclaimEmbed": {
         "reply": "`✅` Roleclaim message updated."
+      },
+      "verify": {
+        "reply": "`✅` You are now verified!",
+        "badCode": "`❎` Invalid code.\nPlease try again.",
+        "alreadyVerified": "`❎` You are already verified."
       }
     },
     "selectMenus": {
@@ -574,14 +614,16 @@
           "msgEdit": "\n`✍` *Message edits*",
           "joinLeave": "\n`🚪` *Join & Leave*",
           "moderation": "\n`🛡️` *Moderation*",
-          "channels": "\n`📙` *Channels*"
+          "channels": "\n`📙` *Channels*",
+          "verifyCaptcha": "\n`🔎` *Verification Captcha*"
         }
       },
       "moderationTools": {
         "reply": "`**Moderation tools enabled:**${!spelledValues ? ' ❎' : spelledValues}`",
         "spelledValues": {
           "blacklist": "\n`🛡️` *Blacklist*",
-          "delDcInv": "\n`🔗` *Discord links suppressor*"
+          "delDcInv": "\n`🔗` *Discord links suppressor*",
+          "verifyCaptcha": "\n`🔎` *Verification Captcha*"
         }
       },
       "setupLanguageThird": {
@@ -595,11 +637,12 @@
           }
         },
         "channels": {
-          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** channel is setup in <#${logsChannel}>. \n`: ''} ${roleclaimChannel ? `> **\\`🗂️\\` Role claim** channel is setup in <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Member count** channel is setup in **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** category. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Join to Create** channel is setup in **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** category. \n`: ''}\n\\`🚀\\` Please use, \\`/setup channels\\` command to setup your channels.`",
+          "reply": "`${logsChannel ? `> **\\`🚀\\` Logs** channel is setup in <#${logsChannel}>. \n`: ''} ${verifyChannel ? `> **\\`🔎\\` Verify** message is setup in <#${verifyChannel}>.\n` : ''} ${roleclaimChannel ? `> **\\`🗂️\\` Role claim** channel is setup in <#${roleclaimChannel}>. \n`: ''} ${membercountChannel ? `> **\\`🧾\\` Member count** channel is setup in **${membercountChannel.parent ? `<#${membercountChannel.parentId}>`: 'default'}** category. \n`: ''} ${JTCChannel ? `> **\\`🔊\\` Join to Create** channel is setup in **${JTCChannel.parent ? `<#${JTCChannel.parentId}>` : 'default'}** category. \n`: ''}\n\\`🚀\\` Please use, \\`/setup channels\\` command to setup your channels.\n\\`🔎\\` You can disable the captcha and just give the role, use 'Moderation Tools' option in the \\`/setup menu\\`.`",
           "button1": "Setup Logs",
           "button2": "Edit Role Claim message",
           "button3": "Rename Member Count",
-          "button4": "Edit Join to Create names"
+          "button4": "Edit Join to Create names",
+          "button5": "Edit verify feature"
         },
         "jtc": {
           "reply1": "`\\`🔊\\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> JTC channel ${findChannel.toString()} is currently setup in **${findChannel.parent ? findChannel.parent.toString() : 'default'}** category.\n\nPlease use the **buttons below** to **edit** this feature.`",
@@ -634,8 +677,16 @@
             "option2": {
               "label": "Discord invites suppressor",
               "description": "Automatically deletes invitations sent by non-moderators"
+            },
+            "option3": {
+              "label": "Verification captcha",
+              "description": "A captcha will be requested for the verify feature."
             }
           }
+        },
+        "verify": {
+          "reply": "`\\`🔎\\` Verification system **protect your server** from possible raids and scams, by forcing newcomers to **fill a captcha** or to click on a button according to your preferences.\\n\\n \\`⚠️\\` it is not recommended to use the **Auto Role** system along with this one.\nUse \\`/setup channels\\` to set it up.${\r\n verifyMsg\r\n ? `\\n\\n> Verification system is currently setup in ${verifyCnl.toString()}.${\r\n fetchGuild.moderationTools.enabled.includes(\"verifyCaptcha\")\r\n ? \"\\n> Captcha is **enabled**.\"\r\n : \"\\n> Captcha is **disabled**.\"\r\n }`\r\n : \"\"\r\n}`",
+          "button1": "Edit"
         }
       }
     }
@@ -666,7 +717,7 @@
     "error23": "`🚫` No autorole set.\n\n> Set one with `/setup autorole add`",
     "error24": "`\\`🚫\\` ${roleAR.toString()} is not in the list.${moreThanOneRole? `\n\n> Role(s): ${autoroleArray.map((r) => `<@&${r}>`).join(', ')}`: ''}`",
     "error25": "`\\`🚫\\` **${channel.toString()}** is not a text channel.`",
-    "error26": "`🚫` You can't assign a category as a logs channel.",
+    "error26": "`🚫` You can't assign this type of guild channel, please provide a text channel.",
     "error27": "`🚫` You don't have permission to set the slowmode for this channel.",
     "error28": "`🚫` This user is not banned from this server.",
     "error29": "`🚫` This channel is already unlocked.",
@@ -693,6 +744,7 @@
     "error50": "`\\`🚫\\` Invalid color.\n\n> Please use a hexadecimal color code.\n\n> For example: \\`#ff0000\\``",
     "error51": "`\\`🚫\\` One of my roles need to be above ${roleAR.toString()} to perform this action.\n\n> You can do this in \\`server settings -> roles\\``",
     "error52": "`\\`🚫\\` I need \\`${requiredPerms.join(', ')}\\` permission(s) to perform this action.\n\n> You can do this in \\`server settings -> roles\\``",
-    "error53": "`🚫` I need `SendMessages, EmbedLinks` permission(s) to log this action.\n\n> You can do this in `server settings -> roles`"
+    "error53": "`🚫` I need `SendMessages, EmbedLinks` permission(s) to log this action.\n\n> You can do this in `server settings -> roles`",
+    "error54": "`🚫` The verification role is not set!\nPlease contact an administrator of this server."
   }
 }

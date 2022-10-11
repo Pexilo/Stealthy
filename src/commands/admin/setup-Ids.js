@@ -103,6 +103,16 @@ module.exports = class SetupBotCommand extends Command {
                   },
                   value: "membercount",
                 },
+                {
+                  name: "🔎 Verify channel - allow users to verify themselves with a captcha",
+                  nameLocalizations: {
+                    fr: "🔎 Salon 'Verify' - Permettre aux utilisateurs de se vérifier eux-mêmes avec un captcha",
+                    de: "🔎 Verify-Kanal - Benutzern erlauben, sich selbst mit einem Captcha zu verifizieren",
+                    "es-ES":
+                      "🔎 Canal de 'Verify' - Permitir a los usuarios verificarse a sí mismos con un captcha",
+                  },
+                  value: "verify",
+                },
               ],
             },
             {
@@ -912,34 +922,35 @@ module.exports = class SetupBotCommand extends Command {
                 .send({
                   content: setupIds.channels.roleclaim.tipMsg,
                 })
-                .then((tipMsg) => {
+                .then(async (tipMsg) => {
                   this.client.UpdateGuild(guild, {
                     "roleClaim.tipMessage": tipMsg.id,
                   });
+
+                  await this.client.Wait(1000);
+                  interaction.editReply({
+                    content: eval(setupIds.channels.roleclaim.reply),
+                    components: [
+                      this.client.ButtonRow([
+                        {
+                          customId: "edit-roleclaim",
+                          label: setupIds.channels.roleclaim.button1,
+                          style: "PRIMARY",
+                          emoji: "✏️",
+                        },
+                        {
+                          customId: "delete-roleclaim",
+                          label: setupIds.channels.roleclaim.button2,
+                          style: "SECONDARY",
+                          emoji: "🗑",
+                        },
+                      ]),
+                    ],
+                  });
                 });
-            });
-
-          await this.client.Wait(1000);
-
-          return interaction.editReply({
-            content: eval(setupIds.channels.roleclaim.reply),
-            components: [
-              this.client.ButtonRow([
-                {
-                  customId: "edit-roleclaim",
-                  label: setupIds.channels.roleclaim.button1,
-                  style: "PRIMARY",
-                  emoji: "✏️",
-                },
-                {
-                  customId: "delete-roleclaim",
-                  label: setupIds.channels.roleclaim.button2,
-                  style: "SECONDARY",
-                  emoji: "🗑",
-                },
-              ]),
-            ],
-          });
+            })
+            .catch(() => interaction.editReply(errors.error26));
+          return;
         }
         if (usage === "membercount") {
           //permissions check
@@ -1100,7 +1111,7 @@ module.exports = class SetupBotCommand extends Command {
               content: eval(errors.error52),
             });
 
-          if (channel.type === ChannelType.GuildCategory)
+          if (channel.type !== ChannelType.GuildText)
             return interaction.editReply(errors.error26);
 
           await this.client.UpdateGuild(guild, { "logs.channel": channel.id });
@@ -1175,7 +1186,121 @@ module.exports = class SetupBotCommand extends Command {
             ],
           });
         }
-        break;
+
+        if (usage === "verify") {
+          requiredPerms = ["SendMessages", "EmbedLinks", "ManageRoles"];
+
+          if (
+            !me.permissions.has(
+              PermissionFlagsBits.SendMessages |
+                PermissionFlagsBits.EmbedLinks |
+                PermissionFlagsBits.ManageRoles
+            )
+          )
+            return interaction.editReply({
+              content: eval(errors.error52),
+            });
+
+          if (channel.type !== ChannelType.GuildText)
+            return interaction.editReply(errors.error26);
+
+          let verifyRole = await guild.roles.cache.find(
+            (r) => r.id === fetchGuild.verify.role
+          );
+
+          if (fetchGuild.verify.channel) {
+            const channelFound = await guild.channels.cache.get(
+              fetchGuild.verify.channel
+            );
+            await channelFound.messages
+              .fetch(fetchGuild.verify.message)
+              .then((msg) => {
+                if (msg) msg.delete().catch(() => undefined);
+              })
+              .catch(() => {
+                this.client.UpdateGuild(guild, {
+                  "verify.channel": null,
+                  "verify.message": null,
+                });
+              });
+          }
+
+          await this.client.UpdateGuild(guild, {
+            "verify.channel": channel.id,
+          });
+
+          guild.roles.everyone.setPermissions(0n);
+          if (!verifyRole) {
+            await guild.roles
+              .create({
+                name: setupIds.channels.verify.roleName,
+                mentionable: false,
+                hoist: false,
+                permissions: [
+                  PermissionFlagsBits.SendMessages,
+                  PermissionFlagsBits.ViewChannel,
+                  PermissionFlagsBits.ReadMessageHistory,
+                ],
+              })
+              .then(async (role) => {
+                verifyRole = role;
+                await this.client.UpdateGuild(guild, {
+                  "verify.role": role.id,
+                });
+              })
+              .catch(() => interaction.editReply(errors.error54));
+          }
+
+          if (!verifyRole) return;
+          channel.permissionOverwrites.edit(guild.roles.everyone.id, {
+            ViewChannel: true,
+            ReadMessageHistory: true,
+          });
+
+          await channel
+            .send({
+              embeds: [
+                this.client
+                  .Embed()
+                  .setTitle(setupIds.channels.verify.embed1.title)
+                  .setDescription(setupIds.channels.verify.embed1.description),
+              ],
+              components: [
+                this.client.ButtonRow([
+                  {
+                    customId: "verify",
+                    label: setupIds.channels.verify.button1,
+                    style: "SUCCESS",
+                    emoji: "✅",
+                  },
+                ]),
+              ],
+            })
+            .then(async (msg) => {
+              await this.client.UpdateGuild(guild, {
+                "verify.message": msg.id,
+              });
+            })
+            .catch(() =>
+              interaction.editReply({
+                content: errors.error26,
+              })
+            );
+
+          return interaction.editReply({
+            content: eval(setupIds.channels.verify.reply),
+            components: [
+              this.client.ButtonRow([
+                {
+                  customId: "verify-edit",
+                  label: setupIds.channels.verify.button2,
+                  style: "SECONDARY",
+                  emoji: "🔧",
+                },
+              ]),
+            ],
+          });
+        }
 
       case "blacklist":
         if (!(await this.client.Defer(interaction))) return;

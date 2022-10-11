@@ -56,6 +56,7 @@ module.exports = class setupSecondSelect extends SelectMenu {
         //can't change right here channels Id's, notify user to do it manually with /setup channels
         const logsChannel = fetchGuild.logs.channel;
         const roleclaimChannel = fetchGuild.roleClaim.channel;
+        const verifyChannel = fetchGuild.verify.channel;
         const membercountChannel = guild.channels.cache.get(
           fetchGuild.memberCount.channel
         );
@@ -71,7 +72,8 @@ module.exports = class setupSecondSelect extends SelectMenu {
           logsChannel ||
           roleclaimChannel ||
           membercountChannel ||
-          JTCChannel
+          JTCChannel ||
+          verifyChannel
         ) {
           let buttons = [];
           if (logsChannel) {
@@ -110,8 +112,58 @@ module.exports = class setupSecondSelect extends SelectMenu {
             });
           }
 
+          if (verifyChannel) {
+            buttons.push({
+              customId: "verify-edit",
+              label: setupSecond.channels.button5,
+              style: "SECONDARY",
+              emoji: "🔎",
+            });
+          }
+
           return selectMenu.editReply({
             components: [this.client.ButtonRow(buttons)],
+          });
+        }
+        break;
+
+      case "verify_option":
+        requiredPerms = ["ViewChannel", "EmbedLinks", "ManageRoles"];
+
+        if (
+          !me.permissions.has(
+            PermissionFlagsBits.ViewChannel |
+              PermissionFlagsBits.EmbedLinks |
+              PermissionFlagsBits.ManageRoles
+          )
+        )
+          return selectMenu.editReply({
+            content: eval(errors.error52),
+          });
+
+        const verifyCnl = await guild.channels
+          .fetch(fetchGuild.verify.channel)
+          .catch(() => undefined);
+        const verifyMsg = await verifyCnl.messages
+          .fetch(fetchGuild.verify.message)
+          .catch(() => undefined);
+
+        selectMenu.editReply({
+          content: eval(setupSecond.verify.reply),
+        });
+
+        if (verifyCnl) {
+          return selectMenu.editReply({
+            components: [
+              this.client.ButtonRow([
+                {
+                  customId: "verify-edit",
+                  label: setupSecond.verify.button1,
+                  style: "SECONDARY",
+                  emoji: "🔧",
+                },
+              ]),
+            ],
           });
         }
         break;
@@ -336,8 +388,16 @@ module.exports = class setupSecondSelect extends SelectMenu {
                   emoji: "🔗",
                   default: moderationTools.enabled.includes("delDcInvites"),
                 },
+                {
+                  label: setupSecond.moderation.select1.option3.label,
+                  description:
+                    setupSecond.moderation.select1.option3.description,
+                  value: "verifyCaptcha",
+                  emoji: "🔎",
+                  default: moderationTools.enabled.includes("verifyCaptcha"),
+                },
               ],
-              { min: 0, max: 2 }
+              { min: 0, max: 3 }
             ),
           ],
         });
