@@ -144,9 +144,12 @@ module.exports = class setupSecondSelect extends SelectMenu {
         const verifyCnl = await guild.channels
           .fetch(fetchGuild.verify.channel)
           .catch(() => undefined);
-        const verifyMsg = await verifyCnl.messages
-          .fetch(fetchGuild.verify.message)
-          .catch(() => undefined);
+
+        if (verifyCnl) {
+          const verifyMsg = await verifyCnl.messages
+            .fetch(fetchGuild.verify.message)
+            .catch(() => undefined);
+        }
 
         selectMenu.editReply({
           content: eval(setupSecond.verify.reply),
@@ -248,8 +251,9 @@ module.exports = class setupSecondSelect extends SelectMenu {
 
         const blacklistTime = fetchGuild.blackList.time;
         const blacklistMinAge = fetchGuild.blackList.minAge;
-        const blacklistState =
-          fetchGuild.moderationTools.enabled.includes("blacklist");
+        const blacklistState = fetchGuild.moderationTools.enabled.includes(
+          "blacklist"
+        );
 
         if (!blacklistState) {
           return selectMenu.editReply({
