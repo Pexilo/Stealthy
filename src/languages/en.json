@@ -649,7 +649,8 @@
           "reply2": "`\\`🔊\\` **Join to Create** is a feature that **cleans up the voice channel space**, by making use of a **single channel to generate new voice channels**.\n\n> You can also use \\`/setup channels\\` to choose a different category than **${noParent ? 'the default one' : firstCategory.name}**.`",
           "button1": "Setup channel names",
           "button2": "Delete",
-          "button3": "`Create ${!noParent ? `in ${firstCategory.name}` : ''}`"
+          "button3": "`Create ${!noParent ? `in ${firstCategory.name}` : ''}`",
+          "button4": "Get channel names"
         },
         "blacklist": {
           "reply1": "`🛡️` Blacklist feature is disabled\n\n> Would you like to activate it?",

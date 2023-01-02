@@ -649,9 +649,9 @@
           "reply1": "`\\`🔊\\` **Join to Create** ist eine Funktion, die den **Voice Channel-Speicher** bereinigt, indem sie **einen einzelnen Kanal** nutzt, um neue Voice Channels zu generieren.\n\n> JTC-Kanal ${findChannel.toString()} ist derzeit in **${findChannel.parent ? findChannel.parent.toString() : 'default'}** Kategorie eingerichtet.\n\nBitte benutze die **Buttons unten**, um diese Funktion zu **bearbeiten**.`",
           "reply2": "`\\`🔊\\` **Join to Create** ist eine Funktion, die den **Voice Channel-Speicher** bereinigt, indem sie **einen einzelnen Kanal** nutzt, um neue Voice Channels zu generieren.\n\n> Du kannst auch \\`/setup channels\\` verwenden, um eine andere Kategorie als **${noParent ? 'the default one' : firstCategory.name}** auszuwählen.`",
           "button1": "Kanalnamen einrichten",
-
           "button2": "Löschen",
-          "button3": "`Erstellen ${!noParent ? `in ${firstCategory.name}` : ''}`"
+          "button3": "`Erstellen ${!noParent ? `in ${firstCategory.name}` : ''}`",
+          "button4": "Kanalnamen einrichten"
         },
         "blacklist": {
           "reply1": "`🛡️` Blacklist-Funktion ist deaktiviert\n\n> Möchtest du sie aktivieren?",

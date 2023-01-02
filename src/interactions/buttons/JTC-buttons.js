@@ -1,12 +1,17 @@
 const { Button } = require("sheweny");
-const { ChannelType, PermissionFlagsBits } = require("discord.js");
+const {
+  ChannelType,
+  PermissionFlagsBits,
+  AttachmentBuilder,
+} = require("discord.js");
 
 module.exports = class JTCSetupButtons extends Button {
   constructor(client) {
     super(client, [
       "create-JTC",
       "delete-JTC",
-      "channels-names-JTC",
+      "edit-names-JTC",
+      "show-names-JTC",
       "reset-JTC-names",
     ]);
   }
@@ -135,11 +140,27 @@ module.exports = class JTCSetupButtons extends Button {
           content: eval(JTC.delete.reply),
         });
 
-      case "channels-names-JTC":
+      case "show-names-JTC":
+        if (!(await this.client.Defer(button))) return;
+
+        await button.editReply({
+          files: [
+            new AttachmentBuilder(
+              Buffer.from(fetchGuild.joinToCreate.names.join("\n")),
+
+              {
+                name: `JTC-names.txt`,
+              }
+            ),
+          ],
+        });
+        break;
+
+      case "edit-names-JTC":
         const channelNames = fetchGuild.joinToCreate.names.join(", ");
 
         await button.showModal(
-          this.client.ModalRow("channels-names-JTC", "JTC channel names", [
+          this.client.ModalRow("edit-names-JTC", "JTC channel names", [
             {
               customId: "channel-JTC-input",
               label: JTC.channelsNames.modal1,

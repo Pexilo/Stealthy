@@ -104,12 +104,20 @@ module.exports = class setupSecondSelect extends SelectMenu {
           }
 
           if (JTCChannel) {
-            buttons.push({
-              customId: "channels-names-JTC",
-              label: setupSecond.channels.button4,
-              style: "SECONDARY",
-              emoji: "🔊",
-            });
+            buttons.push(
+              {
+                customId: "edit-names-JTC",
+                label: setupSecond.channels.button4,
+                style: "SECONDARY",
+                emoji: "🔊",
+              },
+              {
+                customId: "show-names-JTC",
+                label: setupSecond.channels.button4,
+                style: "SECONDARY",
+                emoji: "📖",
+              }
+            );
           }
 
           if (verifyChannel) {
@@ -211,10 +219,16 @@ module.exports = class setupSecondSelect extends SelectMenu {
             components: [
               this.client.ButtonRow([
                 {
-                  customId: "channels-names-JTC",
+                  customId: "edit-names-JTC",
                   label: setupSecond.jtc.button1,
                   style: "PRIMARY",
                   emoji: "🔧",
+                },
+                {
+                  customId: "show-names-JTC",
+                  label: setupSecond.jtc.button4,
+                  style: "SECONDARY",
+                  emoji: "📖",
                 },
                 {
                   customId: "delete-JTC",
@@ -255,9 +269,8 @@ module.exports = class setupSecondSelect extends SelectMenu {
 
         const blacklistTime = fetchGuild.blackList.time;
         const blacklistMinAge = fetchGuild.blackList.minAge;
-        const blacklistState = fetchGuild.moderationTools.enabled.includes(
-          "blacklist"
-        );
+        const blacklistState =
+          fetchGuild.moderationTools.enabled.includes("blacklist");
 
         if (!blacklistState) {
           return selectMenu.editReply({

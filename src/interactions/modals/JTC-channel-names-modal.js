@@ -2,7 +2,7 @@ const { Modal } = require("sheweny");
 
 module.exports = class JTCNamesModal extends Modal {
   constructor(client) {
-    super(client, ["channels-names-JTC"]);
+    super(client, ["edit-names-JTC"]);
   }
 
   async execute(modal) {

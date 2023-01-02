@@ -649,7 +649,8 @@
           "reply2": "`\\`🔊\\` **Join to Create** es una característica que **limpia el espacio del canal de voz**, haciendo uso de un **único canal para generar nuevos canales de voz**.\n\n> También puedes usar \\`/setup canales\\` para elegir una categoría diferente que **${noParent ? 'el predeterminado' : firstCategory.name}**.`",
           "button1": "Configurar nombres de canales",
           "button2": "Eliminar",
-          "button3": "`Crear ${!noParent ? `en ${firstCategory.name}` : ''}`"
+          "button3": "`Crear ${!noParent ? `en ${firstCategory.name}` : ''}`",
+          "button4": "Obtener nombres de canales"
         },
         "blacklist": {
           "reply1": "`🛡️` La característica de lista negra está desactivada\n\n> ¿Te gustaría activarla?",
