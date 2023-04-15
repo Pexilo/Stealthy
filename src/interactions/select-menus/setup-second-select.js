@@ -113,9 +113,9 @@ module.exports = class setupSecondSelect extends SelectMenu {
               },
               {
                 customId: "show-names-JTC",
-                label: setupSecond.channels.button4,
+                label: setupSecond.channels.button6,
                 style: "SECONDARY",
-                emoji: "📖",
+                emoji: "🔊",
               }
             );
           }

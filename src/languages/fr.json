@@ -657,7 +657,8 @@
           "button2": "Modifier le message du Role Claim",
           "button3": "Renommer le Member Count",
           "button4": "Modifier les noms du Join to Create",
-          "button5": "Modifier la vérification"
+          "button5": "Modifier la vérification",
+          "button6": "Obtenir les noms des salons"
         },
         "jtc": {
           "reply1": "`\\`🔊\\` **Join to Create** est une fonctionnalité qui **libère de l'espace sur le serveur**, en utilisant un **seul salon pour générer de nouveaux salons vocaux**.\n\n> Le salon JTC ${findChannel.toString()} est actuellement configuré dans la catégorie **${findChannel.parent ? findChannel.parent.toString() : 'par défaut'}**.\n\nVeuillez utiliser les **boutons ci-dessous** pour **modifier** cette fonctionnalité.`",
@@ -665,7 +666,7 @@
           "button1": "Configurer les noms",
           "button2": "Supprimer",
           "button3": "`Créer ${!noParent ? `dans ${firstCategory.name}` : ''}`",
-          "button4": "Obtenir les noms des salons"
+          "button4": "Changer les noms des salons"
         },
         "blacklist": {
           "reply1": "`🛡️` La fonctionnalité Blacklist est désactivée\n\n> Souhaitez-vous l'activer?",

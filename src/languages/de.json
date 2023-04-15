@@ -643,7 +643,8 @@
           "button2": "Role Claim-Nachricht bearbeiten",
           "button3": "Mitgliederzähler umbenennen",
           "button4": "Join to Create-Namen bearbeiten",
-          "button5": "Verifizierung bearbeiten"
+          "button5": "Verifizierung bearbeiten",
+          "button6": "Join to Create-Namen erhalten"
         },
         "jtc": {
           "reply1": "`\\`🔊\\` **Join to Create** ist eine Funktion, die den **Voice Channel-Speicher** bereinigt, indem sie **einen einzelnen Kanal** nutzt, um neue Voice Channels zu generieren.\n\n> JTC-Kanal ${findChannel.toString()} ist derzeit in **${findChannel.parent ? findChannel.parent.toString() : 'default'}** Kategorie eingerichtet.\n\nBitte benutze die **Buttons unten**, um diese Funktion zu **bearbeiten**.`",

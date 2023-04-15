@@ -642,7 +642,8 @@
           "button2": "Editar mensaje de reclamación de rol",
           "button3": "Renombrar Member Count",
           "button4": "Editar nombres de Join to Create",
-          "button5": "Editar verificación"
+          "button5": "Editar verificación",
+          "button6": "Obtener nombres de Join to Create"
         },
         "jtc": {
           "reply1": "`\\`🔊\\` **Join to Create** es una característica que **limpia el espacio del canal de voz**, haciendo uso de un **único canal para generar nuevos canales de voz**.\n\n> El canal JTC ${findChannel.toString()} está actualmente configurado en la categoría **${findChannel.parent ? findChannel.parent.toString() : 'default'}**.\n\nPor favor usa los **botones de abajo** para **editar** esta característica.`",
